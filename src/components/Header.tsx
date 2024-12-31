@@ -30,14 +30,18 @@ const Header = () => {
       }`}
     >
       <div className="max-w-[960px] mx-auto h-full flex items-center justify-between px-4">
-        {/* Logo Section - Left side */}
-        <div className="flex items-center">
-          <img
-            src="/lovable-uploads/452d0f08-89bf-4863-9d95-46a23971500f.png"
-            alt="مجموعة الفيصل العقارية"
-            className="h-[50px] w-auto object-contain transition-all duration-300"
-          />
-        </div>
+        {/* Mobile Menu Button - Left side */}
+        <button
+          className="lg:hidden p-2"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label={isMobileMenuOpen ? "إغلاق القائمة" : "فتح القائمة"}
+        >
+          {isMobileMenuOpen ? (
+            <X className="h-6 w-6 text-darkBlue" />
+          ) : (
+            <Menu className="h-6 w-6 text-darkBlue" />
+          )}
+        </button>
 
         {/* Desktop Navigation - Center */}
         <nav className="hidden lg:flex items-center space-x-8 rtl">
@@ -52,18 +56,14 @@ const Header = () => {
           ))}
         </nav>
 
-        {/* Mobile Menu Button */}
-        <button
-          className="lg:hidden p-2"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label={isMobileMenuOpen ? "إغلاق القائمة" : "فتح القائمة"}
-        >
-          {isMobileMenuOpen ? (
-            <X className="h-6 w-6 text-darkBlue" />
-          ) : (
-            <Menu className="h-6 w-6 text-darkBlue" />
-          )}
-        </button>
+        {/* Logo Section - Right side */}
+        <div className="flex items-center">
+          <img
+            src="/lovable-uploads/452d0f08-89bf-4863-9d95-46a23971500f.png"
+            alt="مجموعة الفيصل العقارية"
+            className="h-[50px] w-auto object-contain transition-all duration-300"
+          />
+        </div>
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
