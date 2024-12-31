@@ -11,10 +11,12 @@ const Header = () => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       const newsSection = document.querySelector('section:nth-of-type(2)');
+      const header = document.querySelector('header');
       
-      if (newsSection) {
+      if (newsSection && header) {
+        const headerBottom = header.getBoundingClientRect().height;
         const newsSectionTop = newsSection.getBoundingClientRect().top + window.scrollY;
-        setIsVisible(currentScrollY < newsSectionTop);
+        setIsVisible(currentScrollY + headerBottom <= newsSectionTop);
       }
 
       setIsScrolled(currentScrollY > 50);
