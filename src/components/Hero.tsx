@@ -11,7 +11,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative w-[980px] h-[682px] mx-auto overflow-hidden">
+    <section className="relative w-full h-[682px] overflow-hidden">
       <video
         ref={videoRef}
         className="absolute top-0 left-0 w-full h-full object-cover"
