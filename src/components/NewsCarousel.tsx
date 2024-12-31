@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   Carousel,
   CarouselContent,
@@ -41,10 +41,29 @@ const newsItems: NewsItem[] = [
 const NewsCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [api, setApi] = useState<CarouselApi>();
+  const [autoplayEnabled, setAutoplayEnabled] = useState(true);
 
-  const onSelect = () => {
+  // Handle slide change
+  const onSelect = useCallback(() => {
     if (!api) return;
     setCurrentSlide(api.selectedScrollSnap());
+  }, [api]);
+
+  // Autoplay functionality
+  useEffect(() => {
+    if (!api || !autoplayEnabled) return;
+
+    const interval = setInterval(() => {
+      api.scrollNext();
+    }, 5000); // Change slide every 5 seconds
+
+    return () => clearInterval(interval);
+  }, [api, autoplayEnabled]);
+
+  // Reset autoplay when user interacts
+  const handleManualNavigation = () => {
+    setAutoplayEnabled(false);
+    setTimeout(() => setAutoplayEnabled(true), 10000); // Resume autoplay after 10 seconds
   };
 
   return (
@@ -64,8 +83,9 @@ const NewsCarousel = () => {
             className="w-full"
             setApi={setApi}
             opts={{
-              align: "center",
+              align: "start",
               loop: true,
+              direction: "rtl",
             }}
             onSelect={onSelect}
           >
@@ -73,20 +93,20 @@ const NewsCarousel = () => {
               {newsItems.map((item, index) => (
                 <CarouselItem 
                   key={item.id}
-                  className="pl-2 md:pl-4 basis-full md:basis-1/2 lg:basis-1/3"
+                  className="pl-2 md:pl-4 basis-full md:basis-1/2 lg:basis-1/3 transition-all duration-500"
                 >
                   <div 
                     className={cn(
                       "relative group overflow-hidden transition-all duration-500",
                       "rounded-2xl aspect-[16/9]",
                       currentSlide === index 
-                        ? "scale-100 opacity-100" 
+                        ? "scale-100 opacity-100 transform-none" 
                         : "scale-75 opacity-50 hover:opacity-75"
                     )}
                   >
                     {/* Background Image */}
                     <div 
-                      className="absolute inset-0 bg-cover bg-center"
+                      className="absolute inset-0 bg-cover bg-center transition-transform duration-500"
                       style={{ backgroundImage: `url(${item.image})` }}
                     />
                     
@@ -126,8 +146,14 @@ const NewsCarousel = () => {
             </CarouselContent>
 
             {/* Navigation Arrows */}
-            <CarouselPrevious className="absolute -left-12 top-1/2 -translate-y-1/2" />
-            <CarouselNext className="absolute -right-12 top-1/2 -translate-y-1/2" />
+            <CarouselPrevious 
+              onClick={handleManualNavigation}
+              className="absolute -left-12 top-1/2 -translate-y-1/2" 
+            />
+            <CarouselNext 
+              onClick={handleManualNavigation}
+              className="absolute -right-12 top-1/2 -translate-y-1/2" 
+            />
           </Carousel>
 
           {/* Slide Indicators */}
@@ -135,7 +161,10 @@ const NewsCarousel = () => {
             {newsItems.map((_, index) => (
               <button
                 key={index}
-                onClick={() => api?.scrollTo(index)}
+                onClick={() => {
+                  api?.scrollTo(index);
+                  handleManualNavigation();
+                }}
                 className={cn(
                   "w-2 h-2 rounded-full transition-all duration-300",
                   currentSlide === index 
