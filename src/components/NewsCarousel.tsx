@@ -19,7 +19,6 @@ interface NewsItem {
 }
 
 const newsItems: NewsItem[] = [
-  // Slide 1
   {
     id: 1,
     title: "شراكة استراتيجية مع بيوت السعودية",
@@ -38,7 +37,6 @@ const newsItems: NewsItem[] = [
     description: "تم توقيع اتفاقية تعاون مع شركة صكوك المالية لتقديم حلول تمويلية مبتكرة",
     image: "/news/agreement.jpg"
   },
-  // Slide 2
   {
     id: 4,
     title: "مشروع الإسكان الجديد",
@@ -57,7 +55,6 @@ const newsItems: NewsItem[] = [
     description: "تبني أحدث تقنيات البناء المستدام في مشاريعنا السكنية والتجارية",
     image: "/news/technology.jpg"
   },
-  // Slide 3
   {
     id: 7,
     title: "مشاريع الطاقة المتجددة",
@@ -76,7 +73,6 @@ const newsItems: NewsItem[] = [
     description: "إطلاق برنامج تمويلي جديد بالتعاون مع البنوك المحلية لدعم المشترين",
     image: "/news/agreement.jpg"
   },
-  // Slide 4
   {
     id: 10,
     title: "مشاريع المدن الذكية",
@@ -95,7 +91,6 @@ const newsItems: NewsItem[] = [
     description: "إطلاق مشاريع مجمعات سكنية متكاملة الخدمات في مختلف المناطق",
     image: "/news/technology.jpg"
   },
-  // Slide 5
   {
     id: 13,
     title: "الشراكات الاستثمارية",
