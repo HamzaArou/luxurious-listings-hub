@@ -48,6 +48,12 @@ const newsItems: NewsItem[] = [
     title: "توسعة المشاريع التجارية",
     description: "خطة توسعية جديدة لتطوير المراكز التجارية في المدن الرئيسية",
     image: "/news/commercial.jpg"
+  },
+  {
+    id: 6,
+    title: "تقنيات البناء الحديثة",
+    description: "تبني أحدث تقنيات البناء المستدام في مشاريعنا السكنية والتجارية",
+    image: "/news/technology.jpg"
   }
 ];
 
@@ -80,11 +86,10 @@ const NewsCarousel = () => {
     return () => clearInterval(interval);
   }, [api, autoplayEnabled]);
 
-  const handleManualNavigation = useCallback(() => {
-    if (!api) return;
+  const handleManualNavigation = () => {
     setAutoplayEnabled(false);
     setTimeout(() => setAutoplayEnabled(true), 10000);
-  }, [api]);
+  };
 
   return (
     <section className="relative py-16 bg-white">
@@ -102,6 +107,7 @@ const NewsCarousel = () => {
             opts={{
               align: "center",
               loop: true,
+              direction: "rtl",
             }}
           >
             <CarouselContent className="-ml-2 md:-ml-4">
@@ -123,11 +129,11 @@ const NewsCarousel = () => {
 
             <CarouselPrevious 
               onClick={handleManualNavigation}
-              className="absolute -left-12 top-1/2 -translate-y-1/2 opacity-75 hover:opacity-100" 
+              className="absolute -left-12 top-1/2 -translate-y-1/2" 
             />
             <CarouselNext 
               onClick={handleManualNavigation}
-              className="absolute -right-12 top-1/2 -translate-y-1/2 opacity-75 hover:opacity-100" 
+              className="absolute -right-12 top-1/2 -translate-y-1/2" 
             />
           </Carousel>
 
