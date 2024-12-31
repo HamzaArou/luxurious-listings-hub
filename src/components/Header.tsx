@@ -17,36 +17,40 @@ const Header = () => {
   return (
     <header
       className={`fixed w-full z-50 transition-all duration-300 ${
-        isScrolled
-          ? "h-20 bg-white shadow-md"
-          : "h-32 bg-white/95"
+        isScrolled ? "h-20 bg-white/95 shadow-md" : "h-32 bg-white/95"
       }`}
     >
       <div className="container mx-auto h-full flex items-center justify-between px-4">
+        {/* Logo Section - Right side for RTL */}
         <div className="flex items-center">
           <img
-            src="/logo.png"
-            alt="Al Faisal Real Estate"
+            src="/lovable-uploads/452d0f08-89bf-4863-9d95-46a23971500f.png"
+            alt="مجموعة الفيصل العقارية"
             className={`transition-all duration-300 ${
               isScrolled ? "h-12" : "h-16"
             }`}
           />
         </div>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center space-x-8">
-          <a href="#home" className="nav-link">الرئيسية</a>
-          <a href="#about" className="nav-link">عن الشركة</a>
-          <a href="#services" className="nav-link">خدماتنا</a>
-          <a href="#projects" className="nav-link">مشاريعنا</a>
-          <a href="#contact" className="nav-link">اتصل بنا</a>
-          <button className="luxury-button-primary">استفسر الآن</button>
+        {/* Desktop Navigation - Center */}
+        <nav className="hidden lg:flex items-center space-x-8 rtl">
+          <a href="#home" className="nav-link font-ibm-arabic text-lg">الرئيسية</a>
+          <a href="#about" className="nav-link font-ibm-arabic text-lg">عن الشركة</a>
+          <a href="#services" className="nav-link font-ibm-arabic text-lg">خدماتنا</a>
+          <a href="#projects" className="nav-link font-ibm-arabic text-lg">مشاريعنا</a>
+          <a href="#contact" className="nav-link font-ibm-arabic text-lg">اتصل بنا</a>
         </nav>
+
+        {/* CTA Button - Left side for RTL */}
+        <div className="hidden lg:block">
+          <button className="luxury-button-primary font-ibm-arabic">استفسر الآن</button>
+        </div>
 
         {/* Mobile Menu Button */}
         <button
           className="lg:hidden p-2"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label={isMobileMenuOpen ? "إغلاق القائمة" : "فتح القائمة"}
         >
           {isMobileMenuOpen ? (
             <X className="h-6 w-6 text-darkBlue" />
@@ -57,14 +61,16 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden absolute top-full left-0 right-0 bg-white shadow-lg animate-slide-in">
-            <nav className="flex flex-col p-4">
-              <a href="#home" className="nav-link py-2">الرئيسية</a>
-              <a href="#about" className="nav-link py-2">عن الشركة</a>
-              <a href="#services" className="nav-link py-2">خدماتنا</a>
-              <a href="#projects" className="nav-link py-2">مشاريعنا</a>
-              <a href="#contact" className="nav-link py-2">اتصل بنا</a>
-              <button className="luxury-button-primary mt-4">استفسر الآن</button>
+          <div className="lg:hidden absolute top-full right-0 left-0 bg-white shadow-lg animate-slide-in">
+            <nav className="flex flex-col p-4 rtl">
+              <a href="#home" className="nav-link py-3 font-ibm-arabic text-lg">الرئيسية</a>
+              <a href="#about" className="nav-link py-3 font-ibm-arabic text-lg">عن الشركة</a>
+              <a href="#services" className="nav-link py-3 font-ibm-arabic text-lg">خدماتنا</a>
+              <a href="#projects" className="nav-link py-3 font-ibm-arabic text-lg">مشاريعنا</a>
+              <a href="#contact" className="nav-link py-3 font-ibm-arabic text-lg">اتصل بنا</a>
+              <button className="luxury-button-primary mt-4 w-full font-ibm-arabic">
+                استفسر الآن
+              </button>
             </nav>
           </div>
         )}

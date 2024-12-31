@@ -18,6 +18,9 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        'ibm-arabic': ['"IBM Plex Sans Arabic"', 'sans-serif'],
+      },
       colors: {
         gold: "#D4AF37",
         darkBlue: "#002E5D",
