@@ -57,7 +57,7 @@ const Header = () => {
         {/* Navigation Container - Centered */}
         <div className="flex-1 max-w-[960px] mx-auto px-4">
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center justify-center rtl">
+          <nav className="hidden lg:flex items-center justify-end rtl">
             <div className="flex gap-8">
               {navLinks.map((link) => (
                 <a
