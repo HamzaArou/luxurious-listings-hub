@@ -36,26 +36,32 @@ const FeaturedProjects = () => {
           </h2>
         </div>
 
-        <div className="flex justify-center gap-4 mb-8">
-          <Select>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="اسم المشروع" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="haven1">HAVEN 1</SelectItem>
-              <SelectItem value="haven2">HAVEN 2</SelectItem>
-            </SelectContent>
-          </Select>
+        <div className="flex items-center justify-between bg-[#234F27] rounded-full px-6 py-3 mb-8">
+          <div className="flex gap-2 flex-1">
+            <Select>
+              <SelectTrigger className="w-full bg-white rounded-full border-none">
+                <SelectValue placeholder="All" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="haven1">HAVEN 1</SelectItem>
+                <SelectItem value="haven2">HAVEN 2</SelectItem>
+              </SelectContent>
+            </Select>
 
-          <Select>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="حالة المشروع" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="sale">للبيع</SelectItem>
-              <SelectItem value="coming">قريباً</SelectItem>
-            </SelectContent>
-          </Select>
+            <Select>
+              <SelectTrigger className="w-full bg-white rounded-full border-none">
+                <SelectValue placeholder="All" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="sale">للبيع</SelectItem>
+                <SelectItem value="coming">قريباً</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          
+          <span className="text-gold text-xl font-semibold mr-4">
+            ابحث عن وحدتك
+          </span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
