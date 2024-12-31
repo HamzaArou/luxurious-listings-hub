@@ -10,11 +10,11 @@ const Header = () => {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      const heroSection = document.querySelector('section');
+      const newsSection = document.querySelector('section:nth-of-type(2)');
       
-      if (heroSection) {
-        const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
-        setIsVisible(currentScrollY < heroBottom);
+      if (newsSection) {
+        const newsSectionTop = newsSection.getBoundingClientRect().top + window.scrollY;
+        setIsVisible(currentScrollY < newsSectionTop);
       }
 
       setIsScrolled(currentScrollY > 50);
