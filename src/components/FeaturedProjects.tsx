@@ -43,6 +43,7 @@ const FeaturedProjects = () => {
                 <SelectValue placeholder="All" />
               </SelectTrigger>
               <SelectContent>
+                <SelectItem value="all">All</SelectItem>
                 <SelectItem value="haven1">HAVEN 1</SelectItem>
                 <SelectItem value="haven2">HAVEN 2</SelectItem>
               </SelectContent>
