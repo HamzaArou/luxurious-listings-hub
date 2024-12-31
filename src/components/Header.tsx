@@ -44,9 +44,9 @@ const Header = () => {
         isVisible ? "translate-y-0" : "-translate-y-full"
       }`}
     >
-      <div className="max-w-[960px] mx-auto h-full flex items-center justify-between px-8">
-        {/* Logo Section - Left side */}
-        <div className="flex items-center">
+      <div className="max-w-[960px] mx-auto h-full flex items-center justify-between px-0">
+        {/* Logo Section - Far Left side */}
+        <div className="flex items-center pl-0">
           <img
             src="/lovable-uploads/452d0f08-89bf-4863-9d95-46a23971500f.png"
             alt="مجموعة الفيصل العقارية"
@@ -55,7 +55,7 @@ const Header = () => {
         </div>
 
         {/* Desktop Navigation - Center */}
-        <nav className="hidden lg:flex items-center space-x-8 mr-8 rtl">
+        <nav className="hidden lg:flex items-center space-x-8 mx-auto rtl">
           {navLinks.map((link) => (
             <a
               key={link.href}
@@ -69,7 +69,7 @@ const Header = () => {
 
         {/* Mobile Menu Button - Right side */}
         <button
-          className="lg:hidden p-2"
+          className="lg:hidden p-2 pr-4"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label={isMobileMenuOpen ? "إغلاق القائمة" : "فتح القائمة"}
         >
