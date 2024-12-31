@@ -44,7 +44,7 @@ const Header = () => {
     >
       <div className="max-w-[960px] mx-auto h-full flex items-center justify-between px-0" dir="ltr">
         {/* Logo Section - Left side */}
-        <div className="flex items-center pl-0">
+        <div className="flex items-center pl-[46px]">
           <img
             src="/lovable-uploads/452d0f08-89bf-4863-9d95-46a23971500f.png"
             alt="مجموعة الفيصل العقارية"
