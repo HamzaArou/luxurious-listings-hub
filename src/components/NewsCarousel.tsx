@@ -73,7 +73,7 @@ const NewsCarousel = () => {
 
     const interval = setInterval(() => {
       api.scrollNext();
-    }, 5000); // Change slide every 5 seconds
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [api, autoplayEnabled]);
@@ -81,20 +81,34 @@ const NewsCarousel = () => {
   // Reset autoplay when user interacts
   const handleManualNavigation = () => {
     setAutoplayEnabled(false);
-    setTimeout(() => setAutoplayEnabled(true), 10000); // Resume autoplay after 10 seconds
+    setTimeout(() => setAutoplayEnabled(true), 10000);
   };
 
-  // Calculate if slide is in the middle
-  const isMiddleSlide = (index: number) => {
+  // Calculate scaling factor based on distance from center
+  const getScaleValue = (index: number) => {
+    if (!api) return 1;
     const totalSlides = newsItems.length;
-    const middleIndex = Math.floor(totalSlides / 2);
-    return (currentSlide + middleIndex) % totalSlides === index;
+    const center = Math.floor(totalSlides / 2);
+    const distance = Math.abs((currentSlide + center) % totalSlides - index);
+    
+    // Calculate scale based on distance from center (0 = center, max distance = edges)
+    const scale = 1 - (distance * 0.25); // 0.25 determines how much smaller side slides are
+    return Math.max(scale, 0.75); // Ensure minimum scale of 0.75
+  };
+
+  // Calculate opacity based on distance from center
+  const getOpacity = (index: number) => {
+    if (!api) return 1;
+    const totalSlides = newsItems.length;
+    const center = Math.floor(totalSlides / 2);
+    const distance = Math.abs((currentSlide + center) % totalSlides - index);
+    
+    return distance === 0 ? 1 : 0.5;
   };
 
   return (
     <section className="relative py-16 bg-white">
       <div className="container mx-auto px-4">
-        {/* Section Title - Right Aligned for Arabic */}
         <div className="mb-12 text-right">
           <h2 className="text-3xl font-bold text-newsGreen inline-flex items-center gap-2">
             أخبار الفيصل
@@ -102,7 +116,6 @@ const NewsCarousel = () => {
           </h2>
         </div>
 
-        {/* Carousel Container */}
         <div className="relative max-w-[1200px] mx-auto">
           <Carousel
             className="w-full"
@@ -123,22 +136,21 @@ const NewsCarousel = () => {
                   <div 
                     className={cn(
                       "relative group overflow-hidden transition-all duration-500",
-                      "rounded-2xl aspect-[16/9]",
-                      isMiddleSlide(index)
-                        ? "scale-100 opacity-100 transform-none" 
-                        : "scale-75 opacity-50 hover:opacity-75"
+                      "rounded-2xl aspect-[16/9]"
                     )}
+                    style={{
+                      transform: `scale(${getScaleValue(index)})`,
+                      opacity: getOpacity(index),
+                      transition: 'all 0.5s ease-in-out'
+                    }}
                   >
-                    {/* Background Image */}
                     <div 
                       className="absolute inset-0 bg-cover bg-center transition-transform duration-500"
                       style={{ backgroundImage: `url(${item.image})` }}
                     />
                     
-                    {/* Gradient Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
                     
-                    {/* Content Container */}
                     <div className="absolute inset-0 p-6 flex flex-col justify-end text-right">
                       <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
                         {item.title}
@@ -146,19 +158,18 @@ const NewsCarousel = () => {
                       
                       <p className={cn(
                         "text-white/90 line-clamp-2 text-sm md:text-base transition-all duration-300",
-                        isMiddleSlide(index) ? "opacity-100" : "opacity-0"
+                        getScaleValue(index) === 1 ? "opacity-100" : "opacity-0"
                       )}>
                         {item.description}
                       </p>
                       
-                      {/* Read More Button */}
                       <button 
                         className={cn(
                           "mt-4 bg-white/10 text-white px-4 py-2 rounded-full",
                           "inline-flex items-center gap-2 self-start",
                           "backdrop-blur-sm transition-all duration-300",
                           "hover:bg-white hover:text-newsGreen",
-                          isMiddleSlide(index) ? "opacity-100" : "opacity-0"
+                          getScaleValue(index) === 1 ? "opacity-100" : "opacity-0"
                         )}
                       >
                         اقرأ المزيد
@@ -170,7 +181,6 @@ const NewsCarousel = () => {
               ))}
             </CarouselContent>
 
-            {/* Navigation Arrows */}
             <CarouselPrevious 
               onClick={handleManualNavigation}
               className="absolute -left-12 top-1/2 -translate-y-1/2" 
@@ -181,7 +191,6 @@ const NewsCarousel = () => {
             />
           </Carousel>
 
-          {/* Slide Indicators */}
           <div className="flex justify-center gap-2 mt-6">
             {newsItems.map((_, index) => (
               <button
