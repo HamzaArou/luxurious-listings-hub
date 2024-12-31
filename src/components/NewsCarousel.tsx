@@ -7,6 +7,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
+import type { CarouselApi } from "@/components/ui/carousel";
 
 interface NewsItem {
   id: number;
@@ -38,6 +39,12 @@ const newsItems: NewsItem[] = [
 
 const NewsCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [api, setApi] = useState<CarouselApi>();
+
+  const onSelect = () => {
+    if (!api) return;
+    setCurrentSlide(api.selectedScrollSnap());
+  };
 
   return (
     <section className="relative py-16 bg-gradient-to-b from-white to-warmBeige overflow-hidden">
@@ -48,10 +55,12 @@ const NewsCarousel = () => {
         
         <Carousel
           className="w-full md:w-4/5 mx-auto relative"
-          onSelect={(api) => {
-            const selectedIndex = api?.selectedScrollSnap() || 0;
-            setCurrentSlide(selectedIndex);
+          setApi={setApi}
+          opts={{
+            align: "start",
+            loop: true
           }}
+          onSelect={onSelect}
         >
           <CarouselContent>
             {newsItems.map((item) => (
@@ -94,10 +103,7 @@ const NewsCarousel = () => {
                     ? "bg-darkBlue w-4" 
                     : "bg-gray-300 hover:bg-gray-400"
                 )}
-                onClick={() => {
-                  const api = (document.querySelector('[role="region"]') as any)?.__embla__;
-                  api?.scrollTo(index);
-                }}
+                onClick={() => api?.scrollTo(index)}
               />
             ))}
           </div>
