@@ -42,9 +42,9 @@ const Header = () => {
         isVisible ? "translate-y-0" : "-translate-y-full"
       }`}
     >
-      <div className="max-w-[960px] mx-auto h-full flex items-center justify-between px-0" dir="ltr">
+      <div className="w-full h-full flex items-center" dir="ltr">
         {/* Logo Section - Left side */}
-        <div className="flex items-center pl-[20px]">
+        <div className="flex items-center">
           <img
             src="/lovable-uploads/452d0f08-89bf-4863-9d95-46a23971500f.png"
             alt="مجموعة الفيصل العقارية"
@@ -52,31 +52,35 @@ const Header = () => {
           />
         </div>
 
-        {/* Desktop Navigation - Center */}
-        <nav className="hidden lg:flex items-center space-x-8 mx-auto rtl">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="nav-link font-ibm-arabic text-lg hover:text-gold transition-colors duration-300"
-            >
-              {link.text}
-            </a>
-          ))}
-        </nav>
+        {/* Navigation Container - Centered */}
+        <div className="flex-1 max-w-[960px] mx-auto px-4">
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center justify-center space-x-8 rtl">
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="nav-link font-ibm-arabic text-lg hover:text-gold transition-colors duration-300"
+              >
+                {link.text}
+              </a>
+            ))}
+          </nav>
+        </div>
 
         {/* Mobile Menu Button - Right side */}
-        <button
-          className="lg:hidden p-2 pr-4"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label={isMobileMenuOpen ? "إغلاق القائمة" : "فتح القائمة"}
-        >
-          {isMobileMenuOpen ? (
-            <X className="h-6 w-6 text-darkBlue" />
-          ) : (
-            <Menu className="h-6 w-6 text-darkBlue" />
-          )}
-        </button>
+        <div className="lg:hidden px-4">
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label={isMobileMenuOpen ? "إغلاق القائمة" : "فتح القائمة"}
+          >
+            {isMobileMenuOpen ? (
+              <X className="h-6 w-6 text-darkBlue" />
+            ) : (
+              <Menu className="h-6 w-6 text-darkBlue" />
+            )}
+          </button>
+        </div>
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
