@@ -35,6 +35,24 @@ const newsItems: NewsItem[] = [
     title: "صكوك المالية",
     description: "تم توقيع اتفاقية تعاون مع شركة صكوك المالية لتقديم حلول تمويلية مبتكرة",
     image: "/news/agreement.jpg"
+  },
+  {
+    id: 4,
+    title: "مشروع الإسكان الجديد",
+    description: "إطلاق مشروع إسكاني جديد في المنطقة الشرقية بالتعاون مع وزارة الإسكان",
+    image: "/news/housing.jpg"
+  },
+  {
+    id: 5,
+    title: "توسعة المشاريع التجارية",
+    description: "خطة توسعية جديدة لتطوير المراكز التجارية في المدن الرئيسية",
+    image: "/news/commercial.jpg"
+  },
+  {
+    id: 6,
+    title: "تقنيات البناء الحديثة",
+    description: "تبني أحدث تقنيات البناء المستدام في مشاريعنا السكنية والتجارية",
+    image: "/news/technology.jpg"
   }
 ];
 
@@ -66,6 +84,13 @@ const NewsCarousel = () => {
     setTimeout(() => setAutoplayEnabled(true), 10000); // Resume autoplay after 10 seconds
   };
 
+  // Calculate if slide is in the middle
+  const isMiddleSlide = (index: number) => {
+    const totalSlides = newsItems.length;
+    const middleIndex = Math.floor(totalSlides / 2);
+    return (currentSlide + middleIndex) % totalSlides === index;
+  };
+
   return (
     <section className="relative py-16 bg-white">
       <div className="container mx-auto px-4">
@@ -83,7 +108,7 @@ const NewsCarousel = () => {
             className="w-full"
             setApi={setApi}
             opts={{
-              align: "start",
+              align: "center",
               loop: true,
               direction: "rtl",
             }}
@@ -99,7 +124,7 @@ const NewsCarousel = () => {
                     className={cn(
                       "relative group overflow-hidden transition-all duration-500",
                       "rounded-2xl aspect-[16/9]",
-                      currentSlide === index 
+                      isMiddleSlide(index)
                         ? "scale-100 opacity-100 transform-none" 
                         : "scale-75 opacity-50 hover:opacity-75"
                     )}
@@ -121,7 +146,7 @@ const NewsCarousel = () => {
                       
                       <p className={cn(
                         "text-white/90 line-clamp-2 text-sm md:text-base transition-all duration-300",
-                        currentSlide === index ? "opacity-100" : "opacity-0"
+                        isMiddleSlide(index) ? "opacity-100" : "opacity-0"
                       )}>
                         {item.description}
                       </p>
@@ -133,7 +158,7 @@ const NewsCarousel = () => {
                           "inline-flex items-center gap-2 self-start",
                           "backdrop-blur-sm transition-all duration-300",
                           "hover:bg-white hover:text-newsGreen",
-                          currentSlide === index ? "opacity-100" : "opacity-0"
+                          isMiddleSlide(index) ? "opacity-100" : "opacity-0"
                         )}
                       >
                         اقرأ المزيد
