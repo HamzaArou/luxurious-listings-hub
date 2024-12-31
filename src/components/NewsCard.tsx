@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-import { ArrowUpRight } from "lucide-react";
 
 interface NewsCardProps {
   title: string;
@@ -37,18 +36,6 @@ const NewsCard = ({ title, description, image, scale, opacity }: NewsCardProps) 
         <p className="text-white/90 line-clamp-2 text-sm md:text-base">
           {description}
         </p>
-        
-        <button 
-          className={cn(
-            "mt-4 bg-white/10 text-white px-4 py-2 rounded-full",
-            "inline-flex items-center gap-2 self-start",
-            "backdrop-blur-sm transition-all duration-300",
-            "hover:bg-white hover:text-newsGreen"
-          )}
-        >
-          اقرأ المزيد
-          <ArrowUpRight className="w-4 h-4" />
-        </button>
       </div>
     </div>
   );
