@@ -28,7 +28,7 @@ const projects = [
 
 const FeaturedProjects = () => {
   return (
-    <section className="pt-12 pb-24 bg-[#f5f5f5]">
+    <section className="pt-8 pb-24 bg-[#f5f5f5]">
       <div className="container mx-auto px-4 max-w-[960px]">
         <div className="mb-12 text-center">
           <h2 className="text-3xl font-bold text-white inline-block bg-black px-4 py-2 rounded-tl-[100px] rounded-tr-[100px] rounded-br rounded-bl">
@@ -36,7 +36,7 @@ const FeaturedProjects = () => {
           </h2>
         </div>
 
-        <div className="flex items-center justify-between bg-[#234F27] rounded-full px-6 py-3 mb-8">
+        <div className="flex items-center justify-between bg-black rounded-full px-6 py-3 mb-8">
           <div className="flex gap-2 flex-1">
             <Select>
               <SelectTrigger className="w-full bg-white rounded-full border-none">
