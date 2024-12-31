@@ -10,6 +10,7 @@ import { ArrowUpRight } from "lucide-react";
 import type { CarouselApi } from "@/components/ui/carousel";
 import NewsCard from "./NewsCard";
 import { getScaleValue, getOpacity } from "@/utils/carouselUtils";
+import { cn } from "@/lib/utils";
 
 interface NewsItem {
   id: number;
