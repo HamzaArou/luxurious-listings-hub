@@ -20,12 +20,14 @@ export default {
     extend: {
       fontFamily: {
         'ibm-arabic': ['"IBM Plex Sans Arabic"', 'sans-serif'],
+        'cairo': ['Cairo', 'sans-serif'],
       },
       colors: {
         gold: "#D4AF37",
         darkBlue: "#002E5D",
         warmBeige: "#F7E4C8",
         offWhite: "#F5F5F5",
+        newsGreen: "#234F27",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
