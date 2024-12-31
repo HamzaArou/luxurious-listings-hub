@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
 import type { CarouselApi } from "@/components/ui/carousel";
-import GeometricDecorator from "./GeometricDecorator";
 import { ArrowUpRight } from "lucide-react";
 
 interface NewsItem {
@@ -49,90 +48,101 @@ const NewsCarousel = () => {
   };
 
   return (
-    <section className="relative py-24 overflow-hidden bg-gradient-to-b from-white to-gray-50">
-      {/* Floating Decorative Elements */}
-      <div className="absolute top-20 right-10 w-16 h-16 bg-blue-100 rounded-full opacity-20 animate-float" />
-      <div className="absolute bottom-20 left-10 w-12 h-12 bg-orange-100 rounded-full opacity-20 animate-float-delayed" />
-      <div className="absolute top-1/2 right-1/4 w-8 h-8 bg-purple-100 rounded-full opacity-20 animate-float" />
-      
+    <section className="relative py-16 overflow-hidden bg-white">
       <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center mb-12">
-          <div className="flex gap-4">
-            {newsItems.map((_, index) => (
-              <button
-                key={index}
-                className={cn(
-                  "w-2 h-2 rounded-full transition-all duration-300",
-                  currentSlide === index 
-                    ? "bg-newsGreen w-6" 
-                    : "bg-gray-200 hover:bg-gray-300"
-                )}
-                onClick={() => api?.scrollTo(index)}
-              />
-            ))}
-          </div>
-          <h2 className="text-3xl font-bold text-newsGreen text-right flex items-center gap-2">
-            أخبار الفيصل
+        {/* Section Title - Right Aligned for Arabic */}
+        <div className="flex justify-end mb-12">
+          <h2 className="text-3xl font-bold text-newsGreen flex items-center gap-2">
             <ArrowUpRight className="w-6 h-6" />
+            أخبار الفيصل
           </h2>
         </div>
-        
-        <Carousel
-          className="w-full relative"
-          setApi={setApi}
-          opts={{
-            align: "start",
-            loop: true
-          }}
-          onSelect={onSelect}
-        >
-          <CarouselContent>
-            {newsItems.map((item) => (
-              <CarouselItem key={item.id}>
-                <div className="group relative bg-white rounded-[32px] shadow-lg overflow-hidden transform transition-all duration-500 hover:shadow-xl p-6">
-                  <GeometricDecorator type="grid" className="opacity-5" />
-                  
-                  {/* Content Container */}
-                  <div className="relative aspect-[16/9] rounded-[24px] overflow-hidden bg-gray-50 p-8">
-                    {/* Modern Card Layout */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/80 to-transparent" />
-                    
-                    {/* Content */}
-                    <div className="relative z-10 h-full flex flex-col justify-between">
-                      <div className="space-y-4">
-                        <h3 className="text-2xl font-bold text-newsGreen">
+
+        {/* Carousel Container */}
+        <div className="relative max-w-[1200px] mx-auto">
+          <Carousel
+            className="w-full"
+            setApi={setApi}
+            opts={{
+              align: "center",
+              loop: true,
+            }}
+            onSelect={onSelect}
+          >
+            <CarouselContent className="-ml-2 md:-ml-4">
+              {newsItems.map((item, index) => (
+                <CarouselItem 
+                  key={item.id}
+                  className={cn(
+                    "pl-2 md:pl-4 transition-all duration-300 ease-in-out",
+                    currentSlide === index ? "basis-3/4" : "basis-1/4 opacity-50"
+                  )}
+                >
+                  <div className={cn(
+                    "relative group rounded-2xl overflow-hidden transition-all duration-500",
+                    currentSlide === index ? "scale-105 shadow-xl" : "scale-90 hover:scale-95"
+                  )}>
+                    {/* Card Content */}
+                    <div className="relative aspect-[16/9] bg-white rounded-2xl overflow-hidden">
+                      {/* Background Image */}
+                      <div className="absolute inset-0 bg-gradient-to-b from-black/0 to-black/60" />
+                      
+                      {/* Content Container */}
+                      <div className="absolute inset-0 p-6 flex flex-col justify-end text-right">
+                        <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
                           {item.title}
                         </h3>
-                        <p className="text-gray-600 line-clamp-3 leading-relaxed">
+                        <p className={cn(
+                          "text-white/90 line-clamp-2 text-sm md:text-base transition-all duration-300",
+                          currentSlide === index ? "opacity-100" : "opacity-0"
+                        )}>
                           {item.description}
                         </p>
-                      </div>
-                      
-                      {/* Interactive Elements */}
-                      <div className="flex justify-end">
-                        <button className="bg-newsGreen/10 text-newsGreen px-6 py-2 rounded-full 
-                                         transform transition-all duration-300 hover:bg-newsGreen hover:text-white
-                                         flex items-center gap-2 group-hover:translate-x-2">
+                        
+                        {/* Read More Button */}
+                        <button className={cn(
+                          "mt-4 bg-white/10 text-white px-4 py-2 rounded-full backdrop-blur-sm",
+                          "inline-flex items-center gap-2 self-end",
+                          "transition-all duration-300 hover:bg-white hover:text-newsGreen",
+                          currentSlide === index ? "opacity-100" : "opacity-0"
+                        )}>
                           اقرأ المزيد
                           <ArrowUpRight className="w-4 h-4" />
                         </button>
                       </div>
                     </div>
                   </div>
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
 
-          <CarouselPrevious className="absolute -left-4 top-1/2 -translate-y-1/2 h-12 w-12 
-                                     rounded-full bg-white/80 backdrop-blur-sm border-none 
-                                     shadow-lg text-newsGreen hover:bg-white 
-                                     hover:scale-110 transition-all duration-300" />
-          <CarouselNext className="absolute -right-4 top-1/2 -translate-y-1/2 h-12 w-12 
-                                  rounded-full bg-white/80 backdrop-blur-sm border-none 
-                                  shadow-lg text-newsGreen hover:bg-white 
-                                  hover:scale-110 transition-all duration-300" />
-        </Carousel>
+            {/* Navigation Arrows */}
+            <CarouselPrevious className="absolute -left-4 top-1/2 -translate-y-1/2 
+                                       bg-white/80 backdrop-blur-sm border-none 
+                                       shadow-lg text-newsGreen hover:bg-white 
+                                       hover:scale-110 transition-all duration-300" />
+            <CarouselNext className="absolute -right-4 top-1/2 -translate-y-1/2 
+                                   bg-white/80 backdrop-blur-sm border-none 
+                                   shadow-lg text-newsGreen hover:bg-white 
+                                   hover:scale-110 transition-all duration-300" />
+          </Carousel>
+
+          {/* Slide Indicators */}
+          <div className="flex justify-center gap-2 mt-6">
+            {newsItems.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => api?.scrollTo(index)}
+                className={cn(
+                  "w-2 h-2 rounded-full transition-all duration-300",
+                  currentSlide === index 
+                    ? "bg-newsGreen w-6" 
+                    : "bg-gray-200 hover:bg-gray-300"
+                )}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
