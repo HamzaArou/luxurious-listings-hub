@@ -96,13 +96,13 @@ const NewsCarousel = () => {
       <div className="container mx-auto px-4">
         <div className="mb-12 text-right relative">
           <div className="flex flex-col items-end justify-center relative">
-            <h2 className="text-3xl font-bold text-white relative z-10 w-[200px] text-center">
+            <h2 className="text-3xl font-bold text-white relative z-10 w-[180px] text-center">
               أخبار الفيصل
             </h2>
             <img 
               src="/lovable-uploads/20362033-ded1-45e9-9845-eb56f29f612f.png"
               alt="Brand Signature"
-              className="absolute w-[200px] top-1/2 transform -translate-y-1/2"
+              className="absolute w-[220px] top-1/2 transform -translate-y-1/2"
             />
           </div>
         </div>
