@@ -10,15 +10,13 @@ const Header = () => {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      const heroSection = document.querySelector('section'); // Gets the first section (hero)
+      const heroSection = document.querySelector('section');
       
-      // Check if we're past the hero section
       if (heroSection) {
         const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
         setIsVisible(currentScrollY < heroBottom);
       }
 
-      // Update scroll direction and header shadow
       setIsScrolled(currentScrollY > 50);
       setLastScrollY(currentScrollY);
     };
@@ -44,8 +42,8 @@ const Header = () => {
         isVisible ? "translate-y-0" : "-translate-y-full"
       }`}
     >
-      <div className="max-w-[960px] mx-auto h-full flex items-center justify-between px-0">
-        {/* Logo Section - Far Left side */}
+      <div className="max-w-[960px] mx-auto h-full flex items-center justify-between px-0" dir="ltr">
+        {/* Logo Section - Left side */}
         <div className="flex items-center pl-0">
           <img
             src="/lovable-uploads/452d0f08-89bf-4863-9d95-46a23971500f.png"
