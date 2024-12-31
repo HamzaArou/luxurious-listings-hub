@@ -61,7 +61,7 @@ const FeaturedProjects = () => {
             </Select>
           </div>
           
-          <span className="text-white text-xl font-semibold ml-4">
+          <span className="text-white text-xl font-semibold mr-4">
             ابحث عن وحدتك
           </span>
         </div>
