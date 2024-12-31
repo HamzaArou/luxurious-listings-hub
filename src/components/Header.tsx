@@ -55,16 +55,18 @@ const Header = () => {
         {/* Navigation Container - Centered */}
         <div className="flex-1 max-w-[960px] mx-auto px-4">
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center justify-center space-x-8 rtl">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="nav-link font-ibm-arabic text-lg hover:text-gold transition-colors duration-300"
-              >
-                {link.text}
-              </a>
-            ))}
+          <nav className="hidden lg:flex items-center justify-center rtl">
+            <div className="flex gap-8">
+              {navLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="nav-link font-ibm-arabic text-lg hover:text-gold transition-colors duration-300"
+                >
+                  {link.text}
+                </a>
+              ))}
+            </div>
           </nav>
         </div>
 
