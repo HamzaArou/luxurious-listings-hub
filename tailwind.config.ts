@@ -87,5 +87,14 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    function({ addUtilities }) {
+      addUtilities({
+        '.rtl': {
+          'direction': 'rtl',
+        },
+      });
+    },
+  ],
 } satisfies Config;
