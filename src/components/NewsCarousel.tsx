@@ -95,9 +95,15 @@ const NewsCarousel = () => {
     <section className="relative py-16 bg-white">
       <div className="container mx-auto px-4">
         <div className="mb-12 text-right">
-          <h2 className="text-3xl font-bold text-newsGreen">
+          <h2 className="text-3xl font-bold text-white inline-block bg-newsGreen px-4 py-2 rounded">
             أخبار الفيصل
           </h2>
+          <img 
+            src="/lovable-uploads/452d0f08-89bf-4863-9d95-46a23971500f.png" 
+            alt="Brand Signature" 
+            className="mx-auto mt-2"
+            style={{ width: '200px', height: 'auto' }}
+          />
         </div>
 
         <div className="relative max-w-[1200px] mx-auto">
