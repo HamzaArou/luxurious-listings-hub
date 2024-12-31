@@ -39,11 +39,6 @@ const Header = () => {
           <a href="#contact" className="nav-link font-ibm-arabic text-lg">اتصل بنا</a>
         </nav>
 
-        {/* CTA Button - Right side for RTL */}
-        <div className="hidden lg:block order-first">
-          <button className="luxury-button-primary font-ibm-arabic">استفسر الآن</button>
-        </div>
-
         {/* Mobile Menu Button */}
         <button
           className="lg:hidden p-2 order-first"
@@ -66,9 +61,6 @@ const Header = () => {
               <a href="#services" className="nav-link py-3 font-ibm-arabic text-lg">خدماتنا</a>
               <a href="#projects" className="nav-link py-3 font-ibm-arabic text-lg">مشاريعنا</a>
               <a href="#contact" className="nav-link py-3 font-ibm-arabic text-lg">اتصل بنا</a>
-              <button className="luxury-button-primary mt-4 w-full font-ibm-arabic">
-                استفسر الآن
-              </button>
             </nav>
           </div>
         )}
