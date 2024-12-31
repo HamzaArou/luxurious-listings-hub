@@ -40,7 +40,7 @@ const FeaturedProjects = () => {
           <div className="flex gap-2 flex-1">
             <Select>
               <SelectTrigger className="w-full bg-white rounded-full border-none">
-                <SelectValue placeholder="All" />
+                <SelectValue placeholder="اسم الحي" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All</SelectItem>
