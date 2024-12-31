@@ -53,6 +53,7 @@ const FeaturedProjects = () => {
                 <SelectValue placeholder="All" />
               </SelectTrigger>
               <SelectContent>
+                <SelectItem value="all">All</SelectItem>
                 <SelectItem value="started">بدأ البيع</SelectItem>
                 <SelectItem value="sold">تم البيع بالكامل</SelectItem>
                 <SelectItem value="coming">قريباً</SelectItem>
