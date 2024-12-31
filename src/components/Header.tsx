@@ -32,11 +32,11 @@ const Header = () => {
 
         {/* Desktop Navigation - Center */}
         <nav className="hidden lg:flex items-center space-x-8 rtl">
-          <a href="#home" className="nav-link font-ibm-arabic text-lg">الرئيسية</a>
-          <a href="#about" className="nav-link font-ibm-arabic text-lg">عن الشركة</a>
-          <a href="#services" className="nav-link font-ibm-arabic text-lg">خدماتنا</a>
-          <a href="#projects" className="nav-link font-ibm-arabic text-lg">مشاريعنا</a>
-          <a href="#contact" className="nav-link font-ibm-arabic text-lg">اتصل بنا</a>
+          <a href="/" className="nav-link font-ibm-arabic text-lg">الرئيسية</a>
+          <a href="/about" className="nav-link font-ibm-arabic text-lg">عن الشركة</a>
+          <a href="/services" className="nav-link font-ibm-arabic text-lg">خدماتنا</a>
+          <a href="/projects" className="nav-link font-ibm-arabic text-lg">مشاريعنا</a>
+          <a href="/contact" className="nav-link font-ibm-arabic text-lg">اتصل بنا</a>
         </nav>
 
         {/* Mobile Menu Button */}
@@ -56,11 +56,11 @@ const Header = () => {
         {isMobileMenuOpen && (
           <div className="lg:hidden absolute top-full right-0 left-0 bg-white shadow-lg animate-slide-in">
             <nav className="flex flex-col p-4 rtl">
-              <a href="#home" className="nav-link py-3 font-ibm-arabic text-lg">الرئيسية</a>
-              <a href="#about" className="nav-link py-3 font-ibm-arabic text-lg">عن الشركة</a>
-              <a href="#services" className="nav-link py-3 font-ibm-arabic text-lg">خدماتنا</a>
-              <a href="#projects" className="nav-link py-3 font-ibm-arabic text-lg">مشاريعنا</a>
-              <a href="#contact" className="nav-link py-3 font-ibm-arabic text-lg">اتصل بنا</a>
+              <a href="/" className="nav-link py-3 font-ibm-arabic text-lg">الرئيسية</a>
+              <a href="/about" className="nav-link py-3 font-ibm-arabic text-lg">عن الشركة</a>
+              <a href="/services" className="nav-link py-3 font-ibm-arabic text-lg">خدماتنا</a>
+              <a href="/projects" className="nav-link py-3 font-ibm-arabic text-lg">مشاريعنا</a>
+              <a href="/contact" className="nav-link py-3 font-ibm-arabic text-lg">اتصل بنا</a>
             </nav>
           </div>
         )}
