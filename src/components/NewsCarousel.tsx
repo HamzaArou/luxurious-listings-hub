@@ -6,7 +6,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { ArrowUpRight } from "lucide-react";
 import type { CarouselApi } from "@/components/ui/carousel";
 import NewsCard from "./NewsCard";
 import { getScaleValue, getOpacity } from "@/utils/carouselUtils";
@@ -63,9 +62,18 @@ const NewsCarousel = () => {
   const [api, setApi] = useState<CarouselApi>();
   const [autoplayEnabled, setAutoplayEnabled] = useState(true);
 
-  const onSelect = useCallback(() => {
+  useEffect(() => {
     if (!api) return;
-    setCurrentSlide(api.selectedScrollSnap());
+    
+    const handleSelect = () => {
+      setCurrentSlide(api.selectedScrollSnap());
+    };
+
+    api.on("select", handleSelect);
+    // Cleanup
+    return () => {
+      api.off("select", handleSelect);
+    };
   }, [api]);
 
   useEffect(() => {
@@ -101,7 +109,6 @@ const NewsCarousel = () => {
               loop: true,
               direction: "rtl",
             }}
-            onSelect={onSelect}
           >
             <CarouselContent className="-ml-2 md:-ml-4">
               {newsItems.map((item, index) => (
@@ -135,8 +142,10 @@ const NewsCarousel = () => {
               <button
                 key={index}
                 onClick={() => {
-                  api?.scrollTo(index);
-                  handleManualNavigation();
+                  if (api) {
+                    api.scrollTo(index);
+                    handleManualNavigation();
+                  }
                 }}
                 className={cn(
                   "w-2 h-2 rounded-full transition-all duration-300",
