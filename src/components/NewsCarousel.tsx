@@ -8,6 +8,8 @@ import {
 } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
 import type { CarouselApi } from "@/components/ui/carousel";
+import GeometricDecorator from "./GeometricDecorator";
+import { ArrowUpRight } from "lucide-react";
 
 interface NewsItem {
   id: number;
@@ -47,17 +49,15 @@ const NewsCarousel = () => {
   };
 
   return (
-    <section className="relative py-24 bg-gradient-to-b from-white to-gray-50">
-      {/* Hexagonal Decorative Elements */}
-      <div className="absolute top-12 right-8 w-24 h-24 bg-blue-50 rounded-xl rotate-45 opacity-20" />
-      <div className="absolute bottom-12 left-8 w-16 h-16 bg-green-50 rounded-xl rotate-12 opacity-20" />
+    <section className="relative py-24 overflow-hidden bg-gradient-to-b from-white to-gray-50">
+      {/* Floating Decorative Elements */}
+      <div className="absolute top-20 right-10 w-16 h-16 bg-blue-100 rounded-full opacity-20 animate-float" />
+      <div className="absolute bottom-20 left-10 w-12 h-12 bg-orange-100 rounded-full opacity-20 animate-float-delayed" />
+      <div className="absolute top-1/2 right-1/4 w-8 h-8 bg-purple-100 rounded-full opacity-20 animate-float" />
       
-      <div className="container mx-auto px-4 max-w-6xl">
+      <div className="container mx-auto px-4">
         <div className="flex justify-between items-center mb-12">
-          <h2 className="text-3xl font-bold text-newsGreen text-right">
-            أخبار الفيصل
-          </h2>
-          <div className="flex gap-2">
+          <div className="flex gap-4">
             {newsItems.map((_, index) => (
               <button
                 key={index}
@@ -71,6 +71,10 @@ const NewsCarousel = () => {
               />
             ))}
           </div>
+          <h2 className="text-3xl font-bold text-newsGreen text-right flex items-center gap-2">
+            أخبار الفيصل
+            <ArrowUpRight className="w-6 h-6" />
+          </h2>
         </div>
         
         <Carousel
@@ -85,25 +89,34 @@ const NewsCarousel = () => {
           <CarouselContent>
             {newsItems.map((item) => (
               <CarouselItem key={item.id}>
-                <div className="bg-white rounded-2xl shadow-lg overflow-hidden transform transition-all duration-500 hover:shadow-xl p-1">
-                  <div className="relative aspect-[16/9] rounded-xl overflow-hidden">
-                    {/* Image Background */}
-                    <div 
-                      className="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 hover:scale-105"
-                      style={{ backgroundImage: `url(${item.image})` }}
-                    />
+                <div className="group relative bg-white rounded-[32px] shadow-lg overflow-hidden transform transition-all duration-500 hover:shadow-xl p-6">
+                  <GeometricDecorator type="grid" className="opacity-5" />
+                  
+                  {/* Content Container */}
+                  <div className="relative aspect-[16/9] rounded-[24px] overflow-hidden bg-gray-50 p-8">
+                    {/* Modern Card Layout */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/80 to-transparent" />
                     
-                    {/* Modern Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                    
-                    {/* Content Overlay */}
-                    <div className="absolute bottom-0 left-0 right-0 p-8 backdrop-blur-sm bg-white/10">
-                      <h3 className="text-2xl font-bold text-white mb-3">
-                        {item.title}
-                      </h3>
-                      <p className="text-lg text-gray-100 line-clamp-2">
-                        {item.description}
-                      </p>
+                    {/* Content */}
+                    <div className="relative z-10 h-full flex flex-col justify-between">
+                      <div className="space-y-4">
+                        <h3 className="text-2xl font-bold text-newsGreen">
+                          {item.title}
+                        </h3>
+                        <p className="text-gray-600 line-clamp-3 leading-relaxed">
+                          {item.description}
+                        </p>
+                      </div>
+                      
+                      {/* Interactive Elements */}
+                      <div className="flex justify-end">
+                        <button className="bg-newsGreen/10 text-newsGreen px-6 py-2 rounded-full 
+                                         transform transition-all duration-300 hover:bg-newsGreen hover:text-white
+                                         flex items-center gap-2 group-hover:translate-x-2">
+                          اقرأ المزيد
+                          <ArrowUpRight className="w-4 h-4" />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -111,8 +124,14 @@ const NewsCarousel = () => {
             ))}
           </CarouselContent>
 
-          <CarouselPrevious className="absolute -left-4 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-white/80 backdrop-blur-sm border-none shadow-lg text-newsGreen hover:bg-white hover:scale-110 transition-all duration-300" />
-          <CarouselNext className="absolute -right-4 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-white/80 backdrop-blur-sm border-none shadow-lg text-newsGreen hover:bg-white hover:scale-110 transition-all duration-300" />
+          <CarouselPrevious className="absolute -left-4 top-1/2 -translate-y-1/2 h-12 w-12 
+                                     rounded-full bg-white/80 backdrop-blur-sm border-none 
+                                     shadow-lg text-newsGreen hover:bg-white 
+                                     hover:scale-110 transition-all duration-300" />
+          <CarouselNext className="absolute -right-4 top-1/2 -translate-y-1/2 h-12 w-12 
+                                  rounded-full bg-white/80 backdrop-blur-sm border-none 
+                                  shadow-lg text-newsGreen hover:bg-white 
+                                  hover:scale-110 transition-all duration-300" />
         </Carousel>
       </div>
     </section>
