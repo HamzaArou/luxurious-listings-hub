@@ -26,10 +26,10 @@ const Header = () => {
   return (
     <header
       className={`fixed w-full z-50 transition-all duration-300 ${
-        isScrolled ? "h-[67px] bg-white/95 shadow-md" : "h-[67px] bg-white/95"
-      }`}
+        isScrolled ? "bg-white/95 shadow-md" : "bg-white/95"
+      } h-[150px] md:h-[120px] lg:h-[150px]`}
     >
-      <div className="max-w-[960px] mx-auto h-full flex items-center justify-between px-4">
+      <div className="max-w-[960px] mx-auto h-full flex items-center justify-between px-8 py-6">
         {/* Mobile Menu Button - Left side */}
         <button
           className="lg:hidden p-2"
@@ -44,12 +44,12 @@ const Header = () => {
         </button>
 
         {/* Desktop Navigation - Center */}
-        <nav className="hidden lg:flex items-center space-x-8 rtl">
+        <nav className="hidden lg:flex items-center space-x-8 mr-8 rtl">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="nav-link font-ibm-arabic text-lg"
+              className="nav-link font-ibm-arabic text-lg hover:text-gold transition-colors duration-300"
             >
               {link.text}
             </a>
@@ -57,11 +57,11 @@ const Header = () => {
         </nav>
 
         {/* Logo Section - Right side */}
-        <div className="flex items-center">
+        <div className="flex items-center justify-end">
           <img
             src="/lovable-uploads/452d0f08-89bf-4863-9d95-46a23971500f.png"
             alt="مجموعة الفيصل العقارية"
-            className="h-[50px] w-auto object-contain transition-all duration-300"
+            className="h-[105px] w-auto object-contain transition-all duration-300 md:h-[84px] lg:h-[105px]"
           />
         </div>
 
@@ -73,7 +73,7 @@ const Header = () => {
                 <a
                   key={link.href}
                   href={link.href}
-                  className="nav-link py-3 font-ibm-arabic text-lg"
+                  className="nav-link py-3 font-ibm-arabic text-lg hover:text-gold transition-colors duration-300"
                 >
                   {link.text}
                 </a>
