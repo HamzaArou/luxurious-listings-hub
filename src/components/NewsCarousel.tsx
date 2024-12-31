@@ -54,6 +54,24 @@ const newsItems: NewsItem[] = [
     title: "تقنيات البناء الحديثة",
     description: "تبني أحدث تقنيات البناء المستدام في مشاريعنا السكنية والتجارية",
     image: "/news/technology.jpg"
+  },
+  {
+    id: 7,
+    title: "مشاريع الطاقة المتجددة",
+    description: "إطلاق مبادرة جديدة لدمج حلول الطاقة المتجددة في مشاريعنا العقارية",
+    image: "/news/partnership.jpg"
+  },
+  {
+    id: 8,
+    title: "التحول الرقمي",
+    description: "تطوير منصة رقمية متكاملة لتسهيل عمليات البيع والشراء العقاري",
+    image: "/news/summit.jpg"
+  },
+  {
+    id: 9,
+    title: "برنامج تمويل الإسكان",
+    description: "إطلاق برنامج تمويلي جديد بالتعاون مع البنوك المحلية لدعم المشترين",
+    image: "/news/agreement.jpg"
   }
 ];
 
