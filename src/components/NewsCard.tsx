@@ -17,11 +17,9 @@ const NewsCard = ({ title, description, image, scale, opacity }: NewsCardProps) 
         "rounded-2xl aspect-[16/9]"
       )}
       style={{
-        transform: `scale(${scale})`,
         opacity,
         transition: 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
-        transformOrigin: 'center center',
-        willChange: 'transform, opacity'
+        willChange: 'opacity'
       }}
     >
       <div 
@@ -36,10 +34,7 @@ const NewsCard = ({ title, description, image, scale, opacity }: NewsCardProps) 
           {title}
         </h3>
         
-        <p className={cn(
-          "text-white/90 line-clamp-2 text-sm md:text-base transition-all duration-300",
-          scale > 1.1 ? "opacity-100" : "opacity-0"
-        )}>
+        <p className="text-white/90 line-clamp-2 text-sm md:text-base">
           {description}
         </p>
         
@@ -48,8 +43,7 @@ const NewsCard = ({ title, description, image, scale, opacity }: NewsCardProps) 
             "mt-4 bg-white/10 text-white px-4 py-2 rounded-full",
             "inline-flex items-center gap-2 self-start",
             "backdrop-blur-sm transition-all duration-300",
-            "hover:bg-white hover:text-newsGreen",
-            scale > 1.1 ? "opacity-100" : "opacity-0"
+            "hover:bg-white hover:text-newsGreen"
           )}
         >
           اقرأ المزيد
