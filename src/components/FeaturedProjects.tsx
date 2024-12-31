@@ -36,7 +36,7 @@ const FeaturedProjects = () => {
           </h2>
         </div>
 
-        <div className="flex items-center justify-between bg-black rounded-full px-6 w-[462px] h-[54px] mb-8">
+        <div className="flex items-center justify-between bg-black rounded-full px-6 w-[462px] h-[54px] mb-8 mx-auto">
           <div className="flex gap-2 flex-1">
             <Select>
               <SelectTrigger className="w-full bg-white rounded-full border-none">
