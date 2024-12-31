@@ -43,7 +43,7 @@ const FeaturedProjects = () => {
                 <SelectValue placeholder="All" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All</SelectItem>
+                <SelectItem value="all">اسم الحي</SelectItem>
                 <SelectItem value="haven1">HAVEN 1</SelectItem>
                 <SelectItem value="haven2">HAVEN 2</SelectItem>
               </SelectContent>
@@ -54,7 +54,7 @@ const FeaturedProjects = () => {
                 <SelectValue placeholder="All" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All</SelectItem>
+                <SelectItem value="all">اسم الحي</SelectItem>
                 <SelectItem value="started">بدأ البيع</SelectItem>
                 <SelectItem value="sold">تم البيع بالكامل</SelectItem>
                 <SelectItem value="coming">قريباً</SelectItem>
