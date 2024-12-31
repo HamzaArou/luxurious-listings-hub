@@ -86,10 +86,11 @@ const NewsCarousel = () => {
     return () => clearInterval(interval);
   }, [api, autoplayEnabled]);
 
-  const handleManualNavigation = () => {
+  const handleManualNavigation = useCallback(() => {
+    if (!api) return;
     setAutoplayEnabled(false);
     setTimeout(() => setAutoplayEnabled(true), 10000);
-  };
+  }, [api]);
 
   return (
     <section className="relative py-16 bg-white">
@@ -107,7 +108,6 @@ const NewsCarousel = () => {
             opts={{
               align: "center",
               loop: true,
-              direction: "rtl",
             }}
           >
             <CarouselContent className="-ml-2 md:-ml-4">
