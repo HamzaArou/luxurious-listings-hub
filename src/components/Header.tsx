@@ -76,7 +76,7 @@ const Header = () => {
           <img
             src="/lovable-uploads/452d0f08-89bf-4863-9d95-46a23971500f.png"
             alt="مجموعة الفيصل العقارية"
-            className="h-[84px] w-auto object-contain transition-all duration-300"
+            className="w-[110px] h-[115px] object-contain transition-all duration-300"
           />
         </div>
 
