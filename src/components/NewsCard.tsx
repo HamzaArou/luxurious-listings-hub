@@ -18,7 +18,7 @@ const NewsCard = ({ title, description, image, scale, opacity }: NewsCardProps) 
       )}
       style={{
         opacity,
-        transition: 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+        transition: 'opacity 0.4s ease-in-out',
         willChange: 'opacity'
       }}
     >
