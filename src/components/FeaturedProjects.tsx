@@ -30,7 +30,7 @@ const FeaturedProjects = () => {
   return (
     <section className="pt-8 pb-24 bg-[#f5f5f5]">
       <div className="container mx-auto px-4 max-w-[960px]">
-        <div className="mb-12 text-center">
+        <div className="mb-6 text-center">
           <h2 className="text-3xl font-bold text-white inline-block bg-black px-4 py-2 rounded-tl-[100px] rounded-tr-[100px] rounded-br rounded-bl">
             مشاريع الفيصل
           </h2>
