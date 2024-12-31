@@ -3,16 +3,29 @@ import { Menu, X } from "lucide-react";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      const currentScrollY = window.scrollY;
+      const heroSection = document.querySelector('section'); // Gets the first section (hero)
+      
+      // Check if we're past the hero section
+      if (heroSection) {
+        const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
+        setIsVisible(currentScrollY < heroBottom);
+      }
+
+      // Update scroll direction and header shadow
+      setIsScrolled(currentScrollY > 50);
+      setLastScrollY(currentScrollY);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [lastScrollY]);
 
   const navLinks = [
     { href: "/", text: "الرئيسية" },
@@ -27,9 +40,11 @@ const Header = () => {
     <header
       className={`fixed w-full z-50 transition-all duration-300 ${
         isScrolled ? "bg-white/95 shadow-md" : "bg-white/95"
-      } h-[150px] md:h-[120px] lg:h-[150px]`}
+      } h-[120px] transform ${
+        isVisible ? "translate-y-0" : "-translate-y-full"
+      }`}
     >
-      <div className="max-w-[960px] mx-auto h-full flex items-center justify-between px-8 py-6">
+      <div className="max-w-[960px] mx-auto h-full flex items-center justify-between px-8">
         {/* Mobile Menu Button - Left side */}
         <button
           className="lg:hidden p-2"
@@ -61,7 +76,7 @@ const Header = () => {
           <img
             src="/lovable-uploads/452d0f08-89bf-4863-9d95-46a23971500f.png"
             alt="مجموعة الفيصل العقارية"
-            className="h-[105px] w-auto object-contain transition-all duration-300 md:h-[84px] lg:h-[105px]"
+            className="h-[84px] w-auto object-contain transition-all duration-300"
           />
         </div>
 
