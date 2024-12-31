@@ -17,18 +17,16 @@ const Header = () => {
   return (
     <header
       className={`fixed w-full z-50 transition-all duration-300 ${
-        isScrolled ? "h-20 bg-white/95 shadow-md" : "h-32 bg-white/95"
+        isScrolled ? "h-[67px] bg-white/95 shadow-md" : "h-[67px] bg-white/95"
       }`}
     >
-      <div className="container mx-auto h-full flex items-center justify-between px-4">
-        {/* Logo Section - Right side for RTL */}
-        <div className="flex items-center">
+      <div className="max-w-[960px] mx-auto h-full flex items-center justify-between px-4">
+        {/* Logo Section - Left side */}
+        <div className="flex items-center order-last">
           <img
             src="/lovable-uploads/452d0f08-89bf-4863-9d95-46a23971500f.png"
             alt="مجموعة الفيصل العقارية"
-            className={`transition-all duration-300 ${
-              isScrolled ? "h-12" : "h-16"
-            }`}
+            className="h-12 transition-all duration-300"
           />
         </div>
 
@@ -41,14 +39,14 @@ const Header = () => {
           <a href="#contact" className="nav-link font-ibm-arabic text-lg">اتصل بنا</a>
         </nav>
 
-        {/* CTA Button - Left side for RTL */}
-        <div className="hidden lg:block">
+        {/* CTA Button - Right side for RTL */}
+        <div className="hidden lg:block order-first">
           <button className="luxury-button-primary font-ibm-arabic">استفسر الآن</button>
         </div>
 
         {/* Mobile Menu Button */}
         <button
-          className="lg:hidden p-2"
+          className="lg:hidden p-2 order-first"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label={isMobileMenuOpen ? "إغلاق القائمة" : "فتح القائمة"}
         >
