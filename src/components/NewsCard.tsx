@@ -19,7 +19,7 @@ const NewsCard = ({ title, description, image, scale, opacity }: NewsCardProps) 
       style={{
         transform: `scale(${scale})`,
         opacity,
-        transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+        transition: 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
         transformOrigin: 'center center',
         willChange: 'transform, opacity'
       }}

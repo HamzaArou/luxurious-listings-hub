@@ -8,20 +8,15 @@ export const getScaleValue = (currentSlide: number, index: number, totalSlides: 
     distance = totalSlides - distance;
   }
   
-  // Create a more pronounced scale difference
-  // Center item (distance = 0) will be at scale 1.2
-  // Other items will scale down to 0.8
-  const maxScale = 1.2;
-  const minScale = 0.8;
-  const scaleRange = maxScale - minScale;
+  // Define scale values
+  const centerScale = 1.2;  // Scale for centered item
+  const sideScale = 0.85;   // Scale for side items
   
-  // Calculate scale based on distance
-  // When distance is 0, scale will be maxScale
-  // As distance increases, scale decreases linearly
-  const scale = maxScale - (distance * (scaleRange / halfTotal));
+  // Create a smoother transition curve using exponential scaling
+  const transitionProgress = Math.pow(1 - (distance / halfTotal), 2);
+  const scale = sideScale + (centerScale - sideScale) * transitionProgress;
   
-  // Ensure scale doesn't go below minScale
-  return Math.max(minScale, scale);
+  return Math.max(sideScale, Math.min(centerScale, scale));
 };
 
 export const getOpacity = (currentSlide: number, index: number, totalSlides: number) => {
@@ -32,14 +27,12 @@ export const getOpacity = (currentSlide: number, index: number, totalSlides: num
     distance = totalSlides - distance;
   }
   
-  // Create a more pronounced opacity difference
   const maxOpacity = 1;
-  const minOpacity = 0.5;
-  const opacityRange = maxOpacity - minOpacity;
+  const minOpacity = 0.6;
   
-  // Calculate opacity based on distance
-  const opacity = maxOpacity - (distance * (opacityRange / halfTotal));
+  // Create a smoother opacity transition
+  const opacityProgress = Math.pow(1 - (distance / halfTotal), 1.5);
+  const opacity = minOpacity + (maxOpacity - minOpacity) * opacityProgress;
   
-  // Ensure opacity doesn't go below minOpacity
   return Math.max(minOpacity, opacity);
 };
