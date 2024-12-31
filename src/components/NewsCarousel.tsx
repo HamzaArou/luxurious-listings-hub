@@ -19,6 +19,7 @@ interface NewsItem {
 }
 
 const newsItems: NewsItem[] = [
+  // Slide 1
   {
     id: 1,
     title: "شراكة استراتيجية مع بيوت السعودية",
@@ -37,6 +38,7 @@ const newsItems: NewsItem[] = [
     description: "تم توقيع اتفاقية تعاون مع شركة صكوك المالية لتقديم حلول تمويلية مبتكرة",
     image: "/news/agreement.jpg"
   },
+  // Slide 2
   {
     id: 4,
     title: "مشروع الإسكان الجديد",
@@ -55,6 +57,7 @@ const newsItems: NewsItem[] = [
     description: "تبني أحدث تقنيات البناء المستدام في مشاريعنا السكنية والتجارية",
     image: "/news/technology.jpg"
   },
+  // Slide 3
   {
     id: 7,
     title: "مشاريع الطاقة المتجددة",
@@ -71,6 +74,44 @@ const newsItems: NewsItem[] = [
     id: 9,
     title: "برنامج تمويل الإسكان",
     description: "إطلاق برنامج تمويلي جديد بالتعاون مع البنوك المحلية لدعم المشترين",
+    image: "/news/agreement.jpg"
+  },
+  // Slide 4
+  {
+    id: 10,
+    title: "مشاريع المدن الذكية",
+    description: "تطوير مشاريع سكنية ذكية تعتمد على أحدث التقنيات في المدن الرئيسية",
+    image: "/news/housing.jpg"
+  },
+  {
+    id: 11,
+    title: "الاستدامة البيئية",
+    description: "تنفيذ معايير الاستدامة البيئية في جميع مشاريعنا العقارية الجديدة",
+    image: "/news/commercial.jpg"
+  },
+  {
+    id: 12,
+    title: "تطوير المجمعات السكنية",
+    description: "إطلاق مشاريع مجمعات سكنية متكاملة الخدمات في مختلف المناطق",
+    image: "/news/technology.jpg"
+  },
+  // Slide 5
+  {
+    id: 13,
+    title: "الشراكات الاستثمارية",
+    description: "توقيع شراكات استثمارية جديدة لتوسيع نطاق مشاريعنا العقارية",
+    image: "/news/partnership.jpg"
+  },
+  {
+    id: 14,
+    title: "تطوير الواجهات البحرية",
+    description: "إطلاق مشاريع تطوير الواجهات البحرية في المدن الساحلية",
+    image: "/news/summit.jpg"
+  },
+  {
+    id: 15,
+    title: "برامج التمويل الميسر",
+    description: "تقديم حلول تمويلية مبتكرة للراغبين في تملك العقارات السكنية",
     image: "/news/agreement.jpg"
   }
 ];
