@@ -129,11 +129,11 @@ const NewsCarousel = () => {
 
             <CarouselPrevious 
               onClick={handleManualNavigation}
-              className="absolute -left-12 top-1/2 -translate-y-1/2 opacity-75 hover:opacity-100 cursor-pointer" 
+              className="absolute -left-12 top-1/2 -translate-y-1/2 opacity-75 hover:opacity-100" 
             />
             <CarouselNext 
               onClick={handleManualNavigation}
-              className="absolute -right-12 top-1/2 -translate-y-1/2 opacity-75 hover:opacity-100 cursor-pointer" 
+              className="absolute -right-12 top-1/2 -translate-y-1/2 opacity-75 hover:opacity-100" 
             />
           </Carousel>
 
