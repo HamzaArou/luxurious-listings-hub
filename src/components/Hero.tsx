@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import GeometricDecorator from "./GeometricDecorator";
 
 const Hero = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -22,20 +23,22 @@ const Hero = () => {
         <source src="/hero-video.mp4" type="video/mp4" />
       </video>
 
-      <div className="absolute inset-0 bg-gradient-to-t from-darkBlue/80 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-darkBlue/90 to-transparent" />
+      <GeometricDecorator type="vertical-lines" className="opacity-20" />
 
       <div className="relative h-full container mx-auto px-4 flex flex-col items-center justify-center text-center">
-        <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 animate-fade-in">
+        <h1 className="heading-primary text-white mb-4 animate-fade-in">
           نرتقي بتجربة التملك العقاري
         </h1>
-        <p className="text-xl md:text-2xl text-white mb-12 animate-fade-in delay-100">
+        <div className="divider-gold animate-fade-in delay-100" />
+        <p className="text-xl md:text-2xl text-white/90 mb-12 animate-fade-in delay-200">
           تطوير المشاريع العقارية بحرفية وإبداع
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 animate-fade-in delay-200">
-          <button className="px-6 py-3 bg-darkBlue text-gold hover:bg-opacity-90 transition-all duration-300 rounded-lg text-lg font-medium">
+        <div className="flex flex-col sm:flex-row gap-4 animate-fade-in delay-300">
+          <button className="btn-primary">
             استعرض مشاريعنا
           </button>
-          <button className="px-6 py-3 bg-gold text-white hover:bg-opacity-90 transition-all duration-300 rounded-lg text-lg font-medium">
+          <button className="btn-secondary">
             تعرف على خدماتنا
           </button>
         </div>

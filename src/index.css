@@ -35,71 +35,117 @@
     font-family: "IBM Plex Sans Arabic", sans-serif;
   }
 
-  .animate-on-scroll {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.6s ease-out;
+  /* Geometric Patterns */
+  .geometric-bg {
+    background-image: linear-gradient(0deg, rgba(0, 46, 93, 0.05) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(0, 46, 93, 0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
   }
 
-  .animate-on-scroll.visible {
-    opacity: 1;
-    transform: translateY(0);
+  .vertical-lines {
+    position: relative;
   }
 
-  .nav-link {
-    @apply relative text-darkBlue hover:text-gold transition-colors duration-200;
-  }
-
-  .nav-link::after {
+  .vertical-lines::before {
     content: '';
-    @apply absolute bottom-0 left-0 w-full h-0.5 bg-gold scale-x-0 transition-transform duration-200 origin-right;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 19px,
+      rgba(212, 175, 55, 0.1) 19px,
+      rgba(212, 175, 55, 0.1) 20px
+    );
+    pointer-events: none;
   }
 
-  .nav-link:hover::after {
-    @apply scale-x-100 origin-left;
+  /* Typography Styles */
+  .heading-primary {
+    @apply text-4xl md:text-6xl font-bold text-darkBlue mb-6;
+    letter-spacing: -0.02em;
   }
 
-  .nav-link.active::after {
-    @apply scale-x-100;
+  .heading-secondary {
+    @apply text-3xl md:text-4xl font-bold text-darkBlue mb-4;
+    letter-spacing: -0.01em;
   }
 
-  .luxury-button {
-    @apply px-6 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-opacity-50;
+  /* Horizontal Dividers */
+  .divider-gold {
+    @apply w-24 h-1 bg-gold mx-auto my-6;
   }
 
-  .luxury-button-primary {
-    @apply luxury-button bg-gold text-white hover:bg-opacity-90;
+  .divider-dark {
+    @apply w-full h-px bg-darkBlue/10;
   }
 
-  .luxury-button-secondary {
-    @apply luxury-button border-2 border-gold text-gold hover:bg-gold hover:text-white;
+  /* Section Styles */
+  .section-wrapper {
+    @apply relative overflow-hidden py-24;
   }
 
-  .property-card {
-    @apply bg-white rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-[1.02];
+  .section-content {
+    @apply container mx-auto px-4 max-w-[960px] relative z-10;
   }
 
-  .property-image {
-    @apply relative overflow-hidden;
+  /* Card Styles */
+  .luxury-card {
+    @apply bg-white rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl;
+    background: linear-gradient(135deg, #fff 0%, #f8f8f8 100%);
   }
 
-  .property-image img {
-    @apply transition-transform duration-300;
+  /* Button Styles */
+  .btn-primary {
+    @apply px-6 py-3 bg-darkBlue text-gold font-medium rounded-lg 
+           transition-all duration-300 hover:bg-opacity-90 
+           border-2 border-transparent hover:border-gold;
   }
 
-  .property-card:hover .property-image img {
-    @apply scale-110;
+  .btn-secondary {
+    @apply px-6 py-3 bg-gold text-white font-medium rounded-lg 
+           transition-all duration-300 hover:bg-opacity-90
+           border-2 border-transparent hover:border-darkBlue;
   }
 
-  .stats-counter {
-    @apply text-4xl font-bold text-darkBlue mb-2;
+  /* Icon Styles */
+  .icon-wrapper {
+    @apply w-12 h-12 flex items-center justify-center rounded-lg 
+           bg-gradient-to-br from-gold/10 to-darkBlue/10;
   }
 
-  .section-title {
-    @apply text-3xl md:text-4xl font-bold text-darkBlue mb-8 text-center;
+  /* Animation Classes */
+  .fade-up {
+    @apply opacity-0 translate-y-8 transition-all duration-700;
   }
 
-  .section-subtitle {
-    @apply text-xl text-gray-600 mb-12 text-center max-w-2xl mx-auto;
+  .fade-up.in-view {
+    @apply opacity-100 translate-y-0;
+  }
+
+  /* Grid Layouts */
+  .symmetric-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #D4AF37;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #002E5D;
   }
 }

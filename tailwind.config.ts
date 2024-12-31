@@ -24,7 +24,8 @@ export default {
       colors: {
         gold: "#D4AF37",
         darkBlue: "#002E5D",
-        warmBeige: "#F5F5DC",
+        warmBeige: "#F7E4C8",
+        offWhite: "#F5F5F5",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -59,34 +60,12 @@ export default {
           foreground: "hsl(var(--card-foreground))",
         },
       },
-      keyframes: {
-        "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
-        },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
-        },
-        "fade-in": {
-          "0%": { opacity: "0", transform: "translateY(10px)" },
-          "100%": { opacity: "1", transform: "translateY(0)" },
-        },
-        "slide-in": {
-          "0%": { transform: "translateX(100%)" },
-          "100%": { transform: "translateX(0)" },
-        },
-        "counter-up": {
-          "0%": { opacity: "0", transform: "translateY(20px)" },
-          "100%": { opacity: "1", transform: "translateY(0)" },
-        },
+      backgroundImage: {
+        'geometric-pattern': "url('/patterns/geometric.svg')",
+        'vertical-lines': "url('/patterns/vertical-lines.svg')",
       },
-      animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
-        "fade-in": "fade-in 0.6s ease-out",
-        "slide-in": "slide-in 0.3s ease-out",
-        "counter-up": "counter-up 0.5s ease-out",
+      boxShadow: {
+        'gold': '0 4px 14px 0 rgba(212, 175, 55, 0.39)',
       },
     },
   },
