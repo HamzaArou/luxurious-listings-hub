@@ -20,7 +20,8 @@ const NewsCard = ({ title, description, image, scale, opacity }: NewsCardProps) 
         transform: `scale(${scale})`,
         opacity,
         transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-        transformOrigin: 'center center'
+        transformOrigin: 'center center',
+        willChange: 'transform, opacity'
       }}
     >
       <div 
@@ -37,7 +38,7 @@ const NewsCard = ({ title, description, image, scale, opacity }: NewsCardProps) 
         
         <p className={cn(
           "text-white/90 line-clamp-2 text-sm md:text-base transition-all duration-300",
-          scale > 0.9 ? "opacity-100" : "opacity-0"
+          scale > 1.1 ? "opacity-100" : "opacity-0"
         )}>
           {description}
         </p>
@@ -48,7 +49,7 @@ const NewsCard = ({ title, description, image, scale, opacity }: NewsCardProps) 
             "inline-flex items-center gap-2 self-start",
             "backdrop-blur-sm transition-all duration-300",
             "hover:bg-white hover:text-newsGreen",
-            scale > 0.9 ? "opacity-100" : "opacity-0"
+            scale > 1.1 ? "opacity-100" : "opacity-0"
           )}
         >
           اقرأ المزيد
