@@ -47,14 +47,34 @@ const NewsCarousel = () => {
   };
 
   return (
-    <section className="relative py-16 bg-gradient-to-b from-white to-warmBeige overflow-hidden">
-      <div className="container mx-auto px-4">
-        <h2 className="text-2xl md:text-3xl font-bold text-darkBlue mb-8 text-right">
-          أخبار الفيصل
-        </h2>
+    <section className="relative py-24 bg-gradient-to-b from-white to-gray-50">
+      {/* Hexagonal Decorative Elements */}
+      <div className="absolute top-12 right-8 w-24 h-24 bg-blue-50 rounded-xl rotate-45 opacity-20" />
+      <div className="absolute bottom-12 left-8 w-16 h-16 bg-green-50 rounded-xl rotate-12 opacity-20" />
+      
+      <div className="container mx-auto px-4 max-w-6xl">
+        <div className="flex justify-between items-center mb-12">
+          <h2 className="text-3xl font-bold text-newsGreen text-right">
+            أخبار الفيصل
+          </h2>
+          <div className="flex gap-2">
+            {newsItems.map((_, index) => (
+              <button
+                key={index}
+                className={cn(
+                  "w-2 h-2 rounded-full transition-all duration-300",
+                  currentSlide === index 
+                    ? "bg-newsGreen w-6" 
+                    : "bg-gray-200 hover:bg-gray-300"
+                )}
+                onClick={() => api?.scrollTo(index)}
+              />
+            ))}
+          </div>
+        </div>
         
         <Carousel
-          className="w-full md:w-4/5 mx-auto relative"
+          className="w-full relative"
           setApi={setApi}
           opts={{
             align: "start",
@@ -65,48 +85,34 @@ const NewsCarousel = () => {
           <CarouselContent>
             {newsItems.map((item) => (
               <CarouselItem key={item.id}>
-                <div className="relative aspect-[16/9] rounded-2xl overflow-hidden">
-                  {/* Image Background */}
-                  <div 
-                    className="absolute inset-0 bg-cover bg-center"
-                    style={{ backgroundImage: `url(${item.image})` }}
-                  />
-                  
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                  
-                  {/* Content Overlay */}
-                  <div className="absolute bottom-0 left-0 right-0 p-6 bg-white/70 backdrop-blur-sm">
-                    <h3 className="text-xl md:text-2xl font-bold text-darkBlue mb-2">
-                      {item.title}
-                    </h3>
-                    <p className="text-base md:text-lg text-gray-700 line-clamp-2">
-                      {item.description}
-                    </p>
+                <div className="bg-white rounded-2xl shadow-lg overflow-hidden transform transition-all duration-500 hover:shadow-xl p-1">
+                  <div className="relative aspect-[16/9] rounded-xl overflow-hidden">
+                    {/* Image Background */}
+                    <div 
+                      className="absolute inset-0 bg-cover bg-center transform transition-transform duration-500 hover:scale-105"
+                      style={{ backgroundImage: `url(${item.image})` }}
+                    />
+                    
+                    {/* Modern Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                    
+                    {/* Content Overlay */}
+                    <div className="absolute bottom-0 left-0 right-0 p-8 backdrop-blur-sm bg-white/10">
+                      <h3 className="text-2xl font-bold text-white mb-3">
+                        {item.title}
+                      </h3>
+                      <p className="text-lg text-gray-100 line-clamp-2">
+                        {item.description}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </CarouselItem>
             ))}
           </CarouselContent>
 
-          <CarouselPrevious className="hidden md:flex -left-12 h-10 w-10 border-2 border-darkBlue text-darkBlue hover:bg-darkBlue hover:text-white transition-colors" />
-          <CarouselNext className="hidden md:flex -right-12 h-10 w-10 border-2 border-darkBlue text-darkBlue hover:bg-darkBlue hover:text-white transition-colors" />
-          
-          {/* Dots Navigation */}
-          <div className="absolute -bottom-8 left-0 right-0 flex justify-center gap-2">
-            {newsItems.map((_, index) => (
-              <button
-                key={index}
-                className={cn(
-                  "w-2 h-2 rounded-full transition-all duration-300",
-                  currentSlide === index 
-                    ? "bg-darkBlue w-4" 
-                    : "bg-gray-300 hover:bg-gray-400"
-                )}
-                onClick={() => api?.scrollTo(index)}
-              />
-            ))}
-          </div>
+          <CarouselPrevious className="absolute -left-4 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-white/80 backdrop-blur-sm border-none shadow-lg text-newsGreen hover:bg-white hover:scale-110 transition-all duration-300" />
+          <CarouselNext className="absolute -right-4 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-white/80 backdrop-blur-sm border-none shadow-lg text-newsGreen hover:bg-white hover:scale-110 transition-all duration-300" />
         </Carousel>
       </div>
     </section>
