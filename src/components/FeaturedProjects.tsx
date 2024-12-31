@@ -51,7 +51,7 @@ const FeaturedProjects = () => {
 
             <Select>
               <SelectTrigger className="w-full bg-white rounded-full border-none">
-                <SelectValue placeholder="All" />
+                <SelectValue placeholder="حالة المشروع" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All</SelectItem>
