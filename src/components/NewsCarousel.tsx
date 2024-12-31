@@ -87,9 +87,8 @@ const NewsCarousel = () => {
     <section className="relative py-16 bg-white">
       <div className="container mx-auto px-4">
         <div className="mb-12 text-right">
-          <h2 className="text-3xl font-bold text-newsGreen inline-flex items-center gap-2">
+          <h2 className="text-3xl font-bold text-newsGreen">
             أخبار الفيصل
-            <ArrowUpRight className="w-6 h-6" />
           </h2>
         </div>
 
