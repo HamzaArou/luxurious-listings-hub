@@ -30,10 +30,11 @@ const FeaturedProjects = () => {
   return (
     <section className="py-24 bg-[#f5f5f5]">
       <div className="container mx-auto px-4 max-w-[960px]">
-        <h2 className="text-4xl font-bold text-darkBlue text-center mb-2">
-          مشاريع الفيصل
-        </h2>
-        <div className="w-24 h-1 bg-gold mx-auto mb-12"></div>
+        <div className="mb-12 text-right">
+          <h2 className="text-3xl font-bold text-white inline-block bg-black px-4 py-2 rounded-tl-[100px] rounded-tr rounded-br rounded-bl">
+            مشاريع الفيصل
+          </h2>
+        </div>
 
         <div className="flex justify-center gap-4 mb-8">
           <Select>
