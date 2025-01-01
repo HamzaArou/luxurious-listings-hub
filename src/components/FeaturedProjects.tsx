@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Building2 } from "lucide-react";
 import { Card, CardContent, CardFooter } from "./ui/card";
 import {
@@ -7,6 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import { Button } from "./ui/button";
 
 const projects = [
   {
@@ -120,6 +122,14 @@ const projects = [
 ];
 
 const FeaturedProjects = () => {
+  const [displayCount, setDisplayCount] = useState(9);
+  const displayedProjects = projects.slice(0, displayCount);
+  const hasMoreProjects = projects.length > displayCount;
+
+  const handleLoadMore = () => {
+    setDisplayCount(prev => prev + 9);
+  };
+
   return (
     <section className="pt-8 pb-24 bg-[#f5f5f5]">
       <div className="container mx-auto px-4 max-w-[960px]">
@@ -161,7 +171,7 @@ const FeaturedProjects = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project) => (
+          {displayedProjects.map((project) => (
             <Card key={project.id} className="overflow-hidden h-[432px] bg-white rounded-[40px] shadow-lg">
               <div className="p-0.5 text-center">
                 <p className="text-gold text-lg mb-0">{project.projectLabel}</p>
@@ -199,6 +209,17 @@ const FeaturedProjects = () => {
             </Card>
           ))}
         </div>
+
+        {hasMoreProjects && (
+          <div className="flex justify-end mt-8">
+            <Button 
+              onClick={handleLoadMore}
+              className="bg-gold hover:bg-gold/90 text-white px-6 py-2 rounded-full"
+            >
+              تحميل المزيد...
+            </Button>
+          </div>
+        )}
       </div>
     </section>
   );
