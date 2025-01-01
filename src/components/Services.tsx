@@ -30,7 +30,7 @@ const services = [
 
 const Services = () => {
   return (
-    <section className="pt-12 pb-24 bg-white">
+    <section className="pt-12 pb-24 bg-[#f5f5f5]">
       <div className="container mx-auto px-4 max-w-[960px]">
         <div className="mb-12 text-right">
           <h2 className="text-3xl font-bold text-white inline-block bg-black px-4 py-2 rounded-tl-[100px] rounded-tr rounded-br rounded-bl">
