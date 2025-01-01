@@ -3,44 +3,44 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const partners = [
   {
-    name: "Partner 1",
-    logo: "/lovable-uploads/partner1.png",
+    name: "شركة الإنماء للاستثمار",
+    logo: "https://images.unsplash.com/photo-1614680376593-902f74cf0d41?w=400&h=400&fit=crop",
   },
   {
-    name: "Partner 2",
-    logo: "/lovable-uploads/partner2.png",
+    name: "البنك السعودي للاستثمار",
+    logo: "https://images.unsplash.com/photo-1614680376408-12b368e26b6c?w=400&h=400&fit=crop",
   },
   {
-    name: "Partner 3",
-    logo: "/lovable-uploads/partner1.png",
+    name: "شركة دار الأركان",
+    logo: "https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?w=400&h=400&fit=crop",
   },
   {
-    name: "Partner 4",
-    logo: "/lovable-uploads/partner2.png",
+    name: "مجموعة صافولا",
+    logo: "https://images.unsplash.com/photo-1614680376739-8360d55bc8d5?w=400&h=400&fit=crop",
   },
   {
-    name: "Partner 5",
-    logo: "/lovable-uploads/partner1.png",
+    name: "البنك الأهلي السعودي",
+    logo: "https://images.unsplash.com/photo-1614680376484-4903f6d9c216?w=400&h=400&fit=crop",
   },
   {
-    name: "Partner 6",
-    logo: "/lovable-uploads/partner2.png",
+    name: "شركة المراعي",
+    logo: "https://images.unsplash.com/photo-1614680376458-0afc6f47bfc7?w=400&h=400&fit=crop",
   },
   {
-    name: "Partner 7",
-    logo: "/lovable-uploads/partner1.png",
+    name: "مصرف الراجحي",
+    logo: "https://images.unsplash.com/photo-1614680376593-902f74cf0d41?w=400&h=400&fit=crop",
   },
   {
-    name: "Partner 8",
-    logo: "/lovable-uploads/partner2.png",
+    name: "شركة معادن",
+    logo: "https://images.unsplash.com/photo-1614680376408-12b368e26b6c?w=400&h=400&fit=crop",
   },
   {
-    name: "Partner 9",
-    logo: "/lovable-uploads/partner1.png",
+    name: "أرامكو السعودية",
+    logo: "https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?w=400&h=400&fit=crop",
   },
   {
-    name: "Partner 10",
-    logo: "/lovable-uploads/partner2.png",
+    name: "سابك",
+    logo: "https://images.unsplash.com/photo-1614680376739-8360d55bc8d5?w=400&h=400&fit=crop",
   },
 ];
 
@@ -117,12 +117,12 @@ const Partners = () => {
             {partners.map((partner, index) => (
               <div
                 key={index}
-                className="flex-shrink-0 bg-white rounded-full p-4 w-44 h-44 flex items-center justify-center transform hover:scale-105 transition-transform duration-300"
+                className="flex-shrink-0 bg-white rounded-full p-4 w-44 h-44 flex items-center justify-center transform hover:scale-105 transition-transform duration-300 shadow-lg"
               >
                 <img
                   src={partner.logo}
                   alt={partner.name}
-                  className="max-w-full max-h-full object-contain"
+                  className="max-w-full max-h-full object-contain rounded-full"
                 />
               </div>
             ))}
