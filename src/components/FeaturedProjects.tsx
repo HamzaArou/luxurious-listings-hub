@@ -33,6 +33,90 @@ const projects = [
     annexes: 2,
     projectLabel: "مشروع",
   },
+  {
+    id: 3,
+    name: "HAVEN 3",
+    image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
+    details: "14 طابق | 56 شقة",
+    status: "قريباً",
+    location: "الروضة",
+    floors: 5,
+    apartments: 10,
+    annexes: 3,
+    projectLabel: "مشروع",
+  },
+  {
+    id: 4,
+    name: "HAVEN 4",
+    image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
+    details: "11 طابق | 44 شقة",
+    status: "للبيع",
+    location: "الروضة",
+    floors: 4,
+    apartments: 8,
+    annexes: 2,
+    projectLabel: "مشروع",
+  },
+  {
+    id: 5,
+    name: "HAVEN 5",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475",
+    details: "13 طابق | 52 شقة",
+    status: "قريباً",
+    location: "الروضة",
+    floors: 5,
+    apartments: 9,
+    annexes: 3,
+    projectLabel: "مشروع",
+  },
+  {
+    id: 6,
+    name: "HAVEN 6",
+    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6",
+    details: "15 طابق | 60 شقة",
+    status: "للبيع",
+    location: "الروضة",
+    floors: 6,
+    apartments: 11,
+    annexes: 4,
+    projectLabel: "مشروع",
+  },
+  {
+    id: 7,
+    name: "HAVEN 7",
+    image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
+    details: "12 طابق | 48 شقة",
+    status: "قريباً",
+    location: "الروضة",
+    floors: 4,
+    apartments: 8,
+    annexes: 2,
+    projectLabel: "مشروع",
+  },
+  {
+    id: 8,
+    name: "HAVEN 8",
+    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
+    details: "16 طابق | 64 شقة",
+    status: "للبيع",
+    location: "الروضة",
+    floors: 6,
+    apartments: 12,
+    annexes: 4,
+    projectLabel: "مشروع",
+  },
+  {
+    id: 9,
+    name: "HAVEN 9",
+    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e",
+    details: "14 طابق | 56 شقة",
+    status: "قريباً",
+    location: "الروضة",
+    floors: 5,
+    apartments: 10,
+    annexes: 3,
+    projectLabel: "مشروع",
+  },
 ];
 
 const FeaturedProjects = () => {
@@ -94,7 +178,7 @@ const FeaturedProjects = () => {
                   className="w-full h-full object-cover rounded-[15px]"
                 />
                 <span className="absolute bottom-4 left-4 px-4 py-1 bg-gold text-white rounded-full text-sm">
-                  قريباً
+                  {project.status}
                 </span>
               </div>
 
