@@ -76,9 +76,9 @@ const FeaturedProjects = () => {
           </span>
         </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {projects.map((project) => (
-          <Card key={project.id} className="overflow-hidden h-[432px] bg-white rounded-[40px] shadow-lg">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {projects.map((project) => (
+            <Card key={project.id} className="overflow-hidden h-[432px] bg-white rounded-[40px] shadow-lg">
               <div className="p-2 text-center">
                 <p className="text-gold text-lg mb-1">{project.projectLabel}</p>
                 <h3 className="text-3xl font-bold text-gold mb-1">
@@ -98,22 +98,23 @@ const FeaturedProjects = () => {
                 </span>
               </div>
 
-            <div className="flex justify-between items-center bg-gray-100 mx-4 mt-0 rounded-[40px] px-6 h-[40px] w-[276px] mx-auto">
-              <div className="text-center px-2">
-                <p className="text-xl font-bold text-darkBlue">{project.annexes}</p>
-                <p className="text-sm text-gray-600 whitespace-nowrap">الملاحق</p>
+              <div className="flex justify-between items-center bg-gray-100 mx-4 mt-0 rounded-[40px] px-6 h-[40px] w-[276px] mx-auto">
+                <div className="text-center px-2">
+                  <p className="text-xl font-bold text-darkBlue">{project.annexes}</p>
+                  <p className="text-sm text-gray-600 whitespace-nowrap">الملاحق</p>
+                </div>
+                <div className="text-center px-2">
+                  <p className="text-xl font-bold text-darkBlue">{project.apartments}</p>
+                  <p className="text-sm text-gray-600 whitespace-nowrap">الشقق</p>
+                </div>
+                <div className="text-center px-2">
+                  <p className="text-xl font-bold text-darkBlue">{project.floors}</p>
+                  <p className="text-sm text-gray-600 whitespace-nowrap">الأدوار</p>
+                </div>
               </div>
-              <div className="text-center px-2">
-                <p className="text-xl font-bold text-darkBlue">{project.apartments}</p>
-                <p className="text-sm text-gray-600 whitespace-nowrap">الشقق</p>
-              </div>
-              <div className="text-center px-2">
-                <p className="text-xl font-bold text-darkBlue">{project.floors}</p>
-                <p className="text-sm text-gray-600 whitespace-nowrap">الأدوار</p>
-              </div>
-            </div>
-          </Card>
-        ))}
+            </Card>
+          ))}
+        </div>
       </div>
     </section>
   );
