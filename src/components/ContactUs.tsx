@@ -39,10 +39,19 @@ const ContactUs = () => {
                   country={'sa'}
                   onlyCountries={['sa']}
                   inputClass="!w-full !px-4 !py-2 !rounded !bg-white/10 !border !border-white/20 focus:!outline-none focus:!border-gold !text-white"
-                  buttonClass="!bg-white/10 !border !border-white/20"
+                  buttonClass="!bg-white/10 !border !border-white/20 !h-full !w-[60px] flex !items-center !justify-center"
                   dropdownClass="!bg-darkBlue !text-white"
                   enableSearch={false}
                   disableSearchIcon
+                  buttonStyle={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                  flagStyle={{
+                    width: '30px',
+                    height: '20px',
+                  }}
                 />
               </div>
               <div>
