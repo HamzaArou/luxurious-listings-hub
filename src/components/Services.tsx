@@ -44,20 +44,20 @@ const Services = () => {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="flex flex-nowrap overflow-x-auto gap-4 pb-4">
           {services.map((service, index) => (
             <Card
               key={index}
-              className="bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
+              className="flex-shrink-0 w-[200px] bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
             >
               <CardContent className="p-6 text-center">
                 <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-[#234F27]/10 to-[#234F27]/20 flex items-center justify-center">
                   <service.icon className="w-8 h-8 text-[#234F27]" />
                 </div>
-                <h3 className="text-xl font-bold text-darkBlue mb-3">
+                <h3 className="text-lg font-bold text-darkBlue mb-2">
                   {service.title}
                 </h3>
-                <p className="text-gray-600 leading-relaxed">
+                <p className="text-sm text-gray-600 leading-relaxed">
                   {service.description}
                 </p>
               </CardContent>
