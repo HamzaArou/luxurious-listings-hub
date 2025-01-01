@@ -32,10 +32,11 @@ const Services = () => {
   return (
     <section className="py-24 bg-white">
       <div className="container mx-auto px-4 max-w-[960px]">
-        <h2 className="text-4xl font-bold text-darkBlue text-center mb-2">
-          خدماتنا
-        </h2>
-        <div className="w-24 h-1 bg-gold mx-auto mb-12"></div>
+        <div className="mb-12 text-right">
+          <h2 className="text-3xl font-bold text-white inline-block bg-black px-4 py-2 rounded-tl-[100px] rounded-tr rounded-br rounded-bl">
+            خدمات الفيصل
+          </h2>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {services.map((service, index) => (
