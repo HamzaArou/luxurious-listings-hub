@@ -1,30 +1,36 @@
-import { ShieldCheck, Home, BarChart3, Users } from "lucide-react";
+import { Building2, Store, Wrench, Headphones, TruckFront } from "lucide-react";
 import { Card, CardContent } from "./ui/card";
 
 const services = [
   {
-    icon: Home,
-    title: "التطوير العقاري",
+    icon: TruckFront,
+    title: "الوساطة العقارية",
     description:
-      "نقدم خدمات التطوير العقاري المتكاملة مع التركيز على الجودة والابتكار في كل مشروع",
+      "نقدم خدمات الوساطة العقارية المتكاملة مع التركيز على تلبية احتياجات عملائنا بكفاءة عالية",
   },
   {
-    icon: BarChart3,
+    icon: Store,
     title: "التسويق العقاري",
     description:
       "نوفر حلول تسويقية مبتكرة تساعد في الوصول إلى العملاء المستهدفين بفعالية",
   },
   {
-    icon: ShieldCheck,
-    title: "إدارة الأملاك",
+    icon: Wrench,
+    title: "البناء والمقاولات",
     description:
-      "نقدم خدمات إدارة الأملاك الشاملة لضمان الحفاظ على قيمة الاستثمار العقاري",
+      "نقدم خدمات البناء والمقاولات بأعلى معايير الجودة والاحترافية في التنفيذ",
   },
   {
-    icon: Users,
-    title: "الاستشارات العقارية",
+    icon: Headphones,
+    title: "التشغيل",
     description:
-      "نقدم استشارات عقارية احترافية تساعد عملائنا في اتخاذ القرارات الاستثمارية الصحيحة",
+      "نضمن تشغيل وإدارة المشاريع العقارية بكفاءة عالية لتحقيق أفضل النتائج",
+  },
+  {
+    icon: Building2,
+    title: "التطوير العقاري",
+    description:
+      "نطور مشاريع عقارية متميزة تلبي تطلعات عملائنا وتضيف قيمة للمجتمع",
   },
 ];
 
@@ -38,18 +44,22 @@ const Services = () => {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((service, index) => (
             <Card
               key={index}
-              className="bg-warmBeige hover:shadow-lg transition-shadow duration-300"
+              className="bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
             >
               <CardContent className="p-6 text-center">
-                <service.icon className="w-12 h-12 text-gold mx-auto mb-4" />
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-[#234F27]/10 to-[#234F27]/20 flex items-center justify-center">
+                  <service.icon className="w-8 h-8 text-[#234F27]" />
+                </div>
                 <h3 className="text-xl font-bold text-darkBlue mb-3">
                   {service.title}
                 </h3>
-                <p className="text-gray-600">{service.description}</p>
+                <p className="text-gray-600 leading-relaxed">
+                  {service.description}
+                </p>
               </CardContent>
             </Card>
           ))}
