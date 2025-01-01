@@ -21,39 +21,39 @@ interface NewsItem {
 const newsItems: NewsItem[] = [
   {
     id: 1,
-    title: "شراكة استراتيجية مع بيوت السعودية",
-    description: "تم توقيع اتفاقية شراكة استراتيجية مع شركة بيوت السعودية لتطوير المشاريع السكنية",
-    image: "/news/partnership.jpg"
+    title: "مشروع الفيصل السكني الفاخر",
+    description: "إطلاق مشروع سكني فاخر جديد يجمع بين الأصالة والحداثة في قلب المدينة",
+    image: "/lovable-uploads/559e0c70-7274-4ffb-8512-e13bb0a18a3d.png"
   },
   {
     id: 2,
-    title: "عقارماب",
-    description: "شاركنا في قمة عقار ماب لعرض أحدث مشاريعنا وخدماتنا في القطاع العقاري",
-    image: "/news/summit.jpg"
+    title: "فلل الفيصل المودرن",
+    description: "تصاميم عصرية مع لمسات معمارية مميزة تلبي تطلعات الحياة العصرية",
+    image: "/lovable-uploads/b83d6a5d-d32d-4c33-9aba-4d64a54337e0.png"
   },
   {
     id: 3,
-    title: "صكوك المالية",
-    description: "تم توقيع اتفاقية تعاون مع شركة صكوك المالية لتقديم حلول تمويلية مبتكرة",
-    image: "/news/agreement.jpg"
+    title: "قصور الفيصل التراثية",
+    description: "مزيج فريد من العمارة الإسلامية التقليدية مع وسائل الراحة العصرية",
+    image: "/lovable-uploads/360425e4-fe5f-4a1c-8f12-78ddf0e5c7d8.png"
   },
   {
     id: 4,
-    title: "مشروع الإسكان الجديد",
-    description: "إطلاق مشروع إسكاني جديد في المنطقة الشرقية بالتعاون مع وزارة الإسكان",
-    image: "/news/housing.jpg"
+    title: "شقق الفيصل الفاخرة",
+    description: "وحدات سكنية راقية بتشطيبات عالية الجودة وإطلالات خلابة",
+    image: "/lovable-uploads/a9ec60bc-445c-4c80-88e1-e74736caa605.png"
   },
   {
     id: 5,
-    title: "توسعة المشاريع التجارية",
-    description: "خطة توسعية جديدة لتطوير المراكز التجارية في المدن الرئيسية",
-    image: "/news/commercial.jpg"
+    title: "برج الفيصل السكني",
+    description: "برج سكني حديث يوفر أسلوب حياة متكامل مع أحدث المرافق والخدمات",
+    image: "/lovable-uploads/c0b1fc97-9a18-4732-ae45-87e2556beff1.png"
   },
   {
     id: 6,
-    title: "تقنيات البناء الحديثة",
-    description: "تبني أحدث تقنيات البناء المستدام في مشاريعنا السكنية والتجارية",
-    image: "/news/technology.jpg"
+    title: "مجمع الفيصل السكني",
+    description: "مجمع سكني متكامل يجمع بين الخصوصية والرفاهية مع مساحات خضراء واسعة",
+    image: "/lovable-uploads/559e0c70-7274-4ffb-8512-e13bb0a18a3d.png"
   }
 ];
 
