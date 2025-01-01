@@ -48,9 +48,11 @@ const ContactUs = () => {
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}
-                  flagStyle={{
-                    width: '30px',
-                    height: '20px',
+                  containerStyle={{
+                    width: '100%',
+                  }}
+                  inputStyle={{
+                    width: '100%',
                   }}
                 />
               </div>
