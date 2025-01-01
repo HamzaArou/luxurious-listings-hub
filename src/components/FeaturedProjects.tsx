@@ -115,12 +115,12 @@ const projects = [
 ];
 
 const FeaturedProjects = () => {
-  const [displayCount, setDisplayCount] = useState(9);
+  const [displayCount, setDisplayCount] = useState(6); // Changed initial load to 6 items
   const displayedProjects = projects.slice(0, displayCount);
   const hasMoreProjects = projects.length > displayCount;
 
   const handleLoadMore = () => {
-    setDisplayCount(prev => prev + 9);
+    setDisplayCount(prev => Math.min(prev + 3, projects.length));
   };
 
   return (
@@ -140,15 +140,16 @@ const FeaturedProjects = () => {
           ))}
         </div>
 
-        <div className="flex justify-end mt-8">
-          <Button 
-            onClick={handleLoadMore}
-            disabled={!hasMoreProjects}
-            className="bg-gold hover:bg-gold/90 text-white px-6 py-2 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            تحميل المزيد...
-          </Button>
-        </div>
+        {hasMoreProjects && (
+          <div className="flex justify-end mt-8">
+            <Button 
+              onClick={handleLoadMore}
+              className="bg-gold hover:bg-gold/90 text-white px-6 py-2 rounded-full"
+            >
+              تحميل المزيد...
+            </Button>
+          </div>
+        )}
       </div>
     </section>
   );

@@ -1,4 +1,5 @@
-import { Card, CardContent, CardFooter } from "../ui/card";
+import { Card } from "../ui/card";
+import { lazy, Suspense } from "react";
 
 interface ProjectCardProps {
   project: {
@@ -27,11 +28,15 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
       </div>
       
       <div className="relative h-[243px] w-[277px] mx-auto">
-        <img
-          src={project.image}
-          alt={project.name}
-          className="w-full h-full object-cover rounded-[15px]"
-        />
+        <Suspense fallback={<div className="w-full h-full bg-gray-200 animate-pulse rounded-[15px]" />}>
+          <img
+            src={project.image}
+            alt={project.name}
+            className="w-full h-full object-cover rounded-[15px]"
+            loading="lazy"
+            decoding="async"
+          />
+        </Suspense>
         <span className="absolute bottom-4 left-4 px-4 py-1 bg-gold text-white rounded-full text-sm">
           {project.status}
         </span>
