@@ -98,7 +98,7 @@ const FeaturedProjects = () => {
                 </span>
               </div>
 
-              <div className="flex justify-between items-center bg-[#E7EDF7] mx-4 mt-2 rounded-[40px] px-6 py-2">
+              <div className="flex justify-between items-center bg-gray-100 mx-4 mt-2 rounded-[40px] px-6 py-2">
                 <div className="text-center px-2">
                   <p className="text-xl font-bold text-darkBlue">{project.annexes}</p>
                   <p className="text-sm text-gray-600 whitespace-nowrap">الملاحق</p>
