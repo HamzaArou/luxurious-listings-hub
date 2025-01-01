@@ -95,7 +95,7 @@ const NewsCarousel = () => {
     <section className="relative py-8 bg-white">
       <div className="container mx-auto px-4">
         <div className="mb-12 text-right">
-          <h2 className="text-3xl font-bold text-white inline-block bg-black px-4 py-2 rounded-tl-[100px] rounded-tr rounded-br rounded-bl">
+          <h2 className="text-3xl font-bold text-white inline-block bg-[#004bad] px-4 py-2 rounded-tl-[100px] rounded-tr rounded-br rounded-bl">
             أخبار الفيصل
           </h2>
         </div>
