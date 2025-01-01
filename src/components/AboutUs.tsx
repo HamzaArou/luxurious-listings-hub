@@ -21,9 +21,9 @@ const AboutUs = () => {
           </div>
           <div className="order-1 md:order-2">
             <img
-              src="/lovable-uploads/about-image.jpg"
-              alt="مجموعة الفيصل العقارية"
-              className="rounded-lg shadow-lg w-full h-auto"
+              src="https://images.unsplash.com/photo-1527576539890-dfa815648363"
+              alt="مجموعة الفيصل العقارية - مبنى معماري حديث"
+              className="rounded-lg shadow-lg w-full h-auto object-cover aspect-[4/3]"
             />
           </div>
         </div>
