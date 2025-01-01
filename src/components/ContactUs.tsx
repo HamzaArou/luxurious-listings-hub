@@ -1,4 +1,6 @@
 import { Mail, Phone, MapPin } from "lucide-react";
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 
 const ContactUs = () => {
   return (
@@ -33,10 +35,14 @@ const ContactUs = () => {
                 <label htmlFor="phone" className="block mb-1">
                   رقم الهاتف
                 </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  className="w-full px-4 py-2 rounded bg-white/10 border border-white/20 focus:outline-none focus:border-gold"
+                <PhoneInput
+                  country={'sa'}
+                  onlyCountries={['sa']}
+                  inputClass="!w-full !px-4 !py-2 !rounded !bg-white/10 !border !border-white/20 focus:!outline-none focus:!border-gold !text-white"
+                  buttonClass="!bg-white/10 !border !border-white/20"
+                  dropdownClass="!bg-darkBlue !text-white"
+                  enableSearch={false}
+                  disableSearchIcon
                 />
               </div>
               <div>
