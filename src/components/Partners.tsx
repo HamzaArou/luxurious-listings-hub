@@ -46,7 +46,7 @@ const partners = [
 
 const Partners = () => {
   const carouselRef = useRef<HTMLDivElement>(null);
-  const scrollAmount = 300; // Width of each scroll step
+  const scrollAmount = 300;
 
   const scroll = (direction: 'left' | 'right') => {
     if (carouselRef.current) {
@@ -58,7 +58,6 @@ const Partners = () => {
         ? currentScroll - scrollAmount 
         : currentScroll + scrollAmount;
 
-      // Handle circular scrolling
       if (newScroll < 0) {
         newScroll = maxScroll;
       } else if (newScroll > maxScroll) {
@@ -112,7 +111,7 @@ const Partners = () => {
 
           <div
             ref={carouselRef}
-            className="flex overflow-x-hidden space-x-6 rtl px-4 scroll-smooth partners-carousel"
+            className="flex overflow-x-hidden gap-6 rtl px-4 scroll-smooth partners-carousel"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {partners.map((partner, index) => (
