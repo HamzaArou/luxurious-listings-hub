@@ -46,16 +46,27 @@ const partners = [
 
 const Partners = () => {
   const carouselRef = useRef<HTMLDivElement>(null);
+  const scrollAmount = 300; // Width of each scroll step
 
   const scroll = (direction: 'left' | 'right') => {
     if (carouselRef.current) {
-      const scrollAmount = 300; // Adjust scroll amount as needed
-      const newScrollLeft = direction === 'left' 
-        ? carouselRef.current.scrollLeft - scrollAmount
-        : carouselRef.current.scrollLeft + scrollAmount;
+      const container = carouselRef.current;
+      const currentScroll = container.scrollLeft;
+      const maxScroll = container.scrollWidth - container.clientWidth;
       
-      carouselRef.current.scrollTo({
-        left: newScrollLeft,
+      let newScroll = direction === 'left' 
+        ? currentScroll - scrollAmount 
+        : currentScroll + scrollAmount;
+
+      // Handle circular scrolling
+      if (newScroll < 0) {
+        newScroll = maxScroll;
+      } else if (newScroll > maxScroll) {
+        newScroll = 0;
+      }
+
+      container.scrollTo({
+        left: newScroll,
         behavior: 'smooth'
       });
     }
@@ -64,10 +75,16 @@ const Partners = () => {
   useEffect(() => {
     const scrollInterval = setInterval(() => {
       if (carouselRef.current) {
-        if (carouselRef.current.scrollLeft + carouselRef.current.offsetWidth >= carouselRef.current.scrollWidth) {
-          carouselRef.current.scrollLeft = 0;
+        const container = carouselRef.current;
+        const isAtEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth;
+        
+        if (isAtEnd) {
+          container.scrollTo({ left: 0, behavior: 'smooth' });
         } else {
-          carouselRef.current.scrollLeft += 300;
+          container.scrollTo({
+            left: container.scrollLeft + scrollAmount,
+            behavior: 'smooth'
+          });
         }
       }
     }, 3000);
@@ -95,7 +112,7 @@ const Partners = () => {
 
           <div
             ref={carouselRef}
-            className="flex overflow-x-hidden space-x-8 rtl px-4"
+            className="flex overflow-x-hidden space-x-8 rtl px-4 scroll-smooth"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {partners.map((partner, index) => (
