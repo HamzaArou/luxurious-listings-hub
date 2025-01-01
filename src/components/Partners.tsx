@@ -112,13 +112,13 @@ const Partners = () => {
 
           <div
             ref={carouselRef}
-            className="flex overflow-x-hidden space-x-8 rtl px-4 scroll-smooth"
+            className="flex overflow-x-hidden space-x-6 rtl px-4 scroll-smooth partners-carousel"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {partners.map((partner, index) => (
               <div
                 key={index}
-                className="flex-shrink-0 bg-white rounded-full p-4 w-48 h-48 flex items-center justify-center transform hover:scale-105 transition-transform duration-300"
+                className="flex-shrink-0 bg-white rounded-full p-4 w-44 h-44 flex items-center justify-center transform hover:scale-105 transition-transform duration-300"
               >
                 <img
                   src={partner.logo}
