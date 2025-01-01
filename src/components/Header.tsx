@@ -46,7 +46,7 @@ const Header = () => {
     >
       <div className="w-full h-full flex items-center" dir="ltr">
         {/* Logo Section - Left side */}
-        <div className="flex items-center mr-8">
+        <div className="flex items-center mr-12">
           <img
             src="/lovable-uploads/452d0f08-89bf-4863-9d95-46a23971500f.png"
             alt="مجموعة الفيصل العقارية"
