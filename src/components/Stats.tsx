@@ -1,26 +1,30 @@
 import { useEffect, useRef, useState } from "react";
-import { Building2, Users, Trophy, Calendar } from "lucide-react";
+import { Ruler, Building2, Building, PencilRuler } from "lucide-react";
 
 const stats = [
   {
+    icon: Ruler,
+    value: "136K",
+    label: "متر مربع",
+    color: "text-darkBlue",
+  },
+  {
     icon: Building2,
-    value: 50,
-    label: "عدد المشاريع",
+    value: "600",
+    label: "وحدة سكنية",
+    color: "text-darkBlue",
   },
   {
-    icon: Users,
-    value: 1000,
-    label: "عملاء سعداء",
+    icon: Building,
+    value: "40",
+    label: "مبــــنى",
+    color: "text-darkBlue",
   },
   {
-    icon: Trophy,
-    value: 25,
-    label: "جوائز التميز",
-  },
-  {
-    icon: Calendar,
-    value: 15,
-    label: "سنوات الخبرة",
+    icon: PencilRuler,
+    value: "25",
+    label: "مشــــروع",
+    color: "text-darkBlue",
   },
 ];
 
@@ -60,18 +64,27 @@ const Stats = () => {
           {stats.map((stat, index) => (
             <div
               key={index}
-              className={`text-center transform transition-all duration-500 ${
+              className={`transform transition-all duration-500 bg-white rounded-xl p-6 shadow-lg hover:shadow-xl ${
                 isVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-10"
               }`}
-              style={{ transitionDelay: `${index * 100}ms` }}
+              style={{ 
+                transitionDelay: `${index * 100}ms`,
+                background: "linear-gradient(145deg, #ffffff 0%, #f8f8f8 100%)"
+              }}
             >
-              <stat.icon className="w-12 h-12 text-gold mx-auto mb-4" />
-              <div className="stats-counter">
-                {isVisible ? stat.value : 0}
+              <div className="flex flex-col items-center space-y-4">
+                <div className="w-16 h-16 rounded-full bg-warmBeige/20 flex items-center justify-center">
+                  <stat.icon className="w-8 h-8 text-gold" />
+                </div>
+                <div className="text-4xl font-bold text-gold">
+                  {isVisible ? stat.value : "0"}
+                </div>
+                <div className="text-darkBlue font-medium text-lg">
+                  {stat.label}
+                </div>
               </div>
-              <div className="text-gold font-medium">{stat.label}</div>
             </div>
           ))}
         </div>
