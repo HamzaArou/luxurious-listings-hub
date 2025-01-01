@@ -80,7 +80,7 @@ const FeaturedProjects = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project) => (
             <Card key={project.id} className="overflow-hidden h-[432px] bg-white rounded-lg shadow-lg">
-              <div className="p-2 text-center">
+              <div className="p-4 text-center">
                 <p className="text-gold text-lg mb-1">{project.projectLabel}</p>
                 <h3 className="text-3xl font-bold text-gold mb-1">
                   {project.name}
@@ -88,7 +88,7 @@ const FeaturedProjects = () => {
                 <p className="text-darkBlue text-lg">{project.location}</p>
               </div>
               
-              <div className="relative h-[280px]">
+              <div className="relative h-[210px]">
                 <img
                   src={project.image}
                   alt={project.name}
