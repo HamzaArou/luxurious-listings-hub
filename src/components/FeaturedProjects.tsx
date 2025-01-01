@@ -19,6 +19,7 @@ const projects = [
     floors: 4,
     apartments: 8,
     annexes: 2,
+    projectLabel: "مشروع",
   },
   {
     id: 2,
@@ -30,6 +31,7 @@ const projects = [
     floors: 4,
     apartments: 8,
     annexes: 2,
+    projectLabel: "مشروع",
   },
   // Add more projects as needed
 ];
@@ -77,43 +79,38 @@ const FeaturedProjects = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project) => (
-            <Card key={project.id} className="overflow-hidden hover:shadow-lg transition-shadow duration-300 h-[432px]">
-              <div className="relative h-[300px]">
+            <Card key={project.id} className="overflow-hidden h-[432px] bg-white rounded-lg shadow-lg">
+              <div className="p-4 text-center">
+                <p className="text-gold text-lg mb-1">{project.projectLabel}</p>
+                <h3 className="text-3xl font-bold text-gold mb-1">
+                  {project.name}
+                </h3>
+                <p className="text-darkBlue text-lg">{project.location}</p>
+              </div>
+              
+              <div className="relative h-[250px]">
                 <img
                   src={project.image}
                   alt={project.name}
                   className="w-full h-full object-cover"
                 />
-                <span
-                  className={`absolute top-4 left-4 px-3 py-1 rounded-full text-sm ${
-                    project.status === "للبيع"
-                      ? "bg-gold text-white"
-                      : "bg-darkBlue text-white"
-                  }`}
-                >
+                <span className="absolute bottom-4 left-4 px-4 py-1 bg-gold text-white rounded-full text-sm">
                   قريباً
                 </span>
               </div>
-              <div className="p-4 text-right">
-                <div className="mb-2">
-                  <h3 className="text-2xl font-bold text-gold mb-1">
-                    {project.name}
-                  </h3>
-                  <p className="text-gray-600">{project.location}</p>
+
+              <div className="flex justify-between items-center bg-gray-100 mx-4 mt-4 rounded-lg p-3">
+                <div className="text-center">
+                  <p className="text-xl font-bold text-darkBlue">{project.annexes}</p>
+                  <p className="text-sm text-gray-600">الملاحق</p>
                 </div>
-                <div className="flex justify-between items-center bg-gray-100 rounded-lg p-3">
-                  <div className="text-center">
-                    <p className="text-xl font-bold text-darkBlue">{project.annexes}</p>
-                    <p className="text-sm text-gray-600">الملاحق</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-xl font-bold text-darkBlue">{project.apartments}</p>
-                    <p className="text-sm text-gray-600">الشقق</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-xl font-bold text-darkBlue">{project.floors}</p>
-                    <p className="text-sm text-gray-600">الأدوار</p>
-                  </div>
+                <div className="text-center">
+                  <p className="text-xl font-bold text-darkBlue">{project.apartments}</p>
+                  <p className="text-sm text-gray-600">الشقق</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-xl font-bold text-darkBlue">{project.floors}</p>
+                  <p className="text-sm text-gray-600">الأدوار</p>
                 </div>
               </div>
             </Card>
