@@ -44,7 +44,7 @@ const Header = () => {
         isVisible ? "translate-y-0" : "-translate-y-full"
       }`}
     >
-      <div className="w-full h-full flex items-center" dir="ltr">
+      <div className="w-full h-full flex items-center px-10" dir="ltr">
         {/* Logo Section - Left side */}
         <div className="flex items-center mr-12">
           <img
