@@ -88,7 +88,7 @@ const FeaturedProjects = () => {
                 <p className="text-darkBlue text-lg">{project.location}</p>
               </div>
               
-              <div className="relative h-[250px]">
+              <div className="relative h-[220px]">
                 <img
                   src={project.image}
                   alt={project.name}
