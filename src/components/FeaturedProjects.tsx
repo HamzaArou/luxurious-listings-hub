@@ -1,4 +1,4 @@
-import { Building2, Home } from "lucide-react";
+import { Building2 } from "lucide-react";
 import { Card, CardContent, CardFooter } from "./ui/card";
 import {
   Select,
@@ -15,6 +15,10 @@ const projects = [
     image: "/lovable-uploads/haven1.jpg",
     details: "12 طابق | 48 شقة",
     status: "للبيع",
+    location: "الروضة",
+    floors: 4,
+    apartments: 8,
+    annexes: 2,
   },
   {
     id: 2,
@@ -22,6 +26,10 @@ const projects = [
     image: "/lovable-uploads/haven2.jpg",
     details: "10 طوابق | 40 شقة",
     status: "قريباً",
+    location: "الروضة",
+    floors: 4,
+    apartments: 8,
+    annexes: 2,
   },
   // Add more projects as needed
 ];
@@ -77,29 +85,37 @@ const FeaturedProjects = () => {
                   className="w-full h-full object-cover"
                 />
                 <span
-                  className={`absolute top-4 right-4 px-3 py-1 rounded-full text-sm ${
+                  className={`absolute top-4 left-4 px-3 py-1 rounded-full text-sm ${
                     project.status === "للبيع"
                       ? "bg-gold text-white"
                       : "bg-darkBlue text-white"
                   }`}
                 >
-                  {project.status}
+                  قريباً
                 </span>
               </div>
-              <CardContent className="p-6">
-                <h3 className="text-xl font-bold text-darkBlue mb-2">
-                  {project.name}
-                </h3>
-                <p className="text-gray-600 flex items-center gap-2">
-                  <Building2 className="w-4 h-4" />
-                  {project.details}
-                </p>
-              </CardContent>
-              <CardFooter className="p-6 pt-0">
-                <button className="w-full luxury-button-secondary">
-                  عرض التفاصيل
-                </button>
-              </CardFooter>
+              <div className="p-4 text-right">
+                <div className="mb-2">
+                  <h3 className="text-2xl font-bold text-gold mb-1">
+                    {project.name}
+                  </h3>
+                  <p className="text-gray-600">{project.location}</p>
+                </div>
+                <div className="flex justify-between items-center bg-gray-100 rounded-lg p-3">
+                  <div className="text-center">
+                    <p className="text-xl font-bold text-darkBlue">{project.annexes}</p>
+                    <p className="text-sm text-gray-600">الملاحق</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-xl font-bold text-darkBlue">{project.apartments}</p>
+                    <p className="text-sm text-gray-600">الشقق</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-xl font-bold text-darkBlue">{project.floors}</p>
+                    <p className="text-sm text-gray-600">الأدوار</p>
+                  </div>
+                </div>
+              </div>
             </Card>
           ))}
         </div>
