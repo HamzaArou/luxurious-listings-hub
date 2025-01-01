@@ -28,7 +28,6 @@ export default {
         warmBeige: "#F7E4C8",
         offWhite: "#F5F5F5",
         newsGreen: "#234F27",
-        partnersBg: "#D8E6DA",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
