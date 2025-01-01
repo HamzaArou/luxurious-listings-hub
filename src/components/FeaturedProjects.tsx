@@ -31,7 +31,7 @@ const projects = [
   {
     id: 3,
     name: "HAVEN 3",
-    image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
+    image: "/lovable-uploads/5b16b3ac-fca0-469d-9d0e-d71d66fc32bb.png",
     details: "14 طابق | 56 شقة",
     status: "قريباً",
     location: "الروضة",
@@ -43,7 +43,7 @@ const projects = [
   {
     id: 4,
     name: "HAVEN 4",
-    image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
+    image: "/lovable-uploads/1ba76971-acaa-4990-9013-dd2668ead092.png",
     details: "11 طابق | 44 شقة",
     status: "للبيع",
     location: "الروضة",
@@ -55,7 +55,7 @@ const projects = [
   {
     id: 5,
     name: "HAVEN 5",
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475",
+    image: "/lovable-uploads/0e258d86-2d59-4857-b552-75ee813f4987.png",
     details: "13 طابق | 52 شقة",
     status: "قريباً",
     location: "الروضة",
@@ -67,7 +67,7 @@ const projects = [
   {
     id: 6,
     name: "HAVEN 6",
-    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6",
+    image: "/lovable-uploads/3d3cf84c-e710-4000-96a1-a8e3970e5ec9.png",
     details: "15 طابق | 60 شقة",
     status: "للبيع",
     location: "الروضة",
@@ -79,7 +79,7 @@ const projects = [
   {
     id: 7,
     name: "HAVEN 7",
-    image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
+    image: "/lovable-uploads/5b16b3ac-fca0-469d-9d0e-d71d66fc32bb.png",
     details: "12 طابق | 48 شقة",
     status: "قريباً",
     location: "الروضة",
@@ -91,7 +91,7 @@ const projects = [
   {
     id: 8,
     name: "HAVEN 8",
-    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
+    image: "/lovable-uploads/1ba76971-acaa-4990-9013-dd2668ead092.png",
     details: "16 طابق | 64 شقة",
     status: "للبيع",
     location: "الروضة",
@@ -103,7 +103,7 @@ const projects = [
   {
     id: 9,
     name: "HAVEN 9",
-    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e",
+    image: "/lovable-uploads/0e258d86-2d59-4857-b552-75ee813f4987.png",
     details: "14 طابق | 56 شقة",
     status: "قريباً",
     location: "الروضة",
