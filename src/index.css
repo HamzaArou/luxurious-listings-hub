@@ -164,24 +164,6 @@
     @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6;
   }
 
-  /* Custom Scrollbar */
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: #D4AF37;
-    border-radius: 4px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: #002E5D;
-  }
-
   /* Hide scrollbar for the partners carousel */
   .partners-carousel::-webkit-scrollbar {
     display: none;
