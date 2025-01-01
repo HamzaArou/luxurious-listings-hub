@@ -12,7 +12,7 @@ const projects = [
   {
     id: 1,
     name: "HAVEN 1",
-    image: "/lovable-uploads/haven1.jpg",
+    image: "/lovable-uploads/9da07a5e-838b-40c6-92f1-f39fdeaa9617.png",
     details: "12 طابق | 48 شقة",
     status: "للبيع",
     location: "الروضة",
@@ -24,7 +24,7 @@ const projects = [
   {
     id: 2,
     name: "HAVEN 2",
-    image: "/lovable-uploads/haven2.jpg",
+    image: "/lovable-uploads/db55941a-5021-4dc1-bf90-c9d97fd3e82c.png",
     details: "10 طوابق | 40 شقة",
     status: "قريباً",
     location: "الروضة",
