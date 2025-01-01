@@ -14,16 +14,9 @@ const Header = () => {
       const header = document.querySelector('header');
       
       if (newsSection && header) {
-        const headerHeight = header.getBoundingClientRect().height;
-        const newsSectionTop = newsSection.getBoundingClientRect().top;
-        
-        // Calculate opacity based on distance to news section
-        const distance = newsSectionTop - headerHeight;
-        const maxDistance = 100; // Distance over which the fade occurs
-        const opacity = Math.max(0, Math.min(1, distance / maxDistance));
-        
-        setIsVisible(opacity > 0);
-        header.style.opacity = opacity.toString();
+        const headerBottom = header.getBoundingClientRect().height;
+        const newsSectionTop = newsSection.getBoundingClientRect().top + window.scrollY;
+        setIsVisible(currentScrollY + headerBottom <= newsSectionTop);
       }
 
       setIsScrolled(currentScrollY > 50);
