@@ -1,9 +1,9 @@
-import { Building2, Store, Wrench, Headphones, TruckFront } from "lucide-react";
+import { Building2, Store, Wrench, Headphones, Building } from "lucide-react";
 import { Card, CardContent } from "./ui/card";
 
 const services = [
   {
-    icon: TruckFront,
+    icon: Building,
     title: "الوساطة العقارية",
     description:
       "نقدم خدمات الوساطة العقارية المتكاملة مع التركيز على تلبية احتياجات عملائنا بكفاءة عالية",
