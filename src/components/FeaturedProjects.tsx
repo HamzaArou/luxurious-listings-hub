@@ -210,16 +210,15 @@ const FeaturedProjects = () => {
           ))}
         </div>
 
-        {hasMoreProjects && (
-          <div className="flex justify-end mt-8">
-            <Button 
-              onClick={handleLoadMore}
-              className="bg-gold hover:bg-gold/90 text-white px-6 py-2 rounded-full"
-            >
-              تحميل المزيد...
-            </Button>
-          </div>
-        )}
+        <div className="flex justify-end mt-8">
+          <Button 
+            onClick={handleLoadMore}
+            disabled={!hasMoreProjects}
+            className="bg-gold hover:bg-gold/90 text-white px-6 py-2 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            تحميل المزيد...
+          </Button>
+        </div>
       </div>
     </section>
   );
