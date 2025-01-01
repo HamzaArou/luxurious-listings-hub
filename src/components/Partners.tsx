@@ -34,10 +34,12 @@ const Partners = () => {
 
   return (
     <section className="py-24 bg-warmBeige">
-      <h2 className="text-4xl font-bold text-darkBlue text-center mb-12">
-        شركاء النجاح
-      </h2>
-      <div className="container mx-auto px-4 max-w-[960px]">
+      <div className="container mx-auto px-4">
+        <div className="mb-8 text-right">
+          <h2 className="text-3xl font-bold text-white inline-block bg-black px-4 py-2 rounded-tl-[100px] rounded-tr rounded-br rounded-bl">
+            شركاء النجاح
+          </h2>
+        </div>
         <div
           ref={carouselRef}
           className="flex overflow-hidden space-x-8 rtl"
