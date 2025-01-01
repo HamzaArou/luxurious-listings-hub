@@ -3,44 +3,44 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const partners = [
   {
-    name: "شركة الإنماء للاستثمار",
-    logo: "https://images.unsplash.com/photo-1614680376593-902f74cf0d41?w=400&h=400&fit=crop",
+    name: "إعمار العقارية",
+    logo: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=400&h=400&fit=crop",
   },
   {
-    name: "البنك السعودي للاستثمار",
-    logo: "https://images.unsplash.com/photo-1614680376408-12b368e26b6c?w=400&h=400&fit=crop",
+    name: "الدار العقارية",
+    logo: "https://images.unsplash.com/photo-1496307653780-42ee777d4833?w=400&h=400&fit=crop",
   },
   {
     name: "شركة دار الأركان",
-    logo: "https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?w=400&h=400&fit=crop",
+    logo: "https://images.unsplash.com/photo-1466442929976-97f336a657be?w=400&h=400&fit=crop",
   },
   {
-    name: "مجموعة صافولا",
-    logo: "https://images.unsplash.com/photo-1614680376739-8360d55bc8d5?w=400&h=400&fit=crop",
+    name: "مجموعة طلعت مصطفى",
+    logo: "https://images.unsplash.com/photo-1459767129954-1b1c1f9b9ace?w=400&h=400&fit=crop",
   },
   {
-    name: "البنك الأهلي السعودي",
-    logo: "https://images.unsplash.com/photo-1614680376484-4903f6d9c216?w=400&h=400&fit=crop",
+    name: "شركة جبل عمر للتطوير",
+    logo: "https://images.unsplash.com/photo-1527576539890-dfa815648363?w=400&h=400&fit=crop",
   },
   {
-    name: "شركة المراعي",
-    logo: "https://images.unsplash.com/photo-1614680376458-0afc6f47bfc7?w=400&h=400&fit=crop",
+    name: "شركة مكة للإنشاء والتعمير",
+    logo: "https://images.unsplash.com/photo-1488972685288-c3fd157d7c7a?w=400&h=400&fit=crop",
   },
   {
-    name: "مصرف الراجحي",
-    logo: "https://images.unsplash.com/photo-1614680376593-902f74cf0d41?w=400&h=400&fit=crop",
+    name: "الشركة العقارية السعودية",
+    logo: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=400&h=400&fit=crop",
   },
   {
-    name: "شركة معادن",
-    logo: "https://images.unsplash.com/photo-1614680376408-12b368e26b6c?w=400&h=400&fit=crop",
+    name: "شركة البحر الأحمر العالمية",
+    logo: "https://images.unsplash.com/photo-1431576901776-e539bd916ba2?w=400&h=400&fit=crop",
   },
   {
-    name: "أرامكو السعودية",
-    logo: "https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?w=400&h=400&fit=crop",
+    name: "مدينة نيوم",
+    logo: "https://images.unsplash.com/photo-1449157291145-7efd050a4d0e?w=400&h=400&fit=crop",
   },
   {
-    name: "سابك",
-    logo: "https://images.unsplash.com/photo-1614680376739-8360d55bc8d5?w=400&h=400&fit=crop",
+    name: "شركة المراكز العربية",
+    logo: "https://images.unsplash.com/photo-1460574283810-2aab119d8511?w=400&h=400&fit=crop",
   },
 ];
 
