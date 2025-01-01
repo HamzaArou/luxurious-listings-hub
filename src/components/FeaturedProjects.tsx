@@ -69,8 +69,8 @@ const FeaturedProjects = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project) => (
-            <Card key={project.id} className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
-              <div className="relative h-48">
+            <Card key={project.id} className="overflow-hidden hover:shadow-lg transition-shadow w-[321px] h-[432px]">
+              <div className="relative h-[300px]">
                 <img
                   src={project.image}
                   alt={project.name}
