@@ -98,18 +98,18 @@ const FeaturedProjects = () => {
                 </span>
               </div>
 
-              <div className="flex justify-between items-center bg-gray-100 mx-4 mt-0 rounded-[40px] p-2">
-                <div className="text-center">
+              <div className="flex justify-between items-center bg-gray-100 mx-4 mt-0 rounded-[40px] px-6 py-3">
+                <div className="text-center px-2">
                   <p className="text-xl font-bold text-darkBlue">{project.annexes}</p>
-                  <p className="text-sm text-gray-600">الملاحق</p>
+                  <p className="text-sm text-gray-600 whitespace-nowrap">الملاحق</p>
                 </div>
-                <div className="text-center">
+                <div className="text-center px-2">
                   <p className="text-xl font-bold text-darkBlue">{project.apartments}</p>
-                  <p className="text-sm text-gray-600">الشقق</p>
+                  <p className="text-sm text-gray-600 whitespace-nowrap">الشقق</p>
                 </div>
-                <div className="text-center">
+                <div className="text-center px-2">
                   <p className="text-xl font-bold text-darkBlue">{project.floors}</p>
-                  <p className="text-sm text-gray-600">الأدوار</p>
+                  <p className="text-sm text-gray-600 whitespace-nowrap">الأدوار</p>
                 </div>
               </div>
             </Card>
