@@ -10,7 +10,38 @@ const partners = [
     name: "Partner 2",
     logo: "/lovable-uploads/partner2.png",
   },
-  // Add more partners as needed
+  {
+    name: "Partner 3",
+    logo: "/lovable-uploads/partner1.png",
+  },
+  {
+    name: "Partner 4",
+    logo: "/lovable-uploads/partner2.png",
+  },
+  {
+    name: "Partner 5",
+    logo: "/lovable-uploads/partner1.png",
+  },
+  {
+    name: "Partner 6",
+    logo: "/lovable-uploads/partner2.png",
+  },
+  {
+    name: "Partner 7",
+    logo: "/lovable-uploads/partner1.png",
+  },
+  {
+    name: "Partner 8",
+    logo: "/lovable-uploads/partner2.png",
+  },
+  {
+    name: "Partner 9",
+    logo: "/lovable-uploads/partner1.png",
+  },
+  {
+    name: "Partner 10",
+    logo: "/lovable-uploads/partner2.png",
+  },
 ];
 
 const Partners = () => {
