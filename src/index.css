@@ -181,4 +181,14 @@
   ::-webkit-scrollbar-thumb:hover {
     background: #002E5D;
   }
+
+  /* Hide scrollbar for the partners carousel */
+  .partners-carousel::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .partners-carousel {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
