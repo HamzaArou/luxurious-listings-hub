@@ -78,7 +78,7 @@ const FeaturedProjects = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project) => (
-            <Card key={project.id} className="overflow-hidden h-[432px] bg-white rounded-[40px] shadow-lg">
+            <Card key={project.id} className="overflow-hidden h-[432px] bg-[#E7EDF7] rounded-[40px] shadow-lg">
               <div className="p-2 text-center">
                 <p className="text-gold text-lg mb-1">{project.projectLabel}</p>
                 <h3 className="text-3xl font-bold text-gold mb-1">
@@ -87,7 +87,7 @@ const FeaturedProjects = () => {
                 <p className="text-darkBlue text-lg">{project.location}</p>
               </div>
               
-              <div className="relative h-[243px] w-[277px] mx-auto">
+              <div className="relative h-[243px] w-[277px] mx-auto -mt-4">
                 <img
                   src={project.image}
                   alt={project.name}
@@ -98,7 +98,7 @@ const FeaturedProjects = () => {
                 </span>
               </div>
 
-              <div className="flex justify-between items-center bg-gray-100 mx-4 mt-0 rounded-[40px] px-6 py-3">
+              <div className="flex justify-between items-center bg-gray-100 mx-4 mt-2 rounded-[40px] px-6 py-2">
                 <div className="text-center px-2">
                   <p className="text-xl font-bold text-darkBlue">{project.annexes}</p>
                   <p className="text-sm text-gray-600 whitespace-nowrap">الملاحق</p>
