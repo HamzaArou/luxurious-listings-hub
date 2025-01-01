@@ -49,7 +49,7 @@ const Footer = () => {
 
           <div>
             <h3 className="text-xl font-bold mb-4">تواصل معنا</h3>
-            <div className="flex space-x-4 justify-center md:justify-start">
+            <div className="flex gap-4 justify-center md:justify-start">
               <a
                 href="#"
                 className="text-white hover:text-gold transition-colors"
