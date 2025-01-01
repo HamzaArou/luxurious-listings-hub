@@ -87,7 +87,7 @@ const FeaturedProjects = () => {
                 <p className="text-darkBlue text-lg">{project.location}</p>
               </div>
               
-              <div className="relative h-[243px] w-[277px] mx-auto">
+              <div className="relative h-[243px] w-[277px] mx-auto -mt-4">
                 <img
                   src={project.image}
                   alt={project.name}
@@ -98,7 +98,7 @@ const FeaturedProjects = () => {
                 </span>
               </div>
 
-              <div className="flex justify-between items-center bg-gray-100 mx-4 mt-0 rounded-[40px] px-6 py-3">
+              <div className="flex justify-between items-center bg-gray-100 mx-4 mt-0 rounded-[40px] px-6 h-[45px] w-[276px] mx-auto">
                 <div className="text-center px-2">
                   <p className="text-xl font-bold text-darkBlue">{project.annexes}</p>
                   <p className="text-sm text-gray-600 whitespace-nowrap">الملاحق</p>
