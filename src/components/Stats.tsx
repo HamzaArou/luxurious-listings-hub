@@ -48,10 +48,10 @@ const Stats = () => {
   return (
     <section
       ref={sectionRef}
-      className="py-24 bg-[#f5f5f5] relative overflow-hidden"
+      className="pt-12 pb-24 bg-[#f5f5f5] relative overflow-hidden"
     >
       <div className="container mx-auto px-4">
-        <div className="mb-12 text-right">
+        <div className="mb-8 text-right">
           <h2 className="text-3xl font-bold text-white inline-block bg-black px-4 py-2 rounded-tl-[100px] rounded-tr rounded-br rounded-bl">
             أرقام الفيصل
           </h2>
