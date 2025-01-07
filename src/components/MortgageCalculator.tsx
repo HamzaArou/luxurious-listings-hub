@@ -3,7 +3,7 @@ import { Slider } from "./ui/slider";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
-import { ArrowLeft, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 const MortgageCalculator = () => {
   const [propertyValue, setPropertyValue] = useState(10000);
@@ -34,10 +34,16 @@ const MortgageCalculator = () => {
             <div className="bg-gradient-to-br from-darkBlue to-darkBlue/90 text-white p-8 rounded-lg order-2 lg:order-1">
               <div className="text-center mb-8">
                 <h3 className="text-lg mb-2">المبلغ الإجمالي المؤهل</h3>
-                <p className="text-4xl font-bold mb-4">{totalEligibleAmount.toLocaleString()}SR</p>
+                <p className="text-4xl font-bold mb-4">
+                  {totalEligibleAmount.toLocaleString()}
+                  <span className="text-lg mr-1">SR</span>
+                </p>
                 <div className="border-t border-white/20 pt-4">
                   <h4 className="text-lg mb-2">الأقساط الشهرية</h4>
-                  <p className="text-3xl font-bold">{monthlyInstallment}SR</p>
+                  <p className="text-3xl font-bold">
+                    {monthlyInstallment}
+                    <span className="text-lg mr-1">SR</span>
+                  </p>
                 </div>
               </div>
 
@@ -54,11 +60,11 @@ const MortgageCalculator = () => {
                   <div className="space-y-4 border-t border-white/20 pt-4">
                     <div className="flex justify-between">
                       <span>الرسوم الإدارية</span>
-                      <span>{adminFees} SR</span>
+                      <span>{adminFees} <span className="text-sm">SR</span></span>
                     </div>
                     <div className="flex justify-between">
                       <span>الأرباح المضافة</span>
-                      <span>{addedProfits} SR</span>
+                      <span>{addedProfits} <span className="text-sm">SR</span></span>
                     </div>
                     <div className="flex justify-between">
                       <span>معدل النسبة السنوي</span>
@@ -66,7 +72,7 @@ const MortgageCalculator = () => {
                     </div>
                     <div className="flex justify-between font-bold">
                       <span>إجمالي السداد</span>
-                      <span>{totalPayment} SR</span>
+                      <span>{totalPayment} <span className="text-sm">SR</span></span>
                     </div>
                   </div>
                 </CollapsibleContent>
@@ -75,11 +81,6 @@ const MortgageCalculator = () => {
               <Button className="w-full mt-6 bg-gold hover:bg-gold/90 text-white">
                 تقدم بطلبك الآن
               </Button>
-
-              <div className="mt-6 flex items-center gap-2 text-sm">
-                <ArrowLeft className="w-4 h-4" />
-                <span>التمويل والادخار المتوفرة لدينا</span>
-              </div>
 
               <div className="mt-4 text-sm opacity-75 text-center">
                 <p>تطبق الشروط والأحكام. تختلف أسعار المرابحة حسب المدة وتخضع لسياسة البنك</p>
