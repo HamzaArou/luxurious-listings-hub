@@ -27,13 +27,26 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
+  const scrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      const headerHeight = document.querySelector('header')?.getBoundingClientRect().height || 0;
+      const sectionTop = section.offsetTop - headerHeight;
+      window.scrollTo({
+        top: sectionTop,
+        behavior: 'smooth'
+      });
+      setIsMobileMenuOpen(false);
+    }
+  };
+
   const navLinks = [
-    { href: "/", text: "الرئيسية" },
-    { href: "/projects", text: "مشاريعنا" },
-    { href: "/services", text: "خدماتنا" },
-    { href: "/features", text: "مميزاتنا" },
-    { href: "/about", text: "عن الشركة" },
-    { href: "/contact", text: "اتصل بنا" },
+    { href: "hero", text: "الرئيسية" },
+    { href: "news", text: "مشاريعنا" },
+    { href: "services", text: "خدماتنا" },
+    { href: "stats", text: "مميزاتنا" },
+    { href: "about", text: "عن الشركة" },
+    { href: "contact", text: "اتصل بنا" },
   ];
 
   return (
@@ -47,13 +60,13 @@ const Header = () => {
       <div className="w-full h-full flex items-center px-10" dir="ltr">
         {/* Logo Section - Left side */}
         <div className="flex items-center">
-          <a href="/">
+          <button onClick={() => scrollToSection('hero')}>
             <img
               src="/lovable-uploads/452d0f08-89bf-4863-9d95-46a23971500f.png"
               alt="مجموعة الفيصل العقارية"
               className="w-[110px] h-[115px] object-contain transition-all duration-300"
             />
-          </a>
+          </button>
         </div>
 
         {/* Navigation Container - Centered */}
@@ -62,13 +75,13 @@ const Header = () => {
           <nav className="hidden lg:flex items-center justify-start rtl">
             <div className="flex gap-8">
               {navLinks.map((link) => (
-                <a
+                <button
                   key={link.href}
-                  href={link.href}
+                  onClick={() => scrollToSection(link.href)}
                   className="nav-link font-ibm-arabic text-[#3a3a3a] font-medium text-lg hover:text-gold transition-colors duration-300"
                 >
                   {link.text}
-                </a>
+                </button>
               ))}
             </div>
           </nav>
@@ -93,13 +106,13 @@ const Header = () => {
           <div className="lg:hidden absolute top-full right-0 left-0 bg-white shadow-lg animate-slide-in">
             <nav className="flex flex-col p-4 rtl">
               {navLinks.map((link) => (
-                <a
+                <button
                   key={link.href}
-                  href={link.href}
-                  className="nav-link py-3 font-ibm-arabic text-lg hover:text-gold transition-colors duration-300"
+                  onClick={() => scrollToSection(link.href)}
+                  className="nav-link py-3 font-ibm-arabic text-lg hover:text-gold transition-colors duration-300 text-right w-full"
                 >
                   {link.text}
-                </a>
+                </button>
               ))}
             </nav>
           </div>
