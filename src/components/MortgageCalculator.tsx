@@ -92,82 +92,94 @@ const MortgageCalculator = () => {
             <div className="space-y-8 order-1 lg:order-2">
               <div>
                 <div className="flex justify-between items-center mb-4">
-                  <label className="text-lg font-medium">قيمة العقار</label>
-                  <div className="flex items-center gap-2">
-                    <Input
-                      type="number"
-                      value={propertyValue}
-                      onChange={(e) => setPropertyValue(Number(e.target.value))}
-                      className="w-24 text-left"
-                    />
-                    <span>SR</span>
+                  <label className="text-xl font-bold text-gray-800">قيمة العقار</label>
+                  <div className="relative">
+                    <div className="flex items-center gap-2 bg-white border-2 border-[#004bad] rounded-full px-4 py-2">
+                      <Input
+                        type="number"
+                        value={propertyValue}
+                        onChange={(e) => setPropertyValue(Number(e.target.value))}
+                        className="w-24 text-left border-none p-0 text-lg font-bold focus-visible:ring-0"
+                      />
+                      <span className="text-sm font-medium text-gray-600">SR</span>
+                    </div>
                   </div>
                 </div>
-                <Slider
-                  value={[propertyValue]}
-                  onValueChange={([value]) => setPropertyValue(value)}
-                  max={10000}
-                  step={100}
-                  className="my-4"
-                />
-                <div className="flex justify-between text-sm">
-                  <span>SR 0</span>
-                  <span>SR 10000</span>
+                <div className="px-1">
+                  <Slider
+                    value={[propertyValue]}
+                    onValueChange={([value]) => setPropertyValue(value)}
+                    max={100000}
+                    step={1000}
+                    className="my-4"
+                  />
+                  <div className="flex justify-between text-sm text-gray-600 mt-2">
+                    <span>SR 0</span>
+                    <span>SR 100,000</span>
+                  </div>
                 </div>
               </div>
 
               <div>
                 <div className="flex justify-between items-center mb-4">
                   <div>
-                    <label className="text-lg font-medium block">الدفعة الأولى</label>
-                    <span className="text-sm text-gray-500">*5% - 30% كحد أقصى من قيمة العقار</span>
+                    <label className="text-xl font-bold text-gray-800 block">الدفعة الأولى</label>
+                    <span className="text-sm text-gray-500 mt-1 block">*5% - 30% كحد أقصى من قيمة العقار</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Input
-                      type="number"
-                      value={downPayment}
-                      onChange={(e) => setDownPayment(Number(e.target.value))}
-                      className="w-24 text-left"
-                    />
-                    <span>SR</span>
+                  <div className="relative">
+                    <div className="flex items-center gap-2 bg-white border-2 border-[#004bad] rounded-full px-4 py-2">
+                      <Input
+                        type="number"
+                        value={downPayment}
+                        onChange={(e) => setDownPayment(Number(e.target.value))}
+                        className="w-24 text-left border-none p-0 text-lg font-bold focus-visible:ring-0"
+                      />
+                      <span className="text-sm font-medium text-gray-600">SR</span>
+                    </div>
                   </div>
                 </div>
-                <Slider
-                  value={[downPayment]}
-                  onValueChange={([value]) => setDownPayment(value)}
-                  max={propertyValue * 0.3}
-                  step={100}
-                  className="my-4"
-                />
-                <div className="flex justify-between text-sm">
-                  <span>SR 0</span>
-                  <span>SR {(propertyValue * 0.3).toFixed(0)}</span>
+                <div className="px-1">
+                  <Slider
+                    value={[downPayment]}
+                    onValueChange={([value]) => setDownPayment(value)}
+                    max={propertyValue * 0.3}
+                    step={1000}
+                    className="my-4"
+                  />
+                  <div className="flex justify-between text-sm text-gray-600 mt-2">
+                    <span>SR 0</span>
+                    <span>SR {(propertyValue * 0.3).toLocaleString()}</span>
+                  </div>
                 </div>
               </div>
 
               <div>
                 <div className="flex justify-between items-center mb-4">
-                  <label className="text-lg font-medium">مدة التمويل (بالأعوام)</label>
-                  <div className="flex items-center gap-2">
-                    <Input
-                      type="number"
-                      value={duration}
-                      onChange={(e) => setDuration(Number(e.target.value))}
-                      className="w-24 text-left"
-                    />
+                  <label className="text-xl font-bold text-gray-800">مدة التمويل (بالأعوام)</label>
+                  <div className="relative">
+                    <div className="flex items-center gap-2 bg-white border-2 border-[#004bad] rounded-full px-4 py-2">
+                      <Input
+                        type="number"
+                        value={duration}
+                        onChange={(e) => setDuration(Number(e.target.value))}
+                        className="w-24 text-left border-none p-0 text-lg font-bold focus-visible:ring-0"
+                      />
+                    </div>
                   </div>
                 </div>
-                <Slider
-                  value={[duration]}
-                  onValueChange={([value]) => setDuration(value)}
-                  max={30}
-                  min={1}
-                  step={1}
-                  className="my-4"
-                />
-                <div className="flex justify-between text-sm">
-                  <span>1</span>
-                  <span>30</span>
+                <div className="px-1">
+                  <Slider
+                    value={[duration]}
+                    onValueChange={([value]) => setDuration(value)}
+                    max={30}
+                    min={1}
+                    step={1}
+                    className="my-4"
+                  />
+                  <div className="flex justify-between text-sm text-gray-600 mt-2">
+                    <span>1</span>
+                    <span>30</span>
+                  </div>
                 </div>
               </div>
             </div>
