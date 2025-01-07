@@ -105,7 +105,6 @@ const MortgageCalculator = () => {
                     </div>
                   </div>
                 </div>
-                <div>
                   <Slider
                     value={[propertyValue]}
                     onValueChange={([value]) => setPropertyValue(value)}
@@ -138,7 +137,6 @@ const MortgageCalculator = () => {
                     </div>
                   </div>
                 </div>
-                <div>
                   <Slider
                     value={[downPayment]}
                     onValueChange={([value]) => setDownPayment(value)}
@@ -167,7 +165,6 @@ const MortgageCalculator = () => {
                     </div>
                   </div>
                 </div>
-                <div>
                   <Slider
                     value={[duration]}
                     onValueChange={([value]) => setDuration(value)}
