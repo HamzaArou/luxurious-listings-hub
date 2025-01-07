@@ -105,17 +105,16 @@ const MortgageCalculator = () => {
                     </div>
                   </div>
                 </div>
-                  <Slider
-                    value={[propertyValue]}
-                    onValueChange={([value]) => setPropertyValue(value)}
-                    max={100000}
-                    step={1000}
-                    className="my-4"
-                  />
-                  <div className="flex justify-between text-sm text-gray-600 mt-2">
-                    <span>SR 0</span>
-                    <span>SR 100,000</span>
-                  </div>
+                <Slider
+                  value={[propertyValue]}
+                  onValueChange={([value]) => setPropertyValue(value)}
+                  max={100000}
+                  step={1000}
+                  className="my-4"
+                />
+                <div className="flex justify-between text-sm text-gray-600 mt-2">
+                  <span>SR 0</span>
+                  <span>SR 100,000</span>
                 </div>
               </div>
 
@@ -137,17 +136,16 @@ const MortgageCalculator = () => {
                     </div>
                   </div>
                 </div>
-                  <Slider
-                    value={[downPayment]}
-                    onValueChange={([value]) => setDownPayment(value)}
-                    max={propertyValue * 0.3}
-                    step={1000}
-                    className="my-4"
-                  />
-                  <div className="flex justify-between text-sm text-gray-600 mt-2">
-                    <span>SR 0</span>
-                    <span>SR {(propertyValue * 0.3).toLocaleString()}</span>
-                  </div>
+                <Slider
+                  value={[downPayment]}
+                  onValueChange={([value]) => setDownPayment(value)}
+                  max={propertyValue * 0.3}
+                  step={1000}
+                  className="my-4"
+                />
+                <div className="flex justify-between text-sm text-gray-600 mt-2">
+                  <span>SR 0</span>
+                  <span>SR {(propertyValue * 0.3).toLocaleString()}</span>
                 </div>
               </div>
 
@@ -165,18 +163,17 @@ const MortgageCalculator = () => {
                     </div>
                   </div>
                 </div>
-                  <Slider
-                    value={[duration]}
-                    onValueChange={([value]) => setDuration(value)}
-                    max={30}
-                    min={1}
-                    step={1}
-                    className="my-4"
-                  />
-                  <div className="flex justify-between text-sm text-gray-600 mt-2">
-                    <span>1</span>
-                    <span>30</span>
-                  </div>
+                <Slider
+                  value={[duration]}
+                  onValueChange={([value]) => setDuration(value)}
+                  max={30}
+                  min={1}
+                  step={1}
+                  className="my-4"
+                />
+                <div className="flex justify-between text-sm text-gray-600 mt-2">
+                  <span>1</span>
+                  <span>30</span>
                 </div>
               </div>
             </div>
