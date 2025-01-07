@@ -47,11 +47,13 @@ const Header = () => {
       <div className="w-full h-full flex items-center px-10" dir="ltr">
         {/* Logo Section - Left side */}
         <div className="flex items-center">
-          <img
-            src="/lovable-uploads/452d0f08-89bf-4863-9d95-46a23971500f.png"
-            alt="مجموعة الفيصل العقارية"
-            className="w-[110px] h-[115px] object-contain transition-all duration-300"
-          />
+          <a href="/">
+            <img
+              src="/lovable-uploads/452d0f08-89bf-4863-9d95-46a23971500f.png"
+              alt="مجموعة الفيصل العقارية"
+              className="w-[110px] h-[115px] object-contain transition-all duration-300"
+            />
+          </a>
         </div>
 
         {/* Navigation Container - Centered */}
