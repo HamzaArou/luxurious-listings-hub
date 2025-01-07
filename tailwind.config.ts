@@ -22,6 +22,20 @@ export default {
         'ibm-arabic': ['"IBM Plex Sans Arabic"', 'sans-serif'],
         'cairo': ['Cairo', 'sans-serif'],
       },
+      keyframes: {
+        "collapsible-down": {
+          from: { height: '0', opacity: '0' },
+          to: { height: 'var(--radix-collapsible-content-height)', opacity: '1' },
+        },
+        "collapsible-up": {
+          from: { height: 'var(--radix-collapsible-content-height)', opacity: '1' },
+          to: { height: '0', opacity: '0' },
+        },
+      },
+      animation: {
+        "collapsible-down": "collapsible-down 0.3s ease-in-out",
+        "collapsible-up": "collapsible-up 0.3s ease-in-out",
+      },
       colors: {
         gold: "#D4AF37",
         darkBlue: "#002E5D",

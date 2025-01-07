@@ -41,32 +41,34 @@ const MortgageCalculator = () => {
                 </div>
               </div>
 
-              <div className="space-y-4">
-                <div className="flex justify-between">
-                  <span>الرسوم الإدارية</span>
-                  <span>{adminFees}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>الأرباح المضافة</span>
-                  <span>{addedProfits}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>معدل النسبة السنوي</span>
-                  <span>{annualRate}</span>
-                </div>
-                <div className="flex justify-between border-t border-white/20 pt-4">
-                  <span>إجمالي السداد</span>
-                  <span>{totalPayment}</span>
-                </div>
-              </div>
-
-              <Collapsible open={isDetailsOpen} onOpenChange={setIsDetailsOpen}>
-                <CollapsibleTrigger className="w-full text-center mt-6 flex items-center justify-center gap-2">
-                  <span>إخفاء التفاصيل</span>
-                  <ChevronDown className={`transform transition-transform ${isDetailsOpen ? 'rotate-180' : ''}`} />
+              <Collapsible 
+                open={isDetailsOpen} 
+                onOpenChange={setIsDetailsOpen}
+                className="transition-all duration-300 ease-in-out"
+              >
+                <CollapsibleTrigger className="w-full text-center mt-6 flex items-center justify-center gap-2 hover:text-gold transition-colors">
+                  <span>{isDetailsOpen ? 'إخفاء التفاصيل' : 'توسيع القائمة لعرض التفاصيل'}</span>
+                  <ChevronDown className={`transform transition-transform duration-300 ${isDetailsOpen ? 'rotate-180' : ''}`} />
                 </CollapsibleTrigger>
-                <CollapsibleContent className="mt-4 space-y-4">
-                  {/* Additional details can be added here */}
+                <CollapsibleContent className="mt-4 space-y-4 data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up">
+                  <div className="space-y-4 border-t border-white/20 pt-4">
+                    <div className="flex justify-between">
+                      <span>الرسوم الإدارية</span>
+                      <span>{adminFees} SR</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>الأرباح المضافة</span>
+                      <span>{addedProfits} SR</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>معدل النسبة السنوي</span>
+                      <span>{annualRate}%</span>
+                    </div>
+                    <div className="flex justify-between font-bold">
+                      <span>إجمالي السداد</span>
+                      <span>{totalPayment} SR</span>
+                    </div>
+                  </div>
                 </CollapsibleContent>
               </Collapsible>
 
