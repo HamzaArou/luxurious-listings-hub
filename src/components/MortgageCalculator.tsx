@@ -31,7 +31,7 @@ const MortgageCalculator = () => {
         <div className="max-w-[960px] mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Results Box */}
-            <div className="bg-gradient-to-br from-[#004bad] to-[#004bad]/90 text-white p-8 rounded-lg order-2 lg:order-1">
+            <div className="bg-gradient-to-br from-darkBlue to-darkBlue/90 text-white p-8 rounded-lg order-2 lg:order-1">
               <div className="text-center mb-8">
                 <h3 className="text-lg mb-2">المبلغ الإجمالي المؤهل</h3>
                 <p className="text-4xl font-bold mb-4">
@@ -93,7 +93,7 @@ const MortgageCalculator = () => {
                 <div className="flex justify-between items-center mb-4">
                   <label className="text-xl font-bold text-gray-800">قيمة العقار</label>
                   <div className="relative">
-                    <div className="flex items-center gap-2 bg-white border-2 border-[#004bad] rounded-full px-4 py-2">
+                    <div className="flex items-center gap-2 bg-white border-2 border-[#28a745] rounded-full px-4 py-2">
                       <Input
                         type="number"
                         value={propertyValue}
@@ -105,7 +105,7 @@ const MortgageCalculator = () => {
                   </div>
                 </div>
                 <div className="relative px-1">
-                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-[#004bad] text-white px-3 py-1 rounded-full text-sm">
+                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-[#28a745] text-white px-3 py-1 rounded-full text-sm">
                     {propertyValue.toLocaleString()} SR
                   </div>
                   <Slider
@@ -130,7 +130,7 @@ const MortgageCalculator = () => {
                     <span className="text-sm text-gray-500 mt-1 block">*5% - 30% كحد أقصى من قيمة العقار</span>
                   </div>
                   <div className="relative">
-                    <div className="flex items-center gap-2 bg-white border-2 border-[#004bad] rounded-full px-4 py-2">
+                    <div className="flex items-center gap-2 bg-white border-2 border-[#28a745] rounded-full px-4 py-2">
                       <Input
                         type="number"
                         value={downPayment}
@@ -142,7 +142,7 @@ const MortgageCalculator = () => {
                   </div>
                 </div>
                 <div className="relative px-1">
-                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-[#004bad] text-white px-3 py-1 rounded-full text-sm">
+                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-[#28a745] text-white px-3 py-1 rounded-full text-sm">
                     {downPayment.toLocaleString()} SR
                   </div>
                   <Slider
@@ -164,7 +164,7 @@ const MortgageCalculator = () => {
                 <div className="flex justify-between items-center mb-4">
                   <label className="text-xl font-bold text-gray-800">مدة التمويل (بالأعوام)</label>
                   <div className="relative">
-                    <div className="flex items-center gap-2 bg-white border-2 border-[#004bad] rounded-full px-4 py-2">
+                    <div className="flex items-center gap-2 bg-white border-2 border-[#28a745] rounded-full px-4 py-2">
                       <Input
                         type="number"
                         value={duration}
@@ -175,7 +175,7 @@ const MortgageCalculator = () => {
                   </div>
                 </div>
                 <div className="relative px-1">
-                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-[#004bad] text-white px-3 py-1 rounded-full text-sm">
+                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-[#28a745] text-white px-3 py-1 rounded-full text-sm">
                     {duration}
                   </div>
                   <Slider
