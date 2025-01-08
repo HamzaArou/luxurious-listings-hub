@@ -13,11 +13,11 @@ const MortgageCalculator = () => {
 
   // Calculate values
   const totalEligibleAmount = propertyValue - downPayment;
-  const monthlyInstallment = (totalEligibleAmount / (duration * 12)).toFixed(2);
   const adminFees = totalEligibleAmount * 0.01; // 1% of the loan amount
   const annualRate = 0.0662; // 6.62%
   const addedProfits = totalEligibleAmount * annualRate * duration;
   const totalPayment = totalEligibleAmount + addedProfits;
+  const monthlyInstallment = (totalPayment / (duration * 12)).toFixed(2);
 
   return (
     <section className="py-16 bg-white">
