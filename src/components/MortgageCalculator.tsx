@@ -105,7 +105,7 @@ const MortgageCalculator = () => {
                   </div>
                 </div>
                 <div className="relative px-1">
-                  <div className="absolute -top-8 left-[40%] transform -translate-x-1/2 bg-darkBlue text-white px-3 py-1 rounded-full text-sm">
+                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-darkBlue text-white px-3 py-1 rounded-full text-sm">
                     {propertyValue.toLocaleString()} SR
                   </div>
                   <Slider
@@ -142,7 +142,7 @@ const MortgageCalculator = () => {
                   </div>
                 </div>
                 <div className="relative px-1">
-                  <div className="absolute -top-8 left-[40%] transform -translate-x-1/2 bg-darkBlue text-white px-3 py-1 rounded-full text-sm">
+                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-darkBlue text-white px-3 py-1 rounded-full text-sm">
                     {downPayment.toLocaleString()} SR
                   </div>
                   <Slider
@@ -175,7 +175,7 @@ const MortgageCalculator = () => {
                   </div>
                 </div>
                 <div className="relative px-1">
-                  <div className="absolute -top-8 left-[40%] transform -translate-x-1/2 bg-darkBlue text-white px-3 py-1 rounded-full text-sm">
+                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-darkBlue text-white px-3 py-1 rounded-full text-sm">
                     {duration}
                   </div>
                   <Slider
