@@ -14,10 +14,10 @@ const MortgageCalculator = () => {
   // Calculate values
   const totalEligibleAmount = propertyValue - downPayment;
   const monthlyInstallment = (totalEligibleAmount / (duration * 12)).toFixed(2);
-  const adminFees = 70;
+  const adminFees = totalEligibleAmount * 0.01; // 1% of the loan amount
   const addedProfits = 5320;
   const annualRate = 6.62;
-  const totalPayment = 12320;
+  const totalPayment = totalEligibleAmount + adminFees + addedProfits;
 
   return (
     <section className="py-16 bg-white">
@@ -60,7 +60,7 @@ const MortgageCalculator = () => {
                   <div className="space-y-4 border-t border-white/20 pt-4">
                     <div className="flex justify-between">
                       <span>الرسوم الإدارية</span>
-                      <span>{adminFees} <span className="text-sm">SR</span></span>
+                      <span>{adminFees.toFixed(2)} <span className="text-sm">SR</span></span>
                     </div>
                     <div className="flex justify-between">
                       <span>الأرباح المضافة</span>
@@ -72,7 +72,7 @@ const MortgageCalculator = () => {
                     </div>
                     <div className="flex justify-between font-bold">
                       <span>إجمالي السداد</span>
-                      <span>{totalPayment} <span className="text-sm">SR</span></span>
+                      <span>{totalPayment.toFixed(2)} <span className="text-sm">SR</span></span>
                     </div>
                   </div>
                 </CollapsibleContent>
