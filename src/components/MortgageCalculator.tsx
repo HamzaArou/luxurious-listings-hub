@@ -17,7 +17,7 @@ const MortgageCalculator = () => {
   const adminFees = totalEligibleAmount * 0.01; // 1% of the loan amount
   const annualRate = 0.0662; // 6.62%
   const addedProfits = totalEligibleAmount * annualRate * duration;
-  const totalPayment = totalEligibleAmount + adminFees + addedProfits;
+  const totalPayment = totalEligibleAmount + addedProfits;
 
   return (
     <section className="py-16 bg-white">
