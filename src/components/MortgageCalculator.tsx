@@ -15,8 +15,8 @@ const MortgageCalculator = () => {
   const totalEligibleAmount = propertyValue - downPayment;
   const monthlyInstallment = (totalEligibleAmount / (duration * 12)).toFixed(2);
   const adminFees = totalEligibleAmount * 0.01; // 1% of the loan amount
-  const addedProfits = 5320;
-  const annualRate = 6.62;
+  const annualRate = 0.0662; // 6.62%
+  const addedProfits = totalEligibleAmount * annualRate * duration;
   const totalPayment = totalEligibleAmount + adminFees + addedProfits;
 
   return (
@@ -64,11 +64,11 @@ const MortgageCalculator = () => {
                     </div>
                     <div className="flex justify-between">
                       <span>الأرباح المضافة</span>
-                      <span>{addedProfits} <span className="text-sm">SR</span></span>
+                      <span>{addedProfits.toFixed(2)} <span className="text-sm">SR</span></span>
                     </div>
                     <div className="flex justify-between">
                       <span>معدل النسبة السنوي</span>
-                      <span>{annualRate}%</span>
+                      <span>{(annualRate * 100).toFixed(2)}%</span>
                     </div>
                     <div className="flex justify-between font-bold">
                       <span>إجمالي السداد</span>
