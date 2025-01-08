@@ -88,11 +88,12 @@ const MortgageCalculator = () => {
 
             {/* Input Fields */}
             <div className="space-y-8 order-1 lg:order-2">
+              {/* Property Value Input */}
               <div>
                 <div className="flex justify-between items-center mb-4">
                   <label className="text-xl font-bold text-gray-800">قيمة العقار</label>
                   <div className="relative">
-                    <div className="flex items-center gap-2 bg-white border-2 border-[#004bad] rounded-full px-4 py-2">
+                    <div className="flex items-center gap-2 bg-white border-2 border-[#28a745] rounded-full px-4 py-2">
                       <Input
                         type="number"
                         value={propertyValue}
@@ -103,7 +104,10 @@ const MortgageCalculator = () => {
                     </div>
                   </div>
                 </div>
-                <div className="px-1">
+                <div className="relative px-1">
+                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-[#28a745] text-white px-3 py-1 rounded-full text-sm">
+                    {propertyValue.toLocaleString()} SR
+                  </div>
                   <Slider
                     value={[propertyValue]}
                     onValueChange={([value]) => setPropertyValue(value)}
@@ -112,12 +116,13 @@ const MortgageCalculator = () => {
                     className="my-4"
                   />
                   <div className="flex justify-between text-sm text-gray-600 mt-2">
+                    <span>SR {(100000).toLocaleString()}</span>
                     <span>SR 0</span>
-                    <span>SR 100,000</span>
                   </div>
                 </div>
               </div>
 
+              {/* Down Payment Input */}
               <div>
                 <div className="flex justify-between items-center mb-4">
                   <div>
@@ -125,7 +130,7 @@ const MortgageCalculator = () => {
                     <span className="text-sm text-gray-500 mt-1 block">*5% - 30% كحد أقصى من قيمة العقار</span>
                   </div>
                   <div className="relative">
-                    <div className="flex items-center gap-2 bg-white border-2 border-[#004bad] rounded-full px-4 py-2">
+                    <div className="flex items-center gap-2 bg-white border-2 border-[#28a745] rounded-full px-4 py-2">
                       <Input
                         type="number"
                         value={downPayment}
@@ -136,7 +141,10 @@ const MortgageCalculator = () => {
                     </div>
                   </div>
                 </div>
-                <div className="px-1">
+                <div className="relative px-1">
+                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-[#28a745] text-white px-3 py-1 rounded-full text-sm">
+                    {downPayment.toLocaleString()} SR
+                  </div>
                   <Slider
                     value={[downPayment]}
                     onValueChange={([value]) => setDownPayment(value)}
@@ -145,17 +153,18 @@ const MortgageCalculator = () => {
                     className="my-4"
                   />
                   <div className="flex justify-between text-sm text-gray-600 mt-2">
-                    <span>SR 0</span>
                     <span>SR {(propertyValue * 0.3).toLocaleString()}</span>
+                    <span>SR 0</span>
                   </div>
                 </div>
               </div>
 
+              {/* Duration Input */}
               <div>
                 <div className="flex justify-between items-center mb-4">
                   <label className="text-xl font-bold text-gray-800">مدة التمويل (بالأعوام)</label>
                   <div className="relative">
-                    <div className="flex items-center gap-2 bg-white border-2 border-[#004bad] rounded-full px-4 py-2">
+                    <div className="flex items-center gap-2 bg-white border-2 border-[#28a745] rounded-full px-4 py-2">
                       <Input
                         type="number"
                         value={duration}
@@ -165,7 +174,10 @@ const MortgageCalculator = () => {
                     </div>
                   </div>
                 </div>
-                <div className="px-1">
+                <div className="relative px-1">
+                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-[#28a745] text-white px-3 py-1 rounded-full text-sm">
+                    {duration}
+                  </div>
                   <Slider
                     value={[duration]}
                     onValueChange={([value]) => setDuration(value)}
@@ -175,8 +187,8 @@ const MortgageCalculator = () => {
                     className="my-4"
                   />
                   <div className="flex justify-between text-sm text-gray-600 mt-2">
-                    <span>1</span>
                     <span>30</span>
+                    <span>1</span>
                   </div>
                 </div>
               </div>
