@@ -93,7 +93,7 @@ const MortgageCalculator = () => {
                 <div className="flex justify-between items-center mb-4">
                   <label className="text-xl font-bold text-gray-800">قيمة العقار</label>
                   <div className="relative">
-                    <div className="flex items-center gap-2 bg-white border-2 border-[#004bad] rounded-full px-4 py-2">
+                    <div className="flex items-center gap-2 bg-white border-2 border-darkBlue rounded-full px-4 py-2">
                       <Input
                         type="number"
                         value={propertyValue}
@@ -105,7 +105,7 @@ const MortgageCalculator = () => {
                   </div>
                 </div>
                 <div className="relative px-1">
-                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-[#004bad] text-white px-3 py-1 rounded-full text-sm">
+                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-darkBlue text-white px-3 py-1 rounded-full text-sm">
                     {propertyValue.toLocaleString()} SR
                   </div>
                   <Slider
@@ -126,11 +126,11 @@ const MortgageCalculator = () => {
               <div>
                 <div className="flex justify-between items-center mb-4">
                   <div>
-                    <label className="text-xl font-bold text-gray-800 block">الدفعة الأولى</label>
+                    <label className="text-xl font-bold text-gray-800">الدفعة الأولى</label>
                     <span className="text-sm text-gray-500 mt-1 block">*5% - 30% كحد أقصى من قيمة العقار</span>
                   </div>
                   <div className="relative">
-                    <div className="flex items-center gap-2 bg-white border-2 border-[#004bad] rounded-full px-4 py-2">
+                    <div className="flex items-center gap-2 bg-white border-2 border-darkBlue rounded-full px-4 py-2">
                       <Input
                         type="number"
                         value={downPayment}
@@ -142,7 +142,7 @@ const MortgageCalculator = () => {
                   </div>
                 </div>
                 <div className="relative px-1">
-                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-[#004bad] text-white px-3 py-1 rounded-full text-sm">
+                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-darkBlue text-white px-3 py-1 rounded-full text-sm">
                     {downPayment.toLocaleString()} SR
                   </div>
                   <Slider
@@ -164,7 +164,7 @@ const MortgageCalculator = () => {
                 <div className="flex justify-between items-center mb-4">
                   <label className="text-xl font-bold text-gray-800">مدة التمويل (بالأعوام)</label>
                   <div className="relative">
-                    <div className="flex items-center gap-2 bg-white border-2 border-[#004bad] rounded-full px-4 py-2">
+                    <div className="flex items-center gap-2 bg-white border-2 border-darkBlue rounded-full px-4 py-2">
                       <Input
                         type="number"
                         value={duration}
@@ -175,7 +175,7 @@ const MortgageCalculator = () => {
                   </div>
                 </div>
                 <div className="relative px-1">
-                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-[#004bad] text-white px-3 py-1 rounded-full text-sm">
+                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-darkBlue text-white px-3 py-1 rounded-full text-sm">
                     {duration}
                   </div>
                   <Slider
