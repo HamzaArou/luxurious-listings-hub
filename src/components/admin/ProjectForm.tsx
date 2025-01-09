@@ -31,7 +31,6 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
       location: "",
       address: "",
       floors: 1,
-      units: 1,
       status: "للبيع",
       project_units: [],
       gallery_type: "coming_soon",
@@ -65,6 +64,50 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
         throw new Error("صورة المشروع مطلوبة");
       }
 
+      // Upload gallery images if any
+      const galleryImageUrls: string[] = [];
+      if (data.gallery_type === "images" && galleryImages) {
+        for (let i = 0; i < galleryImages.length; i++) {
+          const image = galleryImages[i];
+          const fileExt = image.name.split(".").pop();
+          const fileName = `${crypto.randomUUID()}.${fileExt}`;
+
+          const { error: uploadError } = await supabase.storage
+            .from("project-images")
+            .upload(fileName, image);
+
+          if (uploadError) throw uploadError;
+
+          const { data: { publicUrl } } = supabase.storage
+            .from("project-images")
+            .getPublicUrl(fileName);
+
+          galleryImageUrls.push(publicUrl);
+        }
+      }
+
+      // Upload plans if any
+      const planUrls: string[] = [];
+      if (plans) {
+        for (let i = 0; i < plans.length; i++) {
+          const plan = plans[i];
+          const fileExt = plan.name.split(".").pop();
+          const fileName = `${crypto.randomUUID()}.${fileExt}`;
+
+          const { error: uploadError } = await supabase.storage
+            .from("project-plans")
+            .upload(fileName, plan);
+
+          if (uploadError) throw uploadError;
+
+          const { data: { publicUrl } } = supabase.storage
+            .from("project-plans")
+            .getPublicUrl(fileName);
+
+          planUrls.push(publicUrl);
+        }
+      }
+
       const projectData = {
         name: data.name,
         location: data.location,
@@ -72,7 +115,6 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
         lat: data.lat,
         lng: data.lng,
         floors: data.floors,
-        units: data.units,
         status: data.status,
         thumbnail_url: thumbnailUrl,
       };
@@ -85,19 +127,25 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
 
         if (error) throw error;
 
+        // Insert gallery images
+        if (galleryImageUrls.length > 0) {
+          const { error } = await supabase
+            .from("project_images")
+            .insert(galleryImageUrls.map(url => ({
+              project_id: initialData.id,
+              image_url: url,
+              image_type: "gallery",
+            })));
+
+          if (error) throw error;
+        }
+
         // Update project units
         await Promise.all(data.project_units.map(async (unit) => {
           const unitData = {
+            ...unit,
             name: `Unit ${unit.unit_number}`,
             project_id: initialData.id,
-            unit_number: unit.unit_number,
-            status: unit.status,
-            unit_type: unit.unit_type,
-            area: unit.area,
-            floor_number: unit.floor_number,
-            side: unit.side,
-            rooms: unit.rooms,
-            bathrooms: unit.bathrooms,
           };
 
           const { error } = await supabase
@@ -106,6 +154,18 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
 
           if (error) throw error;
         }));
+
+        // Insert plans
+        if (planUrls.length > 0) {
+          const { error } = await supabase
+            .from("project_plans")
+            .insert(planUrls.map(url => ({
+              project_id: initialData.id,
+              file_url: url,
+            })));
+
+          if (error) throw error;
+        }
 
         toast({
           title: "تم التحديث",
@@ -125,16 +185,34 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
           const { error } = await supabase
             .from("project_units")
             .insert(data.project_units.map(unit => ({
+              ...unit,
               name: `Unit ${unit.unit_number}`,
               project_id: project.id,
-              unit_number: unit.unit_number,
-              status: unit.status,
-              unit_type: unit.unit_type,
-              area: unit.area,
-              floor_number: unit.floor_number,
-              side: unit.side,
-              rooms: unit.rooms,
-              bathrooms: unit.bathrooms,
+            })));
+
+          if (error) throw error;
+        }
+
+        // Insert gallery images
+        if (galleryImageUrls.length > 0) {
+          const { error } = await supabase
+            .from("project_images")
+            .insert(galleryImageUrls.map(url => ({
+              project_id: project.id,
+              image_url: url,
+              image_type: "gallery",
+            })));
+
+          if (error) throw error;
+        }
+
+        // Insert plans
+        if (planUrls.length > 0) {
+          const { error } = await supabase
+            .from("project_plans")
+            .insert(planUrls.map(url => ({
+              project_id: project.id,
+              file_url: url,
             })));
 
           if (error) throw error;

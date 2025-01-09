@@ -18,9 +18,7 @@ export const projectFormSchema = z.object({
   lat: z.number().optional(),
   lng: z.number().optional(),
   floors: z.number().min(1, "عدد الطوابق يجب أن يكون أكبر من 0"),
-  units: z.number().min(1, "عدد الوحدات مطلوب"),
   status: z.enum(["للبيع", "قريباً", "مكتمل"]),
-  thumbnail_url: z.string().optional(),
   project_units: z.array(projectUnitSchema),
   gallery_type: z.enum(["images", "coming_soon"]),
   gallery_images: z.array(z.any()).optional(),
@@ -40,12 +38,6 @@ export interface ProjectUnit {
   bedrooms?: number;
   bathrooms?: number;
   details?: Record<string, any>;
-  unit_number: number;
-  status: "للبيع" | "قريباً" | "مكتمل";
-  unit_type: string;
-  floor_number: number;
-  side: string;
-  rooms: number;
 }
 
 export interface Project {
@@ -56,7 +48,7 @@ export interface Project {
   status: "للبيع" | "قريباً" | "مكتمل";
   location: string;
   floors: number;
-  units: number;
+  apartments: number;
   annexes: number;
   projectLabel: string;
 }
