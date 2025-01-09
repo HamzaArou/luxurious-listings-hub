@@ -2,8 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
-import { Upload, Save } from "lucide-react";
+import { Save } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -23,24 +22,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-const projectFormSchema = z.object({
-  name: z.string().min(1, "اسم المشروع مطلوب"),
-  location: z.string().min(1, "الموقع مطلوب"),
-  floors: z.string().transform(Number).pipe(
-    z.number().min(1, "عدد الطوابق يجب أن يكون أكبر من 0")
-  ),
-  units: z.string().transform(Number).pipe(
-    z.number().min(1, "عدد الوحدات يجب أن يكون أكبر من 0")
-  ),
-  status: z.enum(["للبيع", "قريباً", "مكتمل"]),
-});
-
-type ProjectFormValues = z.infer<typeof projectFormSchema>;
-
-interface ProjectFormProps {
-  initialData?: ProjectFormValues & { id?: string };
-}
+import ProjectImageUpload from "./ProjectImageUpload";
+import { ProjectFormProps, projectFormSchema, ProjectFormValues } from "@/types/project";
 
 export default function ProjectForm({ initialData }: ProjectFormProps) {
   const [isLoading, setIsLoading] = useState(false);
@@ -53,8 +36,8 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
     defaultValues: initialData || {
       name: "",
       location: "",
-      floors: "",
-      units: "",
+      floors: 1,
+      units: 1,
       status: "قريباً",
     },
   });
@@ -176,6 +159,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
                     type="number"
                     min="1"
                     {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
                     disabled={isLoading}
                   />
                 </FormControl>
@@ -195,6 +179,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
                     type="number"
                     min="1"
                     {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
                     disabled={isLoading}
                   />
                 </FormControl>
@@ -231,24 +216,11 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
           )}
         />
 
-        <div className="space-y-4">
-          <FormLabel>صورة المشروع</FormLabel>
-          <div className="flex items-center gap-4">
-            {initialData?.thumbnail_url && (
-              <img
-                src={initialData.thumbnail_url}
-                alt="Project thumbnail"
-                className="w-20 h-20 object-cover rounded-md"
-              />
-            )}
-            <Input
-              type="file"
-              accept="image/*"
-              onChange={(e) => setThumbnail(e.target.files?.[0] || null)}
-              disabled={isLoading}
-            />
-          </div>
-        </div>
+        <ProjectImageUpload
+          initialThumbnailUrl={initialData?.thumbnail_url}
+          isLoading={isLoading}
+          onFileChange={setThumbnail}
+        />
 
         <div className="flex justify-end gap-4">
           <Button
