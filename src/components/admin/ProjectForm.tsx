@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ProjectImageUpload from "./ProjectImageUpload";
-import { ProjectFormProps, projectFormSchema, ProjectFormValues, ProjectUnit } from "@/types/project";
+import { ProjectFormProps, projectFormSchema, ProjectFormValues } from "@/types/project";
 import ProjectBasicInfo from "./project-form/ProjectBasicInfo";
 import ProjectLocation from "./project-form/ProjectLocation";
 import ProjectPlans from "./project-form/ProjectPlans";
@@ -29,9 +29,8 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
       location: "",
       address: "",
       floors: 1,
-      units: 1,
       status: "متاح",
-      units: [],
+      project_units: [],
     },
   });
 
@@ -91,7 +90,6 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
         lat: data.lat,
         lng: data.lng,
         floors: data.floors,
-        units: data.units,
         status: data.status,
         thumbnail_url: thumbnailUrl,
       };
@@ -105,9 +103,10 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
         if (error) throw error;
 
         // Update project units
-        await Promise.all(data.units.map(async (unit) => {
+        await Promise.all(data.project_units.map(async (unit) => {
           const unitData = {
             ...unit,
+            name: `Unit ${unit.unit_number}`,
             project_id: initialData.id,
           };
 
@@ -144,11 +143,12 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
         if (error) throw error;
 
         // Insert project units
-        if (data.units.length > 0) {
+        if (data.project_units.length > 0) {
           const { error } = await supabase
             .from("project_units")
-            .insert(data.units.map(unit => ({
+            .insert(data.project_units.map(unit => ({
               ...unit,
+              name: `Unit ${unit.unit_number}`,
               project_id: project.id,
             })));
 
@@ -184,31 +184,6 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleAddUnit = () => {
-    const currentUnits = form.getValues("units") || [];
-    form.setValue("units", [
-      ...currentUnits,
-      {
-        unit_number: currentUnits.length + 1,
-        status: "متاح",
-        unit_type: "",
-        area: 0,
-        floor_number: 1,
-        side: "شمال",
-        rooms: 1,
-        bathrooms: 1,
-      },
-    ]);
-  };
-
-  const handleRemoveUnit = (index: number) => {
-    const currentUnits = form.getValues("units") || [];
-    form.setValue(
-      "units",
-      currentUnits.filter((_, i) => i !== index)
-    );
   };
 
   return (
@@ -248,9 +223,30 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
             <ProjectUnits
               form={form}
               isLoading={isLoading}
-              units={form.watch("units") || []}
-              onAddUnit={handleAddUnit}
-              onRemoveUnit={handleRemoveUnit}
+              units={form.watch("project_units") || []}
+              onAddUnit={() => {
+                const currentUnits = form.getValues("project_units") || [];
+                form.setValue("project_units", [
+                  ...currentUnits,
+                  {
+                    unit_number: currentUnits.length + 1,
+                    status: "متاح",
+                    unit_type: "",
+                    area: 0,
+                    floor_number: 1,
+                    side: "شمال",
+                    rooms: 1,
+                    bathrooms: 1,
+                  },
+                ]);
+              }}
+              onRemoveUnit={(index: number) => {
+                const currentUnits = form.getValues("project_units") || [];
+                form.setValue(
+                  "project_units",
+                  currentUnits.filter((_, i) => i !== index)
+                );
+              }}
             />
           </TabsContent>
         </Tabs>
