@@ -24,23 +24,21 @@ export default function ProjectGallery({
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
 
-  // Restore files from form state when component mounts or tab changes
   useEffect(() => {
+    // Clear existing previews
+    setPreviewUrls([]);
+    
+    // Get files from form state
     const formFiles = form.getValues("gallery_images");
-    if (formFiles && formFiles.length > 0) {
-      const filesArray = Array.from(formFiles);
+    if (formFiles) {
+      const filesArray = Array.from(formFiles) as File[];
       setSelectedFiles(filesArray);
       
       // Generate preview URLs for existing files
       filesArray.forEach(file => {
         const reader = new FileReader();
         reader.onloadend = () => {
-          setPreviewUrls(prev => {
-            if (!prev.includes(reader.result as string)) {
-              return [...prev, reader.result as string];
-            }
-            return prev;
-          });
+          setPreviewUrls(prev => [...prev, reader.result as string]);
         };
         reader.readAsDataURL(file);
       });
@@ -50,8 +48,9 @@ export default function ProjectGallery({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
-      const filesArray = Array.from(files);
-      setSelectedFiles(prev => [...prev, ...filesArray]);
+      const filesArray = Array.from(files) as File[];
+      const newFiles = [...selectedFiles, ...filesArray];
+      setSelectedFiles(newFiles);
       
       // Create preview URLs for the new files
       filesArray.forEach(file => {
@@ -62,11 +61,11 @@ export default function ProjectGallery({
         reader.readAsDataURL(file);
       });
 
-      // Convert FileList to array and back to FileList for the form
-      const newFileList = new DataTransfer();
-      [...selectedFiles, ...filesArray].forEach(file => newFileList.items.add(file));
-      onGalleryImagesChange(newFileList.files);
-      form.setValue("gallery_images", newFileList.files);
+      // Convert array back to FileList for the form
+      const dataTransfer = new DataTransfer();
+      newFiles.forEach(file => dataTransfer.items.add(file));
+      onGalleryImagesChange(dataTransfer.files);
+      form.setValue("gallery_images", dataTransfer.files);
     }
   };
 
@@ -76,13 +75,14 @@ export default function ProjectGallery({
       newFiles.splice(index, 1);
       
       // Update form with new FileList
-      const newFileList = new DataTransfer();
-      newFiles.forEach(file => newFileList.items.add(file));
-      onGalleryImagesChange(newFileList.files);
-      form.setValue("gallery_images", newFileList.files);
+      const dataTransfer = new DataTransfer();
+      newFiles.forEach(file => dataTransfer.items.add(file));
+      onGalleryImagesChange(dataTransfer.files);
+      form.setValue("gallery_images", dataTransfer.files);
       
       return newFiles;
     });
+
     setPreviewUrls(prev => {
       const newUrls = [...prev];
       newUrls.splice(index, 1);
