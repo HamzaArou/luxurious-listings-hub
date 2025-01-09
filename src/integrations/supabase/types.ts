@@ -54,6 +54,156 @@ export type Database = {
         }
         Relationships: []
       }
+      project_details: {
+        Row: {
+          created_at: string
+          description: string | null
+          features: string[] | null
+          id: string
+          project_id: string | null
+          specifications: string[] | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          features?: string[] | null
+          id?: string
+          project_id?: string | null
+          specifications?: string[] | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          features?: string[] | null
+          id?: string
+          project_id?: string | null
+          specifications?: string[] | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_details_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      project_images: {
+        Row: {
+          created_at: string
+          id: string
+          image_type: string
+          image_url: string
+          project_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          image_type: string
+          image_url: string
+          project_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          image_type?: string
+          image_url?: string
+          project_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_images_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      project_units: {
+        Row: {
+          area: number
+          bathrooms: number | null
+          bedrooms: number | null
+          created_at: string
+          details: Json | null
+          id: string
+          name: string
+          project_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          area: number
+          bathrooms?: number | null
+          bedrooms?: number | null
+          created_at?: string
+          details?: Json | null
+          id?: string
+          name: string
+          project_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          area?: number
+          bathrooms?: number | null
+          bedrooms?: number | null
+          created_at?: string
+          details?: Json | null
+          id?: string
+          name?: string
+          project_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_units_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      projects: {
+        Row: {
+          created_at: string
+          floors: number
+          id: string
+          location: string
+          name: string
+          status: Database["public"]["Enums"]["project_status"]
+          thumbnail_url: string
+          units: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          floors: number
+          id?: string
+          location: string
+          name: string
+          status?: Database["public"]["Enums"]["project_status"]
+          thumbnail_url: string
+          units: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          floors?: number
+          id?: string
+          location?: string
+          name?: string
+          status?: Database["public"]["Enums"]["project_status"]
+          thumbnail_url?: string
+          units?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -67,6 +217,7 @@ export type Database = {
       }
     }
     Enums: {
+      project_status: "للبيع" | "قريباً" | "مكتمل"
       user_role: "admin" | "user"
     }
     CompositeTypes: {
