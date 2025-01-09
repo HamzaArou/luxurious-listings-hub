@@ -19,8 +19,8 @@ import ProjectGallery from "./project-form/ProjectGallery";
 export default function ProjectForm({ initialData }: ProjectFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [thumbnail, setThumbnail] = useState<File | null>(null);
-  const [plans, setPlans] = useState<FileList | null>(null);
   const [galleryImages, setGalleryImages] = useState<FileList | null>(null);
+  const [plans, setPlans] = useState<FileList | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -127,6 +127,19 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
 
         if (error) throw error;
 
+        // Insert gallery images
+        if (galleryImageUrls.length > 0) {
+          const { error } = await supabase
+            .from("project_images")
+            .insert(galleryImageUrls.map(url => ({
+              project_id: initialData.id,
+              image_url: url,
+              image_type: "gallery",
+            })));
+
+          if (error) throw error;
+        }
+
         // Update project units
         await Promise.all(data.project_units.map(async (unit) => {
           const unitData = {
@@ -141,19 +154,6 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
 
           if (error) throw error;
         }));
-
-        // Insert gallery images
-        if (galleryImageUrls.length > 0) {
-          const { error } = await supabase
-            .from("project_images")
-            .insert(galleryImageUrls.map(url => ({
-              project_id: initialData.id,
-              image_url: url,
-              image_type: "gallery",
-            })));
-
-          if (error) throw error;
-        }
 
         // Insert plans
         if (planUrls.length > 0) {

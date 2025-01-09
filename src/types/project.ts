@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { Json } from "@/integrations/supabase/types";
 
 export const projectUnitSchema = z.object({
   unit_number: z.number().min(1, "رقم الوحدة مطلوب"),
@@ -20,11 +19,10 @@ export const projectFormSchema = z.object({
   lng: z.number().optional(),
   floors: z.number().min(1, "عدد الطوابق يجب أن يكون أكبر من 0"),
   status: z.enum(["للبيع", "قريباً", "مكتمل"]),
-  thumbnail_url: z.string().optional(),
   project_units: z.array(projectUnitSchema),
-  plans: z.array(z.string()).optional(),
   gallery_type: z.enum(["images", "coming_soon"]),
   gallery_images: z.array(z.any()).optional(),
+  plans: z.array(z.string()).optional(),
 });
 
 export type ProjectFormValues = z.infer<typeof projectFormSchema>;
@@ -37,18 +35,9 @@ export interface ProjectUnit {
   id: string;
   name: string;
   area: number;
-  bedrooms?: number | null;
-  bathrooms?: number | null;
-  details?: Record<string, any> | null;
-  project_id?: string | null;
-  created_at?: string;
-  updated_at?: string;
-  unit_number?: number | null;
-  status?: string | null;
-  unit_type?: string | null;
-  floor_number?: number | null;
-  side?: string | null;
-  rooms?: number | null;
+  bedrooms?: number;
+  bathrooms?: number;
+  details?: Record<string, any>;
 }
 
 export interface Project {
