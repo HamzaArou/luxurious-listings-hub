@@ -16,12 +16,23 @@ export default function ProjectLocation({ location }: ProjectLocationProps) {
     // Initialize map
     mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN || '';
     
+    // Convert location string to coordinates (assuming format: "lat,lng")
+    const [lat, lng] = location.split(',').map(Number);
+    const coordinates: [number, number] = !isNaN(lat) && !isNaN(lng) 
+      ? [lng, lat]
+      : [46.6753, 24.7136]; // Default to Riyadh coordinates
+    
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/light-v11',
-      center: [46.6753, 24.7136], // Riyadh coordinates
+      center: coordinates,
       zoom: 12
     });
+
+    // Add marker at the location
+    new mapboxgl.Marker()
+      .setLngLat(coordinates)
+      .addTo(map.current);
 
     // Add navigation controls
     map.current.addControl(
@@ -33,7 +44,7 @@ export default function ProjectLocation({ location }: ProjectLocationProps) {
     return () => {
       map.current?.remove();
     };
-  }, []);
+  }, [location]);
 
   return (
     <div className="w-full h-[400px] rounded-lg overflow-hidden">

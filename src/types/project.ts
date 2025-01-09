@@ -14,3 +14,12 @@ export type ProjectFormValues = z.infer<typeof projectFormSchema>;
 export interface ProjectFormProps {
   initialData?: ProjectFormValues & { id?: string };
 }
+
+export interface ProjectUnit {
+  id: string;
+  name: string;
+  area: number;
+  bedrooms?: number;
+  bathrooms?: number;
+  details?: Record<string, unknown>;
+}
