@@ -1,20 +1,10 @@
 import { Card } from "../ui/card";
 import { lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
+import { Project } from "@/types/project";
 
 interface ProjectCardProps {
-  project: {
-    id: number;
-    name: string;
-    image: string;
-    details: string;
-    status: string;
-    location: string;
-    floors: number;
-    apartments: number;
-    annexes: number;
-    projectLabel: string;
-  };
+  project: Project;
 }
 
 const ProjectCard = ({ project }: ProjectCardProps) => {

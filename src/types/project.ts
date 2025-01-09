@@ -27,3 +27,16 @@ export interface ProjectUnit {
   created_at?: string;
   updated_at?: string;
 }
+
+export interface Project {
+  id: string;
+  name: string;
+  image: string;
+  details: string;
+  status: "للبيع" | "قريباً" | "مكتمل";
+  location: string;
+  floors: number;
+  apartments: number;
+  annexes: number;
+  projectLabel: string;
+}

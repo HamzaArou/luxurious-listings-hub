@@ -5,6 +5,7 @@ import ProjectCard from "./projects/ProjectCard";
 import MortgageCalculator from "./MortgageCalculator";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { Project } from "@/types/project";
 
 const FeaturedProjects = () => {
   const [displayCount, setDisplayCount] = useState(6);
@@ -29,7 +30,7 @@ const FeaturedProjects = () => {
         apartments: project.units,
         annexes: Math.ceil(project.units / 4), // Approximating annexes based on units
         projectLabel: "مشروع",
-      }));
+      } as Project));
     },
   });
 
