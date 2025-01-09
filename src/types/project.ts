@@ -20,10 +20,10 @@ export interface ProjectUnit {
   id: string;
   name: string;
   area: number;
-  bedrooms?: number;
-  bathrooms?: number;
-  details?: Json;
-  project_id?: string;
+  bedrooms?: number | null;
+  bathrooms?: number | null;
+  details?: Json | null;
+  project_id?: string | null;
   created_at?: string;
   updated_at?: string;
 }

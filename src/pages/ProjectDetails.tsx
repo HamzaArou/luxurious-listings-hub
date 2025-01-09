@@ -13,6 +13,8 @@ export default function ProjectDetails() {
   const { data: project, isLoading } = useQuery({
     queryKey: ["project", id],
     queryFn: async () => {
+      if (!id) throw new Error("No project ID provided");
+      
       const { data: project, error } = await supabase
         .from("projects")
         .select(`
@@ -27,6 +29,7 @@ export default function ProjectDetails() {
       if (error) throw error;
       return project;
     },
+    enabled: !!id,
   });
 
   if (isLoading) {
