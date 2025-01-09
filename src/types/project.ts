@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const projectUnitSchema = z.object({
   unit_number: z.number().min(1, "رقم الوحدة مطلوب"),
-  status: z.enum(["للبيع", "قريباً", "مكتمل"]),
+  status: z.enum(["متاح", "محجوز", "مباع"]),
   unit_type: z.string().min(1, "نوع الوحدة مطلوب"),
   area: z.number().min(1, "المساحة مطلوبة"),
   floor_number: z.number().min(0, "رقم الطابق مطلوب"),
@@ -19,6 +19,7 @@ export const projectFormSchema = z.object({
   lng: z.number().optional(),
   floors: z.number().min(1, "عدد الطوابق يجب أن يكون أكبر من 0"),
   status: z.enum(["للبيع", "قريباً", "مكتمل"]),
+  thumbnail_url: z.string().optional(),
   project_units: z.array(projectUnitSchema),
   gallery_type: z.enum(["images", "coming_soon"]),
   gallery_images: z.array(z.any()).optional(),
@@ -38,6 +39,12 @@ export interface ProjectUnit {
   bedrooms?: number;
   bathrooms?: number;
   details?: Record<string, any>;
+  unit_number: number;
+  status: string;
+  unit_type: string;
+  floor_number: number;
+  side: string;
+  rooms: number;
 }
 
 export interface Project {

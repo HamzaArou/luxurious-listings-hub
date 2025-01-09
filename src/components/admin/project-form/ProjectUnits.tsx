@@ -35,7 +35,7 @@ export default function ProjectUnits({ form, isLoading, units, onAddUnit, onRemo
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormField
               control={form.control}
-              name={`units.${index}.unit_number`}
+              name={`project_units.${index}.unit_number`}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>رقم الوحدة</FormLabel>
@@ -54,7 +54,7 @@ export default function ProjectUnits({ form, isLoading, units, onAddUnit, onRemo
 
             <FormField
               control={form.control}
-              name={`units.${index}.status`}
+              name={`project_units.${index}.status`}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>حالة الوحدة</FormLabel>
@@ -81,7 +81,7 @@ export default function ProjectUnits({ form, isLoading, units, onAddUnit, onRemo
 
             <FormField
               control={form.control}
-              name={`units.${index}.unit_type`}
+              name={`project_units.${index}.unit_type`}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>نوع الوحدة</FormLabel>
@@ -95,7 +95,7 @@ export default function ProjectUnits({ form, isLoading, units, onAddUnit, onRemo
 
             <FormField
               control={form.control}
-              name={`units.${index}.area`}
+              name={`project_units.${index}.area`}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>المساحة</FormLabel>
@@ -114,7 +114,7 @@ export default function ProjectUnits({ form, isLoading, units, onAddUnit, onRemo
 
             <FormField
               control={form.control}
-              name={`units.${index}.floor_number`}
+              name={`project_units.${index}.floor_number`}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>رقم الطابق</FormLabel>
@@ -133,7 +133,7 @@ export default function ProjectUnits({ form, isLoading, units, onAddUnit, onRemo
 
             <FormField
               control={form.control}
-              name={`units.${index}.side`}
+              name={`project_units.${index}.side`}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>الجهة</FormLabel>
@@ -161,7 +161,7 @@ export default function ProjectUnits({ form, isLoading, units, onAddUnit, onRemo
 
             <FormField
               control={form.control}
-              name={`units.${index}.rooms`}
+              name={`project_units.${index}.rooms`}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>عدد الغرف</FormLabel>
@@ -180,7 +180,7 @@ export default function ProjectUnits({ form, isLoading, units, onAddUnit, onRemo
 
             <FormField
               control={form.control}
-              name={`units.${index}.bathrooms`}
+              name={`project_units.${index}.bathrooms`}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>عدد دورات المياه</FormLabel>
