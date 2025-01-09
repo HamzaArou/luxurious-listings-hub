@@ -20,7 +20,6 @@ interface ProjectLocationProps {
   isLoading: boolean;
 }
 
-// Component to handle map center updates
 function MapUpdater({ lat, lng }: { lat: number; lng: number }) {
   const map = useMap();
   useEffect(() => {
@@ -30,6 +29,7 @@ function MapUpdater({ lat, lng }: { lat: number; lng: number }) {
 }
 
 export default function ProjectLocation({ form, isLoading }: ProjectLocationProps) {
+  // Default to Riyadh coordinates if no position is set
   const [position, setPosition] = useState<[number, number]>([
     form.getValues("lat") || 24.7136,
     form.getValues("lng") || 46.6753
@@ -59,11 +59,12 @@ export default function ProjectLocation({ form, isLoading }: ProjectLocationProp
         )}
       />
 
-      <div className="h-[400px] rounded-lg overflow-hidden relative">
+      <div className="h-[400px] rounded-lg overflow-hidden relative border border-gray-200">
         <MapContainer
           center={position}
           zoom={13}
           style={{ height: "100%", width: "100%" }}
+          key={`${position[0]}-${position[1]}`}
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
