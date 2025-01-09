@@ -6,7 +6,7 @@ import { ProjectFormValues } from "@/types/project";
 import { Label } from "@/components/ui/label";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface ProjectGalleryProps {
   form: UseFormReturn<ProjectFormValues>;
@@ -23,6 +23,29 @@ export default function ProjectGallery({
 }: ProjectGalleryProps) {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
+
+  // Restore files from form state when component mounts or tab changes
+  useEffect(() => {
+    const formFiles = form.getValues("gallery_images");
+    if (formFiles && formFiles.length > 0) {
+      const filesArray = Array.from(formFiles);
+      setSelectedFiles(filesArray);
+      
+      // Generate preview URLs for existing files
+      filesArray.forEach(file => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setPreviewUrls(prev => {
+            if (!prev.includes(reader.result as string)) {
+              return [...prev, reader.result as string];
+            }
+            return prev;
+          });
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+  }, [form]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -43,6 +66,7 @@ export default function ProjectGallery({
       const newFileList = new DataTransfer();
       [...selectedFiles, ...filesArray].forEach(file => newFileList.items.add(file));
       onGalleryImagesChange(newFileList.files);
+      form.setValue("gallery_images", newFileList.files);
     }
   };
 
@@ -55,6 +79,7 @@ export default function ProjectGallery({
       const newFileList = new DataTransfer();
       newFiles.forEach(file => newFileList.items.add(file));
       onGalleryImagesChange(newFileList.files);
+      form.setValue("gallery_images", newFileList.files);
       
       return newFiles;
     });
