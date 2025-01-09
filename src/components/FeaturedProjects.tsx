@@ -24,11 +24,10 @@ const FeaturedProjects = () => {
         name: project.name,
         image: project.thumbnail_url,
         details: `${project.floors} طابق | ${project.units} شقة`,
-        status: project.status === "للبيع" ? "متاح" : 
-               project.status === "قريباً" ? "محجوز" : "مباع",
+        status: project.status,
         location: project.location,
         floors: project.floors,
-        apartments: project.units,
+        units: project.units,
         annexes: Math.ceil(project.units / 4),
         projectLabel: "مشروع",
       } as Project));
@@ -99,5 +98,3 @@ const FeaturedProjects = () => {
     </>
   );
 };
-
-export default FeaturedProjects;
