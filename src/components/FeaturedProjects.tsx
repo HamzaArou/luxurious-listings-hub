@@ -28,7 +28,7 @@ const FeaturedProjects = () => {
                project.status === "قريباً" ? "محجوز" : "مباع",
         location: project.location,
         floors: project.floors,
-        apartments: project.units,
+        units: project.units,
         annexes: Math.ceil(project.units / 4),
         projectLabel: "مشروع",
       } as Project));
