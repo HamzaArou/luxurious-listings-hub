@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const projectUnitSchema = z.object({
   unit_number: z.number().min(1, "رقم الوحدة مطلوب"),
-  status: z.enum(["متاح", "محجوز", "مباع"]),
+  status: z.enum(["للبيع", "قريباً", "مكتمل"]),
   unit_type: z.string().min(1, "نوع الوحدة مطلوب"),
   area: z.number().min(1, "المساحة مطلوبة"),
   floor_number: z.number().min(0, "رقم الطابق مطلوب"),
@@ -41,7 +41,7 @@ export interface ProjectUnit {
   bathrooms?: number;
   details?: Record<string, any>;
   unit_number: number;
-  status: "متاح" | "محجوز" | "مباع";
+  status: "للبيع" | "قريباً" | "مكتمل";
   unit_type: string;
   floor_number: number;
   side: string;
