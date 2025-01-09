@@ -9,7 +9,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Index />} />
-        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/login/f3e7b891-4a25-4c82-a0d9-7b6f9d9f7ad5" element={<AdminLogin />} />
         <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
       <Toaster />
