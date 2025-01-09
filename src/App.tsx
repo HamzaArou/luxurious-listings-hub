@@ -3,6 +3,7 @@ import Index from "@/pages/Index";
 import AdminLogin from "@/pages/AdminLogin";
 import AdminDashboard from "@/pages/AdminDashboard";
 import ProjectForm from "@/pages/ProjectForm";
+import ProjectDetails from "@/pages/ProjectDetails";
 import { Toaster } from "@/components/ui/toaster";
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/projects/new" element={<ProjectForm />} />
         <Route path="/admin/projects/:id/edit" element={<ProjectForm />} />
+        <Route path="/projects/:id" element={<ProjectDetails />} />
       </Routes>
       <Toaster />
     </Router>

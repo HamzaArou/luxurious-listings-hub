@@ -1,5 +1,6 @@
 import { Card } from "../ui/card";
 import { lazy, Suspense } from "react";
+import { Link } from "react-router-dom";
 
 interface ProjectCardProps {
   project: {
@@ -18,7 +19,8 @@ interface ProjectCardProps {
 
 const ProjectCard = ({ project }: ProjectCardProps) => {
   return (
-    <Card key={project.id} className="overflow-hidden h-[432px] bg-white rounded-[40px] shadow-lg">
+    <Link to={`/projects/${project.id}`}>
+      <Card key={project.id} className="overflow-hidden h-[432px] bg-white rounded-[40px] shadow-lg hover:shadow-xl transition-shadow">
       <div className="p-0.5 text-center">
         <p className="text-gold text-lg mb-0">{project.projectLabel}</p>
         <h3 className="text-3xl font-bold text-gold mb-0">
@@ -56,7 +58,8 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
           <p className="text-sm text-gray-600 whitespace-nowrap">الأدوار</p>
         </div>
       </div>
-    </Card>
+      </Card>
+    </Link>
   );
 };
 
