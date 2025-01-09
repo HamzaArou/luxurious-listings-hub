@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Save } from "lucide-react";
+import { Save, ArrowRight, ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -16,8 +16,12 @@ import ProjectPlans from "./project-form/ProjectPlans";
 import ProjectUnits from "./project-form/ProjectUnits";
 import ProjectGallery from "./project-form/ProjectGallery";
 
+const TABS = ["basic", "gallery", "location", "plans", "units"] as const;
+type TabType = typeof TABS[number];
+
 export default function ProjectForm({ initialData }: ProjectFormProps) {
   const [isLoading, setIsLoading] = useState(false);
+  const [currentTab, setCurrentTab] = useState<TabType>("basic");
   const [thumbnail, setThumbnail] = useState<File | null>(null);
   const [galleryImages, setGalleryImages] = useState<FileList | null>(null);
   const [plans, setPlans] = useState<FileList | null>(null);
@@ -35,7 +39,94 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
       project_units: [],
       gallery_type: "coming_soon",
     },
+    mode: "onChange",
   });
+
+  const currentTabIndex = TABS.indexOf(currentTab);
+  const isLastTab = currentTabIndex === TABS.length - 1;
+  const isFirstTab = currentTabIndex === 0;
+
+  const validateCurrentTab = async () => {
+    let isValid = true;
+    const values = form.getValues();
+
+    switch (currentTab) {
+      case "basic":
+        isValid = await form.trigger(["name", "location", "floors", "status"]);
+        if (!thumbnail && !initialData?.thumbnail_url) {
+          toast({
+            title: "خطأ",
+            description: "الرجاء اختيار صورة للمشروع",
+            variant: "destructive",
+          });
+          return false;
+        }
+        break;
+      case "gallery":
+        isValid = await form.trigger("gallery_type");
+        if (values.gallery_type === "images" && !galleryImages && !initialData?.gallery_images?.length) {
+          toast({
+            title: "خطأ",
+            description: "الرجاء اختيار صور للمعرض",
+            variant: "destructive",
+          });
+          return false;
+        }
+        break;
+      case "location":
+        isValid = await form.trigger("address");
+        break;
+      case "plans":
+        if (!plans && !initialData?.plans?.length) {
+          toast({
+            title: "خطأ",
+            description: "الرجاء إضافة مخططات للمشروع",
+            variant: "destructive",
+          });
+          return false;
+        }
+        break;
+      case "units":
+        const units = form.getValues("project_units");
+        if (!units || units.length === 0) {
+          toast({
+            title: "خطأ",
+            description: "الرجاء إضافة وحدة واحدة على الأقل",
+            variant: "destructive",
+          });
+          return false;
+        }
+        isValid = await form.trigger("project_units");
+        break;
+    }
+
+    if (!isValid) {
+      toast({
+        title: "خطأ",
+        description: "الرجاء إكمال جميع الحقول المطلوبة",
+        variant: "destructive",
+      });
+    }
+
+    return isValid;
+  };
+
+  const handleNext = async () => {
+    const isValid = await validateCurrentTab();
+    if (isValid) {
+      const nextIndex = currentTabIndex + 1;
+      if (nextIndex < TABS.length) {
+        setCurrentTab(TABS[nextIndex]);
+      }
+    }
+  };
+
+  const handlePrevious = () => {
+    const prevIndex = currentTabIndex - 1;
+    if (prevIndex >= 0) {
+      setCurrentTab(TABS[prevIndex]);
+    }
+  };
 
   const onSubmit = async (data: ProjectFormValues) => {
     try {
@@ -117,6 +208,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
         floors: data.floors,
         status: data.status,
         thumbnail_url: thumbnailUrl,
+        units: data.project_units.length,
       };
 
       if (initialData?.id) {
@@ -240,13 +332,13 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <Tabs defaultValue="basic" className="w-full">
+        <Tabs value={currentTab} className="w-full">
           <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="basic">معلومات أساسية</TabsTrigger>
-            <TabsTrigger value="gallery">صور المشروع</TabsTrigger>
-            <TabsTrigger value="location">الموقع</TabsTrigger>
-            <TabsTrigger value="plans">المخططات</TabsTrigger>
-            <TabsTrigger value="units">الوحدات</TabsTrigger>
+            <TabsTrigger value="basic" disabled>معلومات أساسية</TabsTrigger>
+            <TabsTrigger value="gallery" disabled>صور المشروع</TabsTrigger>
+            <TabsTrigger value="location" disabled>الموقع</TabsTrigger>
+            <TabsTrigger value="plans" disabled>المخططات</TabsTrigger>
+            <TabsTrigger value="units" disabled>الوحدات</TabsTrigger>
           </TabsList>
 
           <TabsContent value="basic" className="space-y-4">
@@ -312,7 +404,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
           </TabsContent>
         </Tabs>
 
-        <div className="flex justify-end gap-4">
+        <div className="flex justify-between gap-4">
           <Button
             type="button"
             variant="outline"
@@ -321,16 +413,42 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
           >
             إلغاء
           </Button>
-          <Button type="submit" disabled={isLoading}>
-            {isLoading ? (
-              "جاري الحفظ..."
-            ) : (
-              <>
-                <Save className="ml-2 h-4 w-4" />
-                {initialData ? "تحديث المشروع" : "إنشاء المشروع"}
-              </>
+
+          <div className="flex gap-2">
+            {!isFirstTab && (
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handlePrevious}
+                disabled={isLoading}
+              >
+                <ArrowRight className="ml-2 h-4 w-4" />
+                السابق
+              </Button>
             )}
-          </Button>
+
+            {!isLastTab ? (
+              <Button
+                type="button"
+                onClick={handleNext}
+                disabled={isLoading}
+              >
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                التالي
+              </Button>
+            ) : (
+              <Button type="submit" disabled={isLoading}>
+                {isLoading ? (
+                  "جاري الحفظ..."
+                ) : (
+                  <>
+                    <Save className="ml-2 h-4 w-4" />
+                    {initialData ? "تحديث المشروع" : "إنشاء المشروع"}
+                  </>
+                )}
+              </Button>
+            )}
+          </div>
         </div>
       </form>
     </Form>
