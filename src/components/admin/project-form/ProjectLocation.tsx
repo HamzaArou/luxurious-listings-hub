@@ -2,73 +2,46 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/comp
 import { Input } from "@/components/ui/input";
 import { UseFormReturn } from "react-hook-form";
 import { ProjectFormValues } from "@/types/project";
-import { useEffect, useRef, useState } from "react";
-import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle } from "lucide-react";
+import { useEffect, useState } from "react";
+import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+
+// Fix for default marker icon
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+});
 
 interface ProjectLocationProps {
   form: UseFormReturn<ProjectFormValues>;
   isLoading: boolean;
 }
 
-export default function ProjectLocation({ form, isLoading }: ProjectLocationProps) {
-  const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<mapboxgl.Map | null>(null);
-  const [mapError, setMapError] = useState<string | null>(null);
-
+// Component to handle map center updates
+function MapUpdater({ lat, lng }: { lat: number; lng: number }) {
+  const map = useMap();
   useEffect(() => {
-    if (!mapContainer.current) return;
+    map.setView([lat, lng], map.getZoom());
+  }, [lat, lng, map]);
+  return null;
+}
 
-    try {
-      const token = import.meta.env.VITE_MAPBOX_TOKEN;
-      
-      if (!token) {
-        setMapError("Mapbox token is not configured");
-        return;
-      }
+export default function ProjectLocation({ form, isLoading }: ProjectLocationProps) {
+  const [position, setPosition] = useState<[number, number]>([
+    form.getValues("lat") || 24.7136,
+    form.getValues("lng") || 46.6753
+  ]);
 
-      mapboxgl.accessToken = token;
-
-      const initialLat = form.getValues("lat") || 24.7136;
-      const initialLng = form.getValues("lng") || 46.6753;
-
-      map.current = new mapboxgl.Map({
-        container: mapContainer.current,
-        style: "mapbox://styles/mapbox/light-v11",
-        center: [initialLng, initialLat],
-        zoom: 12,
-      });
-
-      const marker = new mapboxgl.Marker({
-        draggable: !isLoading,
-      })
-        .setLngLat([initialLng, initialLat])
-        .addTo(map.current);
-
-      marker.on("dragend", () => {
-        const lngLat = marker.getLngLat();
-        form.setValue("lat", lngLat.lat);
-        form.setValue("lng", lngLat.lng);
-      });
-
-      map.current.addControl(new mapboxgl.NavigationControl(), "top-right");
-
-      // Handle map load errors
-      map.current.on('error', () => {
-        setMapError("Error loading map");
-      });
-
-    } catch (error) {
-      console.error("Map initialization error:", error);
-      setMapError("Error initializing map");
-    }
-
-    return () => {
-      map.current?.remove();
-    };
-  }, [form, isLoading]);
+  const handleMarkerDrag = (e: L.LeafletEvent) => {
+    const marker = e.target;
+    const position = marker.getLatLng();
+    setPosition([position.lat, position.lng]);
+    form.setValue("lat", position.lat);
+    form.setValue("lng", position.lng);
+  };
 
   return (
     <div className="space-y-4">
@@ -87,16 +60,24 @@ export default function ProjectLocation({ form, isLoading }: ProjectLocationProp
       />
 
       <div className="h-[400px] rounded-lg overflow-hidden relative">
-        {mapError ? (
-          <Alert variant="destructive" className="absolute inset-0 m-4">
-            <AlertCircle className="h-4 w-4" />
-            <AlertDescription>
-              {mapError}
-            </AlertDescription>
-          </Alert>
-        ) : (
-          <div ref={mapContainer} className="w-full h-full" />
-        )}
+        <MapContainer
+          center={position}
+          zoom={13}
+          style={{ height: "100%", width: "100%" }}
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <Marker
+            position={position}
+            draggable={!isLoading}
+            eventHandlers={{
+              dragend: handleMarkerDrag,
+            }}
+          />
+          <MapUpdater lat={position[0]} lng={position[1]} />
+        </MapContainer>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
@@ -111,7 +92,11 @@ export default function ProjectLocation({ form, isLoading }: ProjectLocationProp
                   type="number"
                   step="any"
                   {...field}
-                  onChange={(e) => field.onChange(Number(e.target.value))}
+                  onChange={(e) => {
+                    const value = Number(e.target.value);
+                    field.onChange(value);
+                    setPosition([value, position[1]]);
+                  }}
                   disabled={isLoading}
                 />
               </FormControl>
@@ -131,7 +116,11 @@ export default function ProjectLocation({ form, isLoading }: ProjectLocationProp
                   type="number"
                   step="any"
                   {...field}
-                  onChange={(e) => field.onChange(Number(e.target.value))}
+                  onChange={(e) => {
+                    const value = Number(e.target.value);
+                    field.onChange(value);
+                    setPosition([position[0], value]);
+                  }}
                   disabled={isLoading}
                 />
               </FormControl>
