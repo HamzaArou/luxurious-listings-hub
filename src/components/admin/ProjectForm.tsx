@@ -29,7 +29,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
       location: "",
       address: "",
       floors: 1,
-      status: "متاح",
+      status: "للبيع",
       project_units: [],
     },
   });
@@ -230,7 +230,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
                   ...currentUnits,
                   {
                     unit_number: currentUnits.length + 1,
-                    status: "متاح",
+                    status: "للبيع",
                     unit_type: "",
                     area: 0,
                     floor_number: 1,

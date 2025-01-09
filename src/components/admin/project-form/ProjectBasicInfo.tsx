@@ -60,26 +60,6 @@ export default function ProjectBasicInfo({ form, isLoading }: ProjectBasicInfoPr
             </FormItem>
           )}
         />
-
-        <FormField
-          control={form.control}
-          name="units"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>عدد الوحدات</FormLabel>
-              <FormControl>
-                <Input
-                  type="number"
-                  min="1"
-                  {...field}
-                  onChange={(e) => field.onChange(Number(e.target.value))}
-                  disabled={isLoading}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
       </div>
 
       <FormField
@@ -99,9 +79,9 @@ export default function ProjectBasicInfo({ form, isLoading }: ProjectBasicInfoPr
                 </SelectTrigger>
               </FormControl>
               <SelectContent>
-                <SelectItem value="متاح">متاح</SelectItem>
-                <SelectItem value="محجوز">محجوز</SelectItem>
-                <SelectItem value="مباع">مباع</SelectItem>
+                <SelectItem value="للبيع">للبيع</SelectItem>
+                <SelectItem value="قريباً">قريباً</SelectItem>
+                <SelectItem value="مكتمل">مكتمل</SelectItem>
               </SelectContent>
             </Select>
             <FormMessage />

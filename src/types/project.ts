@@ -3,7 +3,7 @@ import { Json } from "@/integrations/supabase/types";
 
 export const projectUnitSchema = z.object({
   unit_number: z.number().min(1, "رقم الوحدة مطلوب"),
-  status: z.enum(["متاح", "محجوز", "مباع"]),
+  status: z.enum(["للبيع", "قريباً", "مكتمل"]),
   unit_type: z.string().min(1, "نوع الوحدة مطلوب"),
   area: z.number().min(1, "المساحة مطلوبة"),
   floor_number: z.number().min(0, "رقم الطابق مطلوب"),
@@ -19,7 +19,7 @@ export const projectFormSchema = z.object({
   lat: z.number().optional(),
   lng: z.number().optional(),
   floors: z.number().min(1, "عدد الطوابق يجب أن يكون أكبر من 0"),
-  status: z.enum(["متاح", "محجوز", "مباع"]),
+  status: z.enum(["للبيع", "قريباً", "مكتمل"]),
   thumbnail_url: z.string().optional(),
   project_units: z.array(projectUnitSchema),
   plans: z.array(z.string()).optional(),
@@ -54,7 +54,7 @@ export interface Project {
   name: string;
   image: string;
   details: string;
-  status: "متاح" | "محجوز" | "مباع";
+  status: "للبيع" | "قريباً" | "مكتمل";
   location: string;
   floors: number;
   apartments: number;
