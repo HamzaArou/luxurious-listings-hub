@@ -66,7 +66,7 @@ export default function ProjectGallery({
       const newFileList = new DataTransfer();
       [...selectedFiles, ...filesArray].forEach(file => newFileList.items.add(file));
       onGalleryImagesChange(newFileList.files);
-      form.setValue("gallery_images", Array.from(newFileList.files));
+      form.setValue("gallery_images", newFileList.files);
     }
   };
 
@@ -79,7 +79,7 @@ export default function ProjectGallery({
       const newFileList = new DataTransfer();
       newFiles.forEach(file => newFileList.items.add(file));
       onGalleryImagesChange(newFileList.files);
-      form.setValue("gallery_images", Array.from(newFileList.files));
+      form.setValue("gallery_images", newFileList.files);
       
       return newFiles;
     });

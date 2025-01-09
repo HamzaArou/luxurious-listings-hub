@@ -1,14 +1,11 @@
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { UseFormReturn } from "react-hook-form";
 import { ProjectFormValues } from "@/types/project";
-import { useEffect, useRef } from "react";
-
-declare global {
-  interface Window {
-    google: typeof google;
-  }
-}
+import { useState, useEffect, useRef } from "react";
+import { MapPin } from "lucide-react";
+import Script from "@/components/ui/script";
 
 interface ProjectLocationProps {
   form: UseFormReturn<ProjectFormValues>;
@@ -16,41 +13,82 @@ interface ProjectLocationProps {
 }
 
 export default function ProjectLocation({ form, isLoading }: ProjectLocationProps) {
+  const [previewUrl, setPreviewUrl] = useState<string>("");
+  const [scriptLoaded, setScriptLoaded] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
 
   useEffect(() => {
-    if (window.google && window.google.maps) {
-      const input = document.getElementById("address") as HTMLInputElement;
-      autocompleteRef.current = new window.google.maps.places.Autocomplete(input, {
-        componentRestrictions: { country: "sa" },
-        fields: ["address_components", "geometry", "name"],
+    if (scriptLoaded && inputRef.current) {
+      // Initialize Google Places Autocomplete
+      autocompleteRef.current = new google.maps.places.Autocomplete(inputRef.current, {
+        componentRestrictions: { country: "sa" }, // Restrict to Saudi Arabia
+        types: ["address"],
       });
 
+      // Handle place selection
       autocompleteRef.current.addListener("place_changed", () => {
         const place = autocompleteRef.current?.getPlace();
-        if (place?.geometry?.location) {
-          form.setValue("lat", place.geometry.location.lat());
-          form.setValue("lng", place.geometry.location.lng());
+        if (place && place.formatted_address) {
+          form.setValue("address", place.formatted_address);
+          handleAddressChange(place.formatted_address);
         }
       });
     }
-  }, [form]);
+  }, [scriptLoaded]);
+
+  const handleAddressChange = (address: string) => {
+    form.setValue("address", address);
+    // Generate Google Maps search URL
+    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address + ", Saudi Arabia")}`;
+    setPreviewUrl(googleMapsUrl);
+  };
 
   return (
     <div className="space-y-4">
+      <Script
+        src="https://maps.googleapis.com/maps/api/js?libraries=places"
+        onLoad={() => setScriptLoaded(true)}
+      />
+
       <FormField
         control={form.control}
         name="address"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>العنوان</FormLabel>
+            <FormLabel>عنوان المشروع</FormLabel>
             <FormControl>
-              <Input id="address" {...field} disabled={isLoading} />
+              <Input 
+                {...field} 
+                ref={inputRef}
+                disabled={isLoading}
+                onChange={(e) => {
+                  field.onChange(e);
+                  handleAddressChange(e.target.value);
+                }}
+                placeholder="أدخل عنوان المشروع (مثال: حي النرجس، الرياض)"
+                className="text-right"
+                dir="rtl"
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
         )}
       />
+
+      {previewUrl && (
+        <div className="mt-4">
+          <a 
+            href={previewUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-primary hover:underline"
+          >
+            <MapPin className="h-4 w-4" />
+            عرض الموقع على خريطة جوجل
+          </a>
+        </div>
+      )}
     </div>
   );
 }

@@ -21,9 +21,8 @@ export const projectFormSchema = z.object({
   status: z.enum(["للبيع", "قريباً", "مكتمل"]),
   project_units: z.array(projectUnitSchema),
   gallery_type: z.enum(["images", "coming_soon"]),
-  gallery_images: z.any().optional(),
-  plans: z.any().optional(),
-  thumbnail_url: z.string().optional(),
+  gallery_images: z.array(z.any()).optional(),
+  plans: z.array(z.string()).optional(),
 });
 
 export type ProjectFormValues = z.infer<typeof projectFormSchema>;
@@ -35,14 +34,9 @@ export interface ProjectFormProps {
 export interface ProjectUnit {
   id: string;
   name: string;
-  unit_number: number;
-  status: "للبيع" | "قريباً" | "مكتمل";
-  unit_type: string;
   area: number;
-  floor_number: number;
-  side: string;
-  rooms: number;
-  bathrooms: number;
+  bedrooms?: number;
+  bathrooms?: number;
   details?: Record<string, any>;
 }
 
@@ -54,7 +48,7 @@ export interface Project {
   status: "للبيع" | "قريباً" | "مكتمل";
   location: string;
   floors: number;
-  units: number;
+  apartments: number;
   annexes: number;
   projectLabel: string;
 }
