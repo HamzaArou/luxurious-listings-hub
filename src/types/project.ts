@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { Json } from "@/integrations/supabase/types";
 
 export const projectFormSchema = z.object({
   name: z.string().min(1, "اسم المشروع مطلوب"),
@@ -21,5 +22,8 @@ export interface ProjectUnit {
   area: number;
   bedrooms?: number;
   bathrooms?: number;
-  details?: Record<string, unknown>;
+  details?: Json;
+  project_id?: string;
+  created_at?: string;
+  updated_at?: string;
 }
