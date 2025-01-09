@@ -1,13 +1,29 @@
 import { z } from "zod";
 import { Json } from "@/integrations/supabase/types";
 
+const projectUnitSchema = z.object({
+  unit_number: z.number().min(1, "رقم الوحدة مطلوب"),
+  status: z.enum(["متاح", "محجوز", "مباع"]),
+  unit_type: z.string().min(1, "نوع الوحدة مطلوب"),
+  area: z.number().min(1, "المساحة مطلوبة"),
+  floor_number: z.number().min(0, "رقم الطابق مطلوب"),
+  side: z.string().min(1, "الجهة مطلوبة"),
+  rooms: z.number().min(1, "عدد الغرف مطلوب"),
+  bathrooms: z.number().min(1, "عدد دورات المياه مطلوب"),
+});
+
 export const projectFormSchema = z.object({
   name: z.string().min(1, "اسم المشروع مطلوب"),
   location: z.string().min(1, "الموقع مطلوب"),
-  floors: z.coerce.number().min(1, "عدد الطوابق يجب أن يكون أكبر من 0"),
-  units: z.coerce.number().min(1, "عدد الوحدات يجب أن يكون أكبر من 0"),
-  status: z.enum(["للبيع", "قريباً", "مكتمل"]),
+  address: z.string().min(1, "العنوان مطلوب"),
+  lat: z.number().optional(),
+  lng: z.number().optional(),
+  floors: z.number().min(1, "عدد الطوابق يجب أن يكون أكبر من 0"),
+  units: z.number().min(1, "عدد الوحدات يجب أن يكون أكبر من 0"),
+  status: z.enum(["متاح", "محجوز", "مباع"]),
   thumbnail_url: z.string().optional(),
+  units: z.array(projectUnitSchema),
+  plans: z.array(z.string()).optional(),
 });
 
 export type ProjectFormValues = z.infer<typeof projectFormSchema>;
@@ -26,6 +42,12 @@ export interface ProjectUnit {
   project_id?: string | null;
   created_at?: string;
   updated_at?: string;
+  unit_number?: number | null;
+  status?: string | null;
+  unit_type?: string | null;
+  floor_number?: number | null;
+  side?: string | null;
+  rooms?: number | null;
 }
 
 export interface Project {
@@ -33,7 +55,7 @@ export interface Project {
   name: string;
   image: string;
   details: string;
-  status: "للبيع" | "قريباً" | "مكتمل";
+  status: "متاح" | "محجوز" | "مباع";
   location: string;
   floors: number;
   apartments: number;

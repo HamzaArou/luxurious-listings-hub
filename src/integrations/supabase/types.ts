@@ -9,6 +9,41 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      interest_forms: {
+        Row: {
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          phone: string
+          project_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          phone: string
+          project_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          phone?: string
+          project_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "interest_forms_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       login_attempts: {
         Row: {
           attempt_time: string
@@ -124,6 +159,35 @@ export type Database = {
           },
         ]
       }
+      project_plans: {
+        Row: {
+          created_at: string
+          file_url: string
+          id: string
+          project_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          file_url: string
+          id?: string
+          project_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          file_url?: string
+          id?: string
+          project_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_plans_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       project_units: {
         Row: {
           area: number
@@ -131,9 +195,15 @@ export type Database = {
           bedrooms: number | null
           created_at: string
           details: Json | null
+          floor_number: number | null
           id: string
           name: string
           project_id: string | null
+          rooms: number | null
+          side: string | null
+          status: string | null
+          unit_number: number | null
+          unit_type: string | null
           updated_at: string
         }
         Insert: {
@@ -142,9 +212,15 @@ export type Database = {
           bedrooms?: number | null
           created_at?: string
           details?: Json | null
+          floor_number?: number | null
           id?: string
           name: string
           project_id?: string | null
+          rooms?: number | null
+          side?: string | null
+          status?: string | null
+          unit_number?: number | null
+          unit_type?: string | null
           updated_at?: string
         }
         Update: {
@@ -153,9 +229,15 @@ export type Database = {
           bedrooms?: number | null
           created_at?: string
           details?: Json | null
+          floor_number?: number | null
           id?: string
           name?: string
           project_id?: string | null
+          rooms?: number | null
+          side?: string | null
+          status?: string | null
+          unit_number?: number | null
+          unit_type?: string | null
           updated_at?: string
         }
         Relationships: [
@@ -168,35 +250,82 @@ export type Database = {
           },
         ]
       }
+      project_updates: {
+        Row: {
+          created_at: string
+          id: string
+          project_id: string | null
+          status: string
+          unit_number: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          project_id?: string | null
+          status: string
+          unit_number: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          project_id?: string | null
+          status?: string
+          unit_number?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_updates_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       projects: {
         Row: {
+          address: string | null
           created_at: string
           floors: number
           id: string
+          lat: number | null
+          lng: number | null
           location: string
           name: string
+          side: string | null
           status: Database["public"]["Enums"]["project_status"]
           thumbnail_url: string
           units: number
           updated_at: string
         }
         Insert: {
+          address?: string | null
           created_at?: string
           floors: number
           id?: string
+          lat?: number | null
+          lng?: number | null
           location: string
           name: string
+          side?: string | null
           status?: Database["public"]["Enums"]["project_status"]
           thumbnail_url: string
           units: number
           updated_at?: string
         }
         Update: {
+          address?: string | null
           created_at?: string
           floors?: number
           id?: string
+          lat?: number | null
+          lng?: number | null
           location?: string
           name?: string
+          side?: string | null
           status?: Database["public"]["Enums"]["project_status"]
           thumbnail_url?: string
           units?: number
