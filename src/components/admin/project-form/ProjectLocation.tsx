@@ -2,9 +2,11 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/comp
 import { Input } from "@/components/ui/input";
 import { UseFormReturn } from "react-hook-form";
 import { ProjectFormValues } from "@/types/project";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
 
 interface ProjectLocationProps {
   form: UseFormReturn<ProjectFormValues>;
@@ -14,35 +16,54 @@ interface ProjectLocationProps {
 export default function ProjectLocation({ form, isLoading }: ProjectLocationProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
+  const [mapError, setMapError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!mapContainer.current) return;
 
-    mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN || "";
+    try {
+      const token = import.meta.env.VITE_MAPBOX_TOKEN;
+      
+      if (!token) {
+        setMapError("Mapbox token is not configured");
+        return;
+      }
 
-    const initialLat = form.getValues("lat") || 24.7136;
-    const initialLng = form.getValues("lng") || 46.6753;
+      mapboxgl.accessToken = token;
 
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: "mapbox://styles/mapbox/light-v11",
-      center: [initialLng, initialLat],
-      zoom: 12,
-    });
+      const initialLat = form.getValues("lat") || 24.7136;
+      const initialLng = form.getValues("lng") || 46.6753;
 
-    const marker = new mapboxgl.Marker({
-      draggable: !isLoading,
-    })
-      .setLngLat([initialLng, initialLat])
-      .addTo(map.current);
+      map.current = new mapboxgl.Map({
+        container: mapContainer.current,
+        style: "mapbox://styles/mapbox/light-v11",
+        center: [initialLng, initialLat],
+        zoom: 12,
+      });
 
-    marker.on("dragend", () => {
-      const lngLat = marker.getLngLat();
-      form.setValue("lat", lngLat.lat);
-      form.setValue("lng", lngLat.lng);
-    });
+      const marker = new mapboxgl.Marker({
+        draggable: !isLoading,
+      })
+        .setLngLat([initialLng, initialLat])
+        .addTo(map.current);
 
-    map.current.addControl(new mapboxgl.NavigationControl(), "top-right");
+      marker.on("dragend", () => {
+        const lngLat = marker.getLngLat();
+        form.setValue("lat", lngLat.lat);
+        form.setValue("lng", lngLat.lng);
+      });
+
+      map.current.addControl(new mapboxgl.NavigationControl(), "top-right");
+
+      // Handle map load errors
+      map.current.on('error', () => {
+        setMapError("Error loading map");
+      });
+
+    } catch (error) {
+      console.error("Map initialization error:", error);
+      setMapError("Error initializing map");
+    }
 
     return () => {
       map.current?.remove();
@@ -65,8 +86,17 @@ export default function ProjectLocation({ form, isLoading }: ProjectLocationProp
         )}
       />
 
-      <div className="h-[400px] rounded-lg overflow-hidden">
-        <div ref={mapContainer} className="w-full h-full" />
+      <div className="h-[400px] rounded-lg overflow-hidden relative">
+        {mapError ? (
+          <Alert variant="destructive" className="absolute inset-0 m-4">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>
+              {mapError}
+            </AlertDescription>
+          </Alert>
+        ) : (
+          <div ref={mapContainer} className="w-full h-full" />
+        )}
       </div>
 
       <div className="grid grid-cols-2 gap-4">
