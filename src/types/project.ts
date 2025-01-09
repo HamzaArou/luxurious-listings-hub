@@ -23,6 +23,8 @@ export const projectFormSchema = z.object({
   thumbnail_url: z.string().optional(),
   project_units: z.array(projectUnitSchema),
   plans: z.array(z.string()).optional(),
+  gallery_type: z.enum(["images", "coming_soon"]),
+  gallery_images: z.array(z.any()).optional(),
 });
 
 export type ProjectFormValues = z.infer<typeof projectFormSchema>;

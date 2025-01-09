@@ -14,11 +14,13 @@ import ProjectBasicInfo from "./project-form/ProjectBasicInfo";
 import ProjectLocation from "./project-form/ProjectLocation";
 import ProjectPlans from "./project-form/ProjectPlans";
 import ProjectUnits from "./project-form/ProjectUnits";
+import ProjectGallery from "./project-form/ProjectGallery";
 
 export default function ProjectForm({ initialData }: ProjectFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [thumbnail, setThumbnail] = useState<File | null>(null);
   const [plans, setPlans] = useState<FileList | null>(null);
+  const [galleryImages, setGalleryImages] = useState<FileList | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -31,6 +33,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
       floors: 1,
       status: "للبيع",
       project_units: [],
+      gallery_type: "coming_soon",
     },
   });
 
@@ -59,6 +62,28 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
 
       if (!thumbnailUrl) {
         throw new Error("صورة المشروع مطلوبة");
+      }
+
+      // Upload gallery images if any
+      const galleryImageUrls: string[] = [];
+      if (data.gallery_type === "images" && galleryImages) {
+        for (let i = 0; i < galleryImages.length; i++) {
+          const image = galleryImages[i];
+          const fileExt = image.name.split(".").pop();
+          const fileName = `${crypto.randomUUID()}.${fileExt}`;
+
+          const { error: uploadError } = await supabase.storage
+            .from("project-images")
+            .upload(fileName, image);
+
+          if (uploadError) throw uploadError;
+
+          const { data: { publicUrl } } = supabase.storage
+            .from("project-images")
+            .getPublicUrl(fileName);
+
+          galleryImageUrls.push(publicUrl);
+        }
       }
 
       // Upload plans if any
@@ -117,6 +142,19 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
           if (error) throw error;
         }));
 
+        // Insert gallery images
+        if (galleryImageUrls.length > 0) {
+          const { error } = await supabase
+            .from("project_images")
+            .insert(galleryImageUrls.map(url => ({
+              project_id: initialData.id,
+              image_url: url,
+              image_type: "gallery",
+            })));
+
+          if (error) throw error;
+        }
+
         // Insert plans
         if (planUrls.length > 0) {
           const { error } = await supabase
@@ -150,6 +188,19 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
               ...unit,
               name: `Unit ${unit.unit_number}`,
               project_id: project.id,
+            })));
+
+          if (error) throw error;
+        }
+
+        // Insert gallery images
+        if (galleryImageUrls.length > 0) {
+          const { error } = await supabase
+            .from("project_images")
+            .insert(galleryImageUrls.map(url => ({
+              project_id: project.id,
+              image_url: url,
+              image_type: "gallery",
             })));
 
           if (error) throw error;
@@ -190,8 +241,9 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <Tabs defaultValue="basic" className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="basic">معلومات أساسية</TabsTrigger>
+            <TabsTrigger value="gallery">صور المشروع</TabsTrigger>
             <TabsTrigger value="location">الموقع</TabsTrigger>
             <TabsTrigger value="plans">المخططات</TabsTrigger>
             <TabsTrigger value="units">الوحدات</TabsTrigger>
@@ -203,6 +255,15 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
               initialThumbnailUrl={initialData?.thumbnail_url}
               isLoading={isLoading}
               onFileChange={setThumbnail}
+            />
+          </TabsContent>
+
+          <TabsContent value="gallery">
+            <ProjectGallery
+              form={form}
+              isLoading={isLoading}
+              onGalleryImagesChange={setGalleryImages}
+              initialImages={initialData?.gallery_images}
             />
           </TabsContent>
 
