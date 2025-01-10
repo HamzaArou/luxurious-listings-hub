@@ -32,44 +32,26 @@ export const useFormSubmission = (
         throw new Error("صورة المشروع مطلوبة");
       }
 
-      // Upload gallery images if any
-      const galleryImageUrls: string[] = [];
-      if (data.gallery_type === "images" && galleryImages) {
-        console.log("Uploading gallery images...");
-        const urls = await uploadFiles(galleryImages, "project-images");
-        galleryImageUrls.push(...urls);
-      }
-
-      // Upload plans if any
-      const planUrls: string[] = [];
-      if (plans) {
-        console.log("Uploading plans...");
-        const urls = await uploadFiles(plans, "project-plans");
-        planUrls.push(...urls);
-      }
-
       // Prepare project data
       const projectData = {
         name: data.name,
         location: data.location,
         address: data.address,
-        lat: data.lat,
-        lng: data.lng,
+        lat: data.lat || null,
+        lng: data.lng || null,
         floors: data.floors,
+        units: data.units,
         status: data.status,
         thumbnail_url: thumbnailUrl,
-        units: data.project_units.length,
       };
 
       console.log("Project data prepared:", projectData);
 
-      let projectId: string;
-      
       // Create new project
       console.log("Creating new project...");
       const { data: newProject, error: insertError } = await supabase
         .from("projects")
-        .insert([projectData])
+        .insert(projectData)
         .select()
         .single();
 
@@ -77,16 +59,16 @@ export const useFormSubmission = (
         console.error("Error creating project:", insertError);
         throw insertError;
       }
-      
+
       if (!newProject) {
         throw new Error("Failed to create project - no data returned");
       }
-      
-      projectId = newProject.id;
+
+      const projectId = newProject.id;
       console.log("New project created with ID:", projectId);
 
       // Handle units
-      if (data.project_units.length > 0) {
+      if (data.project_units && data.project_units.length > 0) {
         console.log("Handling project units...");
         const unitsData = data.project_units.map(unit => ({
           project_id: projectId,
@@ -101,7 +83,7 @@ export const useFormSubmission = (
           bathrooms: unit.bathrooms,
         }));
 
-        console.log("Inserting new units:", unitsData);
+        console.log("Inserting units:", unitsData);
         const { error: unitsError } = await supabase
           .from("project_units")
           .insert(unitsData);
@@ -113,15 +95,20 @@ export const useFormSubmission = (
       }
 
       // Handle gallery images
-      if (galleryImageUrls.length > 0) {
-        console.log("Handling gallery images...");
+      if (data.gallery_type === "images" && galleryImages && galleryImages.length > 0) {
+        console.log("Uploading gallery images...");
+        const urls = await uploadFiles(galleryImages, "project-images");
+        
+        console.log("Inserting gallery images...");
         const { error: imagesError } = await supabase
           .from("project_images")
-          .insert(galleryImageUrls.map(url => ({
-            project_id: projectId,
-            image_url: url,
-            image_type: "gallery",
-          })));
+          .insert(
+            urls.map(url => ({
+              project_id: projectId,
+              image_url: url,
+              image_type: "gallery",
+            }))
+          );
 
         if (imagesError) {
           console.error("Error inserting gallery images:", imagesError);
@@ -130,14 +117,19 @@ export const useFormSubmission = (
       }
 
       // Handle plans
-      if (planUrls.length > 0) {
-        console.log("Handling project plans...");
+      if (plans && plans.length > 0) {
+        console.log("Uploading plans...");
+        const urls = await uploadFiles(plans, "project-plans");
+        
+        console.log("Inserting plans...");
         const { error: plansError } = await supabase
           .from("project_plans")
-          .insert(planUrls.map(url => ({
-            project_id: projectId,
-            file_url: url,
-          })));
+          .insert(
+            urls.map(url => ({
+              project_id: projectId,
+              file_url: url,
+            }))
+          );
 
         if (plansError) {
           console.error("Error inserting plans:", plansError);
