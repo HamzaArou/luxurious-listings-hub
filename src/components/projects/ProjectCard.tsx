@@ -1,13 +1,14 @@
 import { Card } from "../ui/card";
-import { lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
-import { Project } from "@/types/project";
+import { Project, convertProjectStatus } from "@/types/project";
 
 interface ProjectCardProps {
   project: Project;
 }
 
 const ProjectCard = ({ project }: ProjectCardProps) => {
+  const displayStatus = convertProjectStatus(project.status);
+
   return (
     <Link to={`/projects/${project.id}`}>
       <Card key={project.id} className="overflow-hidden h-[432px] bg-white rounded-[40px] shadow-lg hover:shadow-xl transition-shadow">
@@ -20,17 +21,15 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         </div>
         
         <div className="relative h-[243px] w-[277px] mx-auto">
-          <Suspense fallback={<div className="w-full h-full bg-gray-200 animate-pulse rounded-[15px]" />}>
-            <img
-              src={project.image || project.thumbnail_url}
-              alt={project.name}
-              className="w-full h-full object-cover rounded-[15px]"
-              loading="lazy"
-              decoding="async"
-            />
-          </Suspense>
+          <img
+            src={project.image || project.thumbnail_url}
+            alt={project.name}
+            className="w-full h-full object-cover rounded-[15px]"
+            loading="lazy"
+            decoding="async"
+          />
           <span className="absolute bottom-4 left-4 px-4 py-1 bg-gold text-white rounded-full text-sm">
-            {project.status}
+            {displayStatus}
           </span>
         </div>
 

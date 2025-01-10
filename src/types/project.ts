@@ -1,12 +1,16 @@
 import { z } from "zod";
 import { Database } from "@/integrations/supabase/types";
 
-type ProjectStatus = Database["public"]["Enums"]["project_status"];
-type ProjectDisplayStatus = "متاح" | "محجوز" | "مباع";
+// Database project status type
+export type DbProjectStatus = Database["public"]["Enums"]["project_status"];
+// Display project status type
+export type DisplayProjectStatus = "متاح" | "محجوز" | "مباع";
 
-// Base project unit schema
+// Project unit schema for form validation
 export const projectUnitSchema = z.object({
+  id: z.string().optional(),
   unit_number: z.number().min(1, "رقم الوحدة مطلوب"),
+  name: z.string().optional(),
   status: z.string().min(1, "حالة الوحدة مطلوبة"),
   unit_type: z.string().min(1, "نوع الوحدة مطلوب"),
   area: z.number().min(1, "المساحة مطلوبة"),
@@ -29,7 +33,6 @@ export const projectFormSchema = z.object({
   gallery_type: z.enum(["images", "coming_soon"]),
   gallery_images: z.any().optional(),
   plans: z.any().optional(),
-  thumbnail_url: z.string().optional(),
 });
 
 export type ProjectFormValues = z.infer<typeof projectFormSchema>;
@@ -38,10 +41,10 @@ export type ProjectFormValues = z.infer<typeof projectFormSchema>;
 export interface ProjectUnit {
   id: string;
   name: string;
-  area: number;
   unit_number: number;
   status: string;
   unit_type: string;
+  area: number;
   floor_number: number;
   side: string;
   rooms: number;
@@ -56,7 +59,7 @@ export interface Project {
   location: string;
   floors: number;
   units: number;
-  status: ProjectStatus;
+  status: DbProjectStatus;
   thumbnail_url: string;
   created_at: string;
   updated_at: string;
@@ -79,7 +82,7 @@ export interface ProjectFormProps {
 }
 
 // Helper function to convert database status to display status
-export const convertProjectStatus = (status: ProjectStatus): ProjectDisplayStatus => {
+export const convertProjectStatus = (status: DbProjectStatus): DisplayProjectStatus => {
   switch (status) {
     case "للبيع":
       return "متاح";
@@ -89,5 +92,19 @@ export const convertProjectStatus = (status: ProjectStatus): ProjectDisplayStatu
       return "مباع";
     default:
       return "متاح";
+  }
+};
+
+// Helper function to convert display status to database status
+export const convertToDbStatus = (status: DisplayProjectStatus): DbProjectStatus => {
+  switch (status) {
+    case "متاح":
+      return "للبيع";
+    case "محجوز":
+      return "قريباً";
+    case "مباع":
+      return "مكتمل";
+    default:
+      return "للبيع";
   }
 };

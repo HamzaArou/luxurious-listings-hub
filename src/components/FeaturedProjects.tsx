@@ -5,7 +5,7 @@ import ProjectCard from "./projects/ProjectCard";
 import MortgageCalculator from "./MortgageCalculator";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Project, convertProjectStatus } from "@/types/project";
+import { Project, convertProjectStatus, DbProjectStatus } from "@/types/project";
 
 const FeaturedProjects = () => {
   const [displayCount, setDisplayCount] = useState(6);
@@ -19,12 +19,13 @@ const FeaturedProjects = () => {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
+      
       return data.map(project => ({
         id: project.id,
         name: project.name,
         image: project.thumbnail_url,
         details: `${project.floors} طابق | ${project.units} شقة`,
-        status: convertProjectStatus(project.status),
+        status: project.status as DbProjectStatus,
         location: project.location,
         floors: project.floors,
         units: project.units,
