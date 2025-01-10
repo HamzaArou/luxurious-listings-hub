@@ -74,8 +74,8 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
-        <Tabs value={currentTab} className="w-full">
-          <FormTabs />
+        <Tabs value={currentTab} onValueChange={(value) => setCurrentTab(value as TabType)} className="w-full">
+          <FormTabs currentTab={currentTab} />
 
           <TabsContent value="basic" className="space-y-4">
             <ProjectBasicInfo form={form} isLoading={isLoading} />
