@@ -46,12 +46,15 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
   const isFirstTab = currentTabIndex === 0;
 
   const validateCurrentTab = async () => {
-    let isValid = true;
     const values = form.getValues();
+    let isValid = true;
 
     switch (currentTab) {
       case "basic":
-        isValid = await form.trigger(["name", "location", "floors", "status", "thumbnail_url"]);
+        // First trigger validation for the form fields
+        isValid = await form.trigger(["name", "location", "floors", "status"]);
+        
+        // Then check if we have either a new thumbnail or an existing one
         if (!thumbnail && !initialData?.thumbnail_url) {
           toast({
             title: "خطأ",
@@ -61,6 +64,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
           return false;
         }
         break;
+
       case "gallery":
         isValid = await form.trigger("gallery_type");
         if (values.gallery_type === "images" && !galleryImages && !initialData?.gallery_images?.length) {
@@ -72,9 +76,11 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
           return false;
         }
         break;
+
       case "location":
         isValid = await form.trigger("address");
         break;
+
       case "plans":
         if (!plans && !initialData?.plans?.length) {
           toast({
@@ -85,6 +91,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
           return false;
         }
         break;
+
       case "units":
         const units = form.getValues("project_units");
         if (!units || units.length === 0) {
@@ -317,6 +324,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
               initialThumbnailUrl={initialData?.thumbnail_url}
               isLoading={isLoading}
               onFileChange={setThumbnail}
+              error={!thumbnail && !initialData?.thumbnail_url}
             />
           </TabsContent>
 
