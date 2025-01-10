@@ -16,9 +16,8 @@ export const useFormSubmission = (
 ) => {
   const { toast } = useToast();
 
-  const handleSubmit = async (data: ProjectFormValues) => {
+  const submitForm = async (data: ProjectFormValues) => {
     try {
-      setIsLoading(true);
       console.log("Starting form submission with data:", data);
 
       // Upload thumbnail
@@ -223,10 +222,9 @@ export const useFormSubmission = (
         description: error.message || "حدث خطأ أثناء حفظ المشروع",
         variant: "destructive",
       });
-    } finally {
-      setIsLoading(false);
+      throw error;
     }
   };
 
-  return { handleSubmit };
+  return { submitForm };
 };

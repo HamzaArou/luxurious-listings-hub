@@ -40,7 +40,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
   });
 
   const { validateTab } = useFormValidation(form, thumbnail, initialData, galleryImages, plans);
-  const { handleSubmit } = useFormSubmission(
+  const { submitForm } = useFormSubmission(
     form,
     thumbnail,
     galleryImages,
@@ -81,7 +81,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
     
     try {
       setIsLoading(true);
-      await handleSubmit(data);
+      await submitForm(data);
     } catch (error) {
       console.error("Form submission error:", error);
     } finally {
