@@ -46,7 +46,7 @@ export default function ProjectDetails() {
         
         {/* Large Project Image */}
         <div className="relative w-full max-w-4xl mx-auto">
-          <div className="w-[531px] h-[503px] mx-auto rounded-3xl overflow-hidden shadow-xl">
+          <div className="w-[300px] h-[285px] md:w-[531px] md:h-[503px] mx-auto rounded-3xl overflow-hidden shadow-xl">
             <img
               src={project.thumbnail_url}
               alt={project.name}
