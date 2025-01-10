@@ -38,11 +38,30 @@ export default function ProjectDetails() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold text-darkBlue">{project.name}</h1>
-        <p className="text-xl text-gray-600">{project.location}</p>
+      {/* Hero Section */}
+      <div className="mb-12 text-center">
+        <p className="text-gold text-lg mb-2">مشروع</p>
+        <h1 className="text-5xl font-bold text-gold mb-3">{project.name}</h1>
+        <p className="text-2xl text-darkBlue mb-8">{project.location}</p>
+        
+        {/* Large Project Image */}
+        <div className="relative w-full max-w-4xl mx-auto">
+          <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-xl">
+            <img
+              src={project.thumbnail_url}
+              alt={project.name}
+              className="w-full h-full object-cover"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <span className="absolute bottom-6 right-6 px-6 py-2 bg-gold text-white rounded-full text-lg font-medium">
+            {project.status}
+          </span>
+        </div>
       </div>
 
+      {/* Tabs Section */}
       <Tabs defaultValue="gallery" className="space-y-4">
         <TabsList className="w-full justify-start">
           <TabsTrigger value="gallery">صور المشروع</TabsTrigger>
