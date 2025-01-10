@@ -4,7 +4,7 @@ import ProjectSearch from "./projects/ProjectSearch";
 import ProjectCard from "./projects/ProjectCard";
 import MortgageCalculator from "./MortgageCalculator";
 
-const staticProjects = [
+export const staticProjects = [
   {
     id: "1",
     name: "برج السلام",

@@ -5,8 +5,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { staticProjects } from "../FeaturedProjects";
 
 const ProjectSearch = () => {
+  // Extract unique neighborhoods from projects
+  const uniqueNeighborhoods = Array.from(
+    new Set(staticProjects.map(project => project.location))
+  ).sort();
+
   return (
     <div className="flex items-center justify-between bg-darkBlue rounded-full px-6 w-full max-w-[462px] h-[54px] mb-4 mx-auto">
       <div className="flex gap-2 flex-1">
@@ -15,9 +21,12 @@ const ProjectSearch = () => {
             <SelectValue placeholder="اسم الحي" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All</SelectItem>
-            <SelectItem value="haven1">HAVEN 1</SelectItem>
-            <SelectItem value="haven2">HAVEN 2</SelectItem>
+            <SelectItem value="all">جميع الأحياء</SelectItem>
+            {uniqueNeighborhoods.map((neighborhood) => (
+              <SelectItem key={neighborhood} value={neighborhood}>
+                {neighborhood}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
 
@@ -26,7 +35,7 @@ const ProjectSearch = () => {
             <SelectValue placeholder="حالة المشروع" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All</SelectItem>
+            <SelectItem value="all">الكل</SelectItem>
             <SelectItem value="started">بدأ البيع</SelectItem>
             <SelectItem value="sold">تم البيع بالكامل</SelectItem>
             <SelectItem value="coming">قريباً</SelectItem>
