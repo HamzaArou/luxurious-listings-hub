@@ -20,27 +20,30 @@ export default function ProjectLocation({ form, isLoading }: ProjectLocationProp
 
   useEffect(() => {
     if (scriptLoaded && inputRef.current) {
-      // Initialize Google Places Autocomplete
       autocompleteRef.current = new google.maps.places.Autocomplete(inputRef.current, {
-        componentRestrictions: { country: "sa" }, // Restrict to Saudi Arabia
+        componentRestrictions: { country: "sa" },
         types: ["address"],
       });
 
-      // Handle place selection
       autocompleteRef.current.addListener("place_changed", () => {
         const place = autocompleteRef.current?.getPlace();
         if (place && place.formatted_address) {
           form.setValue("address", place.formatted_address);
+          if (place.geometry?.location) {
+            form.setValue("lat", place.geometry.location.lat());
+            form.setValue("lng", place.geometry.location.lng());
+          }
           handleAddressChange(place.formatted_address);
         }
       });
     }
-  }, [scriptLoaded]);
+  }, [scriptLoaded, form]);
 
   const handleAddressChange = (address: string) => {
     form.setValue("address", address);
-    // Generate Google Maps search URL
-    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address + ", Saudi Arabia")}`;
+    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+      address + ", Saudi Arabia"
+    )}`;
     setPreviewUrl(googleMapsUrl);
   };
 
@@ -58,8 +61,8 @@ export default function ProjectLocation({ form, isLoading }: ProjectLocationProp
           <FormItem>
             <FormLabel>عنوان المشروع</FormLabel>
             <FormControl>
-              <Input 
-                {...field} 
+              <Input
+                {...field}
                 ref={inputRef}
                 disabled={isLoading}
                 onChange={(e) => {
@@ -78,7 +81,7 @@ export default function ProjectLocation({ form, isLoading }: ProjectLocationProp
 
       {previewUrl && (
         <div className="mt-4">
-          <a 
+          <a
             href={previewUrl}
             target="_blank"
             rel="noopener noreferrer"

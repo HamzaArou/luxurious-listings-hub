@@ -19,7 +19,7 @@ export default function ProjectBasicInfo({ form, isLoading }: ProjectBasicInfoPr
           <FormItem>
             <FormLabel>اسم المشروع</FormLabel>
             <FormControl>
-              <Input {...field} disabled={isLoading} />
+              <Input {...field} disabled={isLoading} placeholder="أدخل اسم المشروع" />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -33,7 +33,7 @@ export default function ProjectBasicInfo({ form, isLoading }: ProjectBasicInfoPr
           <FormItem>
             <FormLabel>الموقع</FormLabel>
             <FormControl>
-              <Input {...field} disabled={isLoading} />
+              <Input {...field} disabled={isLoading} placeholder="أدخل موقع المشروع" />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -54,6 +54,28 @@ export default function ProjectBasicInfo({ form, isLoading }: ProjectBasicInfoPr
                   {...field}
                   onChange={(e) => field.onChange(Number(e.target.value))}
                   disabled={isLoading}
+                  placeholder="أدخل عدد الطوابق"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="units"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>عدد الوحدات</FormLabel>
+              <FormControl>
+                <Input
+                  type="number"
+                  min="1"
+                  {...field}
+                  onChange={(e) => field.onChange(Number(e.target.value))}
+                  disabled={isLoading}
+                  placeholder="أدخل عدد الوحدات"
                 />
               </FormControl>
               <FormMessage />
