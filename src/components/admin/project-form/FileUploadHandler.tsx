@@ -15,11 +15,23 @@ export async function uploadFile(file: File, bucket: "project-images" | "project
 
     console.log(`Attempting to upload file ${fileName} to bucket ${bucket}`);
 
+    // First check if the bucket exists and is accessible
+    const { data: bucketData, error: bucketError } = await supabase
+      .storage
+      .getBucket(bucket);
+
+    if (bucketError) {
+      console.error("Bucket error:", bucketError);
+      throw new Error(`Unable to access bucket ${bucket}`);
+    }
+
+    // Attempt the file upload with the authenticated session
     const { error: uploadError, data } = await supabase.storage
       .from(bucket)
       .upload(fileName, file, {
         upsert: false,
-        contentType: file.type
+        contentType: file.type,
+        duplex: 'half'
       });
 
     if (uploadError) {
