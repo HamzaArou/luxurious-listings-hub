@@ -43,6 +43,84 @@ const staticProjects = [
     annexes: 15,
     projectLabel: "مشروع",
     thumbnail_url: "/lovable-uploads/7c585eb4-1d55-4430-8b20-b1d80a628aad.png",
+  },
+  {
+    id: "4",
+    name: "برج الأمير",
+    location: "حي الملقا",
+    details: "14 طابق | 56 شقة",
+    status: "بدأ البيع",
+    floors: 14,
+    units: 56,
+    apartments: 56,
+    annexes: 14,
+    projectLabel: "مشروع",
+    thumbnail_url: "/lovable-uploads/452d0f08-89bf-4863-9d95-46a23971500f.png",
+  },
+  {
+    id: "5",
+    name: "برج المملكة",
+    location: "حي العليا",
+    details: "16 طابق | 64 شقة",
+    status: "قريباً",
+    floors: 16,
+    units: 64,
+    apartments: 64,
+    annexes: 16,
+    projectLabel: "مشروع",
+    thumbnail_url: "/lovable-uploads/3d3cf84c-e710-4000-96a1-a8e3970e5ec9.png",
+  },
+  {
+    id: "6",
+    name: "برج الياسمين",
+    location: "حي الورود",
+    details: "11 طابق | 44 شقة",
+    status: "بدأ البيع",
+    floors: 11,
+    units: 44,
+    apartments: 44,
+    annexes: 11,
+    projectLabel: "مشروع",
+    thumbnail_url: "/lovable-uploads/7c585eb4-1d55-4430-8b20-b1d80a628aad.png",
+  },
+  {
+    id: "7",
+    name: "برج الصفا",
+    location: "حي الصحافة",
+    details: "13 طابق | 52 شقة",
+    status: "قريباً",
+    floors: 13,
+    units: 52,
+    apartments: 52,
+    annexes: 13,
+    projectLabel: "مشروع",
+    thumbnail_url: "/lovable-uploads/452d0f08-89bf-4863-9d95-46a23971500f.png",
+  },
+  {
+    id: "8",
+    name: "برج المروة",
+    location: "حي النخيل",
+    details: "9 طابق | 36 شقة",
+    status: "بدأ البيع",
+    floors: 9,
+    units: 36,
+    apartments: 36,
+    annexes: 9,
+    projectLabel: "مشروع",
+    thumbnail_url: "/lovable-uploads/3d3cf84c-e710-4000-96a1-a8e3970e5ec9.png",
+  },
+  {
+    id: "9",
+    name: "برج الريحان",
+    location: "حي الياسمين",
+    details: "17 طابق | 68 شقة",
+    status: "قريباً",
+    floors: 17,
+    units: 68,
+    apartments: 68,
+    annexes: 17,
+    projectLabel: "مشروع",
+    thumbnail_url: "/lovable-uploads/7c585eb4-1d55-4430-8b20-b1d80a628aad.png",
   }
 ];
 
@@ -80,7 +158,7 @@ const FeaturedProjects = () => {
                   onClick={handleLoadMore}
                   className="bg-gold hover:bg-gold/90 text-white px-6 py-2 rounded-full"
                 >
-                  تحميل المزيد...
+                  عرض المزيد..
                 </Button>
               </div>
             )}
