@@ -3,14 +3,12 @@ import { Database } from "@/integrations/supabase/types";
 
 // Database project status type
 export type DbProjectStatus = Database["public"]["Enums"]["project_status"];
-// Display project status type
-export type DisplayProjectStatus = "متاح" | "محجوز" | "مباع";
 
 // Project unit schema for form validation
 export const projectUnitSchema = z.object({
-  id: z.string().optional(),
+  id: z.string(),
   unit_number: z.number().min(1, "رقم الوحدة مطلوب"),
-  name: z.string().optional(),
+  name: z.string().min(1, "اسم الوحدة مطلوب"),
   status: z.string().min(1, "حالة الوحدة مطلوبة"),
   unit_type: z.string().min(1, "نوع الوحدة مطلوب"),
   area: z.number().min(1, "المساحة مطلوبة"),
@@ -29,6 +27,7 @@ export const projectFormSchema = z.object({
   lng: z.number().optional(),
   floors: z.number().min(1, "عدد الطوابق يجب أن يكون أكبر من 0"),
   status: z.enum(["للبيع", "قريباً", "مكتمل"] as const),
+  thumbnail_url: z.string().min(1, "صورة المشروع مطلوبة"),
   project_units: z.array(projectUnitSchema),
   gallery_type: z.enum(["images", "coming_soon"]),
   gallery_images: z.any().optional(),
@@ -66,11 +65,6 @@ export interface Project {
   address?: string;
   lat?: number;
   lng?: number;
-  projectLabel?: string;
-  image?: string;
-  details?: string;
-  apartments?: number;
-  annexes?: number;
 }
 
 export interface ProjectFormProps {
@@ -82,7 +76,7 @@ export interface ProjectFormProps {
 }
 
 // Helper function to convert database status to display status
-export const convertProjectStatus = (status: DbProjectStatus): DisplayProjectStatus => {
+export const convertProjectStatus = (status: DbProjectStatus): string => {
   switch (status) {
     case "للبيع":
       return "متاح";
@@ -96,7 +90,7 @@ export const convertProjectStatus = (status: DbProjectStatus): DisplayProjectSta
 };
 
 // Helper function to convert display status to database status
-export const convertToDbStatus = (status: DisplayProjectStatus): DbProjectStatus => {
+export const convertToDbStatus = (status: string): DbProjectStatus => {
   switch (status) {
     case "متاح":
       return "للبيع";

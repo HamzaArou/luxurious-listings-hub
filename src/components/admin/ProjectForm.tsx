@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Save, ArrowRight, ArrowLeft } from "lucide-react";
+import { Save } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -36,6 +36,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
       address: "",
       floors: 1,
       status: "للبيع",
+      thumbnail_url: "",
       project_units: [],
       gallery_type: "coming_soon",
     },
@@ -52,7 +53,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
 
     switch (currentTab) {
       case "basic":
-        isValid = await form.trigger(["name", "location", "floors", "status"]);
+        isValid = await form.trigger(["name", "location", "floors", "status", "thumbnail_url"]);
         if (!thumbnail && !initialData?.thumbnail_url) {
           toast({
             title: "خطأ",
@@ -206,7 +207,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
         lat: data.lat,
         lng: data.lng,
         floors: data.floors,
-        status: data.status as ProjectStatus,
+        status: data.status,
         thumbnail_url: thumbnailUrl,
         units: data.project_units.length,
       };
@@ -239,7 +240,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
             .from("project_units")
             .upsert({
               ...unitData,
-              id: unit.id || undefined,
+              id: unit.id,
             });
 
           if (unitError) throw unitError;
@@ -397,13 +398,14 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
             <ProjectUnits
               form={form}
               isLoading={isLoading}
-              units={form.watch("project_units") || []}
               onAddUnit={() => {
                 const currentUnits = form.getValues("project_units") || [];
                 form.setValue("project_units", [
                   ...currentUnits,
                   {
+                    id: crypto.randomUUID(),
                     unit_number: currentUnits.length + 1,
+                    name: `Unit ${currentUnits.length + 1}`,
                     status: "للبيع",
                     unit_type: "",
                     area: 0,
@@ -443,7 +445,6 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
                 onClick={handlePrevious}
                 disabled={isLoading}
               >
-                <ArrowRight className="ml-2 h-4 w-4" />
                 السابق
               </Button>
             )}
@@ -454,7 +455,6 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
                 onClick={handleNext}
                 disabled={isLoading}
               >
-                <ArrowLeft className="mr-2 h-4 w-4" />
                 التالي
               </Button>
             ) : (
