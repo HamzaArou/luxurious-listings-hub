@@ -28,9 +28,13 @@ const FeaturedProjects = () => {
                project.status === "قريباً" ? "محجوز" : "مباع",
         location: project.location,
         floors: project.floors,
+        units: project.units,
         apartments: project.units,
         annexes: Math.ceil(project.units / 4),
         projectLabel: "مشروع",
+        thumbnail_url: project.thumbnail_url,
+        created_at: project.created_at,
+        updated_at: project.updated_at,
       } as Project));
     },
   });

@@ -3,6 +3,7 @@ import { Database } from "@/integrations/supabase/types";
 
 type ProjectStatus = Database["public"]["Enums"]["project_status"];
 
+// Base project unit schema
 export const projectUnitSchema = z.object({
   unit_number: z.number().min(1, "رقم الوحدة مطلوب"),
   status: z.string().min(1, "حالة الوحدة مطلوبة"),
@@ -14,6 +15,7 @@ export const projectUnitSchema = z.object({
   bathrooms: z.number().min(1, "عدد دورات المياه مطلوب"),
 });
 
+// Project form schema
 export const projectFormSchema = z.object({
   name: z.string().min(1, "اسم المشروع مطلوب"),
   location: z.string().min(1, "الموقع مطلوب"),
@@ -31,28 +33,22 @@ export const projectFormSchema = z.object({
 
 export type ProjectFormValues = z.infer<typeof projectFormSchema>;
 
-export interface ProjectFormProps {
-  initialData?: ProjectFormValues & { 
-    id?: string;
-    gallery_images?: { id: string; image_url: string }[];
-    plans?: string[];
-  };
-}
-
+// Project unit interface
 export interface ProjectUnit {
   id: string;
   name: string;
   area: number;
-  rooms?: number;
-  bathrooms?: number;
+  unit_number: number;
+  status: string;
+  unit_type: string;
+  floor_number: number;
+  side: string;
+  rooms: number;
+  bathrooms: number;
   details?: Record<string, any>;
-  unit_number?: number;
-  status?: string;
-  unit_type?: string;
-  floor_number?: number;
-  side?: string;
 }
 
+// Project interface
 export interface Project {
   id: string;
   name: string;
@@ -63,8 +59,20 @@ export interface Project {
   thumbnail_url: string;
   created_at: string;
   updated_at: string;
-  side?: string;
   address?: string;
   lat?: number;
   lng?: number;
+  projectLabel?: string;
+  image?: string;
+  details?: string;
+  apartments?: number;
+  annexes?: number;
+}
+
+export interface ProjectFormProps {
+  initialData?: ProjectFormValues & {
+    id?: string;
+    gallery_images?: { id: string; image_url: string }[];
+    plans?: string[];
+  };
 }
