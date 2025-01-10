@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Button } from "./ui/button";
 import ProjectSearch from "./projects/ProjectSearch";
 import ProjectCard from "./projects/ProjectCard";
@@ -129,13 +129,23 @@ const FeaturedProjects = () => {
   const [selectedNeighborhood, setSelectedNeighborhood] = useState("all");
   const [selectedStatus, setSelectedStatus] = useState("all");
 
-  const filteredProjects = staticProjects.filter((project) => {
-    const neighborhoodMatch = selectedNeighborhood === "all" || project.location === selectedNeighborhood;
-    const statusMatch = selectedStatus === "all" || project.status === selectedStatus;
-    return neighborhoodMatch && statusMatch;
-  });
+  // Memoize filtered projects to prevent unnecessary recalculations
+  const filteredProjects = useMemo(() => {
+    return staticProjects.filter((project) => {
+      if (selectedNeighborhood === "all" && selectedStatus === "all") {
+        return true;
+      }
+      const neighborhoodMatch = selectedNeighborhood === "all" || project.location === selectedNeighborhood;
+      const statusMatch = selectedStatus === "all" || project.status === selectedStatus;
+      return neighborhoodMatch && statusMatch;
+    });
+  }, [selectedNeighborhood, selectedStatus]);
 
-  const displayedProjects = filteredProjects.slice(0, displayCount);
+  // Memoize displayed projects
+  const displayedProjects = useMemo(() => {
+    return filteredProjects.slice(0, displayCount);
+  }, [filteredProjects, displayCount]);
+
   const hasMoreProjects = filteredProjects.length > displayCount;
 
   const handleLoadMore = () => {

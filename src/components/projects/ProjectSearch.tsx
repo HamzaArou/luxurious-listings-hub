@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import {
   Select,
   SelectContent,
@@ -12,10 +13,12 @@ interface ProjectSearchProps {
 }
 
 const ProjectSearch = ({ onFilterChange }: ProjectSearchProps) => {
-  // Extract unique neighborhoods from projects
-  const uniqueNeighborhoods = Array.from(
-    new Set(staticProjects.map(project => project.location))
-  ).sort();
+  // Memoize unique neighborhoods to prevent recalculation on every render
+  const uniqueNeighborhoods = useMemo(() => {
+    return Array.from(
+      new Set(staticProjects.map(project => project.location))
+    ).sort();
+  }, []); // Empty dependency array since staticProjects is constant
 
   const handleNeighborhoodChange = (value: string) => {
     onFilterChange(value, "all");
