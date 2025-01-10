@@ -58,6 +58,49 @@ export default function ProjectDetails() {
         </div>
       </div>
 
+      {/* Project Images Section */}
+      <div className="relative py-16 bg-gradient-to-b from-darkBlue/10 to-darkBlue/5 rounded-3xl mb-12">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-warmBeige text-center mb-8">صور المشروع</h2>
+          
+          <div className="max-w-4xl mx-auto">
+            {mockGalleryImages.length > 0 ? (
+              <div className="space-y-8">
+                {/* Main Image Display */}
+                <div className="aspect-video rounded-2xl overflow-hidden shadow-lg">
+                  <img
+                    src={mockGalleryImages[0].image_url}
+                    alt=""
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                
+                {/* Thumbnails Row */}
+                <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
+                  {mockGalleryImages.map((image, index) => (
+                    <button
+                      key={image.id}
+                      className="aspect-square rounded-lg overflow-hidden border border-[#F5F5F5] 
+                               transition-all duration-300 hover:shadow-[0_0_15px_rgba(14,165,233,0.3)]"
+                    >
+                      <img
+                        src={image.image_url}
+                        alt=""
+                        className="w-full h-full object-cover"
+                      />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="text-center py-16">
+                <p className="text-2xl text-gray-500">قريباً</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
       {/* Tabs Section */}
       <Tabs defaultValue="gallery" className="space-y-4">
         <TabsList className="w-full justify-start">
