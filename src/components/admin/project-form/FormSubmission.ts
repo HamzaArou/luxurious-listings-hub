@@ -19,9 +19,12 @@ export const useFormSubmission = (
   const handleSubmit = async (data: ProjectFormValues) => {
     try {
       setIsLoading(true);
+      console.log("Starting form submission...");
 
+      // Upload thumbnail
       let thumbnailUrl = initialData?.thumbnail_url;
       if (thumbnail) {
+        console.log("Uploading thumbnail...");
         thumbnailUrl = await uploadFile(thumbnail, "project-images");
       }
 
@@ -32,6 +35,7 @@ export const useFormSubmission = (
       // Upload gallery images if any
       const galleryImageUrls: string[] = [];
       if (data.gallery_type === "images" && galleryImages) {
+        console.log("Uploading gallery images...");
         const urls = await uploadFiles(galleryImages, "project-images");
         galleryImageUrls.push(...urls);
       }
@@ -39,10 +43,12 @@ export const useFormSubmission = (
       // Upload plans if any
       const planUrls: string[] = [];
       if (plans) {
+        console.log("Uploading plans...");
         const urls = await uploadFiles(plans, "project-plans");
         planUrls.push(...urls);
       }
 
+      // Prepare project data
       const projectData = {
         name: data.name,
         location: data.location,
@@ -55,15 +61,99 @@ export const useFormSubmission = (
         units: data.project_units.length,
       };
 
+      console.log("Project data prepared:", projectData);
+
+      let projectId: string;
       if (initialData?.id) {
-        await handleUpdate(initialData.id, projectData, data, galleryImageUrls, planUrls);
+        // Update existing project
+        console.log("Updating existing project...");
+        const { error: updateError } = await supabase
+          .from("projects")
+          .update(projectData)
+          .eq("id", initialData.id);
+
+        if (updateError) throw updateError;
+        projectId = initialData.id;
+
+        toast({
+          title: "تم التحديث",
+          description: "تم تحديث المشروع بنجاح",
+        });
       } else {
-        await handleCreate(projectData, data, galleryImageUrls, planUrls);
+        // Create new project
+        console.log("Creating new project...");
+        const { data: newProject, error: insertError } = await supabase
+          .from("projects")
+          .insert([projectData])
+          .select()
+          .single();
+
+        if (insertError) throw insertError;
+        if (!newProject) throw new Error("Failed to create project");
+        projectId = newProject.id;
+
+        toast({
+          title: "تم الإنشاء",
+          description: "تم إنشاء المشروع بنجاح",
+        });
       }
 
+      // Handle units
+      if (data.project_units.length > 0) {
+        console.log("Handling project units...");
+        const unitsData = data.project_units.map(unit => ({
+          project_id: projectId,
+          name: unit.name,
+          area: unit.area,
+          unit_number: unit.unit_number,
+          status: unit.status,
+          unit_type: unit.unit_type,
+          floor_number: unit.floor_number,
+          side: unit.side,
+          rooms: unit.rooms,
+          bathrooms: unit.bathrooms,
+        }));
+
+        const { error: unitsError } = await supabase
+          .from("project_units")
+          .upsert(unitsData, {
+            onConflict: 'project_id,unit_number'
+          });
+
+        if (unitsError) throw unitsError;
+      }
+
+      // Handle gallery images
+      if (galleryImageUrls.length > 0) {
+        console.log("Handling gallery images...");
+        const { error: imagesError } = await supabase
+          .from("project_images")
+          .insert(galleryImageUrls.map(url => ({
+            project_id: projectId,
+            image_url: url,
+            image_type: "gallery",
+          })));
+
+        if (imagesError) throw imagesError;
+      }
+
+      // Handle plans
+      if (planUrls.length > 0) {
+        console.log("Handling project plans...");
+        const { error: plansError } = await supabase
+          .from("project_plans")
+          .insert(planUrls.map(url => ({
+            project_id: projectId,
+            file_url: url,
+          })));
+
+        if (plansError) throw plansError;
+      }
+
+      console.log("Form submission completed successfully!");
       navigate("/admin");
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error during form submission:", error);
       toast({
         title: "خطأ",
         description: "حدث خطأ أثناء حفظ المشروع",
@@ -71,104 +161,6 @@ export const useFormSubmission = (
       });
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const handleUpdate = async (
-    projectId: string,
-    projectData: any,
-    formData: ProjectFormValues,
-    galleryImageUrls: string[],
-    planUrls: string[]
-  ) => {
-    const { error } = await supabase
-      .from("projects")
-      .update(projectData)
-      .eq("id", projectId);
-
-    if (error) throw error;
-
-    await handleUnits(projectId, formData.project_units);
-    await handleGalleryImages(projectId, galleryImageUrls);
-    await handlePlans(projectId, planUrls);
-
-    toast({
-      title: "تم التحديث",
-      description: "تم تحديث المشروع بنجاح",
-    });
-  };
-
-  const handleCreate = async (
-    projectData: any,
-    formData: ProjectFormValues,
-    galleryImageUrls: string[],
-    planUrls: string[]
-  ) => {
-    const { data: project, error } = await supabase
-      .from("projects")
-      .insert([projectData])
-      .select()
-      .single();
-
-    if (error) throw error;
-
-    await handleUnits(project.id, formData.project_units);
-    await handleGalleryImages(project.id, galleryImageUrls);
-    await handlePlans(project.id, planUrls);
-
-    toast({
-      title: "تم الإنشاء",
-      description: "تم إنشاء المشروع بنجاح",
-    });
-  };
-
-  const handleUnits = async (projectId: string, units: any[]) => {
-    if (units.length > 0) {
-      const unitsData = units.map(unit => ({
-        project_id: projectId,
-        name: `Unit ${unit.unit_number}`,
-        area: unit.area,
-        unit_number: unit.unit_number,
-        status: unit.status,
-        unit_type: unit.unit_type,
-        floor_number: unit.floor_number,
-        side: unit.side,
-        rooms: unit.rooms,
-        bathrooms: unit.bathrooms,
-      }));
-
-      const { error } = await supabase
-        .from("project_units")
-        .upsert(unitsData);
-
-      if (error) throw error;
-    }
-  };
-
-  const handleGalleryImages = async (projectId: string, imageUrls: string[]) => {
-    if (imageUrls.length > 0) {
-      const { error } = await supabase
-        .from("project_images")
-        .insert(imageUrls.map(url => ({
-          project_id: projectId,
-          image_url: url,
-          image_type: "gallery",
-        })));
-
-      if (error) throw error;
-    }
-  };
-
-  const handlePlans = async (projectId: string, planUrls: string[]) => {
-    if (planUrls.length > 0) {
-      const { error } = await supabase
-        .from("project_plans")
-        .insert(planUrls.map(url => ({
-          project_id: projectId,
-          file_url: url,
-        })));
-
-      if (error) throw error;
     }
   };
 
