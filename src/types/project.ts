@@ -28,7 +28,7 @@ export const projectFormSchema = z.object({
   floors: z.number().min(1, "عدد الطوابق يجب أن يكون أكبر من 0"),
   units: z.number().min(1, "عدد الشقق يجب أن يكون أكبر من 0"),
   status: z.enum(["بدأ البيع", "تم البيع بالكامل", "قريباً"] as const),
-  thumbnail_url: z.string().min(1, "صورة المشروع مطلوبة"),
+  thumbnail_url: z.string().optional(),
   project_units: z.array(projectUnitSchema),
   gallery_type: z.enum(["images", "coming_soon"]),
   gallery_images: z.any().optional(),

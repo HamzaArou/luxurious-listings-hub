@@ -32,9 +32,6 @@ export const useFormSubmission = (
         throw new Error("صورة المشروع مطلوبة");
       }
 
-      // Calculate total units based on project_units array
-      const totalUnits = data.project_units?.length || 0;
-
       // Prepare project data
       const projectData = {
         name: data.name,
@@ -43,7 +40,7 @@ export const useFormSubmission = (
         lat: data.lat || null,
         lng: data.lng || null,
         floors: data.floors,
-        units: totalUnits, // Use the calculated total units
+        units: data.units,
         status: data.status,
         thumbnail_url: thumbnailUrl,
       };
