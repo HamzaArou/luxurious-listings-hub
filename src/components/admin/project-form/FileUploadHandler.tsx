@@ -1,11 +1,9 @@
 import { supabase } from "@/integrations/supabase/client";
-import { Toast } from "@/components/ui/toast";
+import { useToast } from "@/hooks/use-toast";
 
-export async function uploadFile(
-  file: File, 
-  bucket: "project-images" | "project-plans",
-  showToast: (toast: Toast) => void
-) {
+export async function uploadFile(file: File, bucket: "project-images" | "project-plans") {
+  const { toast } = useToast();
+  
   try {
     // First check if we have an authenticated session
     const { data: { session }, error: sessionError } = await supabase.auth.getSession();
@@ -56,7 +54,7 @@ export async function uploadFile(
     console.error("Error in uploadFile:", error);
     
     // Show toast with error message
-    showToast({
+    toast({
       title: "Upload Error",
       description: error.message || "Failed to upload file",
       variant: "destructive",
@@ -66,17 +64,13 @@ export async function uploadFile(
   }
 }
 
-export async function uploadMultipleFiles(
-  files: FileList,
-  bucket: "project-images" | "project-plans",
-  showToast: (toast: Toast) => void
-) {
-  console.log(`Uploading ${files.length} files to ${bucket}`);
+export async function uploadFiles(files: FileList, bucket: "project-images" | "project-plans") {
+  console.log(`Starting batch upload of ${files.length} files to ${bucket}`);
   const urls: string[] = [];
   
   for (let i = 0; i < files.length; i++) {
     try {
-      const url = await uploadFile(files[i], bucket, showToast);
+      const url = await uploadFile(files[i], bucket);
       urls.push(url);
     } catch (error) {
       console.error(`Error uploading file ${i + 1}:`, error);
