@@ -1,4 +1,7 @@
 import { z } from "zod";
+import { Database } from "@/integrations/supabase/types";
+
+type ProjectStatus = Database["public"]["Enums"]["project_status"];
 
 export const projectUnitSchema = z.object({
   unit_number: z.number().min(1, "رقم الوحدة مطلوب"),
@@ -18,7 +21,7 @@ export const projectFormSchema = z.object({
   lat: z.number().optional(),
   lng: z.number().optional(),
   floors: z.number().min(1, "عدد الطوابق يجب أن يكون أكبر من 0"),
-  status: z.string().min(1, "حالة المشروع مطلوبة"),
+  status: z.enum(["للبيع", "قريباً", "مكتمل"] as const),
   project_units: z.array(projectUnitSchema),
   gallery_type: z.enum(["images", "coming_soon"]),
   gallery_images: z.any().optional(),
@@ -48,4 +51,20 @@ export interface ProjectUnit {
   unit_type?: string;
   floor_number?: number;
   side?: string;
+}
+
+export interface Project {
+  id: string;
+  name: string;
+  location: string;
+  floors: number;
+  units: number;
+  status: ProjectStatus;
+  thumbnail_url: string;
+  created_at: string;
+  updated_at: string;
+  side?: string;
+  address?: string;
+  lat?: number;
+  lng?: number;
 }
