@@ -25,16 +25,12 @@ export default function ProjectGallery({
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
 
   useEffect(() => {
-    // Clear existing previews
     setPreviewUrls([]);
-    
-    // Get files from form state
     const formFiles = form.getValues("gallery_images");
     if (formFiles) {
       const filesArray = Array.from(formFiles) as File[];
       setSelectedFiles(filesArray);
       
-      // Generate preview URLs for existing files
       filesArray.forEach(file => {
         const reader = new FileReader();
         reader.onloadend = () => {
@@ -52,7 +48,6 @@ export default function ProjectGallery({
       const newFiles = [...selectedFiles, ...filesArray];
       setSelectedFiles(newFiles);
       
-      // Create preview URLs for the new files
       filesArray.forEach(file => {
         const reader = new FileReader();
         reader.onloadend = () => {
@@ -61,7 +56,6 @@ export default function ProjectGallery({
         reader.readAsDataURL(file);
       });
 
-      // Convert array back to FileList for the form
       const dataTransfer = new DataTransfer();
       newFiles.forEach(file => dataTransfer.items.add(file));
       onGalleryImagesChange(dataTransfer.files);
@@ -74,7 +68,6 @@ export default function ProjectGallery({
       const newFiles = [...prev];
       newFiles.splice(index, 1);
       
-      // Update form with new FileList
       const dataTransfer = new DataTransfer();
       newFiles.forEach(file => dataTransfer.items.add(file));
       onGalleryImagesChange(dataTransfer.files);
@@ -122,7 +115,6 @@ export default function ProjectGallery({
 
       {form.watch("gallery_type") === "images" && (
         <div className="space-y-4">
-          {/* Initial Images */}
           {initialImages && initialImages.length > 0 && (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {initialImages.map((image) => (
@@ -137,7 +129,6 @@ export default function ProjectGallery({
             </div>
           )}
 
-          {/* Preview of newly selected images */}
           {previewUrls.length > 0 && (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {previewUrls.map((url, index) => (

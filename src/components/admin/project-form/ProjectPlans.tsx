@@ -39,6 +39,7 @@ export default function ProjectPlans({ form, isLoading, onPlansChange, initialPl
                   multiple
                   onChange={(e) => onPlansChange(e.target.files)}
                   disabled={isLoading}
+                  className="cursor-pointer"
                 />
               </FormControl>
             </div>
