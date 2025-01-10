@@ -19,7 +19,7 @@ export const useFormSubmission = (
   const handleSubmit = async (data: ProjectFormValues) => {
     try {
       setIsLoading(true);
-      console.log("Starting form submission...");
+      console.log("Starting form submission with data:", data);
 
       // Upload thumbnail
       let thumbnailUrl = initialData?.thumbnail_url;
@@ -70,9 +70,14 @@ export const useFormSubmission = (
         const { error: updateError } = await supabase
           .from("projects")
           .update(projectData)
-          .eq("id", initialData.id);
+          .eq("id", initialData.id)
+          .select()
+          .single();
 
-        if (updateError) throw updateError;
+        if (updateError) {
+          console.error("Error updating project:", updateError);
+          throw updateError;
+        }
         projectId = initialData.id;
 
         toast({
@@ -88,9 +93,15 @@ export const useFormSubmission = (
           .select()
           .single();
 
-        if (insertError) throw insertError;
-        if (!newProject) throw new Error("Failed to create project");
+        if (insertError) {
+          console.error("Error creating project:", insertError);
+          throw insertError;
+        }
+        if (!newProject) {
+          throw new Error("Failed to create project - no data returned");
+        }
         projectId = newProject.id;
+        console.log("New project created with ID:", projectId);
 
         toast({
           title: "تم الإنشاء",
@@ -116,17 +127,27 @@ export const useFormSubmission = (
 
         // If updating, first delete existing units
         if (initialData?.id) {
-          await supabase
+          console.log("Deleting existing units...");
+          const { error: deleteError } = await supabase
             .from("project_units")
             .delete()
             .eq("project_id", projectId);
+
+          if (deleteError) {
+            console.error("Error deleting existing units:", deleteError);
+            throw deleteError;
+          }
         }
 
+        console.log("Inserting new units:", unitsData);
         const { error: unitsError } = await supabase
           .from("project_units")
           .insert(unitsData);
 
-        if (unitsError) throw unitsError;
+        if (unitsError) {
+          console.error("Error inserting units:", unitsError);
+          throw unitsError;
+        }
       }
 
       // Handle gallery images
@@ -134,13 +155,20 @@ export const useFormSubmission = (
         console.log("Handling gallery images...");
         // If updating, first delete existing gallery images
         if (initialData?.id) {
-          await supabase
+          console.log("Deleting existing gallery images...");
+          const { error: deleteError } = await supabase
             .from("project_images")
             .delete()
             .eq("project_id", projectId)
             .eq("image_type", "gallery");
+
+          if (deleteError) {
+            console.error("Error deleting existing gallery images:", deleteError);
+            throw deleteError;
+          }
         }
 
+        console.log("Inserting new gallery images:", galleryImageUrls);
         const { error: imagesError } = await supabase
           .from("project_images")
           .insert(galleryImageUrls.map(url => ({
@@ -149,7 +177,10 @@ export const useFormSubmission = (
             image_type: "gallery",
           })));
 
-        if (imagesError) throw imagesError;
+        if (imagesError) {
+          console.error("Error inserting gallery images:", imagesError);
+          throw imagesError;
+        }
       }
 
       // Handle plans
@@ -157,12 +188,19 @@ export const useFormSubmission = (
         console.log("Handling project plans...");
         // If updating, first delete existing plans
         if (initialData?.id) {
-          await supabase
+          console.log("Deleting existing plans...");
+          const { error: deleteError } = await supabase
             .from("project_plans")
             .delete()
             .eq("project_id", projectId);
+
+          if (deleteError) {
+            console.error("Error deleting existing plans:", deleteError);
+            throw deleteError;
+          }
         }
 
+        console.log("Inserting new plans:", planUrls);
         const { error: plansError } = await supabase
           .from("project_plans")
           .insert(planUrls.map(url => ({
@@ -170,7 +208,10 @@ export const useFormSubmission = (
             file_url: url,
           })));
 
-        if (plansError) throw plansError;
+        if (plansError) {
+          console.error("Error inserting plans:", plansError);
+          throw plansError;
+        }
       }
 
       console.log("Form submission completed successfully!");
@@ -179,7 +220,7 @@ export const useFormSubmission = (
       console.error("Error during form submission:", error);
       toast({
         title: "خطأ",
-        description: "حدث خطأ أثناء حفظ المشروع",
+        description: error.message || "حدث خطأ أثناء حفظ المشروع",
         variant: "destructive",
       });
     } finally {
