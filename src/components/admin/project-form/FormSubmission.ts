@@ -17,9 +17,10 @@ export const useFormSubmission = (
   const { toast } = useToast();
 
   const submitForm = async (data: ProjectFormValues) => {
-    try {
-      console.log("Starting form submission with data:", data);
+    console.log("Starting form submission with data:", data);
+    setIsLoading(true);
 
+    try {
       // Upload thumbnail
       let thumbnailUrl = initialData?.thumbnail_url;
       if (thumbnail) {
@@ -63,50 +64,26 @@ export const useFormSubmission = (
       console.log("Project data prepared:", projectData);
 
       let projectId: string;
-      if (initialData?.id) {
-        // Update existing project
-        console.log("Updating existing project...");
-        const { error: updateError } = await supabase
-          .from("projects")
-          .update(projectData)
-          .eq("id", initialData.id)
-          .select()
-          .single();
+      
+      // Create new project
+      console.log("Creating new project...");
+      const { data: newProject, error: insertError } = await supabase
+        .from("projects")
+        .insert([projectData])
+        .select()
+        .single();
 
-        if (updateError) {
-          console.error("Error updating project:", updateError);
-          throw updateError;
-        }
-        projectId = initialData.id;
-
-        toast({
-          title: "تم التحديث",
-          description: "تم تحديث المشروع بنجاح",
-        });
-      } else {
-        // Create new project
-        console.log("Creating new project...");
-        const { data: newProject, error: insertError } = await supabase
-          .from("projects")
-          .insert([projectData])
-          .select()
-          .single();
-
-        if (insertError) {
-          console.error("Error creating project:", insertError);
-          throw insertError;
-        }
-        if (!newProject) {
-          throw new Error("Failed to create project - no data returned");
-        }
-        projectId = newProject.id;
-        console.log("New project created with ID:", projectId);
-
-        toast({
-          title: "تم الإنشاء",
-          description: "تم إنشاء المشروع بنجاح",
-        });
+      if (insertError) {
+        console.error("Error creating project:", insertError);
+        throw insertError;
       }
+      
+      if (!newProject) {
+        throw new Error("Failed to create project - no data returned");
+      }
+      
+      projectId = newProject.id;
+      console.log("New project created with ID:", projectId);
 
       // Handle units
       if (data.project_units.length > 0) {
@@ -124,20 +101,6 @@ export const useFormSubmission = (
           bathrooms: unit.bathrooms,
         }));
 
-        // If updating, first delete existing units
-        if (initialData?.id) {
-          console.log("Deleting existing units...");
-          const { error: deleteError } = await supabase
-            .from("project_units")
-            .delete()
-            .eq("project_id", projectId);
-
-          if (deleteError) {
-            console.error("Error deleting existing units:", deleteError);
-            throw deleteError;
-          }
-        }
-
         console.log("Inserting new units:", unitsData);
         const { error: unitsError } = await supabase
           .from("project_units")
@@ -152,22 +115,6 @@ export const useFormSubmission = (
       // Handle gallery images
       if (galleryImageUrls.length > 0) {
         console.log("Handling gallery images...");
-        // If updating, first delete existing gallery images
-        if (initialData?.id) {
-          console.log("Deleting existing gallery images...");
-          const { error: deleteError } = await supabase
-            .from("project_images")
-            .delete()
-            .eq("project_id", projectId)
-            .eq("image_type", "gallery");
-
-          if (deleteError) {
-            console.error("Error deleting existing gallery images:", deleteError);
-            throw deleteError;
-          }
-        }
-
-        console.log("Inserting new gallery images:", galleryImageUrls);
         const { error: imagesError } = await supabase
           .from("project_images")
           .insert(galleryImageUrls.map(url => ({
@@ -185,21 +132,6 @@ export const useFormSubmission = (
       // Handle plans
       if (planUrls.length > 0) {
         console.log("Handling project plans...");
-        // If updating, first delete existing plans
-        if (initialData?.id) {
-          console.log("Deleting existing plans...");
-          const { error: deleteError } = await supabase
-            .from("project_plans")
-            .delete()
-            .eq("project_id", projectId);
-
-          if (deleteError) {
-            console.error("Error deleting existing plans:", deleteError);
-            throw deleteError;
-          }
-        }
-
-        console.log("Inserting new plans:", planUrls);
         const { error: plansError } = await supabase
           .from("project_plans")
           .insert(planUrls.map(url => ({
@@ -213,9 +145,14 @@ export const useFormSubmission = (
         }
       }
 
+      toast({
+        title: "تم الإنشاء",
+        description: "تم إنشاء المشروع بنجاح",
+      });
+
       console.log("Form submission completed successfully!");
       navigate("/admin");
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error during form submission:", error);
       toast({
         title: "خطأ",
@@ -223,6 +160,8 @@ export const useFormSubmission = (
         variant: "destructive",
       });
       throw error;
+    } finally {
+      setIsLoading(false);
     }
   };
 
