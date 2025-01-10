@@ -31,6 +31,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
       location: "",
       address: "",
       floors: 1,
+      units: 1,
       status: "للبيع",
       thumbnail_url: "",
       project_units: [],
