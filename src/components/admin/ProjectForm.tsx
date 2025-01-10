@@ -103,15 +103,15 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
     <div className="space-y-6">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <FormTabs currentTab={currentTab} setCurrentTab={setCurrentTab} />
-
           <Tabs value={currentTab} className="space-y-6">
+            <FormTabs currentTab={currentTab} setCurrentTab={setCurrentTab} />
+
             <TabsContent value="basic" className="space-y-6">
               <div className="space-y-6">
                 <ProjectImageUpload
-                  value={initialData?.thumbnail_url}
-                  onChange={(file) => setThumbnail(file)}
-                  onRemove={() => setThumbnail(null)}
+                  initialThumbnailUrl={initialData?.thumbnail_url}
+                  onFileChange={(file) => setThumbnail(file)}
+                  isLoading={isLoading}
                   disabled={isLoading}
                 />
                 <ProjectBasicInfo form={form} isLoading={isLoading} />
