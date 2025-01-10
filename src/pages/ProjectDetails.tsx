@@ -1,12 +1,9 @@
 import { useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import ProjectGallery from "@/components/projects/ProjectGallery";
 import ProjectUnits from "@/components/projects/ProjectUnits";
 import ProjectLocation from "@/components/projects/ProjectLocation";
-import { ProjectUnit } from "@/types/project";
 import { staticProjects } from "@/components/FeaturedProjects";
 
 export default function ProjectDetails() {
@@ -20,6 +17,24 @@ export default function ProjectDetails() {
       </div>
     );
   }
+
+  // Create mock data for gallery images based on thumbnail
+  const mockGalleryImages = [
+    {
+      id: '1',
+      image_url: project.thumbnail_url,
+      image_type: 'gallery'
+    }
+  ];
+
+  // Create mock units based on project data
+  const mockUnits = Array.from({ length: project.units }, (_, index) => ({
+    id: `unit-${index + 1}`,
+    name: `وحدة ${index + 1}`,
+    area: 120 + (index * 10), // Mock different areas
+    rooms: 3,
+    bathrooms: 2
+  }));
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -36,11 +51,11 @@ export default function ProjectDetails() {
         </TabsList>
 
         <TabsContent value="gallery">
-          <ProjectGallery images={project.project_images} />
+          <ProjectGallery images={mockGalleryImages} />
         </TabsContent>
 
         <TabsContent value="units">
-          <ProjectUnits units={project.project_units} />
+          <ProjectUnits units={mockUnits} />
         </TabsContent>
 
         <TabsContent value="location">
