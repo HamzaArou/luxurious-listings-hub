@@ -7,16 +7,28 @@ import {
 } from "../ui/select";
 import { staticProjects } from "../FeaturedProjects";
 
-const ProjectSearch = () => {
+interface ProjectSearchProps {
+  onFilterChange: (neighborhood: string, status: string) => void;
+}
+
+const ProjectSearch = ({ onFilterChange }: ProjectSearchProps) => {
   // Extract unique neighborhoods from projects
   const uniqueNeighborhoods = Array.from(
     new Set(staticProjects.map(project => project.location))
   ).sort();
 
+  const handleNeighborhoodChange = (value: string) => {
+    onFilterChange(value, "all");
+  };
+
+  const handleStatusChange = (value: string) => {
+    onFilterChange("all", value);
+  };
+
   return (
     <div className="flex items-center justify-between bg-darkBlue rounded-full px-6 w-full max-w-[462px] h-[54px] mb-4 mx-auto">
       <div className="flex gap-2 flex-1">
-        <Select>
+        <Select onValueChange={handleNeighborhoodChange}>
           <SelectTrigger className="w-full bg-white rounded-full border-none">
             <SelectValue placeholder="اسم الحي" />
           </SelectTrigger>
@@ -30,15 +42,15 @@ const ProjectSearch = () => {
           </SelectContent>
         </Select>
 
-        <Select>
+        <Select onValueChange={handleStatusChange}>
           <SelectTrigger className="w-full bg-white rounded-full border-none">
             <SelectValue placeholder="حالة المشروع" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">الكل</SelectItem>
-            <SelectItem value="started">بدأ البيع</SelectItem>
-            <SelectItem value="sold">تم البيع بالكامل</SelectItem>
-            <SelectItem value="coming">قريباً</SelectItem>
+            <SelectItem value="بدأ البيع">بدأ البيع</SelectItem>
+            <SelectItem value="تم البيع بالكامل">تم البيع بالكامل</SelectItem>
+            <SelectItem value="قريباً">قريباً</SelectItem>
           </SelectContent>
         </Select>
       </div>

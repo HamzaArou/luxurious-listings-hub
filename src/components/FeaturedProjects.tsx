@@ -126,11 +126,26 @@ export const staticProjects = [
 
 const FeaturedProjects = () => {
   const [displayCount, setDisplayCount] = useState(6);
-  const displayedProjects = staticProjects.slice(0, displayCount);
-  const hasMoreProjects = staticProjects.length > displayCount;
+  const [selectedNeighborhood, setSelectedNeighborhood] = useState("all");
+  const [selectedStatus, setSelectedStatus] = useState("all");
+
+  const filteredProjects = staticProjects.filter((project) => {
+    const neighborhoodMatch = selectedNeighborhood === "all" || project.location === selectedNeighborhood;
+    const statusMatch = selectedStatus === "all" || project.status === selectedStatus;
+    return neighborhoodMatch && statusMatch;
+  });
+
+  const displayedProjects = filteredProjects.slice(0, displayCount);
+  const hasMoreProjects = filteredProjects.length > displayCount;
 
   const handleLoadMore = () => {
-    setDisplayCount(prev => Math.min(prev + 3, staticProjects.length));
+    setDisplayCount(prev => Math.min(prev + 3, filteredProjects.length));
+  };
+
+  const handleFilterChange = (neighborhood: string, status: string) => {
+    setSelectedNeighborhood(neighborhood);
+    setSelectedStatus(status);
+    setDisplayCount(6); // Reset display count when filters change
   };
 
   return (
@@ -144,7 +159,7 @@ const FeaturedProjects = () => {
           </div>
 
           <div className="max-w-[960px] mx-auto">
-            <ProjectSearch />
+            <ProjectSearch onFilterChange={handleFilterChange} />
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {displayedProjects.map((project) => (
