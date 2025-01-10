@@ -12,40 +12,40 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
 
   return (
     <Link to={`/projects/${project.id}`}>
-      <Card key={project.id} className="overflow-hidden h-[432px] bg-white rounded-[40px] shadow-lg hover:shadow-xl transition-shadow">
-        <div className="p-0.5 text-center">
-          <p className="text-gold text-lg mb-0">مشروع</p>
-          <h3 className="text-3xl font-bold text-gold mb-0">
+      <Card className="overflow-hidden bg-white rounded-[20px] shadow-lg hover:shadow-xl transition-shadow">
+        <div className="p-4 text-center">
+          <p className="text-gold text-lg mb-1">مشروع</p>
+          <h3 className="text-2xl font-bold text-gold mb-1">
             {project.name}
           </h3>
-          <p className="text-darkBlue text-lg">{project.location}</p>
+          <p className="text-darkBlue text-lg mb-4">{project.location}</p>
         </div>
         
-        <div className="relative h-[243px] w-[277px] mx-auto">
+        <div className="relative">
           <img
             src={project.thumbnail_url}
             alt={project.name}
-            className="w-full h-full object-cover rounded-[15px]"
+            className="w-full h-[200px] object-cover"
             loading="lazy"
             decoding="async"
           />
-          <span className="absolute bottom-4 left-4 px-4 py-1 bg-gold text-white rounded-full text-sm">
+          <span className="absolute bottom-4 right-4 px-4 py-1 bg-gold text-white rounded-full text-sm">
             {displayStatus}
           </span>
         </div>
 
-        <div className="flex justify-between items-center bg-[#E7EDF7] mx-4 mt-2 rounded-[40px] px-6 py-2">
-          <div className="text-center px-2">
-            <p className="text-xl font-bold text-darkBlue">{annexes}</p>
-            <p className="text-sm text-gray-600 whitespace-nowrap">الملاحق</p>
-          </div>
-          <div className="text-center px-2">
-            <p className="text-xl font-bold text-darkBlue">{project.units}</p>
-            <p className="text-sm text-gray-600 whitespace-nowrap">الشقق</p>
-          </div>
-          <div className="text-center px-2">
+        <div className="flex justify-between items-center p-4">
+          <div className="text-center flex-1">
             <p className="text-xl font-bold text-darkBlue">{project.floors}</p>
-            <p className="text-sm text-gray-600 whitespace-nowrap">الأدوار</p>
+            <p className="text-sm text-gray-600">الأدوار</p>
+          </div>
+          <div className="text-center flex-1">
+            <p className="text-xl font-bold text-darkBlue">{project.units}</p>
+            <p className="text-sm text-gray-600">الشقق</p>
+          </div>
+          <div className="text-center flex-1">
+            <p className="text-xl font-bold text-darkBlue">{annexes}</p>
+            <p className="text-sm text-gray-600">الملاحق</p>
           </div>
         </div>
       </Card>
