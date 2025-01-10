@@ -114,11 +114,17 @@ export const useFormSubmission = (
           bathrooms: unit.bathrooms,
         }));
 
+        // If updating, first delete existing units
+        if (initialData?.id) {
+          await supabase
+            .from("project_units")
+            .delete()
+            .eq("project_id", projectId);
+        }
+
         const { error: unitsError } = await supabase
           .from("project_units")
-          .upsert(unitsData, {
-            onConflict: 'project_id,unit_number'
-          });
+          .insert(unitsData);
 
         if (unitsError) throw unitsError;
       }
@@ -126,6 +132,15 @@ export const useFormSubmission = (
       // Handle gallery images
       if (galleryImageUrls.length > 0) {
         console.log("Handling gallery images...");
+        // If updating, first delete existing gallery images
+        if (initialData?.id) {
+          await supabase
+            .from("project_images")
+            .delete()
+            .eq("project_id", projectId)
+            .eq("image_type", "gallery");
+        }
+
         const { error: imagesError } = await supabase
           .from("project_images")
           .insert(galleryImageUrls.map(url => ({
@@ -140,6 +155,14 @@ export const useFormSubmission = (
       // Handle plans
       if (planUrls.length > 0) {
         console.log("Handling project plans...");
+        // If updating, first delete existing plans
+        if (initialData?.id) {
+          await supabase
+            .from("project_plans")
+            .delete()
+            .eq("project_id", projectId);
+        }
+
         const { error: plansError } = await supabase
           .from("project_plans")
           .insert(planUrls.map(url => ({
