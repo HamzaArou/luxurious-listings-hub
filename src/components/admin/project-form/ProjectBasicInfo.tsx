@@ -12,19 +12,26 @@ interface ProjectBasicInfoProps {
 export default function ProjectBasicInfo({ form, isLoading }: ProjectBasicInfoProps) {
   return (
     <div className="space-y-4">
-      <FormField
-        control={form.control}
-        name="name"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>اسم المشروع</FormLabel>
-            <FormControl>
-              <Input {...field} disabled={isLoading} placeholder="أدخل اسم المشروع" />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+      <div className="text-center mb-4">
+        <p className="text-gold text-lg">مشروع</p>
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input 
+                  {...field} 
+                  disabled={isLoading} 
+                  placeholder="أدخل اسم المشروع" 
+                  className="text-3xl font-bold text-center text-gold"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
 
       <FormField
         control={form.control}
@@ -45,7 +52,7 @@ export default function ProjectBasicInfo({ form, isLoading }: ProjectBasicInfoPr
         name="floors"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>عدد الطوابق</FormLabel>
+            <FormLabel>عدد الأدوار</FormLabel>
             <FormControl>
               <Input
                 type="number"
@@ -53,7 +60,28 @@ export default function ProjectBasicInfo({ form, isLoading }: ProjectBasicInfoPr
                 {...field}
                 onChange={(e) => field.onChange(Number(e.target.value))}
                 disabled={isLoading}
-                placeholder="أدخل عدد الطوابق"
+                placeholder="أدخل عدد الأدوار"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="units"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>عدد الشقق</FormLabel>
+            <FormControl>
+              <Input
+                type="number"
+                min="1"
+                {...field}
+                onChange={(e) => field.onChange(Number(e.target.value))}
+                disabled={isLoading}
+                placeholder="أدخل عدد الشقق"
               />
             </FormControl>
             <FormMessage />
