@@ -1,17 +1,23 @@
 import { Card } from "../ui/card";
-import { Link } from "react-router-dom";
-import { Project, convertProjectStatus } from "@/types/project";
+
+interface Project {
+  id: string;
+  name: string;
+  location: string;
+  status: string;
+  floors: number;
+  units: number;
+  annexes: number;
+  thumbnail_url: string;
+}
 
 interface ProjectCardProps {
   project: Project;
 }
 
 const ProjectCard = ({ project }: ProjectCardProps) => {
-  const displayStatus = convertProjectStatus(project.status);
-  const annexes = Math.ceil(project.units / 4);
-
   return (
-    <Link to={`/projects/${project.id}`}>
+    <div>
       <Card className="overflow-hidden bg-white rounded-[20px] shadow-lg hover:shadow-xl transition-shadow">
         <div className="p-4 text-center">
           <p className="text-gold text-lg mb-1">مشروع</p>
@@ -30,7 +36,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
             decoding="async"
           />
           <span className="absolute bottom-4 right-4 px-4 py-1 bg-gold text-white rounded-full text-sm">
-            {displayStatus}
+            {project.status}
           </span>
         </div>
 
@@ -44,12 +50,12 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
             <p className="text-sm text-gray-600">الشقق</p>
           </div>
           <div className="text-center flex-1">
-            <p className="text-xl font-bold text-darkBlue">{annexes}</p>
+            <p className="text-xl font-bold text-darkBlue">{project.annexes}</p>
             <p className="text-sm text-gray-600">الملاحق</p>
           </div>
         </div>
       </Card>
-    </Link>
+    </div>
   );
 };
 
