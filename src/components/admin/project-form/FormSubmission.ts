@@ -32,23 +32,25 @@ export const useFormSubmission = (
         throw new Error("صورة المشروع مطلوبة");
       }
 
+      // Calculate total units based on project_units array
+      const totalUnits = data.project_units?.length || 0;
+
       // Prepare project data
       const projectData = {
         name: data.name,
         location: data.location,
-        address: data.address,
+        address: data.address || null,
         lat: data.lat || null,
         lng: data.lng || null,
         floors: data.floors,
-        units: data.units,
+        units: totalUnits, // Use the calculated total units
         status: data.status,
         thumbnail_url: thumbnailUrl,
       };
 
-      console.log("Project data prepared:", projectData);
+      console.log("Project data to be inserted:", projectData);
 
       // Create new project
-      console.log("Creating new project...");
       const { data: newProject, error: insertError } = await supabase
         .from("projects")
         .insert(projectData)

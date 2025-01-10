@@ -22,7 +22,7 @@ export const projectUnitSchema = z.object({
 export const projectFormSchema = z.object({
   name: z.string().min(1, "اسم المشروع مطلوب"),
   location: z.string().min(1, "الموقع مطلوب"),
-  address: z.string().min(1, "العنوان مطلوب"),
+  address: z.string().optional(),
   lat: z.number().optional(),
   lng: z.number().optional(),
   floors: z.number().min(1, "عدد الطوابق يجب أن يكون أكبر من 0"),
