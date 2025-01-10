@@ -2,12 +2,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Save } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
 import ProjectImageUpload from "./ProjectImageUpload";
 import { ProjectFormProps, projectFormSchema, ProjectFormValues } from "@/types/project";
 import ProjectBasicInfo from "./project-form/ProjectBasicInfo";
@@ -15,9 +13,9 @@ import ProjectLocation from "./project-form/ProjectLocation";
 import ProjectPlans from "./project-form/ProjectPlans";
 import ProjectUnits from "./project-form/ProjectUnits";
 import ProjectGallery from "./project-form/ProjectGallery";
-
-const TABS = ["basic", "gallery", "location", "plans", "units"] as const;
-type TabType = typeof TABS[number];
+import FormNavigation from "./project-form/FormNavigation";
+import FormTabs, { TABS, TabType } from "./project-form/FormTabs";
+import { uploadFile, uploadFiles } from "./project-form/FileUploadHandler";
 
 export default function ProjectForm({ initialData }: ProjectFormProps) {
   const [isLoading, setIsLoading] = useState(false);
@@ -134,22 +132,8 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
       setIsLoading(true);
 
       let thumbnailUrl = initialData?.thumbnail_url;
-
       if (thumbnail) {
-        const fileExt = thumbnail.name.split(".").pop();
-        const fileName = `${crypto.randomUUID()}.${fileExt}`;
-
-        const { error: uploadError } = await supabase.storage
-          .from("project-images")
-          .upload(fileName, thumbnail);
-
-        if (uploadError) throw uploadError;
-
-        const { data: { publicUrl } } = supabase.storage
-          .from("project-images")
-          .getPublicUrl(fileName);
-
-        thumbnailUrl = publicUrl;
+        thumbnailUrl = await uploadFile(thumbnail, "project-images");
       }
 
       if (!thumbnailUrl) {
@@ -159,45 +143,15 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
       // Upload gallery images if any
       const galleryImageUrls: string[] = [];
       if (data.gallery_type === "images" && galleryImages) {
-        for (let i = 0; i < galleryImages.length; i++) {
-          const image = galleryImages[i];
-          const fileExt = image.name.split(".").pop();
-          const fileName = `${crypto.randomUUID()}.${fileExt}`;
-
-          const { error: uploadError } = await supabase.storage
-            .from("project-images")
-            .upload(fileName, image);
-
-          if (uploadError) throw uploadError;
-
-          const { data: { publicUrl } } = supabase.storage
-            .from("project-images")
-            .getPublicUrl(fileName);
-
-          galleryImageUrls.push(publicUrl);
-        }
+        const urls = await uploadFiles(galleryImages, "project-images");
+        galleryImageUrls.push(...urls);
       }
 
       // Upload plans if any
       const planUrls: string[] = [];
       if (plans) {
-        for (let i = 0; i < plans.length; i++) {
-          const plan = plans[i];
-          const fileExt = plan.name.split(".").pop();
-          const fileName = `${crypto.randomUUID()}.${fileExt}`;
-
-          const { error: uploadError } = await supabase.storage
-            .from("project-plans")
-            .upload(fileName, plan);
-
-          if (uploadError) throw uploadError;
-
-          const { data: { publicUrl } } = supabase.storage
-            .from("project-plans")
-            .getPublicUrl(fileName);
-
-          planUrls.push(publicUrl);
-        }
+        const urls = await uploadFiles(plans, "project-plans");
+        planUrls.push(...urls);
       }
 
       const projectData = {
@@ -355,13 +309,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <Tabs value={currentTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="basic" disabled>معلومات أساسية</TabsTrigger>
-            <TabsTrigger value="gallery" disabled>صور المشروع</TabsTrigger>
-            <TabsTrigger value="location" disabled>الموقع</TabsTrigger>
-            <TabsTrigger value="plans" disabled>المخططات</TabsTrigger>
-            <TabsTrigger value="units" disabled>الوحدات</TabsTrigger>
-          </TabsList>
+          <FormTabs />
 
           <TabsContent value="basic" className="space-y-4">
             <ProjectBasicInfo form={form} isLoading={isLoading} />
@@ -427,50 +375,15 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
           </TabsContent>
         </Tabs>
 
-        <div className="flex justify-between gap-4">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => navigate("/admin")}
-            disabled={isLoading}
-          >
-            إلغاء
-          </Button>
-
-          <div className="flex gap-2">
-            {!isFirstTab && (
-              <Button
-                type="button"
-                variant="outline"
-                onClick={handlePrevious}
-                disabled={isLoading}
-              >
-                السابق
-              </Button>
-            )}
-
-            {!isLastTab ? (
-              <Button
-                type="button"
-                onClick={handleNext}
-                disabled={isLoading}
-              >
-                التالي
-              </Button>
-            ) : (
-              <Button type="submit" disabled={isLoading}>
-                {isLoading ? (
-                  "جاري الحفظ..."
-                ) : (
-                  <>
-                    <Save className="ml-2 h-4 w-4" />
-                    {initialData ? "تحديث المشروع" : "إنشاء المشروع"}
-                  </>
-                )}
-              </Button>
-            )}
-          </div>
-        </div>
+        <FormNavigation
+          isLoading={isLoading}
+          isLastTab={isLastTab}
+          isFirstTab={isFirstTab}
+          onPrevious={handlePrevious}
+          onNext={handleNext}
+          onCancel={() => navigate("/admin")}
+          isEditing={!!initialData?.id}
+        />
       </form>
     </Form>
   );
