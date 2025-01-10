@@ -212,6 +212,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
       };
 
       if (initialData?.id) {
+        // Update existing project
         const { error } = await supabase
           .from("projects")
           .update(projectData)
@@ -233,11 +234,18 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
         }
 
         // Update project units
-        await Promise.all(data.project_units.map(async (unit) => {
+        for (const unit of data.project_units) {
           const unitData = {
-            ...unit,
-            name: `Unit ${unit.unit_number}`,
             project_id: initialData.id,
+            name: `Unit ${unit.unit_number}`,
+            area: unit.area,
+            unit_number: unit.unit_number,
+            status: unit.status,
+            unit_type: unit.unit_type,
+            floor_number: unit.floor_number,
+            side: unit.side,
+            rooms: unit.rooms,
+            bathrooms: unit.bathrooms,
           };
 
           const { error } = await supabase
@@ -245,7 +253,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
             .upsert(unitData);
 
           if (error) throw error;
-        }));
+        }
 
         // Insert plans
         if (planUrls.length > 0) {
@@ -264,6 +272,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
           description: "تم تحديث المشروع بنجاح",
         });
       } else {
+        // Create new project
         const { data: project, error } = await supabase
           .from("projects")
           .insert([projectData])
@@ -274,15 +283,24 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
 
         // Insert project units
         if (data.project_units.length > 0) {
-          const { error } = await supabase
-            .from("project_units")
-            .insert(data.project_units.map(unit => ({
-              ...unit,
-              name: `Unit ${unit.unit_number}`,
-              project_id: project.id,
-            })));
+          const unitsData = data.project_units.map(unit => ({
+            project_id: project.id,
+            name: `Unit ${unit.unit_number}`,
+            area: unit.area,
+            unit_number: unit.unit_number,
+            status: unit.status,
+            unit_type: unit.unit_type,
+            floor_number: unit.floor_number,
+            side: unit.side,
+            rooms: unit.rooms,
+            bathrooms: unit.bathrooms,
+          }));
 
-          if (error) throw error;
+          const { error: unitsError } = await supabase
+            .from("project_units")
+            .insert(unitsData);
+
+          if (unitsError) throw unitsError;
         }
 
         // Insert gallery images
