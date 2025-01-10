@@ -72,11 +72,20 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
   };
 
   const onSubmit = async (data: ProjectFormValues) => {
-    console.log("Form submission started with data:", data);
+    console.log("Starting form submission with data:", data);
+    const isValid = await validateTab(currentTab);
+    if (!isValid) {
+      console.log("Form validation failed");
+      return;
+    }
+    
     try {
+      setIsLoading(true);
       await handleSubmit(data);
     } catch (error) {
       console.error("Form submission error:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
