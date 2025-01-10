@@ -15,6 +15,7 @@ import FormNavigation from "./project-form/FormNavigation";
 import FormTabs, { TABS, TabType } from "./project-form/FormTabs";
 import { useFormValidation } from "./project-form/FormValidation";
 import { useFormSubmission } from "./project-form/FormSubmission";
+import { useToast } from "@/hooks/use-toast";
 
 export default function ProjectForm({ initialData }: ProjectFormProps) {
   const [isLoading, setIsLoading] = useState(false);
@@ -23,6 +24,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
   const [galleryImages, setGalleryImages] = useState<FileList | null>(null);
   const [plans, setPlans] = useState<FileList | null>(null);
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   const form = useForm<ProjectFormValues>({
     resolver: zodResolver(projectFormSchema),
@@ -48,7 +50,8 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
     plans,
     initialData,
     navigate,
-    setIsLoading
+    setIsLoading,
+    toast
   );
 
   const currentTabIndex = TABS.indexOf(currentTab);
