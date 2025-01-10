@@ -1,45 +1,56 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import { ProjectFormValues, projectFormSchema } from "@/types/project";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
-import ProjectImageUpload from "./ProjectImageUpload";
-import { ProjectFormProps, projectFormSchema, ProjectFormValues } from "@/types/project";
 import ProjectBasicInfo from "./project-form/ProjectBasicInfo";
+import ProjectGallery from "./project-form/ProjectGallery";
 import ProjectLocation from "./project-form/ProjectLocation";
 import ProjectPlans from "./project-form/ProjectPlans";
 import ProjectUnits from "./project-form/ProjectUnits";
-import ProjectGallery from "./project-form/ProjectGallery";
-import FormNavigation from "./project-form/FormNavigation";
-import FormTabs, { TABS, TabType } from "./project-form/FormTabs";
+import FormTabs, { TabType } from "./project-form/FormTabs";
 import { useFormValidation } from "./project-form/FormValidation";
 import { useFormSubmission } from "./project-form/FormSubmission";
+import ProjectImageUpload from "./ProjectImageUpload";
+
+interface ProjectFormProps {
+  initialData?: any;
+}
 
 export default function ProjectForm({ initialData }: ProjectFormProps) {
-  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
   const [currentTab, setCurrentTab] = useState<TabType>("basic");
+  const [isLoading, setIsLoading] = useState(false);
   const [thumbnail, setThumbnail] = useState<File | null>(null);
   const [galleryImages, setGalleryImages] = useState<FileList | null>(null);
   const [plans, setPlans] = useState<FileList | null>(null);
-  const navigate = useNavigate();
 
   const form = useForm<ProjectFormValues>({
     resolver: zodResolver(projectFormSchema),
-    defaultValues: initialData || {
-      name: "",
-      location: "",
-      address: "",
-      floors: 1,
-      status: "للبيع",
-      thumbnail_url: "",
-      project_units: [],
-      gallery_type: "coming_soon",
+    defaultValues: {
+      name: initialData?.name || "",
+      location: initialData?.location || "",
+      address: initialData?.address || "",
+      lat: initialData?.lat || undefined,
+      lng: initialData?.lng || undefined,
+      floors: initialData?.floors || 1,
+      status: initialData?.status || "قريباً",
+      gallery_type: "images",
+      project_units: initialData?.project_units || [],
     },
-    mode: "onChange",
   });
 
-  const { validateTab } = useFormValidation(form, thumbnail, initialData, galleryImages, plans);
+  const { validateTab } = useFormValidation(
+    form,
+    thumbnail,
+    initialData,
+    galleryImages,
+    plans
+  );
+
   const { handleSubmit } = useFormSubmission(
     form,
     thumbnail,
@@ -50,108 +61,106 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
     setIsLoading
   );
 
-  const currentTabIndex = TABS.indexOf(currentTab);
-  const isLastTab = currentTabIndex === TABS.length - 1;
-  const isFirstTab = currentTabIndex === 0;
-
-  const handleNext = async () => {
-    const isValid = await validateTab(currentTab);
-    if (isValid) {
-      const nextIndex = currentTabIndex + 1;
-      if (nextIndex < TABS.length) {
-        setCurrentTab(TABS[nextIndex]);
-      }
-    }
+  const onAddUnit = () => {
+    const currentUnits = form.getValues("project_units") || [];
+    form.setValue("project_units", [
+      ...currentUnits,
+      {
+        id: crypto.randomUUID(),
+        name: "",
+        area: 0,
+        unit_number: 0,
+        status: "",
+        unit_type: "",
+        floor_number: 0,
+        side: "",
+        rooms: 0,
+        bathrooms: 0,
+      },
+    ]);
   };
 
-  const handlePrevious = () => {
-    const prevIndex = currentTabIndex - 1;
-    if (prevIndex >= 0) {
-      setCurrentTab(TABS[prevIndex]);
+  const onRemoveUnit = (index: number) => {
+    const currentUnits = form.getValues("project_units") || [];
+    form.setValue(
+      "project_units",
+      currentUnits.filter((_, i) => i !== index)
+    );
+  };
+
+  const onSubmit = async () => {
+    console.log("Form submission started");
+    const isValid = await validateTab(currentTab);
+    if (!isValid) {
+      console.log("Form validation failed");
+      return;
     }
+    console.log("Form validation passed, proceeding with submission");
+    await handleSubmit(form.getValues());
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
-        <Tabs value={currentTab} className="w-full">
-          <FormTabs />
+    <div className="space-y-6">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <FormTabs currentTab={currentTab} setCurrentTab={setCurrentTab} />
 
-          <TabsContent value="basic" className="space-y-4">
-            <ProjectBasicInfo form={form} isLoading={isLoading} />
-            <ProjectImageUpload
-              initialThumbnailUrl={initialData?.thumbnail_url}
-              isLoading={isLoading}
-              onFileChange={setThumbnail}
-              error={!thumbnail && !initialData?.thumbnail_url}
-            />
-          </TabsContent>
+          <Tabs value={currentTab} className="space-y-6">
+            <TabsContent value="basic" className="space-y-6">
+              <div className="space-y-6">
+                <ProjectImageUpload
+                  value={initialData?.thumbnail_url}
+                  onChange={(file) => setThumbnail(file)}
+                  onRemove={() => setThumbnail(null)}
+                  disabled={isLoading}
+                />
+                <ProjectBasicInfo form={form} isLoading={isLoading} />
+              </div>
+            </TabsContent>
 
-          <TabsContent value="gallery">
-            <ProjectGallery
-              form={form}
-              isLoading={isLoading}
-              onGalleryImagesChange={setGalleryImages}
-              initialImages={initialData?.gallery_images}
-            />
-          </TabsContent>
+            <TabsContent value="gallery" className="space-y-6">
+              <ProjectGallery
+                form={form}
+                isLoading={isLoading}
+                onGalleryImagesChange={setGalleryImages}
+                initialImages={initialData?.gallery_images}
+              />
+            </TabsContent>
 
-          <TabsContent value="location">
-            <ProjectLocation form={form} isLoading={isLoading} />
-          </TabsContent>
+            <TabsContent value="location" className="space-y-6">
+              <ProjectLocation form={form} isLoading={isLoading} />
+            </TabsContent>
 
-          <TabsContent value="plans">
-            <ProjectPlans
-              form={form}
-              isLoading={isLoading}
-              onPlansChange={setPlans}
-              initialPlans={initialData?.plans}
-            />
-          </TabsContent>
+            <TabsContent value="plans" className="space-y-6">
+              <ProjectPlans
+                form={form}
+                isLoading={isLoading}
+                onPlansChange={setPlans}
+                initialPlans={initialData?.plans}
+              />
+            </TabsContent>
 
-          <TabsContent value="units">
-            <ProjectUnits
-              form={form}
-              isLoading={isLoading}
-              onAddUnit={() => {
-                const currentUnits = form.getValues("project_units") || [];
-                form.setValue("project_units", [
-                  ...currentUnits,
-                  {
-                    id: crypto.randomUUID(),
-                    unit_number: currentUnits.length + 1,
-                    name: `Unit ${currentUnits.length + 1}`,
-                    status: "للبيع",
-                    unit_type: "",
-                    area: 0,
-                    floor_number: 1,
-                    side: "شمال",
-                    rooms: 1,
-                    bathrooms: 1,
-                  },
-                ]);
-              }}
-              onRemoveUnit={(index: number) => {
-                const currentUnits = form.getValues("project_units") || [];
-                form.setValue(
-                  "project_units",
-                  currentUnits.filter((_, i) => i !== index)
-                );
-              }}
-            />
-          </TabsContent>
-        </Tabs>
+            <TabsContent value="units" className="space-y-6">
+              <ProjectUnits
+                form={form}
+                isLoading={isLoading}
+                onAddUnit={onAddUnit}
+                onRemoveUnit={onRemoveUnit}
+              />
+            </TabsContent>
+          </Tabs>
 
-        <FormNavigation
-          isLoading={isLoading}
-          isLastTab={isLastTab}
-          isFirstTab={isFirstTab}
-          onPrevious={handlePrevious}
-          onNext={handleNext}
-          onCancel={() => navigate("/admin")}
-          isEditing={!!initialData?.id}
-        />
-      </form>
-    </Form>
+          <div className="flex justify-end">
+            <Button
+              type="submit"
+              disabled={isLoading}
+              className="bg-darkBlue hover:bg-darkBlue/90"
+            >
+              {initialData ? "تحديث المشروع" : "إنشاء المشروع"}
+            </Button>
+          </div>
+        </form>
+      </Form>
+    </div>
   );
 }
