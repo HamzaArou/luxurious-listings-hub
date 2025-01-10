@@ -46,7 +46,7 @@ export default function ProjectDetails() {
         
         {/* Large Project Image */}
         <div className="relative w-full max-w-4xl mx-auto">
-          <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-xl">
+          <div className="w-[531px] h-[503px] mx-auto rounded-3xl overflow-hidden shadow-xl">
             <img
               src={project.thumbnail_url}
               alt={project.name}
@@ -55,9 +55,6 @@ export default function ProjectDetails() {
               decoding="async"
             />
           </div>
-          <span className="absolute bottom-6 right-6 px-6 py-2 bg-gold text-white rounded-full text-lg font-medium">
-            {project.status}
-          </span>
         </div>
       </div>
 
