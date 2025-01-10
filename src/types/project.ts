@@ -65,6 +65,9 @@ export interface Project {
   address?: string;
   lat?: number;
   lng?: number;
+  // Display properties
+  displayStatus?: string;
+  displayUnits?: string;
 }
 
 export interface ProjectFormProps {

@@ -3,18 +3,19 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/comp
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { UseFormReturn } from "react-hook-form";
-import { ProjectFormValues, ProjectUnit } from "@/types/project";
+import { ProjectFormValues } from "@/types/project";
 import { Plus, Trash2 } from "lucide-react";
 
 interface ProjectUnitsProps {
   form: UseFormReturn<ProjectFormValues>;
   isLoading: boolean;
-  units: ProjectUnit[];
   onAddUnit: () => void;
   onRemoveUnit: (index: number) => void;
 }
 
-export default function ProjectUnits({ form, isLoading, units, onAddUnit, onRemoveUnit }: ProjectUnitsProps) {
+export default function ProjectUnits({ form, isLoading, onAddUnit, onRemoveUnit }: ProjectUnitsProps) {
+  const units = form.watch("project_units") || [];
+
   return (
     <div className="space-y-6">
       {units.map((_, index) => (
