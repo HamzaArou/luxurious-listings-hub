@@ -206,7 +206,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
         lat: data.lat,
         lng: data.lng,
         floors: data.floors,
-        status: data.status,
+        status: data.status as ProjectStatus,
         thumbnail_url: thumbnailUrl,
         units: data.project_units.length,
       };
@@ -219,19 +219,6 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
           .eq("id", initialData.id);
 
         if (error) throw error;
-
-        // Insert gallery images
-        if (galleryImageUrls.length > 0) {
-          const { error } = await supabase
-            .from("project_images")
-            .insert(galleryImageUrls.map(url => ({
-              project_id: initialData.id,
-              image_url: url,
-              image_type: "gallery",
-            })));
-
-          if (error) throw error;
-        }
 
         // Update project units
         for (const unit of data.project_units) {
@@ -248,9 +235,25 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
             bathrooms: unit.bathrooms,
           };
 
-          const { error } = await supabase
+          const { error: unitError } = await supabase
             .from("project_units")
-            .upsert(unitData);
+            .upsert({
+              ...unitData,
+              id: unit.id || undefined,
+            });
+
+          if (unitError) throw unitError;
+        }
+
+        // Insert gallery images
+        if (galleryImageUrls.length > 0) {
+          const { error } = await supabase
+            .from("project_images")
+            .insert(galleryImageUrls.map(url => ({
+              project_id: initialData.id,
+              image_url: url,
+              image_type: "gallery",
+            })));
 
           if (error) throw error;
         }

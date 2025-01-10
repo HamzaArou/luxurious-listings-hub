@@ -5,7 +5,7 @@ import ProjectCard from "./projects/ProjectCard";
 import MortgageCalculator from "./MortgageCalculator";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Project } from "@/types/project";
+import { Project, convertProjectStatus } from "@/types/project";
 
 const FeaturedProjects = () => {
   const [displayCount, setDisplayCount] = useState(6);
@@ -24,8 +24,7 @@ const FeaturedProjects = () => {
         name: project.name,
         image: project.thumbnail_url,
         details: `${project.floors} طابق | ${project.units} شقة`,
-        status: project.status === "للبيع" ? "متاح" : 
-               project.status === "قريباً" ? "محجوز" : "مباع",
+        status: convertProjectStatus(project.status),
         location: project.location,
         floors: project.floors,
         units: project.units,

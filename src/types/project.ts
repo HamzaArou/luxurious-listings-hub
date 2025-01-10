@@ -2,6 +2,7 @@ import { z } from "zod";
 import { Database } from "@/integrations/supabase/types";
 
 type ProjectStatus = Database["public"]["Enums"]["project_status"];
+type ProjectDisplayStatus = "متاح" | "محجوز" | "مباع";
 
 // Base project unit schema
 export const projectUnitSchema = z.object({
@@ -76,3 +77,17 @@ export interface ProjectFormProps {
     plans?: string[];
   };
 }
+
+// Helper function to convert database status to display status
+export const convertProjectStatus = (status: ProjectStatus): ProjectDisplayStatus => {
+  switch (status) {
+    case "للبيع":
+      return "متاح";
+    case "قريباً":
+      return "محجوز";
+    case "مكتمل":
+      return "مباع";
+    default:
+      return "متاح";
+  }
+};
