@@ -8,26 +8,15 @@ interface ProjectImageUploadProps {
   onFileChange: (file: File | null) => void;
   error?: boolean;
   className?: string;
-  onChange?: (file: File | null) => void;
-  onRemove?: () => void;
-  disabled?: boolean;
-  value?: string;
 }
 
 export default function ProjectImageUpload({
   initialThumbnailUrl,
   isLoading,
   onFileChange,
-  onChange,
   error,
   className,
-  disabled,
 }: ProjectImageUploadProps) {
-  const handleFileChange = (file: File | null) => {
-    onFileChange?.(file);
-    onChange?.(file);
-  };
-
   return (
     <div className={cn("space-y-4", className)}>
       <FormLabel className={error ? "text-destructive" : ""}>صورة المشروع</FormLabel>
@@ -42,8 +31,8 @@ export default function ProjectImageUpload({
         <Input
           type="file"
           accept="image/*"
-          onChange={(e) => handleFileChange(e.target.files?.[0] || null)}
-          disabled={isLoading || disabled}
+          onChange={(e) => onFileChange(e.target.files?.[0] || null)}
+          disabled={isLoading}
           className={error ? "border-destructive" : ""}
         />
       </div>
