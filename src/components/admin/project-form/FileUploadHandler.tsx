@@ -1,37 +1,26 @@
 import { supabase } from "@/integrations/supabase/client";
 
 export async function uploadFile(file: File, bucket: "project-images" | "project-plans") {
-  // First check if we have an authenticated session
-  const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-  
-  if (sessionError || !session) {
-    console.error("Authentication error:", sessionError);
-    throw new Error("You must be authenticated to upload files");
-  }
-
   try {
+    console.log(`Attempting to upload file to bucket ${bucket}`);
+
+    // First check if we have an authenticated session
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+    
+    if (sessionError || !session) {
+      console.error("Authentication error:", sessionError);
+      throw new Error("You must be authenticated to upload files");
+    }
+
     const fileExt = file.name.split(".").pop();
     const fileName = `${crypto.randomUUID()}.${fileExt}`;
 
-    console.log(`Attempting to upload file ${fileName} to bucket ${bucket}`);
-
-    // First check if the bucket exists and is accessible
-    const { data: bucketData, error: bucketError } = await supabase
-      .storage
-      .getBucket(bucket);
-
-    if (bucketError) {
-      console.error("Bucket error:", bucketError);
-      throw new Error(`Unable to access bucket ${bucket}`);
-    }
-
-    // Attempt the file upload with the authenticated session
+    // Attempt the file upload
     const { error: uploadError, data } = await supabase.storage
       .from(bucket)
       .upload(fileName, file, {
         upsert: false,
-        contentType: file.type,
-        duplex: 'half'
+        contentType: file.type
       });
 
     if (uploadError) {
