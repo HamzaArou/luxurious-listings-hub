@@ -71,9 +71,18 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
     }
   };
 
+  const onSubmit = async (data: ProjectFormValues) => {
+    console.log("Form submission started with data:", data);
+    try {
+      await handleSubmit(data);
+    } catch (error) {
+      console.error("Form submission error:", error);
+    }
+  };
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <Tabs value={currentTab} onValueChange={(value) => setCurrentTab(value as TabType)} className="w-full">
           <FormTabs currentTab={currentTab} />
 
