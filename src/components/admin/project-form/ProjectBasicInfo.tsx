@@ -106,9 +106,9 @@ export default function ProjectBasicInfo({ form, isLoading }: ProjectBasicInfoPr
                 </SelectTrigger>
               </FormControl>
               <SelectContent>
-                <SelectItem value="للبيع">للبيع</SelectItem>
+                <SelectItem value="بدأ البيع">بدأ البيع</SelectItem>
+                <SelectItem value="تم البيع بالكامل">تم البيع بالكامل</SelectItem>
                 <SelectItem value="قريباً">قريباً</SelectItem>
-                <SelectItem value="مكتمل">مكتمل</SelectItem>
               </SelectContent>
             </Select>
             <FormMessage />

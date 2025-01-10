@@ -346,7 +346,7 @@ export type Database = {
       }
     }
     Enums: {
-      project_status: "للبيع" | "قريباً" | "مكتمل"
+      project_status: "بدأ البيع" | "تم البيع بالكامل" | "قريباً"
       user_role: "admin" | "user"
     }
     CompositeTypes: {

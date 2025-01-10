@@ -27,7 +27,7 @@ export const projectFormSchema = z.object({
   lng: z.number().optional(),
   floors: z.number().min(1, "عدد الطوابق يجب أن يكون أكبر من 0"),
   units: z.number().min(1, "عدد الشقق يجب أن يكون أكبر من 0"),
-  status: z.enum(["للبيع", "قريباً", "مكتمل"] as const),
+  status: z.enum(["بدأ البيع", "تم البيع بالكامل", "قريباً"] as const),
   thumbnail_url: z.string().min(1, "صورة المشروع مطلوبة"),
   project_units: z.array(projectUnitSchema),
   gallery_type: z.enum(["images", "coming_soon"]),
@@ -82,12 +82,12 @@ export interface ProjectFormProps {
 // Helper function to convert database status to display status
 export const convertProjectStatus = (status: DbProjectStatus): string => {
   switch (status) {
-    case "للبيع":
+    case "بدأ البيع":
       return "متاح";
-    case "قريباً":
-      return "محجوز";
-    case "مكتمل":
+    case "تم البيع بالكامل":
       return "مباع";
+    case "قريباً":
+      return "قريباً";
     default:
       return "متاح";
   }
@@ -97,12 +97,12 @@ export const convertProjectStatus = (status: DbProjectStatus): string => {
 export const convertToDbStatus = (status: string): DbProjectStatus => {
   switch (status) {
     case "متاح":
-      return "للبيع";
-    case "محجوز":
-      return "قريباً";
+      return "بدأ البيع";
     case "مباع":
-      return "مكتمل";
+      return "تم البيع بالكامل";
+    case "قريباً":
+      return "قريباً";
     default:
-      return "للبيع";
+      return "قريباً";
   }
 };

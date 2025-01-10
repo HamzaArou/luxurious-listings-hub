@@ -32,7 +32,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
       address: "",
       floors: 1,
       units: 1,
-      status: "للبيع",
+      status: "قريباً",
       thumbnail_url: "",
       project_units: [],
       gallery_type: "coming_soon",
