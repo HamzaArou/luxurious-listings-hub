@@ -1,4 +1,5 @@
 import { Card } from "../ui/card";
+import { useNavigate } from "react-router-dom";
 
 interface Project {
   id: string;
@@ -16,8 +17,14 @@ interface ProjectCardProps {
 }
 
 const ProjectCard = ({ project }: ProjectCardProps) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/project/${project.id}`);
+  };
+
   return (
-    <div>
+    <div onClick={handleClick} className="cursor-pointer">
       <Card className="overflow-hidden bg-white rounded-[20px] shadow-lg hover:shadow-xl transition-shadow">
         <div className="p-4 text-center">
           <p className="text-gold text-lg mb-1">مشروع</p>

@@ -7,54 +7,11 @@ import ProjectGallery from "@/components/projects/ProjectGallery";
 import ProjectUnits from "@/components/projects/ProjectUnits";
 import ProjectLocation from "@/components/projects/ProjectLocation";
 import { ProjectUnit } from "@/types/project";
+import { staticProjects } from "@/components/FeaturedProjects";
 
 export default function ProjectDetails() {
   const { id } = useParams();
-
-  const { data: project, isLoading } = useQuery({
-    queryKey: ["project", id],
-    queryFn: async () => {
-      if (!id) throw new Error("No project ID provided");
-      
-      const { data: project, error } = await supabase
-        .from("projects")
-        .select(`
-          *,
-          project_details(*),
-          project_images(*),
-          project_units(*)
-        `)
-        .eq("id", id)
-        .maybeSingle();
-
-      if (error) throw error;
-
-      // Transform project_units to match ProjectUnit interface
-      const transformedUnits = project?.project_units?.map(unit => ({
-        id: unit.id,
-        name: unit.name,
-        area: unit.area,
-        unit_number: unit.unit_number || 0,
-        status: unit.status || "",
-        unit_type: unit.unit_type || "",
-        floor_number: unit.floor_number || 0,
-        side: unit.side || "",
-        rooms: unit.rooms || 0,
-        bathrooms: unit.bathrooms || 0,
-        details: unit.details as Record<string, any>,
-      })) as ProjectUnit[];
-
-      return {
-        ...project,
-        project_units: transformedUnits,
-      };
-    },
-    enabled: !!id,
-  });
-
-  if (isLoading) {
-    return <ProjectDetailsSkeleton />;
-  }
+  const project = staticProjects.find(p => p.id === id);
 
   if (!project) {
     return (
