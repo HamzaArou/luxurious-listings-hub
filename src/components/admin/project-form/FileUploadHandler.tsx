@@ -1,46 +1,41 @@
 import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 export async function uploadFile(file: File, bucket: "project-images" | "project-plans") {
+  const { toast } = useToast();
+  
   try {
     // First check if we have an authenticated session
     const { data: { session }, error: sessionError } = await supabase.auth.getSession();
     
-    if (sessionError) {
-      console.error("Session error:", sessionError);
-      throw new Error("Authentication error: " + sessionError.message);
-    }
-
-    if (!session) {
-      console.error("No active session found");
+    if (sessionError || !session) {
+      console.error("Authentication error:", sessionError);
       throw new Error("You must be authenticated to upload files");
     }
 
-    console.log("Authenticated user ID:", session.user.id);
-    console.log("Attempting to upload file to bucket:", bucket);
-
-    const fileExt = file.name.split(".").pop();
-    const fileName = `${crypto.randomUUID()}.${fileExt}`;
-
     // Log the file details
     console.log("File details:", {
-      name: fileName,
+      name: file.name,
       type: file.type,
       size: file.size,
       bucket: bucket
     });
 
-    // Attempt the file upload with explicit content type
-    const { error: uploadError, data } = await supabase.storage
+    const fileExt = file.name.split(".").pop();
+    const fileName = `${crypto.randomUUID()}.${fileExt}`;
+
+    // Attempt the file upload
+    const { data, error: uploadError } = await supabase.storage
       .from(bucket)
       .upload(fileName, file, {
         cacheControl: "3600",
-        upsert: false,
+        upsert: true,
         contentType: file.type
       });
 
     if (uploadError) {
       console.error("Upload error details:", uploadError);
-      throw new Error(`Upload failed: ${uploadError.message}`);
+      throw uploadError;
     }
 
     if (!data?.path) {
@@ -54,8 +49,17 @@ export async function uploadFile(file: File, bucket: "project-images" | "project
 
     console.log("File uploaded successfully. Public URL:", publicUrl);
     return publicUrl;
-  } catch (error) {
+
+  } catch (error: any) {
     console.error("Error in uploadFile:", error);
+    
+    // Show toast with error message
+    toast({
+      title: "Upload Error",
+      description: error.message || "Failed to upload file",
+      variant: "destructive",
+    });
+    
     throw error;
   }
 }
@@ -65,8 +69,13 @@ export async function uploadFiles(files: FileList, bucket: "project-images" | "p
   const urls: string[] = [];
   
   for (let i = 0; i < files.length; i++) {
-    const url = await uploadFile(files[i], bucket);
-    urls.push(url);
+    try {
+      const url = await uploadFile(files[i], bucket);
+      urls.push(url);
+    } catch (error) {
+      console.error(`Error uploading file ${i + 1}:`, error);
+      throw error; // Re-throw to handle in the form submission
+    }
   }
 
   console.log(`Successfully uploaded ${urls.length} files`);
