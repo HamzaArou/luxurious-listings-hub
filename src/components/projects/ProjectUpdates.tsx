@@ -17,10 +17,8 @@ export default function ProjectUpdates({ projectId }: ProjectUpdatesProps) {
 
   useEffect(() => {
     const fetchUnits = async () => {
-      // Validate projectId is a valid UUID before making the request
-      if (!projectId || !/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(projectId)) {
-        console.error('Invalid project ID format');
-        // Generate mock data when no valid project ID is provided
+      // Generate mock data when no project ID is provided
+      if (!projectId) {
         const mockUnits = Array.from({ length: 20 }, (_, index) => ({
           unit_number: index + 1,
           status: ['متاح', 'محجوز', 'مباع'][Math.floor(Math.random() * 3)]
