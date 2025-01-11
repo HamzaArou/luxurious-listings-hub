@@ -4,23 +4,7 @@ import ProjectSearch from "./projects/ProjectSearch";
 import ProjectCard from "./projects/ProjectCard";
 import MortgageCalculator from "./MortgageCalculator";
 
-export interface Project {
-  id: string;
-  name: string;
-  location: string;
-  details: string;
-  status: string;
-  floors: number;
-  units: number;
-  apartments: number;
-  annexes: number;
-  projectLabel: string;
-  thumbnail_url: string;
-  lat?: number;
-  lng?: number;
-}
-
-export const staticProjects: Project[] = [
+export const staticProjects = [
   {
     id: "1",
     name: "برج السلام",
@@ -33,8 +17,6 @@ export const staticProjects: Project[] = [
     annexes: 12,
     projectLabel: "مشروع",
     thumbnail_url: "/lovable-uploads/452d0f08-89bf-4863-9d95-46a23971500f.png",
-    lat: 24.7136,
-    lng: 46.6752
   },
   {
     id: "2",
