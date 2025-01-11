@@ -25,70 +25,71 @@ export default function ProjectUpdates({ projectId }: ProjectUpdatesProps) {
 
   useEffect(() => {
     const fetchUnits = async () => {
-      if (!projectId) {
-        const mockUnits = Array.from({ length: 20 }, (_, index) => ({
-          unit_number: index + 1,
-          status: ['متاح', 'محجوز', 'مباع'][Math.floor(Math.random() * 3)],
-          unit_type: 'شقة',
-          area: 140 + Math.floor(Math.random() * 30),
-          floor_number: Math.floor(index / 4) + 1,
-          side: ['أمامية', 'داخلية'][Math.floor(Math.random() * 2)],
-          rooms: 4,
-          bathrooms: 4
-        }));
+      // Always generate mock data for development and testing
+      const mockUnits = Array.from({ length: 20 }, (_, index) => ({
+        unit_number: index + 1,
+        status: ['متاح', 'محجوز', 'مباع'][Math.floor(Math.random() * 3)],
+        unit_type: 'شقة',
+        area: 140 + Math.floor(Math.random() * 30),
+        floor_number: Math.floor(index / 4) + 1,
+        side: ['أمامية', 'داخلية'][Math.floor(Math.random() * 2)],
+        rooms: 4,
+        bathrooms: 4
+      }));
+
+      // If no projectId or invalid format, use mock data
+      if (!projectId || !/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(projectId)) {
+        console.log('Using mock data due to invalid project ID format');
         setUnits(mockUnits);
         setLoading(false);
         return;
       }
 
-      const { data, error } = await supabase
-        .from('project_units')
-        .select('unit_number, status, unit_type, area, floor_number, side, rooms, bathrooms')
-        .eq('project_id', projectId)
-        .order('unit_number');
+      try {
+        const { data, error } = await supabase
+          .from('project_units')
+          .select('unit_number, status, unit_type, area, floor_number, side, rooms, bathrooms')
+          .eq('project_id', projectId)
+          .order('unit_number');
 
-      if (error) {
-        console.error('Error fetching units:', error);
-        const mockUnits = Array.from({ length: 20 }, (_, index) => ({
-          unit_number: index + 1,
-          status: ['متاح', 'محجوز', 'مباع'][Math.floor(Math.random() * 3)],
-          unit_type: 'شقة',
-          area: 140 + Math.floor(Math.random() * 30),
-          floor_number: Math.floor(index / 4) + 1,
-          side: ['أمامية', 'داخلية'][Math.floor(Math.random() * 2)],
-          rooms: 4,
-          bathrooms: 4
-        }));
+        if (error) {
+          console.error('Error fetching units:', error);
+          setUnits(mockUnits);
+        } else {
+          setUnits(data || mockUnits);
+        }
+      } catch (error) {
+        console.error('Error in fetchUnits:', error);
         setUnits(mockUnits);
+      } finally {
         setLoading(false);
-        return;
       }
-
-      setUnits(data || []);
-      setLoading(false);
     };
 
     fetchUnits();
 
-    const channel = supabase
-      .channel('schema-db-changes')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'project_units',
-          filter: `project_id=eq.${projectId}`
-        },
-        () => {
-          fetchUnits();
-        }
-      )
-      .subscribe();
+    // Set up real-time subscription only if we have a valid UUID
+    if (projectId && /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(projectId)) {
+      const channel = supabase
+        .channel('schema-db-changes')
+        .on(
+          'postgres_changes',
+          {
+            event: '*',
+            schema: 'public',
+            table: 'project_units',
+            filter: `project_id=eq.${projectId}`
+          },
+          () => {
+            fetchUnits();
+          }
+        )
+        .subscribe();
 
-    return () => {
-      supabase.removeChannel(channel);
-    };
+      return () => {
+        supabase.removeChannel(channel);
+      };
+    }
   }, [projectId]);
 
   const getStatusColor = (status: string) => {
