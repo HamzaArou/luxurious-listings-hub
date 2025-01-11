@@ -42,7 +42,7 @@ export default function ProjectDetails() {
     );
   }
 
-  // Using the same images multiple times to fill the carousel
+  // Using only the images that appear properly and repeating them
   const mockGalleryImages = [
     {
       id: '1',
@@ -59,28 +59,19 @@ export default function ProjectDetails() {
       image_url: '/lovable-uploads/360425e4-fe5f-4a1c-8f12-78ddf0e5c7d8.png',
       image_type: 'gallery'
     },
+    // Repeat the same images to fill the carousel
     {
       id: '4',
-      image_url: '/lovable-uploads/a9ec60bc-445c-4c80-88e1-e74736caa605.png',
-      image_type: 'gallery'
-    },
-    {
-      id: '5',
-      image_url: '/lovable-uploads/c0b1fc97-9a18-4732-ae45-87e2556beff1.png',
-      image_type: 'gallery'
-    },
-    {
-      id: '6',
       image_url: '/lovable-uploads/559e0c70-7274-4ffb-8512-e13bb0a18a3d.png',
       image_type: 'gallery'
     },
     {
-      id: '7',
+      id: '5',
       image_url: '/lovable-uploads/b83d6a5d-d32d-4c33-9aba-4d64a54337e0.png',
       image_type: 'gallery'
     },
     {
-      id: '8',
+      id: '6',
       image_url: '/lovable-uploads/360425e4-fe5f-4a1c-8f12-78ddf0e5c7d8.png',
       image_type: 'gallery'
     }
@@ -142,11 +133,11 @@ export default function ProjectDetails() {
                     onSlideChange={handleSlideChange}
                     className="w-full"
                   >
-                    <CarouselContent className="-ml-2 md:-ml-4">
+                    <CarouselContent className="-ml-0">
                       {mockGalleryImages.map((image, index) => (
                         <CarouselItem 
                           key={image.id} 
-                          className="pl-2 md:pl-4 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4"
+                          className="pl-0 basis-full sm:basis-1/2 md:basis-1/3"
                         >
                           <button
                             onClick={() => handleImageClick(index)}
