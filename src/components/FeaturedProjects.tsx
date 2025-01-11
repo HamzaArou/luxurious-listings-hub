@@ -20,7 +20,7 @@ export interface Project {
   lng?: number;
 }
 
-export const staticProjects = [
+export const staticProjects: Project[] = [
   {
     id: "1",
     name: "برج السلام",
@@ -33,6 +33,8 @@ export const staticProjects = [
     annexes: 12,
     projectLabel: "مشروع",
     thumbnail_url: "/lovable-uploads/452d0f08-89bf-4863-9d95-46a23971500f.png",
+    lat: 24.7136,
+    lng: 46.6752
   },
   {
     id: "2",

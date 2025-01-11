@@ -26,7 +26,10 @@ const ContactUs = ({ projectId, projectName, location, lat = 24.7136, lng = 46.6
   useEffect(() => {
     // Initialize Google Maps
     const initMap = () => {
-      const map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
+      const mapElement = document.getElementById('map');
+      if (!mapElement) return;
+
+      const map = new google.maps.Map(mapElement, {
         center: { lat, lng },
         zoom: 15,
       });
