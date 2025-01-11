@@ -12,6 +12,7 @@ export default function ProjectDetails() {
   const { id } = useParams();
   const project = staticProjects.find(p => p.id === id);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   if (!project) {
     return (
@@ -55,6 +56,11 @@ export default function ProjectDetails() {
     }
   ];
 
+  const handleSlideChange = (index: number) => {
+    setCurrentImageIndex(index);
+    setSelectedImage(mockGalleryImages[index].image_url);
+  };
+
   // Create mock units based on project data
   const mockUnits = Array.from({ length: project.units }, (_, index) => ({
     id: `unit-${index + 1}`,
@@ -76,7 +82,7 @@ export default function ProjectDetails() {
         <div className="relative w-full max-w-4xl mx-auto">
           <div className="w-[300px] h-[285px] md:w-[531px] md:h-[503px] mx-auto rounded-3xl overflow-hidden shadow-xl">
             <img
-              src={selectedImage || mockGalleryImages[0].image_url}
+              src={selectedImage || mockGalleryImages[currentImageIndex].image_url}
               alt={project.name}
               className="w-full h-full object-cover"
               loading="lazy"
@@ -98,21 +104,27 @@ export default function ProjectDetails() {
           <div className="max-w-4xl mx-auto">
             {mockGalleryImages.length > 0 ? (
               <div className="space-y-8">
-                {/* Carousel */}
                 <Carousel
                   opts={{
-                    align: "start",
+                    align: "center",
                     loop: true,
                   }}
+                  onSlideChange={handleSlideChange}
                   className="w-full"
                 >
                   <CarouselContent className="-ml-2 md:-ml-4">
-                    {mockGalleryImages.map((image) => (
-                      <CarouselItem key={image.id} className="pl-2 md:pl-4 basis-1/2 md:basis-1/3 lg:basis-1/4">
+                    {mockGalleryImages.map((image, index) => (
+                      <CarouselItem 
+                        key={image.id} 
+                        className="pl-2 md:pl-4 basis-1/2 md:basis-1/3 lg:basis-1/4"
+                      >
                         <button
-                          onClick={() => setSelectedImage(image.image_url)}
-                          className="w-full aspect-square rounded-lg overflow-hidden border border-[#F5F5F5] 
-                                   transition-all duration-300 hover:shadow-[0_0_15px_rgba(14,165,233,0.3)]"
+                          onClick={() => handleSlideChange(index)}
+                          className={cn(
+                            "w-full aspect-square rounded-lg overflow-hidden border border-[#F5F5F5]",
+                            "transition-all duration-300 hover:shadow-[0_0_15px_rgba(14,165,233,0.3)]",
+                            currentImageIndex === index && "ring-2 ring-darkBlue"
+                          )}
                         >
                           <img
                             src={image.image_url}
@@ -136,7 +148,6 @@ export default function ProjectDetails() {
         </div>
       </div>
 
-      {/* Tabs Section */}
       <Tabs defaultValue="gallery" className="space-y-4">
         <TabsList className="w-full justify-start">
           <TabsTrigger value="gallery">صور المشروع</TabsTrigger>

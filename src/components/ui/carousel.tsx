@@ -17,6 +17,7 @@ type CarouselProps = {
   plugins?: CarouselPlugin
   orientation?: "horizontal" | "vertical"
   setApi?: (api: CarouselApi) => void
+  onSlideChange?: (selectedIndex: number) => void
 }
 
 type CarouselContextProps = {
@@ -26,6 +27,7 @@ type CarouselContextProps = {
   scrollNext: () => void
   canScrollPrev: boolean
   canScrollNext: boolean
+  selectedIndex: number
 } & CarouselProps
 
 const CarouselContext = React.createContext<CarouselContextProps | null>(null)
@@ -52,6 +54,7 @@ const Carousel = React.forwardRef<
       plugins,
       className,
       children,
+      onSlideChange,
       ...props
     },
     ref
@@ -60,20 +63,25 @@ const Carousel = React.forwardRef<
       {
         ...opts,
         axis: orientation === "horizontal" ? "x" : "y",
+        skipSnaps: false,
+        containScroll: "trimSnaps",
       },
       plugins
     )
     const [canScrollPrev, setCanScrollPrev] = React.useState(false)
     const [canScrollNext, setCanScrollNext] = React.useState(false)
+    const [selectedIndex, setSelectedIndex] = React.useState(0)
 
     const onSelect = React.useCallback((api: CarouselApi) => {
-      if (!api) {
-        return
-      }
+      if (!api) return
 
       setCanScrollPrev(api.canScrollPrev())
       setCanScrollNext(api.canScrollNext())
-    }, [])
+      
+      const currentIndex = api.selectedScrollSnap()
+      setSelectedIndex(currentIndex)
+      onSlideChange?.(currentIndex)
+    }, [onSlideChange])
 
     const scrollPrev = React.useCallback(() => {
       api?.scrollPrev()
@@ -97,24 +105,19 @@ const Carousel = React.forwardRef<
     )
 
     React.useEffect(() => {
-      if (!api || !setApi) {
-        return
-      }
-
+      if (!api || !setApi) return
       setApi(api)
     }, [api, setApi])
 
     React.useEffect(() => {
-      if (!api) {
-        return
-      }
+      if (!api) return
 
       onSelect(api)
       api.on("reInit", onSelect)
       api.on("select", onSelect)
 
       return () => {
-        api?.off("select", onSelect)
+        api.off("select", onSelect)
       }
     }, [api, onSelect])
 
@@ -124,12 +127,12 @@ const Carousel = React.forwardRef<
           carouselRef,
           api: api,
           opts,
-          orientation:
-            orientation || (opts?.axis === "y" ? "vertical" : "horizontal"),
+          orientation: orientation || (opts?.axis === "y" ? "vertical" : "horizontal"),
           scrollPrev,
           scrollNext,
           canScrollPrev,
           canScrollNext,
+          selectedIndex,
         }}
       >
         <div
