@@ -31,7 +31,7 @@ const FloatingContact = () => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start" className="w-[200px]">
           <DropdownMenuItem onClick={handleCall} className="gap-2 cursor-pointer">
-            <Phone className="h-4 w-4" />
+            <Phone className="h-5 w-5" />
             <span>اتصل بنا</span>
           </DropdownMenuItem>
           <DropdownMenuItem
@@ -41,7 +41,7 @@ const FloatingContact = () => {
             <img 
               src="/lovable-uploads/5a30ecf6-b0b1-41ce-908d-7d07e173fe6e.png" 
               alt="WhatsApp"
-              className="h-4 w-4"
+              className="h-5 w-5"
             />
             <span>واتساب</span>
           </DropdownMenuItem>
