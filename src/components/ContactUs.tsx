@@ -1,112 +1,156 @@
-import { Mail, Phone, MapPin } from "lucide-react";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 
-const ContactUs = () => {
-  return (
-    <section className="py-12 bg-darkBlue text-white">
-      <div className="container mx-auto px-4 max-w-[960px]">
-        <h2 className="text-4xl font-bold text-center mb-8">اتصل بنا</h2>
+const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName?: string }) => {
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    message: "",
+  });
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <form className="space-y-4">
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      const { error } = await supabase
+        .from('interest_forms')
+        .insert([
+          {
+            project_id: projectId,
+            full_name: formData.name,
+            phone: formData.phone,
+            email: formData.message,
+          }
+        ]);
+
+      if (error) throw error;
+
+      toast({
+        title: "تم إرسال الطلب بنجاح",
+        description: "سنقوم بالتواصل معك قريباً",
+      });
+
+      setFormData({
+        name: "",
+        phone: "",
+        message: "",
+      });
+    } catch (error) {
+      toast({
+        title: "حدث خطأ",
+        description: "الرجاء المحاولة مرة أخرى",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <section className="py-12 bg-offWhite">
+      <div className="container mx-auto px-4 max-w-6xl">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Contact Form */}
+          <div className="bg-white rounded-2xl shadow-lg p-8">
+            <h2 className="text-3xl font-bold text-newsGreen mb-8 text-center">
+              سجل اهتمامك
+            </h2>
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="name" className="block mb-1">
-                  الاسم
-                </label>
                 <input
                   type="text"
-                  id="name"
-                  className="w-full px-4 py-2 rounded bg-white/10 border border-white/20 focus:outline-none focus:border-gold"
+                  placeholder="الاسم - Name"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className={cn(
+                    "w-full px-4 py-3 rounded-lg bg-offWhite border-0",
+                    "placeholder:text-gray-400 focus:ring-2 focus:ring-gold",
+                    "transition duration-200 text-right"
+                  )}
+                  required
                 />
               </div>
+              
               <div>
-                <label htmlFor="email" className="block mb-1">
-                  البريد الإلكتروني
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  className="w-full px-4 py-2 rounded bg-white/10 border border-white/20 focus:outline-none focus:border-gold"
-                />
-              </div>
-              <div>
-                <label htmlFor="phone" className="block mb-1">
-                  رقم الهاتف
-                </label>
                 <PhoneInput
                   country={'sa'}
-                  onlyCountries={['sa']}
-                  inputClass="!w-full !px-4 !py-2 !rounded !bg-white/10 !border !border-white/20 focus:!outline-none focus:!border-gold !text-white"
-                  buttonClass="!bg-white/10 !border !border-white/20 !h-full !w-[60px] flex !items-center !justify-center"
-                  dropdownClass="!bg-darkBlue !text-white"
+                  value={formData.phone}
+                  onChange={(phone) => setFormData({ ...formData, phone })}
+                  inputClass="!w-full !px-4 !py-3 !rounded-lg !bg-offWhite !border-0 !text-right"
+                  containerClass="!w-full"
+                  buttonClass="!bg-offWhite !border-0 !rounded-lg"
+                  dropdownClass="!bg-white"
                   enableSearch={false}
                   disableSearchIcon
-                  buttonStyle={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                  containerStyle={{
-                    width: '100%',
-                  }}
-                  inputStyle={{
-                    width: '100%',
+                  inputProps={{
+                    required: true,
+                    placeholder: "الجوال - Mobile"
                   }}
                 />
               </div>
+
               <div>
-                <label htmlFor="message" className="block mb-1">
-                  الرسالة
-                </label>
-                <textarea
-                  id="message"
-                  rows={3}
-                  className="w-full px-4 py-2 rounded bg-white/10 border border-white/20 focus:outline-none focus:border-gold"
-                ></textarea>
+                <select
+                  value={projectId || ""}
+                  className={cn(
+                    "w-full px-4 py-3 rounded-lg bg-offWhite border-0",
+                    "text-gray-600 focus:ring-2 focus:ring-gold",
+                    "transition duration-200 text-right"
+                  )}
+                  disabled={!!projectId}
+                >
+                  <option value="">{projectName || "المشروع - Project"}</option>
+                </select>
               </div>
+
+              <div>
+                <textarea
+                  placeholder="الطلب - Looking for"
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  className={cn(
+                    "w-full px-4 py-3 rounded-lg bg-offWhite border-0",
+                    "placeholder:text-gray-400 focus:ring-2 focus:ring-gold",
+                    "transition duration-200 text-right min-h-[120px] resize-none"
+                  )}
+                  required
+                />
+              </div>
+
               <button
                 type="submit"
-                className="w-full py-2 bg-gold text-darkBlue font-bold rounded hover:bg-opacity-90 transition-colors"
+                disabled={isSubmitting}
+                className={cn(
+                  "w-full py-3 px-6 rounded-lg",
+                  "bg-gold text-white font-semibold",
+                  "hover:bg-gold/90 transition duration-200",
+                  "disabled:opacity-50 disabled:cursor-not-allowed"
+                )}
               >
-                إرسال
+                {isSubmitting ? "جاري الإرسال..." : "Send - إرسال"}
               </button>
             </form>
           </div>
 
-          <div className="space-y-6">
-            <div className="flex items-center gap-4">
-              <Phone className="w-5 h-5 text-gold" />
-              <div>
-                <h3 className="font-bold">اتصل بنا</h3>
-                <p className="text-white/80">0505148231</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <Mail className="w-5 h-5 text-gold" />
-              <div>
-                <h3 className="font-bold">راسلنا</h3>
-                <p className="text-white/80">info@alfaisal.com</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <MapPin className="w-5 h-5 text-gold" />
-              <div>
-                <h3 className="font-bold">موقعنا</h3>
-                <p className="text-white/80">الرياض، المملكة العربية السعودية</p>
-              </div>
-            </div>
-            <div className="h-48 w-full rounded overflow-hidden">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3624.674754182463!2d46.6752!3d24.7136!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjTCsDQyJzQ5LjAiTiA0NsKwNDAnMzAuNyJF!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-              ></iframe>
-            </div>
+          {/* Map Section */}
+          <div className="bg-white rounded-2xl shadow-lg overflow-hidden h-[600px]">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3710.3071156427584!2d39.1728231!3d21.5922997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15c3db6c1f4b0043%3A0x10e77978803d4c82!2sAs%20Salamah%2C%20Jeddah%20Saudi%20Arabia!5e0!3m2!1sen!2sus!4v1647789012345!5m2!1sen!2sus"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="w-full h-full"
+            />
           </div>
         </div>
       </div>
