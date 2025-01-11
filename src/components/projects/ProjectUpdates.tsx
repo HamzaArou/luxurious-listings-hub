@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 interface ProjectUnit {
-  unit_number: string;
+  unit_number: number; // Changed from string to number to match database type
   status: string;
 }
 
@@ -17,6 +17,13 @@ export default function ProjectUpdates({ projectId }: ProjectUpdatesProps) {
 
   useEffect(() => {
     const fetchUnits = async () => {
+      // Validate projectId is a valid UUID before making the request
+      if (!projectId || !/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(projectId)) {
+        console.error('Invalid project ID format');
+        setLoading(false);
+        return;
+      }
+
       const { data, error } = await supabase
         .from('project_units')
         .select('unit_number, status')
@@ -25,6 +32,7 @@ export default function ProjectUpdates({ projectId }: ProjectUpdatesProps) {
 
       if (error) {
         console.error('Error fetching units:', error);
+        setLoading(false);
         return;
       }
 
