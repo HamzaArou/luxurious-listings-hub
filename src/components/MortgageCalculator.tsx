@@ -295,22 +295,24 @@ const MortgageCalculator = () => {
         </div>
       </div>
 
-      <style jsx global>{`
-        .react-tel-input .form-control {
-          direction: ltr;
-          text-align: right;
-          padding-right: 48px !important;
-        }
-        .react-tel-input .selected-flag {
-          right: 0;
-          left: auto;
-          border-radius: 0 6px 6px 0;
-        }
-        .react-tel-input .country-list {
-          right: 0;
-          left: auto;
-        }
-      `}</style>
+      <style>
+        {`
+          .react-tel-input .form-control {
+            direction: ltr;
+            text-align: right;
+            padding-right: 48px !important;
+          }
+          .react-tel-input .selected-flag {
+            right: 0;
+            left: auto;
+            border-radius: 0 6px 6px 0;
+          }
+          .react-tel-input .country-list {
+            right: 0;
+            left: auto;
+          }
+        `}
+      </style>
     </section>
   );
 };
