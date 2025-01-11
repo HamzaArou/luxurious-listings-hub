@@ -5,10 +5,13 @@ import ProjectGallery from "@/components/projects/ProjectGallery";
 import ProjectUnits from "@/components/projects/ProjectUnits";
 import ProjectLocation from "@/components/projects/ProjectLocation";
 import { staticProjects } from "@/components/FeaturedProjects";
+import { useState } from "react";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 export default function ProjectDetails() {
   const { id } = useParams();
   const project = staticProjects.find(p => p.id === id);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   if (!project) {
     return (
@@ -18,10 +21,35 @@ export default function ProjectDetails() {
     );
   }
 
-  // Create mock data for gallery images based on thumbnail
+  // Create mock data for gallery images
   const mockGalleryImages = [
     {
       id: '1',
+      image_url: '/lovable-uploads/559e0c70-7274-4ffb-8512-e13bb0a18a3d.png',
+      image_type: 'gallery'
+    },
+    {
+      id: '2',
+      image_url: '/lovable-uploads/b83d6a5d-d32d-4c33-9aba-4d64a54337e0.png',
+      image_type: 'gallery'
+    },
+    {
+      id: '3',
+      image_url: '/lovable-uploads/360425e4-fe5f-4a1c-8f12-78ddf0e5c7d8.png',
+      image_type: 'gallery'
+    },
+    {
+      id: '4',
+      image_url: '/lovable-uploads/a9ec60bc-445c-4c80-88e1-e74736caa605.png',
+      image_type: 'gallery'
+    },
+    {
+      id: '5',
+      image_url: '/lovable-uploads/c0b1fc97-9a18-4732-ae45-87e2556beff1.png',
+      image_type: 'gallery'
+    },
+    {
+      id: '6',
       image_url: project.thumbnail_url,
       image_type: 'gallery'
     }
@@ -31,7 +59,7 @@ export default function ProjectDetails() {
   const mockUnits = Array.from({ length: project.units }, (_, index) => ({
     id: `unit-${index + 1}`,
     name: `وحدة ${index + 1}`,
-    area: 120 + (index * 10), // Mock different areas
+    area: 120 + (index * 10),
     rooms: 3,
     bathrooms: 2
   }));
@@ -48,7 +76,7 @@ export default function ProjectDetails() {
         <div className="relative w-full max-w-4xl mx-auto">
           <div className="w-[300px] h-[285px] md:w-[531px] md:h-[503px] mx-auto rounded-3xl overflow-hidden shadow-xl">
             <img
-              src={project.thumbnail_url}
+              src={selectedImage || mockGalleryImages[0].image_url}
               alt={project.name}
               className="w-full h-full object-cover"
               loading="lazy"
@@ -70,31 +98,34 @@ export default function ProjectDetails() {
           <div className="max-w-4xl mx-auto">
             {mockGalleryImages.length > 0 ? (
               <div className="space-y-8">
-                {/* Main Image Display */}
-                <div className="aspect-video rounded-2xl overflow-hidden shadow-lg">
-                  <img
-                    src={mockGalleryImages[0].image_url}
-                    alt=""
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                
-                {/* Thumbnails Row */}
-                <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
-                  {mockGalleryImages.map((image, index) => (
-                    <button
-                      key={image.id}
-                      className="aspect-square rounded-lg overflow-hidden border border-[#F5F5F5] 
-                               transition-all duration-300 hover:shadow-[0_0_15px_rgba(14,165,233,0.3)]"
-                    >
-                      <img
-                        src={image.image_url}
-                        alt=""
-                        className="w-full h-full object-cover"
-                      />
-                    </button>
-                  ))}
-                </div>
+                {/* Carousel */}
+                <Carousel
+                  opts={{
+                    align: "start",
+                    loop: true,
+                  }}
+                  className="w-full"
+                >
+                  <CarouselContent className="-ml-2 md:-ml-4">
+                    {mockGalleryImages.map((image) => (
+                      <CarouselItem key={image.id} className="pl-2 md:pl-4 basis-1/2 md:basis-1/3 lg:basis-1/4">
+                        <button
+                          onClick={() => setSelectedImage(image.image_url)}
+                          className="w-full aspect-square rounded-lg overflow-hidden border border-[#F5F5F5] 
+                                   transition-all duration-300 hover:shadow-[0_0_15px_rgba(14,165,233,0.3)]"
+                        >
+                          <img
+                            src={image.image_url}
+                            alt=""
+                            className="w-full h-full object-cover"
+                          />
+                        </button>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <CarouselPrevious className="hidden md:flex" />
+                  <CarouselNext className="hidden md:flex" />
+                </Carousel>
               </div>
             ) : (
               <div className="text-center py-16">
