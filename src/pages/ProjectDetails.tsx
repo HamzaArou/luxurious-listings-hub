@@ -57,6 +57,11 @@ export default function ProjectDetails() {
     }
   ];
 
+  const handleImageClick = (index: number) => {
+    setCurrentImageIndex(index);
+    setSelectedImage(mockGalleryImages[index].image_url);
+  };
+
   const handleSlideChange = (index: number) => {
     setCurrentImageIndex(index);
     setSelectedImage(mockGalleryImages[index].image_url);
@@ -82,7 +87,7 @@ export default function ProjectDetails() {
         
         {/* Large Project Image */}
         <div className="relative w-full max-w-4xl mx-auto">
-          <div className="w-[300px] h-[285px] md:w-[531px] md:h-[503px] mx-auto rounded-3xl overflow-hidden shadow-xl">
+          <div className="w-full h-[285px] md:h-[503px] mx-auto rounded-3xl overflow-hidden shadow-xl">
             <img
               src={selectedImage || mockGalleryImages[currentImageIndex].image_url}
               alt={project.name}
@@ -120,10 +125,10 @@ export default function ProjectDetails() {
                     {mockGalleryImages.map((image, index) => (
                       <CarouselItem 
                         key={image.id} 
-                        className="pl-2 md:pl-4 basis-1/3 md:basis-1/4"
+                        className="pl-2 md:pl-4 basis-1/3 md:basis-1/4 min-w-0"
                       >
                         <button
-                          onClick={() => handleSlideChange(index)}
+                          onClick={() => handleImageClick(index)}
                           className={cn(
                             "w-full aspect-square rounded-lg overflow-hidden",
                             "transition-all duration-300 hover:shadow-[0_0_15px_rgba(14,165,233,0.3)]",
@@ -134,6 +139,8 @@ export default function ProjectDetails() {
                             src={image.image_url}
                             alt=""
                             className="w-full h-full object-cover"
+                            loading="lazy"
+                            decoding="async"
                           />
                         </button>
                       </CarouselItem>
