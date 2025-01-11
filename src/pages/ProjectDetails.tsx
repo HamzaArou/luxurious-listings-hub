@@ -11,6 +11,8 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { cn } from "@/lib/utils";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 function ProjectDetailsSkeleton() {
   return (
@@ -26,13 +28,32 @@ function ProjectDetailsSkeleton() {
 
 export default function ProjectDetails() {
   const { id } = useParams();
-  const project = staticProjects.find(p => p.id === id);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const { data: project, isLoading } = useQuery({
+    queryKey: ["project", id],
+    queryFn: async () => {
+      if (!id) return null;
+      const { data, error } = await supabase
+        .from("projects")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!id,
+  });
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  if (isLoading) {
+    return <ProjectDetailsSkeleton />;
+  }
 
   if (!project) {
     return (
@@ -185,7 +206,12 @@ export default function ProjectDetails() {
         </div>
 
         {/* Contact Us Section */}
-        <ContactUs projectId={id} projectName={project.name} />
+        <ContactUs 
+          projectId={id} 
+          projectName={project.name}
+          lat={project.lat}
+          lng={project.lng}
+        />
       </div>
       <Footer />
     </div>
