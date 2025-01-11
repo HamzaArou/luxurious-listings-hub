@@ -1,4 +1,4 @@
-import { Phone, MessageSquare } from "lucide-react";
+import { Phone } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -38,7 +38,11 @@ const FloatingContact = () => {
             onClick={handleWhatsApp}
             className="gap-2 cursor-pointer"
           >
-            <MessageSquare className="h-4 w-4 text-[#25D366]" />
+            <img 
+              src="/lovable-uploads/5a30ecf6-b0b1-41ce-908d-7d07e173fe6e.png" 
+              alt="WhatsApp"
+              className="h-4 w-4"
+            />
             <span>واتساب</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
