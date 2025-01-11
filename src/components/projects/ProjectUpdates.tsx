@@ -101,7 +101,7 @@ export default function ProjectUpdates({ projectId }: ProjectUpdatesProps) {
       case 'محجوز':
         return 'bg-[#C6A567] text-white';
       case 'مباع':
-        return 'bg-[#204E46] text-white';
+        return 'bg-darkBlue text-white'; // Changed from bg-[#204E46] to bg-darkBlue
       default:
         return 'bg-[#D9D9D9] text-darkBlue';
     }
