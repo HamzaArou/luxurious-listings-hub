@@ -25,17 +25,22 @@ export default function ProjectUpdates({ projectId }: ProjectUpdatesProps) {
 
   useEffect(() => {
     const fetchUnits = async () => {
-      if (!projectId) {
-        const mockUnits = Array.from({ length: 20 }, (_, index) => ({
-          unit_number: index + 1,
-          status: ['متاح', 'محجوز', 'مباع'][Math.floor(Math.random() * 3)],
-          unit_type: 'شقة',
-          area: 140 + Math.floor(Math.random() * 60),
-          floor_number: Math.floor(index / 4) + 1,
-          side: ['أمامية', 'داخلية'][Math.floor(Math.random() * 2)],
-          rooms: 3 + Math.floor(Math.random() * 2),
-          bathrooms: 2 + Math.floor(Math.random() * 2)
-        }));
+      // Always generate mock data for development and invalid UUIDs
+      const mockUnits = Array.from({ length: 20 }, (_, index) => ({
+        unit_number: index + 1,
+        status: ['متاح', 'محجوز', 'مباع'][Math.floor(Math.random() * 3)],
+        unit_type: 'شقة',
+        area: 140 + Math.floor(Math.random() * 60),
+        floor_number: Math.floor(index / 4) + 1,
+        side: ['أمامية', 'داخلية'][Math.floor(Math.random() * 2)],
+        rooms: 3 + Math.floor(Math.random() * 2),
+        bathrooms: 2 + Math.floor(Math.random() * 2)
+      }));
+
+      // Check if projectId is a valid UUID
+      const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+      if (!UUID_REGEX.test(projectId)) {
+        console.log('Invalid UUID format, using mock data');
         setUnits(mockUnits);
         setLoading(false);
         return;
@@ -48,21 +53,14 @@ export default function ProjectUpdates({ projectId }: ProjectUpdatesProps) {
           .eq('project_id', projectId)
           .order('unit_number');
 
-        if (error) throw error;
-        setUnits(data || []);
+        if (error) {
+          console.error('Error fetching units:', error);
+          setUnits(mockUnits);
+        } else {
+          setUnits(data || mockUnits);
+        }
       } catch (error) {
         console.error('Error fetching units:', error);
-        // Generate mock data when there's an error
-        const mockUnits = Array.from({ length: 20 }, (_, index) => ({
-          unit_number: index + 1,
-          status: ['متاح', 'محجوز', 'مباع'][Math.floor(Math.random() * 3)],
-          unit_type: 'شقة',
-          area: 140 + Math.floor(Math.random() * 60),
-          floor_number: Math.floor(index / 4) + 1,
-          side: ['أمامية', 'داخلية'][Math.floor(Math.random() * 2)],
-          rooms: 3 + Math.floor(Math.random() * 2),
-          bathrooms: 2 + Math.floor(Math.random() * 2)
-        }));
         setUnits(mockUnits);
       } finally {
         setLoading(false);
@@ -71,25 +69,29 @@ export default function ProjectUpdates({ projectId }: ProjectUpdatesProps) {
 
     fetchUnits();
 
-    const channel = supabase
-      .channel('schema-db-changes')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'project_units',
-          filter: `project_id=eq.${projectId}`
-        },
-        () => {
-          fetchUnits();
-        }
-      )
-      .subscribe();
+    // Only set up real-time subscription for valid UUIDs
+    const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    if (UUID_REGEX.test(projectId)) {
+      const channel = supabase
+        .channel('schema-db-changes')
+        .on(
+          'postgres_changes',
+          {
+            event: '*',
+            schema: 'public',
+            table: 'project_units',
+            filter: `project_id=eq.${projectId}`
+          },
+          () => {
+            fetchUnits();
+          }
+        )
+        .subscribe();
 
-    return () => {
-      supabase.removeChannel(channel);
-    };
+      return () => {
+        supabase.removeChannel(channel);
+      };
+    }
   }, [projectId]);
 
   const getStatusColor = (status: string) => {
