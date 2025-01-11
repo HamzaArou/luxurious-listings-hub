@@ -5,10 +5,23 @@ import ProjectGallery from "@/components/projects/ProjectGallery";
 import ProjectUnits from "@/components/projects/ProjectUnits";
 import ProjectLocation from "@/components/projects/ProjectLocation";
 import ProjectUpdates from "@/components/projects/ProjectUpdates";
+import ContactUs from "@/components/ContactUs";
 import { staticProjects } from "@/components/FeaturedProjects";
 import { useState } from "react";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
+
+function ProjectDetailsSkeleton() {
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <div className="mb-8">
+        <Skeleton className="h-10 w-64 mb-2" />
+        <Skeleton className="h-6 w-48" />
+      </div>
+      <Skeleton className="h-[400px] w-full rounded-lg" />
+    </div>
+  );
+}
 
 export default function ProjectDetails() {
   const { id } = useParams();
@@ -24,7 +37,6 @@ export default function ProjectDetails() {
     );
   }
 
-  // Create mock data for gallery images
   const mockGalleryImages = [
     {
       id: '1',
@@ -175,6 +187,9 @@ export default function ProjectDetails() {
         </div>
       </div>
 
+      {/* Contact Us Section */}
+      <ContactUs projectId={id} projectName={project.name} />
+
       <Tabs defaultValue="gallery" className="space-y-4">
         <TabsList className="w-full justify-start">
           <TabsTrigger value="gallery">صور المشروع</TabsTrigger>
@@ -194,18 +209,6 @@ export default function ProjectDetails() {
           <ProjectLocation location={project.location} />
         </TabsContent>
       </Tabs>
-    </div>
-  );
-}
-
-function ProjectDetailsSkeleton() {
-  return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
-        <Skeleton className="h-10 w-64 mb-2" />
-        <Skeleton className="h-6 w-48" />
-      </div>
-      <Skeleton className="h-[400px] w-full rounded-lg" />
     </div>
   );
 }
