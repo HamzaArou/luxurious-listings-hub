@@ -109,6 +109,8 @@ export default function ProjectDetails() {
                   opts={{
                     align: "center",
                     loop: true,
+                    skipSnaps: false,
+                    containScroll: "trimSnaps",
                   }}
                   onSlideChange={handleSlideChange}
                   className="w-full"
@@ -117,12 +119,12 @@ export default function ProjectDetails() {
                     {mockGalleryImages.map((image, index) => (
                       <CarouselItem 
                         key={image.id} 
-                        className="pl-2 md:pl-4 basis-1/2 md:basis-1/3 lg:basis-1/4"
+                        className="pl-2 md:pl-4 basis-1/3 md:basis-1/4"
                       >
                         <button
                           onClick={() => handleSlideChange(index)}
                           className={cn(
-                            "w-full aspect-square rounded-lg overflow-hidden border border-[#F5F5F5]",
+                            "w-full aspect-square rounded-lg overflow-hidden",
                             "transition-all duration-300 hover:shadow-[0_0_15px_rgba(14,165,233,0.3)]",
                             currentImageIndex === index && "ring-2 ring-darkBlue"
                           )}
