@@ -84,9 +84,9 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
                   value={formData.phone}
                   onChange={(phone) => setFormData({ ...formData, phone })}
                   inputClass="!w-full !px-4 !py-3 !rounded-lg !bg-offWhite !border-0 !text-right"
-                  containerClass="!w-full !dir-ltr" // Added dir-ltr to force left-to-right direction
-                  buttonClass="!bg-offWhite !border-0 !rounded-lg !left-0 !right-auto" // Changed button position
-                  dropdownClass="!bg-white !left-0 !right-auto" // Aligned dropdown to the left
+                  containerClass="!w-full !dir-ltr"
+                  buttonClass="!bg-offWhite !border-0 !rounded-lg !left-0 !right-auto"
+                  dropdownClass="!bg-white !left-0 !right-auto"
                   enableSearch={false}
                   disableSearchIcon
                   inputProps={{
@@ -155,7 +155,7 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
         </div>
       </div>
 
-      <style jsx global>{`
+      <style>{`
         .phone-input-container .react-tel-input .form-control {
           text-align: right;
           padding-left: 48px !important;
