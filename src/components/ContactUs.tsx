@@ -78,15 +78,15 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
                 />
               </div>
               
-              <div>
+              <div className="phone-input-container">
                 <PhoneInput
                   country={'sa'}
                   value={formData.phone}
                   onChange={(phone) => setFormData({ ...formData, phone })}
                   inputClass="!w-full !px-4 !py-3 !rounded-lg !bg-offWhite !border-0 !text-right"
-                  containerClass="!w-full"
-                  buttonClass="!bg-offWhite !border-0 !rounded-lg"
-                  dropdownClass="!bg-white"
+                  containerClass="!w-full !dir-ltr" // Added dir-ltr to force left-to-right direction
+                  buttonClass="!bg-offWhite !border-0 !rounded-lg !left-0 !right-auto" // Changed button position
+                  dropdownClass="!bg-white !left-0 !right-auto" // Aligned dropdown to the left
                   enableSearch={false}
                   disableSearchIcon
                   inputProps={{
@@ -154,6 +154,29 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
           </div>
         </div>
       </div>
+
+      <style jsx global>{`
+        .phone-input-container .react-tel-input .form-control {
+          text-align: right;
+          padding-left: 48px !important;
+          padding-right: 16px !important;
+          direction: ltr;
+        }
+        .phone-input-container .react-tel-input .flag-dropdown {
+          border: none !important;
+          background: transparent !important;
+          left: 0 !important;
+          right: auto !important;
+        }
+        .phone-input-container .react-tel-input .selected-flag {
+          background: transparent !important;
+          padding-left: 8px !important;
+        }
+        .phone-input-container .react-tel-input .country-list {
+          left: 0 !important;
+          right: auto !important;
+        }
+      `}</style>
     </section>
   );
 };
