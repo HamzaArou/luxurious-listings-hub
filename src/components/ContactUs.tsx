@@ -60,7 +60,7 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
           {/* Contact Form */}
           <div className="bg-white rounded-2xl shadow-lg p-8">
             <h2 className="text-3xl font-bold text-darkBlue mb-8 text-center">
-              سجل اهتمامك بهذا المشروع
+              {projectId ? "سجل اهتمامك بهذا المشروع" : "سجل اهتمامك"}
             </h2>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
