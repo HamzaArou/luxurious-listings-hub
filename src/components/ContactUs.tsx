@@ -59,8 +59,8 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Contact Form */}
           <div className="bg-white rounded-2xl shadow-lg p-8">
-            <h2 className="text-3xl font-bold text-newsGreen mb-8 text-center">
-              سجل اهتمامك
+            <h2 className="text-3xl font-bold text-darkBlue mb-8 text-center">
+              سجل اهتمامك بهذا المشروع
             </h2>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
