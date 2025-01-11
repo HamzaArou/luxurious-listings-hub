@@ -4,12 +4,25 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
 import { ChevronDown } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
+import { Label } from "./ui/label";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 const MortgageCalculator = () => {
   const [propertyValue, setPropertyValue] = useState(10000);
   const [downPayment, setDownPayment] = useState(3000);
   const [duration, setDuration] = useState(19);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    full_name: "",
+    email: "",
+    phone: "",
+  });
+  const { toast } = useToast();
 
   // Calculate values
   const totalEligibleAmount = propertyValue - downPayment;
@@ -18,6 +31,42 @@ const MortgageCalculator = () => {
   const addedProfits = totalEligibleAmount * annualRate * duration;
   const totalPayment = totalEligibleAmount + addedProfits;
   const monthlyInstallment = (totalPayment / (duration * 12)).toFixed(2);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    try {
+      const { error } = await supabase
+        .from('interest_forms')
+        .insert([
+          {
+            full_name: formData.full_name,
+            email: formData.email,
+            phone: formData.phone,
+          }
+        ]);
+
+      if (error) throw error;
+
+      toast({
+        title: "تم إرسال طلبك بنجاح",
+        description: "سنتواصل معك قريباً",
+      });
+
+      setIsDialogOpen(false);
+      setFormData({
+        full_name: "",
+        email: "",
+        phone: "",
+      });
+    } catch (error) {
+      toast({
+        title: "حدث خطأ",
+        description: "الرجاء المحاولة مرة أخرى",
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <section className="py-16 bg-white">
@@ -78,12 +127,61 @@ const MortgageCalculator = () => {
                 </CollapsibleContent>
               </Collapsible>
 
-              <Button className="w-full mt-6 bg-gold hover:bg-gold/90 text-white">
-                تقدم بطلبك الآن
-              </Button>
-
-              <div className="mt-4 text-sm opacity-75 text-center">
-              </div>
+              <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button className="w-full mt-6 bg-gold hover:bg-gold/90 text-white">
+                    تقدم بطلبك الآن
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px] gap-6">
+                  <DialogHeader>
+                    <DialogTitle className="text-right text-xl">تقدم بطلبك الآن</DialogTitle>
+                  </DialogHeader>
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="space-y-2 text-right">
+                      <Label htmlFor="full_name">الاسم الكامل</Label>
+                      <Input
+                        id="full_name"
+                        value={formData.full_name}
+                        onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
+                        required
+                        className="text-right"
+                        dir="rtl"
+                      />
+                    </div>
+                    <div className="space-y-2 text-right">
+                      <Label htmlFor="email">البريد الإلكتروني</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        required
+                        className="text-right"
+                        dir="rtl"
+                      />
+                    </div>
+                    <div className="space-y-2 text-right">
+                      <Label htmlFor="phone">رقم الجوال</Label>
+                      <PhoneInput
+                        country="sa"
+                        value={formData.phone}
+                        onChange={(phone) => setFormData({ ...formData, phone: phone })}
+                        inputProps={{
+                          required: true,
+                          id: "phone"
+                        }}
+                        containerClass="!w-full"
+                        inputClass="!w-full !h-10 !text-right !pr-[48px]"
+                        buttonClass="!border-input"
+                      />
+                    </div>
+                    <Button type="submit" className="w-full bg-gold hover:bg-gold/90">
+                      إرسال
+                    </Button>
+                  </form>
+                </DialogContent>
+              </Dialog>
             </div>
 
             {/* Input Fields */}
@@ -196,6 +294,23 @@ const MortgageCalculator = () => {
           </div>
         </div>
       </div>
+
+      <style jsx global>{`
+        .react-tel-input .form-control {
+          direction: ltr;
+          text-align: right;
+          padding-right: 48px !important;
+        }
+        .react-tel-input .selected-flag {
+          right: 0;
+          left: auto;
+          border-radius: 0 6px 6px 0;
+        }
+        .react-tel-input .country-list {
+          right: 0;
+          left: auto;
+        }
+      `}</style>
     </section>
   );
 };
