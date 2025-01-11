@@ -9,13 +9,14 @@ import { Button } from "@/components/ui/button";
 
 const FloatingContact = () => {
   const phoneNumber = "+966505148231";
+  const whatsappNumber = "966505148231"; // Removed the + for WhatsApp API format
 
   const handleCall = () => {
     window.location.href = `tel:${phoneNumber}`;
   };
 
   const handleWhatsApp = () => {
-    window.location.href = `https://wa.me/${phoneNumber}`;
+    window.location.href = `https://wa.me/${whatsappNumber}`;
   };
 
   return (
