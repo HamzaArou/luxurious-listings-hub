@@ -4,6 +4,22 @@ import ProjectSearch from "./projects/ProjectSearch";
 import ProjectCard from "./projects/ProjectCard";
 import MortgageCalculator from "./MortgageCalculator";
 
+export interface Project {
+  id: string;
+  name: string;
+  location: string;
+  details: string;
+  status: string;
+  floors: number;
+  units: number;
+  apartments: number;
+  annexes: number;
+  projectLabel: string;
+  thumbnail_url: string;
+  lat?: number;
+  lng?: number;
+}
+
 export const staticProjects = [
   {
     id: "1",

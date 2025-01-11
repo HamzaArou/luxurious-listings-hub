@@ -4,6 +4,7 @@ import 'react-phone-input-2/lib/style.css';
 import { useState, useEffect } from 'react';
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
 
 interface ContactUsProps {
   projectId?: string;
