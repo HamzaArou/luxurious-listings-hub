@@ -124,7 +124,7 @@ export default function ProjectUpdates({ projectId }: ProjectUpdatesProps) {
             <div
               key={index}
               className={cn(
-                "aspect-[2/1] flex items-center justify-center",
+                "w-[107px] h-[45px] flex items-center justify-center",
                 "rounded-tr-[5px] rounded-tl-[100px] rounded-br-[100px] rounded-bl-[5px]",
                 "transition-all duration-300 hover:scale-105 hover:shadow-lg",
                 "font-bold text-xl",
