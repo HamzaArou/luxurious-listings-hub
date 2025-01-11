@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import ProjectGallery from "@/components/projects/ProjectGallery";
 import ProjectUnits from "@/components/projects/ProjectUnits";
@@ -79,16 +78,6 @@ export default function ProjectDetails() {
     setCurrentImageIndex(index);
     setSelectedImage(mockGalleryImages[index].image_url);
   };
-
-  // Create mock units based on project data
-  const mockUnits = Array.from({ length: project.units }, (_, index) => ({
-    id: `unit-${index + 1}`,
-    name: `وحدة ${index + 1}`,
-    area: 120 + (index * 10),
-    bedrooms: 3,
-    bathrooms: 2,
-    details: {}
-  }));
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -189,26 +178,6 @@ export default function ProjectDetails() {
 
       {/* Contact Us Section */}
       <ContactUs projectId={id} projectName={project.name} />
-
-      <Tabs defaultValue="gallery" className="space-y-4">
-        <TabsList className="w-full justify-start">
-          <TabsTrigger value="gallery">صور المشروع</TabsTrigger>
-          <TabsTrigger value="units">وحدات المشروع</TabsTrigger>
-          <TabsTrigger value="location">الموقع الجغرافي</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="gallery">
-          <ProjectGallery images={mockGalleryImages} />
-        </TabsContent>
-
-        <TabsContent value="units">
-          <ProjectUnits units={mockUnits} />
-        </TabsContent>
-
-        <TabsContent value="location">
-          <ProjectLocation location={project.location} />
-        </TabsContent>
-      </Tabs>
     </div>
   );
 }
