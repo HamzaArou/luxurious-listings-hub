@@ -1,22 +1,28 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+import { useLocation } from "react-router-dom";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      const newsSection = document.querySelector('section:nth-of-type(2)');
-      const header = document.querySelector('header');
       
-      if (newsSection && header) {
-        const headerBottom = header.getBoundingClientRect().height;
-        const newsSectionTop = newsSection.getBoundingClientRect().top + window.scrollY;
-        setIsVisible(currentScrollY + headerBottom <= newsSectionTop);
+      // Only apply scroll-hiding behavior on the home page
+      if (!location.pathname.includes('/project/')) {
+        const newsSection = document.querySelector('section:nth-of-type(2)');
+        const header = document.querySelector('header');
+        
+        if (newsSection && header) {
+          const headerBottom = header.getBoundingClientRect().height;
+          const newsSectionTop = newsSection.getBoundingClientRect().top + window.scrollY;
+          setIsVisible(currentScrollY + headerBottom <= newsSectionTop);
+        }
       }
 
       setIsScrolled(currentScrollY > 50);
@@ -25,7 +31,7 @@ const Header = () => {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+  }, [lastScrollY, location.pathname]);
 
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);
@@ -49,12 +55,14 @@ const Header = () => {
     { href: "contact", text: "اتصل بنا" },
   ];
 
+  const isProjectPage = location.pathname.includes('/project/');
+
   return (
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
         isScrolled ? "bg-white/95 shadow-md" : "bg-white/95"
       } h-[120px] transform ${
-        isVisible ? "translate-y-0" : "-translate-y-full"
+        !isProjectPage && !isVisible ? "-translate-y-full" : "translate-y-0"
       }`}
     >
       <div className="w-full h-full flex items-center px-10" dir="ltr">
