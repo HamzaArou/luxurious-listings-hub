@@ -37,6 +37,14 @@ export default function ProjectUpdates({ projectId }: ProjectUpdatesProps) {
         bathrooms: 4
       }));
 
+      // If no projectId or invalid format, use mock data
+      if (!projectId || !/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(projectId)) {
+        console.log('Using mock data due to invalid project ID format');
+        setUnits(mockUnits);
+        setLoading(false);
+        return;
+      }
+
       try {
         const { data, error } = await supabase
           .from('project_units')
@@ -60,25 +68,28 @@ export default function ProjectUpdates({ projectId }: ProjectUpdatesProps) {
 
     fetchUnits();
 
-    const channel = supabase
-      .channel('schema-db-changes')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'project_units',
-          filter: `project_id=eq.${projectId}`
-        },
-        () => {
-          fetchUnits();
-        }
-      )
-      .subscribe();
+    // Set up real-time subscription only if we have a valid UUID
+    if (projectId && /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(projectId)) {
+      const channel = supabase
+        .channel('schema-db-changes')
+        .on(
+          'postgres_changes',
+          {
+            event: '*',
+            schema: 'public',
+            table: 'project_units',
+            filter: `project_id=eq.${projectId}`
+          },
+          () => {
+            fetchUnits();
+          }
+        )
+        .subscribe();
 
-    return () => {
-      supabase.removeChannel(channel);
-    };
+      return () => {
+        supabase.removeChannel(channel);
+      };
+    }
   }, [projectId]);
 
   const getStatusColor = (status: string) => {
