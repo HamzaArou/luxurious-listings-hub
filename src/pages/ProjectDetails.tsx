@@ -62,15 +62,6 @@ export default function ProjectDetails() {
     setSelectedImage(mockGalleryImages[index].image_url);
   };
 
-  // Create mock units based on project data
-  const mockUnits = Array.from({ length: project.units }, (_, index) => ({
-    id: `unit-${index + 1}`,
-    name: `وحدة ${index + 1}`,
-    area: 120 + (index * 10),
-    rooms: 3,
-    bathrooms: 2
-  }));
-
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Hero Section */}
