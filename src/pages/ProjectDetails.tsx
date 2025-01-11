@@ -5,6 +5,7 @@ import ProjectGallery from "@/components/projects/ProjectGallery";
 import ProjectUnits from "@/components/projects/ProjectUnits";
 import ProjectLocation from "@/components/projects/ProjectLocation";
 import ProjectUpdates from "@/components/projects/ProjectUpdates";
+import ContactUs from "@/components/ContactUs";
 import { staticProjects } from "@/components/FeaturedProjects";
 import { useState } from "react";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
@@ -174,6 +175,9 @@ export default function ProjectDetails() {
           </div>
         </div>
       </div>
+
+      {/* Contact Form and Map Section */}
+      <ContactUs projectId={id} projectName={project.name} location={project.location} lat={project.lat} lng={project.lng} />
 
       <Tabs defaultValue="gallery" className="space-y-4">
         <TabsList className="w-full justify-start">

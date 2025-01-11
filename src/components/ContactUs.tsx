@@ -1,112 +1,173 @@
 import { Mail, Phone, MapPin } from "lucide-react";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
+import { useState, useEffect } from 'react';
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
-const ContactUs = () => {
+interface ContactUsProps {
+  projectId?: string;
+  projectName?: string;
+  location?: string;
+  lat?: number;
+  lng?: number;
+}
+
+const ContactUs = ({ projectId, projectName, location, lat = 24.7136, lng = 46.6752 }: ContactUsProps) => {
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    message: '',
+  });
+
+  useEffect(() => {
+    // Initialize Google Maps
+    const initMap = () => {
+      const map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
+        center: { lat, lng },
+        zoom: 15,
+      });
+
+      new google.maps.Marker({
+        position: { lat, lng },
+        map,
+        title: location,
+      });
+    };
+
+    // Load Google Maps script if not already loaded
+    if (!window.google) {
+      const script = document.createElement('script');
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_API_KEY}`;
+      script.async = true;
+      script.defer = true;
+      script.onload = initMap;
+      document.head.appendChild(script);
+    } else {
+      initMap();
+    }
+  }, [lat, lng, location]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      const { error } = await supabase
+        .from('interest_forms')
+        .insert([
+          {
+            project_id: projectId,
+            full_name: formData.name,
+            phone: formData.phone,
+            email: 'not_provided@example.com', // Required field in the database
+          }
+        ]);
+
+      if (error) throw error;
+
+      toast({
+        title: "تم إرسال الطلب بنجاح",
+        description: "سنتواصل معك قريباً",
+      });
+
+      setFormData({ name: '', phone: '', message: '' });
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast({
+        title: "حدث خطأ",
+        description: "الرجاء المحاولة مرة أخرى",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
-    <section className="py-12 bg-darkBlue text-white">
+    <section className="py-12 bg-offWhite">
       <div className="container mx-auto px-4 max-w-[960px]">
-        <h2 className="text-4xl font-bold text-center mb-8">اتصل بنا</h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <form className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Contact Form */}
+          <div className="bg-white p-8 rounded-lg shadow-md">
+            <h2 className="text-3xl font-bold text-darkBlue mb-8 text-center">سجل اهتمامك</h2>
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="name" className="block mb-1">
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
                   الاسم
                 </label>
                 <input
                   type="text"
                   id="name"
-                  className="w-full px-4 py-2 rounded bg-white/10 border border-white/20 focus:outline-none focus:border-gold"
+                  value={formData.name}
+                  onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gold"
+                  required
                 />
               </div>
+
               <div>
-                <label htmlFor="email" className="block mb-1">
-                  البريد الإلكتروني
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  className="w-full px-4 py-2 rounded bg-white/10 border border-white/20 focus:outline-none focus:border-gold"
-                />
-              </div>
-              <div>
-                <label htmlFor="phone" className="block mb-1">
-                  رقم الهاتف
+                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                  الجوال
                 </label>
                 <PhoneInput
                   country={'sa'}
-                  onlyCountries={['sa']}
-                  inputClass="!w-full !px-4 !py-2 !rounded !bg-white/10 !border !border-white/20 focus:!outline-none focus:!border-gold !text-white"
-                  buttonClass="!bg-white/10 !border !border-white/20 !h-full !w-[60px] flex !items-center !justify-center"
-                  dropdownClass="!bg-darkBlue !text-white"
+                  value={formData.phone}
+                  onChange={(phone) => setFormData(prev => ({ ...prev, phone }))}
+                  inputClass="!w-full !px-4 !py-2 !rounded-lg !border !border-gray-300 focus:!outline-none focus:!ring-2 focus:!ring-gold"
+                  containerClass="!w-full"
+                  buttonClass="!border !border-gray-300 !rounded-lg"
+                  dropdownClass="!bg-white"
                   enableSearch={false}
                   disableSearchIcon
-                  buttonStyle={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                  containerStyle={{
-                    width: '100%',
-                  }}
-                  inputStyle={{
-                    width: '100%',
-                  }}
                 />
               </div>
+
               <div>
-                <label htmlFor="message" className="block mb-1">
-                  الرسالة
+                <label htmlFor="project" className="block text-sm font-medium text-gray-700 mb-1">
+                  المشروع
+                </label>
+                <input
+                  type="text"
+                  id="project"
+                  value={projectName}
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-gray-50"
+                  disabled
+                />
+              </div>
+
+              <div>
+                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+                  الطلب
                 </label>
                 <textarea
                   id="message"
-                  rows={3}
-                  className="w-full px-4 py-2 rounded bg-white/10 border border-white/20 focus:outline-none focus:border-gold"
-                ></textarea>
+                  value={formData.message}
+                  onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
+                  rows={4}
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gold"
+                />
               </div>
+
               <button
                 type="submit"
-                className="w-full py-2 bg-gold text-darkBlue font-bold rounded hover:bg-opacity-90 transition-colors"
+                disabled={isSubmitting}
+                className={cn(
+                  "w-full py-3 bg-gold text-white font-bold rounded-lg",
+                  "hover:bg-opacity-90 transition-colors",
+                  "disabled:opacity-50 disabled:cursor-not-allowed"
+                )}
               >
-                إرسال
+                {isSubmitting ? "جاري الإرسال..." : "Send"}
               </button>
             </form>
           </div>
 
-          <div className="space-y-6">
-            <div className="flex items-center gap-4">
-              <Phone className="w-5 h-5 text-gold" />
-              <div>
-                <h3 className="font-bold">اتصل بنا</h3>
-                <p className="text-white/80">0505148231</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <Mail className="w-5 h-5 text-gold" />
-              <div>
-                <h3 className="font-bold">راسلنا</h3>
-                <p className="text-white/80">info@alfaisal.com</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <MapPin className="w-5 h-5 text-gold" />
-              <div>
-                <h3 className="font-bold">موقعنا</h3>
-                <p className="text-white/80">الرياض، المملكة العربية السعودية</p>
-              </div>
-            </div>
-            <div className="h-48 w-full rounded overflow-hidden">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3624.674754182463!2d46.6752!3d24.7136!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjTCsDQyJzQ5LjAiTiA0NsKwNDAnMzAuNyJF!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-              ></iframe>
-            </div>
+          {/* Map */}
+          <div className="h-[500px] rounded-lg overflow-hidden shadow-md">
+            <div id="map" className="w-full h-full"></div>
           </div>
         </div>
       </div>
