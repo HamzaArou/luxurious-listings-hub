@@ -100,12 +100,12 @@ export default function ProjectUpdates({ projectId }: ProjectUpdatesProps) {
   return (
     <div className="space-y-4">
       {/* Status Legend */}
-      <div className="flex justify-center gap-4 flex-wrap">
+      <div className="flex justify-center items-center gap-2 whitespace-nowrap overflow-x-auto py-2">
         {['متاح', 'محجوز', 'مباع'].map((status) => (
           <div
             key={status}
             className={cn(
-              "px-6 py-2 rounded-lg font-medium text-center min-w-[100px]",
+              "px-4 py-2 rounded-lg font-medium text-center min-w-[80px]",
               getStatusColor(status)
             )}
           >
