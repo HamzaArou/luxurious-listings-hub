@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -23,8 +24,12 @@ serve(async (req) => {
   }
 
   try {
+    const supabaseClient = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+    )
+
     const requestData: MortgageRequest = await req.json()
-    console.log('Received mortgage request:', requestData)
     
     // Validate input data
     if (!requestData.email || !requestData.full_name || !requestData.phone) {
@@ -57,31 +62,17 @@ serve(async (req) => {
       </div>
     `
 
-    console.log('Attempting to send email via Resend...')
-    
-    // Send email using Resend
-    const emailResponse = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${Deno.env.get('RESEND_API_KEY')}`,
-      },
-      body: JSON.stringify({
-        from: 'Alfaisal Real Estate <onboarding@resend.dev>',
-        to: ['info@alfaisal.com.sa'],
+    // Send email using Supabase's built-in email service
+    const { error } = await supabaseClient.auth.admin.sendEmail(
+      'info@alfaisal.com.sa',
+      'noreply@alfaisal.com.sa',
+      {
         subject: 'طلب تمويل عقاري جديد - ' + requestData.full_name,
         html: emailContent,
-      }),
-    })
+      }
+    )
 
-    if (!emailResponse.ok) {
-      const errorData = await emailResponse.text()
-      console.error('Resend API error:', errorData)
-      throw new Error(`Failed to send email: ${errorData}`)
-    }
-
-    const emailResult = await emailResponse.json()
-    console.log('Email sent successfully:', emailResult)
+    if (error) throw error
 
     return new Response(
       JSON.stringify({ message: 'Email sent successfully' }),
@@ -91,7 +82,7 @@ serve(async (req) => {
       }
     )
   } catch (error) {
-    console.error('Error in send-mortgage-email function:', error)
+    console.error('Error:', error.message)
     return new Response(
       JSON.stringify({ error: error.message }),
       {
