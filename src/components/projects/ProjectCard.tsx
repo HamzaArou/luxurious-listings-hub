@@ -80,7 +80,7 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
               {project.name}
             </h3>
             <p className="text-gray-600">
-              {project.location}
+              مدينة مكة - {project.location}
             </p>
           </div>
 
