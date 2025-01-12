@@ -5,7 +5,7 @@ const Hero = () => {
   return (
     <section className="relative w-full h-[calc(100vh-120px)] overflow-hidden mt-[120px]">
       <img
-        src="/lovable-uploads/7c585eb4-1d55-4430-8b20-b1d80a628aad.png"
+        src="/lovable-uploads/b003dd7b-9db8-4ee9-a46a-843b5a9b16e4.png"
         alt="مجموعة الفيصل العقارية - مشاريع سكنية فاخرة"
         className="absolute top-0 left-0 w-full h-full object-cover"
       />
