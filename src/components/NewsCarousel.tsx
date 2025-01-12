@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, memo } from "react";
 import {
   Carousel,
   CarouselContent,
@@ -70,26 +70,38 @@ const NewsCarousel = () => {
     };
 
     api.on("select", handleSelect);
-    // Cleanup
+    
     return () => {
       api.off("select", handleSelect);
     };
   }, [api]);
 
   useEffect(() => {
-    if (!api || !autoplayEnabled) return;
+    let interval: NodeJS.Timeout;
+    
+    if (api && autoplayEnabled) {
+      interval = setInterval(() => {
+        api.scrollNext();
+      }, 5000);
+    }
 
-    const interval = setInterval(() => {
-      api.scrollNext();
-    }, 5000);
-
-    return () => clearInterval(interval);
+    return () => {
+      if (interval) clearInterval(interval);
+    };
   }, [api, autoplayEnabled]);
 
-  const handleManualNavigation = () => {
+  const handleManualNavigation = useCallback(() => {
     setAutoplayEnabled(false);
-    setTimeout(() => setAutoplayEnabled(true), 10000);
-  };
+    const timer = setTimeout(() => setAutoplayEnabled(true), 10000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleDotClick = useCallback((index: number) => {
+    if (api) {
+      api.scrollTo(index);
+      handleManualNavigation();
+    }
+  }, [api, handleManualNavigation]);
 
   return (
     <section className="relative py-8 bg-white">
@@ -141,12 +153,7 @@ const NewsCarousel = () => {
             {newsItems.map((_, index) => (
               <button
                 key={index}
-                onClick={() => {
-                  if (api) {
-                    api.scrollTo(index);
-                    handleManualNavigation();
-                  }
-                }}
+                onClick={() => handleDotClick(index)}
                 className={cn(
                   "w-2 h-2 rounded-full transition-all duration-300",
                   currentSlide === index 
@@ -163,4 +170,4 @@ const NewsCarousel = () => {
   );
 };
 
-export default NewsCarousel;
+export default memo(NewsCarousel);

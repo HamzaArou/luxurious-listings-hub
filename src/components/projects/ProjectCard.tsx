@@ -1,5 +1,6 @@
 import { Card } from "../ui/card";
 import { useNavigate } from "react-router-dom";
+import { useCallback, memo } from "react";
 
 interface Project {
   id: string;
@@ -16,15 +17,25 @@ interface ProjectCardProps {
   project: Project;
 }
 
-const ProjectCard = ({ project }: ProjectCardProps) => {
+const ProjectCard = memo(({ project }: ProjectCardProps) => {
   const navigate = useNavigate();
 
-  const handleClick = () => {
+  const handleClick = useCallback((e: React.MouseEvent) => {
+    // Prevent navigation if the user is dragging or selecting text
+    if (window.getSelection()?.toString()) {
+      return;
+    }
+    
     navigate(`/project/${project.id}`);
-  };
+  }, [navigate, project.id]);
 
   return (
-    <div onClick={handleClick} className="cursor-pointer">
+    <div 
+      onClick={handleClick} 
+      className="cursor-pointer"
+      role="button"
+      tabIndex={0}
+    >
       <Card className="overflow-hidden bg-white rounded-[20px] shadow-lg hover:shadow-xl transition-shadow">
         <div className="p-4 text-center">
           <p className="text-gold text-lg mb-1">مشروع</p>
@@ -41,6 +52,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
             className="w-full h-[200px] object-cover"
             loading="lazy"
             decoding="async"
+            fetchPriority="high"
           />
           <span className="absolute bottom-4 right-4 px-4 py-1 bg-gold text-white rounded-full text-sm">
             {project.status}
@@ -64,6 +76,8 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
       </Card>
     </div>
   );
-};
+});
+
+ProjectCard.displayName = 'ProjectCard';
 
 export default ProjectCard;

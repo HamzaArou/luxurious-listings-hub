@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { Button } from "./ui/button";
 import ProjectSearch from "./projects/ProjectSearch";
 import ProjectCard from "./projects/ProjectCard";
@@ -148,15 +148,15 @@ const FeaturedProjects = () => {
 
   const hasMoreProjects = filteredProjects.length > displayCount;
 
-  const handleLoadMore = () => {
+  const handleLoadMore = useCallback(() => {
     setDisplayCount(prev => Math.min(prev + 3, filteredProjects.length));
-  };
+  }, [filteredProjects.length]);
 
-  const handleFilterChange = (neighborhood: string, status: string) => {
+  const handleFilterChange = useCallback((neighborhood: string, status: string) => {
     setSelectedNeighborhood(neighborhood);
     setSelectedStatus(status);
     setDisplayCount(6); // Reset display count when filters change
-  };
+  }, []);
 
   return (
     <>
