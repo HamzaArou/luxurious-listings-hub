@@ -69,7 +69,7 @@ const Header = () => {
 
   const navLinks = [
     { href: "hero", text: "الرئيسية" },
-    { href: "news", text: "مشاريعنا" },
+    { href: "projects", text: "مشاريعنا" },
     { href: "services", text: "خدماتنا" },
     { href: "stats", text: "مميزاتنا" },
     { href: "about", text: "عن الشركة" },
