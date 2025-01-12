@@ -36,7 +36,8 @@ const MortgageCalculator = () => {
     e.preventDefault();
     
     try {
-      const { error } = await supabase
+      // First, save to database
+      const { error: dbError } = await supabase
         .from('interest_forms')
         .insert([
           {
@@ -46,7 +47,21 @@ const MortgageCalculator = () => {
           }
         ]);
 
-      if (error) throw error;
+      if (dbError) throw dbError;
+
+      // Then, send email
+      const { error: emailError } = await supabase.functions.invoke('send-mortgage-email', {
+        body: {
+          ...formData,
+          propertyValue,
+          downPayment,
+          duration,
+          monthlyInstallment,
+          totalEligibleAmount,
+        },
+      });
+
+      if (emailError) throw emailError;
 
       toast({
         title: "تم إرسال طلبك بنجاح",
@@ -60,6 +75,7 @@ const MortgageCalculator = () => {
         phone: "",
       });
     } catch (error) {
+      console.error('Error submitting form:', error);
       toast({
         title: "حدث خطأ",
         description: "الرجاء المحاولة مرة أخرى",
