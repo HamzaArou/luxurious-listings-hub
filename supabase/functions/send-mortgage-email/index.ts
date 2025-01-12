@@ -67,7 +67,7 @@ serve(async (req) => {
         'Authorization': `Bearer ${Deno.env.get('RESEND_API_KEY')}`,
       },
       body: JSON.stringify({
-        from: 'الفيصل للتطوير العقاري <info@alfaisal.com.sa>',
+        from: 'Alfaisal Real Estate <onboarding@resend.dev>',
         to: ['info@alfaisal.com.sa'],
         subject: 'طلب تمويل عقاري جديد - ' + requestData.full_name,
         html: emailContent,
