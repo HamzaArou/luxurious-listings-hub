@@ -8,6 +8,7 @@ import 'react-phone-input-2/lib/style.css';
 const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName?: string }) => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isMapLoaded, setIsMapLoaded] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -140,16 +141,23 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
           </div>
 
           {/* Map Section */}
-          <div className="bg-white rounded-2xl shadow-lg overflow-hidden h-[600px]">
+          <div className="bg-white rounded-2xl shadow-lg overflow-hidden h-[600px] relative">
+            {!isMapLoaded && (
+              <div className="absolute inset-0 flex items-center justify-center bg-offWhite">
+                <div className="text-darkBlue text-lg">جاري تحميل الخريطة...</div>
+              </div>
+            )}
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3710.3071156427584!2d39.1728231!3d21.5922997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15c3db6c1f4b0043%3A0x10e77978803d4c82!2sAs%20Salamah%2C%20Jeddah%20Saudi%20Arabia!5e0!3m2!1sen!2sus!4v1647789012345!5m2!1sen!2sus"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3713.2576!2d39.8256!3d21.4225!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15c204b74c28d467%3A0xb2f543a618225767!2z2YXZg9ipINin2YTZhdmD2LHZhdip!5e0!3m2!1sar!2ssa!4v1647789012345!5m2!1sar!2ssa"
               width="100%"
               height="100%"
               style={{ border: 0 }}
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
+              title="موقعنا في مكة المكرمة"
               className="w-full h-full"
+              onLoad={() => setIsMapLoaded(true)}
             />
           </div>
         </div>
