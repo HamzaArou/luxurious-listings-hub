@@ -11,7 +11,6 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { cn } from "@/lib/utils";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { supabase } from "@/integrations/supabase/client";
 
 function ProjectDetailsSkeleton() {
   return (
@@ -27,35 +26,13 @@ function ProjectDetailsSkeleton() {
 
 export default function ProjectDetails() {
   const { id } = useParams();
-  const [project, setProject] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const project = staticProjects.find(p => p.id === id);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    
-    const fetchProject = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('projects')
-          .select('*')
-          .eq('id', id)
-          .single();
-
-        if (error) throw error;
-        setProject(data);
-      } catch (error) {
-        console.error('Error fetching project:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProject();
-  }, [id]);
-
-  if (loading) return <ProjectDetailsSkeleton />;
+  }, []);
 
   if (!project) {
     return (
@@ -199,25 +176,6 @@ export default function ProjectDetails() {
                   <p className="text-2xl text-gray-500">قريباً</p>
                 </div>
               )}
-            </div>
-          </div>
-        </div>
-
-        {/* Location Section */}
-        <div className="relative py-16 bg-gradient-to-b from-darkBlue/10 to-darkBlue/5 rounded-3xl mb-12">
-          <div className="container mx-auto px-4">
-            <div className="flex justify-center mb-8">
-              <h2 className="text-3xl font-bold text-white bg-darkBlue py-2 px-8 rounded-tr-[5px] rounded-tl-[100px] rounded-br-[100px] rounded-bl-[5px] inline-block">
-                الموقع
-              </h2>
-            </div>
-            
-            <div className="max-w-4xl mx-auto">
-              <ProjectLocation 
-                location={project.location} 
-                lat={project.lat} 
-                lng={project.lng}
-              />
             </div>
           </div>
         </div>
