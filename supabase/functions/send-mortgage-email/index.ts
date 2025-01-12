@@ -1,5 +1,4 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -24,11 +23,6 @@ serve(async (req) => {
   }
 
   try {
-    const supabaseClient = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-    )
-
     const requestData: MortgageRequest = await req.json()
     
     // Validate input data
@@ -62,16 +56,16 @@ serve(async (req) => {
       </div>
     `
 
-    // Send email using fetch to an SMTP service or email API
-    const emailResponse = await fetch('https://api.emailprovider.com/v1/send', {
+    // Send email using Resend
+    const emailResponse = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${Deno.env.get('EMAIL_API_KEY')}`,
+        'Authorization': `Bearer ${Deno.env.get('RESEND_API_KEY')}`,
       },
       body: JSON.stringify({
-        to: 'info@alfaisal.com.sa',
-        from: 'noreply@alfaisal.com.sa',
+        from: 'الفيصل للتطوير العقاري <info@alfaisal.com.sa>',
+        to: ['info@alfaisal.com.sa'],
         subject: 'طلب تمويل عقاري جديد - ' + requestData.full_name,
         html: emailContent,
       }),
