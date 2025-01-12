@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -8,6 +8,7 @@ const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,16 +35,36 @@ const Header = () => {
   }, [lastScrollY, location.pathname]);
 
   const scrollToSection = (sectionId: string) => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      const headerHeight = document.querySelector('header')?.getBoundingClientRect().height || 0;
-      const sectionTop = section.offsetTop - headerHeight;
-      window.scrollTo({
-        top: sectionTop,
-        behavior: 'smooth'
-      });
-      setIsMobileMenuOpen(false);
+    const isProjectPage = location.pathname.includes('/project/');
+    
+    if (isProjectPage) {
+      // If on project page, first navigate to home
+      navigate('/');
+      // Then scroll after a small delay to ensure navigation is complete
+      setTimeout(() => {
+        const section = document.getElementById(sectionId);
+        if (section) {
+          const headerHeight = document.querySelector('header')?.getBoundingClientRect().height || 0;
+          const sectionTop = section.offsetTop - headerHeight;
+          window.scrollTo({
+            top: sectionTop,
+            behavior: 'smooth'
+          });
+        }
+      }, 100);
+    } else {
+      // On homepage, just scroll
+      const section = document.getElementById(sectionId);
+      if (section) {
+        const headerHeight = document.querySelector('header')?.getBoundingClientRect().height || 0;
+        const sectionTop = section.offsetTop - headerHeight;
+        window.scrollTo({
+          top: sectionTop,
+          behavior: 'smooth'
+        });
+      }
     }
+    setIsMobileMenuOpen(false);
   };
 
   const navLinks = [
