@@ -7,7 +7,6 @@ import { ChevronDown } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { Label } from "./ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 
@@ -36,17 +35,29 @@ const MortgageCalculator = () => {
     e.preventDefault();
     
     try {
-      const { error } = await supabase
-        .from('interest_forms')
-        .insert([
-          {
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/handle-mortgage-form`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          },
+          body: JSON.stringify({
             full_name: formData.full_name,
             email: formData.email,
             phone: formData.phone,
-          }
-        ]);
+            propertyValue,
+            downPayment,
+            duration,
+            monthlyInstallment,
+          }),
+        }
+      );
 
-      if (error) throw error;
+      if (!response.ok) {
+        throw new Error('حدث خطأ في إرسال الطلب');
+      }
 
       toast({
         title: "تم إرسال طلبك بنجاح",
