@@ -50,17 +50,17 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
   return (
     <div 
       onClick={handleClick} 
-      className="cursor-pointer group"
+      className="cursor-pointer group h-full"
       role="button"
       tabIndex={0}
     >
-      <Card className="overflow-hidden bg-white rounded-[20px] shadow-lg hover:shadow-xl transition-all duration-300 transform group-hover:scale-[1.02]">
-        {/* Image Section */}
-        <div className="relative">
+      <Card className="overflow-hidden bg-white rounded-[20px] shadow-lg hover:shadow-xl transition-all duration-300 transform group-hover:scale-[1.02] h-full flex flex-col">
+        {/* Image Section - Fixed height */}
+        <div className="relative h-[240px]">
           <img
             src={project.thumbnail_url}
             alt={project.name}
-            className="w-full h-[240px] object-cover"
+            className="w-full h-full object-cover"
             loading="lazy"
             decoding="async"
             fetchPriority="high"
@@ -72,44 +72,44 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
           </Badge>
         </div>
 
-        {/* Content Section */}
-        <div className="p-6 space-y-4">
+        {/* Content Section - Compact layout */}
+        <div className="p-4 flex flex-col flex-grow">
           {/* Title and Location */}
-          <div className="text-right">
-            <h3 className="text-2xl font-bold text-darkBlue mb-2">
+          <div className="text-right mb-3">
+            <h3 className="text-xl font-bold text-darkBlue">
               {project.name}
             </h3>
-            <p className="text-gray-600 text-lg">
+            <p className="text-gray-600">
               {project.location}
             </p>
           </div>
 
           {/* Details Grid */}
-          <div className="grid grid-cols-2 gap-4 py-4 border-y border-gray-100">
-            <div className="text-center">
-              <p className="text-xl font-bold text-darkBlue">{project.floors}</p>
+          <div className="grid grid-cols-2 gap-2 mb-3 text-center">
+            <div className="bg-gray-50 rounded-lg p-2">
+              <p className="text-lg font-bold text-darkBlue">{project.floors}</p>
               <p className="text-sm text-gray-600">الطوابق</p>
             </div>
-            <div className="text-center">
-              <p className="text-xl font-bold text-darkBlue">{project.units}</p>
+            <div className="bg-gray-50 rounded-lg p-2">
+              <p className="text-lg font-bold text-darkBlue">{project.units}</p>
               <p className="text-sm text-gray-600">الشقق</p>
             </div>
           </div>
 
-          {/* Price Section */}
-          <div className="text-center">
-            <p className="text-lg font-medium text-gray-600">السعر</p>
+          {/* Price Section - Auto height */}
+          <div className="mt-auto text-center">
+            <p className="text-sm font-medium text-gray-600 mb-1">السعر</p>
             {project.price_single_street ? (
-              <div className="space-y-2">
-                <p className="text-xl font-bold text-gold">
+              <div className="space-y-1">
+                <p className="text-base font-bold text-gold">
                   على شارعين: {formatPrice(project.price)}
                 </p>
-                <p className="text-xl font-bold text-gold">
+                <p className="text-base font-bold text-gold">
                   على شارع واحد: {formatPrice(project.price_single_street)}
                 </p>
               </div>
             ) : (
-              <p className="text-2xl font-bold text-gold">
+              <p className="text-lg font-bold text-gold">
                 {formatPrice(project.price)}
               </p>
             )}
