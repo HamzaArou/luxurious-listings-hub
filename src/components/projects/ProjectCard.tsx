@@ -12,6 +12,7 @@ interface Project {
   units: number;
   thumbnail_url: string;
   price?: number;
+  price_single_street?: number;
 }
 
 interface ProjectCardProps {
@@ -98,9 +99,20 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
           {/* Price Section */}
           <div className="text-center">
             <p className="text-lg font-medium text-gray-600">السعر</p>
-            <p className="text-2xl font-bold text-gold">
-              {formatPrice(project.price)}
-            </p>
+            {project.price_single_street ? (
+              <div className="space-y-2">
+                <p className="text-xl font-bold text-gold">
+                  على شارعين: {formatPrice(project.price)}
+                </p>
+                <p className="text-xl font-bold text-gold">
+                  على شارع واحد: {formatPrice(project.price_single_street)}
+                </p>
+              </div>
+            ) : (
+              <p className="text-2xl font-bold text-gold">
+                {formatPrice(project.price)}
+              </p>
+            )}
           </div>
         </div>
       </Card>
