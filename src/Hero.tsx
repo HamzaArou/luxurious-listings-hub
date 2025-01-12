@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import GeometricDecorator from "./GeometricDecorator";
+import GeometricDecorator from "@/components/GeometricDecorator";
 
 const Hero = () => {
   return (
