@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import StatusLegend from "./unit-updates/StatusLegend";
 import UnitBlock from "./unit-updates/UnitBlock";
 import UnitDetails from "./unit-updates/UnitDetails";
+import { Info } from "lucide-react";
 import type { ProjectUnit } from "@/types/project";
 
 interface ProjectUpdatesProps {
@@ -81,6 +82,14 @@ export default function ProjectUpdates({ projectId }: ProjectUpdatesProps) {
         </div>
       ) : (
         <div className="space-y-8">
+          {/* User guidance text */}
+          <div className="flex items-center justify-center gap-2 text-darkBlue bg-warmBeige/30 py-3 px-4 rounded-lg">
+            <Info className="w-5 h-5" />
+            <p className="text-sm font-medium">
+              اضغط على رقم الوحدة لعرض التفاصيل الكاملة
+            </p>
+          </div>
+
           <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2 justify-items-center">
             {units.map((unit) => (
               <UnitBlock
