@@ -14,9 +14,9 @@ const AboutUs = () => {
           </div>
           <div className="order-1 md:order-2">
             <img
-              src="https://images.unsplash.com/photo-1527576539890-dfa815648363"
-              alt="مجموعة الفيصل العقارية - مبنى معماري حديث"
-              className="rounded-lg shadow-lg w-full h-auto object-cover aspect-[4/3]"
+              src="/lovable-uploads/3ac7b96d-eb11-49c6-9323-81eb68b103b0.png"
+              alt="مجموعة الفيصل العقارية - شعار الشركة"
+              className="w-full h-auto max-w-[500px] mx-auto"
             />
           </div>
         </div>
