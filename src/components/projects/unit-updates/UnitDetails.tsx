@@ -23,8 +23,10 @@ const UnitDetails = memo(({ unit, isSelected }: UnitDetailsProps) => {
         "px-4 py-2 text-white font-bold text-lg",
         getStatusColor(unit.status || 'متاح')
       )}>
-        رقم الوحدة {unit.unit_number}
+        {unit.name}
       </div>
+      
+      {/* Basic Information */}
       <Table>
         <TableBody>
           <TableRow>
@@ -38,11 +40,11 @@ const UnitDetails = memo(({ unit, isSelected }: UnitDetailsProps) => {
           </TableRow>
           <TableRow>
             <TableCell className="font-bold">النوع</TableCell>
-            <TableCell>{unit.unit_type || 'شقة'}</TableCell>
+            <TableCell>{unit.unit_type}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="font-bold">المساحة</TableCell>
-            <TableCell>{unit.area} م²</TableCell>
+            <TableCell>{unit.area} متر مربع</TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="font-bold">الدور</TableCell>
@@ -62,6 +64,42 @@ const UnitDetails = memo(({ unit, isSelected }: UnitDetailsProps) => {
           </TableRow>
         </TableBody>
       </Table>
+
+      {/* Features Section */}
+      {unit.details?.features && unit.details.features.length > 0 && (
+        <div className="p-4 border-t">
+          <h3 className="font-bold mb-2 text-darkBlue">مميزات الوحدة</h3>
+          <ul className="list-disc list-inside space-y-1">
+            {unit.details.features.map((feature, index) => (
+              <li key={index} className="text-gray-700">{feature}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* Guarantees Section */}
+      {unit.details?.guarantees && unit.details.guarantees.length > 0 && (
+        <div className="p-4 border-t">
+          <h3 className="font-bold mb-2 text-darkBlue">الضمانات والمميزات الإضافية</h3>
+          <ul className="list-disc list-inside space-y-1">
+            {unit.details.guarantees.map((guarantee, index) => (
+              <li key={index} className="text-gray-700">{guarantee}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* Specifications Section */}
+      {unit.details?.specifications && unit.details.specifications.length > 0 && (
+        <div className="p-4 border-t">
+          <h3 className="font-bold mb-2 text-darkBlue">المواصفات</h3>
+          <ul className="list-disc list-inside space-y-1">
+            {unit.details.specifications.map((spec, index) => (
+              <li key={index} className="text-gray-700">{spec}</li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 });

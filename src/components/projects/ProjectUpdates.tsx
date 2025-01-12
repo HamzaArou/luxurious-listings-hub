@@ -16,77 +16,51 @@ export default function ProjectUpdates({ projectId }: ProjectUpdatesProps) {
   const [selectedUnit, setSelectedUnit] = useState<number | null>(null);
 
   const fetchUnits = useCallback(async () => {
-    // Always generate mock data for development and invalid UUIDs
-    const mockUnits = Array.from({ length: 20 }, (_, index) => ({
-      id: `mock-${index}`,
-      unit_number: index + 1,
-      status: ['متاح', 'محجوز', 'مباع'][Math.floor(Math.random() * 3)],
-      unit_type: 'شقة',
-      area: 140 + Math.floor(Math.random() * 60),
-      floor_number: Math.floor(index / 4) + 1,
-      side: ['أمامية', 'داخلية'][Math.floor(Math.random() * 2)],
-      rooms: 3 + Math.floor(Math.random() * 2),
-      bathrooms: 2 + Math.floor(Math.random() * 2),
-      name: `Unit ${index + 1}`,
-      details: {}
-    }));
-
-    // Check if projectId is a valid UUID
-    const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-    if (!UUID_REGEX.test(projectId)) {
-      console.log('Invalid UUID format, using mock data');
-      setUnits(mockUnits);
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const { data, error } = await supabase
-        .from('project_units')
-        .select('*')
-        .eq('project_id', projectId)
-        .order('unit_number');
-
-      if (error) {
-        console.error('Error fetching units:', error);
-        setUnits(mockUnits);
-      } else {
-        setUnits(data || mockUnits);
+    // For this specific project, we'll show just one unit with the detailed information
+    const mockUnit = {
+      id: 'mock-1',
+      unit_number: 1,
+      status: 'متاح',
+      unit_type: 'شقة روف',
+      area: 400,
+      floor_number: 1,
+      side: 'شارع 15',
+      rooms: 5,
+      bathrooms: 3,
+      name: 'شقة روف للتمليك',
+      details: {
+        features: [
+          'مجلس رجال',
+          'صالة',
+          'مطبخ',
+          'غرفة غسيل',
+          '3 غرفة نوم',
+          'غرفة نوم ماستر',
+          '2 دورة مياه',
+          'سطح'
+        ],
+        guarantees: [
+          'كرت إشراف هندسي',
+          'ضمانات السباكة والكهرباء',
+          'ضمانات الهيكل الإنشائي',
+          'دخول ذكي',
+          'بجوار مسجد',
+          'موقف خاص',
+          'شارع 15'
+        ],
+        specifications: [
+          'المساحة: 400 متر مربع',
+          'السعر: 900,000 ريال'
+        ]
       }
-    } catch (error) {
-      console.error('Error fetching units:', error);
-      setUnits(mockUnits);
-    } finally {
-      setLoading(false);
-    }
-  }, [projectId]);
+    };
+
+    setUnits([mockUnit]);
+    setLoading(false);
+  }, []);
 
   useEffect(() => {
     fetchUnits();
-
-    // Only set up real-time subscription for valid UUIDs
-    const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-    if (UUID_REGEX.test(projectId)) {
-      const channel = supabase
-        .channel('schema-db-changes')
-        .on(
-          'postgres_changes',
-          {
-            event: '*',
-            schema: 'public',
-            table: 'project_units',
-            filter: `project_id=eq.${projectId}`
-          },
-          () => {
-            fetchUnits();
-          }
-        )
-        .subscribe();
-
-      return () => {
-        supabase.removeChannel(channel);
-      };
-    }
   }, [projectId, fetchUnits]);
 
   if (loading) {
