@@ -55,8 +55,8 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
       tabIndex={0}
     >
       <Card className="overflow-hidden bg-white rounded-[20px] shadow-lg hover:shadow-xl transition-all duration-300 transform group-hover:scale-[1.02] h-full flex flex-col">
-        {/* Image Section - Fixed height */}
-        <div className="relative h-[240px]">
+        {/* Image Section - Increased height */}
+        <div className="relative h-[280px]">
           <img
             src={project.thumbnail_url}
             alt={project.name}
@@ -72,44 +72,44 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
           </Badge>
         </div>
 
-        {/* Content Section - Compact layout */}
-        <div className="p-4 flex flex-col flex-grow">
-          {/* Title and Location */}
-          <div className="text-right mb-3">
-            <h3 className="text-xl font-bold text-darkBlue">
+        {/* Content Section - Reduced padding and spacing */}
+        <div className="p-3 flex flex-col flex-grow">
+          {/* Title and Location - Reduced margins */}
+          <div className="text-right mb-2">
+            <h3 className="text-lg font-bold text-darkBlue">
               {project.name}
             </h3>
-            <p className="text-gray-600">
+            <p className="text-sm text-gray-600">
               مدينة مكة - {project.location}
             </p>
           </div>
 
-          {/* Details Grid */}
-          <div className="grid grid-cols-2 gap-2 mb-3 text-center">
-            <div className="bg-gray-50 rounded-lg p-2">
-              <p className="text-lg font-bold text-darkBlue">{project.floors}</p>
-              <p className="text-sm text-gray-600">الطوابق</p>
+          {/* Details Grid - Compact layout */}
+          <div className="grid grid-cols-2 gap-2 mb-2">
+            <div className="bg-gray-50 rounded-lg py-1 px-2">
+              <p className="text-base font-bold text-darkBlue">{project.floors}</p>
+              <p className="text-xs text-gray-600">الطوابق</p>
             </div>
-            <div className="bg-gray-50 rounded-lg p-2">
-              <p className="text-lg font-bold text-darkBlue">{project.units}</p>
-              <p className="text-sm text-gray-600">الشقق</p>
+            <div className="bg-gray-50 rounded-lg py-1 px-2">
+              <p className="text-base font-bold text-darkBlue">{project.units}</p>
+              <p className="text-xs text-gray-600">الشقق</p>
             </div>
           </div>
 
-          {/* Price Section - Auto height */}
+          {/* Price Section - Reduced spacing */}
           <div className="mt-auto text-center">
-            <p className="text-sm font-medium text-gray-600 mb-1">السعر</p>
+            <p className="text-xs font-medium text-gray-600 mb-0.5">السعر</p>
             {project.price_single_street ? (
-              <div className="space-y-1">
-                <p className="text-base font-bold text-gold">
+              <div className="space-y-0.5">
+                <p className="text-sm font-bold text-gold">
                   على شارعين: {formatPrice(project.price)}
                 </p>
-                <p className="text-base font-bold text-gold">
+                <p className="text-sm font-bold text-gold">
                   على شارع واحد: {formatPrice(project.price_single_street)}
                 </p>
               </div>
             ) : (
-              <p className="text-lg font-bold text-gold">
+              <p className="text-base font-bold text-gold">
                 {formatPrice(project.price)}
               </p>
             )}
