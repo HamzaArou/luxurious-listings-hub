@@ -1,6 +1,42 @@
 import { Facebook, Twitter, Instagram, Linkedin, Mail } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Footer = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const scrollToSection = (sectionId: string) => {
+    const isProjectPage = location.pathname.includes('/project/');
+    
+    if (isProjectPage) {
+      // If on project page, first navigate to home
+      navigate('/');
+      // Then scroll after a small delay to ensure navigation is complete
+      setTimeout(() => {
+        const section = document.getElementById(sectionId);
+        if (section) {
+          const headerHeight = document.querySelector('header')?.getBoundingClientRect().height || 0;
+          const sectionTop = section.offsetTop - headerHeight;
+          window.scrollTo({
+            top: sectionTop,
+            behavior: 'smooth'
+          });
+        }
+      }, 100);
+    } else {
+      // On homepage, just scroll
+      const section = document.getElementById(sectionId);
+      if (section) {
+        const headerHeight = document.querySelector('header')?.getBoundingClientRect().height || 0;
+        const sectionTop = section.offsetTop - headerHeight;
+        window.scrollTo({
+          top: sectionTop,
+          behavior: 'smooth'
+        });
+      }
+    }
+  };
+
   return (
     <footer className="bg-darkBlue text-white py-16">
       <div className="container mx-auto px-4 max-w-[960px]">
@@ -20,29 +56,52 @@ const Footer = () => {
             <h3 className="text-xl font-bold mb-4">روابط سريعة</h3>
             <ul className="space-y-2">
               <li>
-                <a href="/" className="hover:text-gold transition-colors">
+                <button
+                  onClick={() => scrollToSection('hero')}
+                  className="hover:text-gold transition-colors"
+                >
                   الرئيسية
-                </a>
+                </button>
               </li>
               <li>
-                <a href="/projects" className="hover:text-gold transition-colors">
+                <button
+                  onClick={() => scrollToSection('projects')}
+                  className="hover:text-gold transition-colors"
+                >
                   مشاريعنا
-                </a>
+                </button>
               </li>
               <li>
-                <a href="/services" className="hover:text-gold transition-colors">
+                <button
+                  onClick={() => scrollToSection('services')}
+                  className="hover:text-gold transition-colors"
+                >
                   خدماتنا
-                </a>
+                </button>
               </li>
               <li>
-                <a href="/about" className="hover:text-gold transition-colors">
+                <button
+                  onClick={() => scrollToSection('stats')}
+                  className="hover:text-gold transition-colors"
+                >
+                  مميزاتنا
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => scrollToSection('about')}
+                  className="hover:text-gold transition-colors"
+                >
                   عن الشركة
-                </a>
+                </button>
               </li>
               <li>
-                <a href="/contact" className="hover:text-gold transition-colors">
+                <button
+                  onClick={() => scrollToSection('contact')}
+                  className="hover:text-gold transition-colors"
+                >
                   اتصل بنا
-                </a>
+                </button>
               </li>
             </ul>
           </div>
