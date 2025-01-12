@@ -24,7 +24,7 @@ const UnitBlock = memo(({ unit, isSelected, onClick }: UnitBlockProps) => {
         isSelected && "ring-2 ring-darkBlue"
       )}
     >
-      {unit.unit_number}
+      <span className="text-sm">الوحدة رقم {unit.unit_number}</span>
     </div>
   );
 });
