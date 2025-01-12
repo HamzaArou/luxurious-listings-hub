@@ -24,5 +24,12 @@ export default defineConfig(({ mode }) => ({
     commonjsOptions: {
       include: [/mapbox-gl/, /node_modules/],
     },
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+        },
+      },
+    },
   },
 }));
