@@ -16,7 +16,7 @@ const AboutUs = () => {
             <img
               src="/lovable-uploads/3ac7b96d-eb11-49c6-9323-81eb68b103b0.png"
               alt="مجموعة الفيصل العقارية - شعار الشركة"
-              className="w-full h-auto max-w-[500px] mx-auto"
+              className="w-full h-auto max-w-[700px] mx-auto px-4 sm:px-8"
             />
           </div>
         </div>
