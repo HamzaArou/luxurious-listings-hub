@@ -15,7 +15,7 @@ export const staticProjects = [
     units: 1,
     price: 900000,
     projectLabel: "مشروع",
-    thumbnail_url: "/lovable-uploads/452d0f08-89bf-4863-9d95-46a23971500f.png",
+    thumbnail_url: "/lovable-uploads/24de3b37-8a7e-4221-ae5e-14779e6522b9.png",
   },
   {
     id: "2",
@@ -28,7 +28,7 @@ export const staticProjects = [
     price: 800000,
     price_single_street: 750000,
     projectLabel: "مشروع",
-    thumbnail_url: "/lovable-uploads/3d3cf84c-e710-4000-96a1-a8e3970e5ec9.png",
+    thumbnail_url: "/lovable-uploads/24de3b37-8a7e-4221-ae5e-14779e6522b9.png",
   },
   {
     id: "3",
@@ -40,7 +40,7 @@ export const staticProjects = [
     units: 1,
     price: 1400000,
     projectLabel: "مشروع",
-    thumbnail_url: "/lovable-uploads/7c585eb4-1d55-4430-8b20-b1d80a628aad.png",
+    thumbnail_url: "/lovable-uploads/24de3b37-8a7e-4221-ae5e-14779e6522b9.png",
   }
 ];
 
