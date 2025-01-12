@@ -62,17 +62,24 @@ serve(async (req) => {
       </div>
     `
 
-    // Send email using Supabase's built-in email service
-    const { error } = await supabaseClient.auth.admin.sendEmail(
-      'info@alfaisal.com.sa',
-      'noreply@alfaisal.com.sa',
-      {
+    // Send email using fetch to an SMTP service or email API
+    const emailResponse = await fetch('https://api.emailprovider.com/v1/send', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${Deno.env.get('EMAIL_API_KEY')}`,
+      },
+      body: JSON.stringify({
+        to: 'info@alfaisal.com.sa',
+        from: 'noreply@alfaisal.com.sa',
         subject: 'طلب تمويل عقاري جديد - ' + requestData.full_name,
         html: emailContent,
-      }
-    )
+      }),
+    });
 
-    if (error) throw error
+    if (!emailResponse.ok) {
+      throw new Error('Failed to send email');
+    }
 
     return new Response(
       JSON.stringify({ message: 'Email sent successfully' }),
