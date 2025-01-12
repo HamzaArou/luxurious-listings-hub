@@ -24,6 +24,7 @@ serve(async (req) => {
 
   try {
     const requestData: MortgageRequest = await req.json()
+    console.log('Received mortgage request:', requestData)
     
     // Validate input data
     if (!requestData.email || !requestData.full_name || !requestData.phone) {
@@ -56,6 +57,8 @@ serve(async (req) => {
       </div>
     `
 
+    console.log('Attempting to send email via Resend...')
+    
     // Send email using Resend
     const emailResponse = await fetch('https://api.resend.com/emails', {
       method: 'POST',
@@ -69,11 +72,16 @@ serve(async (req) => {
         subject: 'طلب تمويل عقاري جديد - ' + requestData.full_name,
         html: emailContent,
       }),
-    });
+    })
 
     if (!emailResponse.ok) {
-      throw new Error('Failed to send email');
+      const errorData = await emailResponse.text()
+      console.error('Resend API error:', errorData)
+      throw new Error(`Failed to send email: ${errorData}`)
     }
+
+    const emailResult = await emailResponse.json()
+    console.log('Email sent successfully:', emailResult)
 
     return new Response(
       JSON.stringify({ message: 'Email sent successfully' }),
@@ -83,7 +91,7 @@ serve(async (req) => {
       }
     )
   } catch (error) {
-    console.error('Error:', error.message)
+    console.error('Error in send-mortgage-email function:', error)
     return new Response(
       JSON.stringify({ error: error.message }),
       {
