@@ -12,6 +12,7 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
   },
+  base: "./",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
