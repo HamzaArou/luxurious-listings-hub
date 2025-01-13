@@ -92,7 +92,9 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
                   disableSearchIcon
                   inputProps={{
                     required: true,
-                    placeholder: "الجوال - Mobile"
+                    placeholder: "الجوال - Mobile",
+                    "oninvalid": "this.setCustomValidity('يرجى إدخال رقم الجوال')",
+                    "oninput": "this.setCustomValidity('')"
                   }}
                 />
               </div>
