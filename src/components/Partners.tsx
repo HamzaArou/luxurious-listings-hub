@@ -69,7 +69,7 @@ const Partners = () => {
   };
 
   useEffect(() => {
-    const scrollInterval = setInterval(() => {
+    const autoScroll = () => {
       if (carouselRef.current) {
         const container = carouselRef.current;
         const isAtEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth;
@@ -83,8 +83,9 @@ const Partners = () => {
           });
         }
       }
-    }, 3000);
+    };
 
+    const scrollInterval = setInterval(autoScroll, 3000);
     return () => clearInterval(scrollInterval);
   }, []);
 
@@ -97,10 +98,10 @@ const Partners = () => {
           </h2>
         </div>
         
-        <div className="relative group">
+        <div className="relative mx-12"> {/* Added margin for button space */}
           <button 
             onClick={() => scroll('right')}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            className="absolute -left-12 top-1/2 -translate-y-1/2 z-10 bg-white p-2 rounded-full shadow-lg opacity-100 hover:bg-gray-100 transition-colors duration-300"
             aria-label="Scroll left"
           >
             <ChevronLeft className="h-6 w-6 text-gray-600" />
@@ -127,7 +128,7 @@ const Partners = () => {
 
           <button 
             onClick={() => scroll('left')}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            className="absolute -right-12 top-1/2 -translate-y-1/2 z-10 bg-white p-2 rounded-full shadow-lg opacity-100 hover:bg-gray-100 transition-colors duration-300"
             aria-label="Scroll right"
           >
             <ChevronRight className="h-6 w-6 text-gray-600" />
