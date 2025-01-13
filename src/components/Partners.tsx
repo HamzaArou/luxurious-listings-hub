@@ -4,43 +4,39 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 const partners = [
   {
     name: "إعمار العقارية",
-    logo: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=400&h=400&fit=crop",
+    logo: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400&h=400&fit=crop",
   },
   {
     name: "الدار العقارية",
-    logo: "https://images.unsplash.com/photo-1496307653780-42ee777d4833?w=400&h=400&fit=crop",
+    logo: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=400&fit=crop",
   },
   {
     name: "شركة دار الأركان",
-    logo: "https://images.unsplash.com/photo-1466442929976-97f336a657be?w=400&h=400&fit=crop",
+    logo: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=400&fit=crop",
   },
   {
     name: "مجموعة طلعت مصطفى",
-    logo: "https://images.unsplash.com/photo-1459767129954-1b1c1f9b9ace?w=400&h=400&fit=crop",
+    logo: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=400&fit=crop",
   },
   {
     name: "شركة جبل عمر للتطوير",
-    logo: "https://images.unsplash.com/photo-1527576539890-dfa815648363?w=400&h=400&fit=crop",
+    logo: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=400&fit=crop",
   },
   {
     name: "شركة مكة للإنشاء والتعمير",
-    logo: "https://images.unsplash.com/photo-1488972685288-c3fd157d7c7a?w=400&h=400&fit=crop",
+    logo: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=400&fit=crop",
   },
   {
     name: "الشركة العقارية السعودية",
-    logo: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=400&h=400&fit=crop",
+    logo: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=400&fit=crop",
   },
   {
     name: "شركة البحر الأحمر العالمية",
-    logo: "https://images.unsplash.com/photo-1431576901776-e539bd916ba2?w=400&h=400&fit=crop",
+    logo: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=400&fit=crop",
   },
   {
     name: "مدينة نيوم",
-    logo: "https://images.unsplash.com/photo-1449157291145-7efd050a4d0e?w=400&h=400&fit=crop",
-  },
-  {
-    name: "شركة المراكز العربية",
-    logo: "https://images.unsplash.com/photo-1460574283810-2aab119d8511?w=400&h=400&fit=crop",
+    logo: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=400&fit=crop",
   },
 ];
 
@@ -58,6 +54,7 @@ const Partners = () => {
         ? currentScroll - scrollAmount 
         : currentScroll + scrollAmount;
 
+      // Enable infinite scroll
       if (newScroll < 0) {
         newScroll = maxScroll;
       } else if (newScroll > maxScroll) {
