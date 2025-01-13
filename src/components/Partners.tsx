@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const partners = [
@@ -47,47 +47,14 @@ const Partners = () => {
   const scroll = (direction: 'left' | 'right') => {
     if (carouselRef.current) {
       const container = carouselRef.current;
-      const currentScroll = container.scrollLeft;
-      const maxScroll = container.scrollWidth - container.clientWidth;
+      const scrollDistance = direction === 'left' ? -scrollAmount : scrollAmount;
       
-      let newScroll = direction === 'left' 
-        ? Math.max(0, currentScroll - scrollAmount)
-        : Math.min(maxScroll, currentScroll + scrollAmount);
-
-      // Handle infinite scroll
-      if (direction === 'left' && currentScroll === 0) {
-        newScroll = maxScroll;
-      } else if (direction === 'right' && currentScroll >= maxScroll) {
-        newScroll = 0;
-      }
-
-      container.scrollTo({
-        left: newScroll,
+      container.scrollBy({
+        left: scrollDistance,
         behavior: 'smooth'
       });
     }
   };
-
-  useEffect(() => {
-    const autoScroll = () => {
-      if (carouselRef.current) {
-        const container = carouselRef.current;
-        const isAtEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth;
-        
-        if (isAtEnd) {
-          container.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-          container.scrollTo({
-            left: container.scrollLeft + scrollAmount,
-            behavior: 'smooth'
-          });
-        }
-      }
-    };
-
-    const scrollInterval = setInterval(autoScroll, 3000);
-    return () => clearInterval(scrollInterval);
-  }, []);
 
   return (
     <section className="py-12 bg-[#f5f5f5] relative">
