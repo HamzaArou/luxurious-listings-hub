@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 const partners = [
   {
     name: "البنك الأهلي السعودي",
-    logo: "/lovable-uploads/068d882a-f5d2-4ab7-a1ae-61f394c0ed28.png",
+    logo: "/lovable-uploads/44ed9d2f-0c96-41cb-ba79-d429853679d5.png",
   },
   {
     name: "الدار العقارية",
@@ -91,7 +91,7 @@ const Partners = () => {
                 <img
                   src={partner.logo}
                   alt={partner.name}
-                  className="max-w-full max-h-full object-contain rounded-full"
+                  className="max-w-[80%] max-h-[80%] object-contain"
                 />
               </div>
             ))}
