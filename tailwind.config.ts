@@ -42,6 +42,7 @@ export default {
         warmBeige: "#F7E4C8",
         offWhite: "#F5F5F5",
         newsGreen: "#234F27",
+        deepBlue: "#01184E", // Added the new color
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
