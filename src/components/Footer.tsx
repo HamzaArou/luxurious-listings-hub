@@ -1,4 +1,4 @@
-import { Twitter, Instagram, Linkedin, Mail, Phone } from "lucide-react";
+import { Twitter, Instagram, Mail, Phone, TiktokIcon } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   DropdownMenu,
@@ -175,9 +175,9 @@ const Footer = () => {
               <a
                 href="#"
                 className="text-white hover:text-gold transition-colors"
-                aria-label="LinkedIn"
+                aria-label="TikTok"
               >
-                <Linkedin className="w-6 h-6" />
+                <TiktokIcon className="w-6 h-6" />
               </a>
             </div>
           </div>
