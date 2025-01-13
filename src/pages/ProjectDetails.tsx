@@ -78,7 +78,7 @@ export default function ProjectDetails() {
         <div className="mb-12 text-center">
           <p className="text-gold text-lg mb-2">مشروع</p>
           <h1 className="text-5xl font-bold text-gold mb-3">{project.name}</h1>
-          <p className="text-2xl text-darkBlue mb-8">{project.location}</p>
+          <p className="text-2xl text-deepBlue mb-8">{project.location}</p>
           
           {/* Project Hero Image - Updated for full visibility */}
           <div className="relative w-full max-w-4xl mx-auto">
@@ -95,10 +95,10 @@ export default function ProjectDetails() {
         </div>
 
         {/* Project Media Gallery Section */}
-        <div className="relative py-16 bg-gradient-to-b from-darkBlue/10 to-darkBlue/5 rounded-3xl mb-12">
+        <div className="relative py-16 bg-gradient-to-b from-deepBlue/10 to-deepBlue/5 rounded-3xl mb-12">
           <div className="container mx-auto px-4">
             <div className="flex justify-center mb-8">
-              <h2 className="text-3xl font-bold text-white bg-darkBlue py-2 px-8 rounded-tr-[5px] rounded-tl-[100px] rounded-br-[100px] rounded-bl-[5px] inline-block">
+              <h2 className="text-3xl font-bold text-white bg-deepBlue py-2 px-8 rounded-tr-[5px] rounded-tl-[100px] rounded-br-[100px] rounded-bl-[5px] inline-block">
                 معرض صور وفيديوهات المشروع
               </h2>
             </div>
@@ -112,10 +112,10 @@ export default function ProjectDetails() {
         </div>
 
         {/* Project Updates Section */}
-        <div className="relative py-16 bg-gradient-to-b from-darkBlue/10 to-darkBlue/5 rounded-3xl mb-12">
+        <div className="relative py-16 bg-gradient-to-b from-deepBlue/10 to-deepBlue/5 rounded-3xl mb-12">
           <div className="container mx-auto px-4">
             <div className="flex justify-center mb-8">
-              <h2 className="text-3xl font-bold text-white bg-darkBlue py-2 px-8 rounded-tr-[5px] rounded-tl-[100px] rounded-br-[100px] rounded-bl-[5px] inline-block">
+              <h2 className="text-3xl font-bold text-white bg-deepBlue py-2 px-8 rounded-tr-[5px] rounded-tl-[100px] rounded-br-[100px] rounded-bl-[5px] inline-block">
                 تحديثات المشروع
               </h2>
             </div>

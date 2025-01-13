@@ -26,37 +26,43 @@
     --radius: 0.5rem;
   }
 
-  /* New Floating Animations */
-  @keyframes float {
-    0% {
-      transform: translateY(0px);
-    }
-    50% {
-      transform: translateY(-20px);
-    }
-    100% {
-      transform: translateY(0px);
-    }
+  /* Typography Styles */
+  .heading-primary {
+    @apply text-4xl md:text-6xl font-bold text-deepBlue mb-6;
+    letter-spacing: -0.02em;
   }
 
-  @keyframes float-delayed {
-    0% {
-      transform: translateY(-20px);
-    }
-    50% {
-      transform: translateY(0px);
-    }
-    100% {
-      transform: translateY(-20px);
-    }
+  .heading-secondary {
+    @apply text-3xl md:text-4xl font-bold text-deepBlue mb-4;
+    letter-spacing: -0.01em;
   }
 
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
+  /* Horizontal Dividers */
+  .divider-gold {
+    @apply w-24 h-1 bg-gold mx-auto my-6;
   }
 
-  .animate-float-delayed {
-    animation: float-delayed 6s ease-in-out infinite;
+  .divider-dark {
+    @apply w-full h-px bg-deepBlue/10;
+  }
+
+  /* Button Styles */
+  .btn-primary {
+    @apply px-6 py-3 bg-deepBlue text-gold font-medium rounded-lg 
+           transition-all duration-300 hover:bg-opacity-90 
+           border-2 border-transparent hover:border-gold;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 bg-gold text-white font-medium rounded-lg 
+           transition-all duration-300 hover:bg-opacity-90
+           border-2 border-transparent hover:border-deepBlue;
+  }
+
+  /* Icon Styles */
+  .icon-wrapper {
+    @apply w-12 h-12 flex items-center justify-center rounded-lg 
+           bg-gradient-to-br from-gold/10 to-deepBlue/10;
   }
 
   * {
@@ -94,60 +100,6 @@
       rgba(212, 175, 55, 0.1) 20px
     );
     pointer-events: none;
-  }
-
-  /* Typography Styles */
-  .heading-primary {
-    @apply text-4xl md:text-6xl font-bold text-darkBlue mb-6;
-    letter-spacing: -0.02em;
-  }
-
-  .heading-secondary {
-    @apply text-3xl md:text-4xl font-bold text-darkBlue mb-4;
-    letter-spacing: -0.01em;
-  }
-
-  /* Horizontal Dividers */
-  .divider-gold {
-    @apply w-24 h-1 bg-gold mx-auto my-6;
-  }
-
-  .divider-dark {
-    @apply w-full h-px bg-darkBlue/10;
-  }
-
-  /* Section Styles */
-  .section-wrapper {
-    @apply relative overflow-hidden py-24;
-  }
-
-  .section-content {
-    @apply container mx-auto px-4 max-w-[960px] relative z-10;
-  }
-
-  /* Card Styles */
-  .luxury-card {
-    @apply bg-white rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl;
-    background: linear-gradient(135deg, #fff 0%, #f8f8f8 100%);
-  }
-
-  /* Button Styles */
-  .btn-primary {
-    @apply px-6 py-3 bg-darkBlue text-gold font-medium rounded-lg 
-           transition-all duration-300 hover:bg-opacity-90 
-           border-2 border-transparent hover:border-gold;
-  }
-
-  .btn-secondary {
-    @apply px-6 py-3 bg-gold text-white font-medium rounded-lg 
-           transition-all duration-300 hover:bg-opacity-90
-           border-2 border-transparent hover:border-darkBlue;
-  }
-
-  /* Icon Styles */
-  .icon-wrapper {
-    @apply w-12 h-12 flex items-center justify-center rounded-lg 
-           bg-gradient-to-br from-gold/10 to-darkBlue/10;
   }
 
   /* Animation Classes */

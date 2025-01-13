@@ -34,7 +34,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <nav className="bg-darkBlue text-white p-4">
+      <nav className="bg-deepBlue text-white p-4">
         <div className="container mx-auto flex justify-between items-center">
           <h1 className="text-2xl font-bold">لوحة التحكم</h1>
           <button
