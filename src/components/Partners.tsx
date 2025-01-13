@@ -47,10 +47,22 @@ const Partners = () => {
   const scroll = (direction: 'left' | 'right') => {
     if (carouselRef.current) {
       const container = carouselRef.current;
-      const scrollDistance = direction === 'left' ? -scrollAmount : scrollAmount;
+      const currentScroll = container.scrollLeft;
+      const maxScroll = container.scrollWidth - container.clientWidth;
       
-      container.scrollBy({
-        left: scrollDistance,
+      let newScroll = direction === 'left' 
+        ? Math.max(0, currentScroll - scrollAmount)
+        : Math.min(maxScroll, currentScroll + scrollAmount);
+
+      // Handle infinite scroll
+      if (direction === 'left' && currentScroll === 0) {
+        newScroll = maxScroll;
+      } else if (direction === 'right' && currentScroll >= maxScroll) {
+        newScroll = 0;
+      }
+
+      container.scrollTo({
+        left: newScroll,
         behavior: 'smooth'
       });
     }
@@ -65,8 +77,8 @@ const Partners = () => {
         if (isAtEnd) {
           container.scrollTo({ left: 0, behavior: 'smooth' });
         } else {
-          container.scrollBy({
-            left: scrollAmount,
+          container.scrollTo({
+            left: container.scrollLeft + scrollAmount,
             behavior: 'smooth'
           });
         }
@@ -86,10 +98,10 @@ const Partners = () => {
           </h2>
         </div>
         
-        <div className="relative mx-12">
+        <div className="relative mx-16">
           <button 
             onClick={() => scroll('left')}
-            className="absolute -left-12 top-1/2 -translate-y-1/2 z-10 bg-white p-2 rounded-full shadow-lg hover:bg-gray-100 transition-colors duration-300"
+            className="absolute -left-16 top-1/2 -translate-y-1/2 z-10 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition-colors duration-300"
             aria-label="Scroll left"
           >
             <ChevronLeft className="h-6 w-6 text-gray-600" />
@@ -97,7 +109,7 @@ const Partners = () => {
 
           <div
             ref={carouselRef}
-            className="flex overflow-x-auto gap-6 rtl px-4 scroll-smooth partners-carousel"
+            className="flex overflow-x-auto gap-8 px-4 scroll-smooth partners-carousel"
             style={{ 
               scrollbarWidth: 'none', 
               msOverflowStyle: 'none',
@@ -120,7 +132,7 @@ const Partners = () => {
 
           <button 
             onClick={() => scroll('right')}
-            className="absolute -right-12 top-1/2 -translate-y-1/2 z-10 bg-white p-2 rounded-full shadow-lg hover:bg-gray-100 transition-colors duration-300"
+            className="absolute -right-16 top-1/2 -translate-y-1/2 z-10 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition-colors duration-300"
             aria-label="Scroll right"
           >
             <ChevronRight className="h-6 w-6 text-gray-600" />
