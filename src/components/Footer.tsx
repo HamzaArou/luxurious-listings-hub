@@ -1,9 +1,26 @@
-import { Facebook, Twitter, Instagram, Linkedin, Mail } from "lucide-react";
+import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Footer = () => {
   const location = useLocation();
   const navigate = useNavigate();
+
+  const phoneNumber = "+966505148231";
+  const whatsappNumber = "966505148231";
+
+  const handleCall = () => {
+    window.location.href = `tel:${phoneNumber}`;
+  };
+
+  const handleWhatsApp = () => {
+    window.location.href = `https://wa.me/${whatsappNumber}`;
+  };
 
   const scrollToSection = (sectionId: string) => {
     const isProjectPage = location.pathname.includes('/project/');
@@ -96,12 +113,27 @@ const Footer = () => {
                 </button>
               </li>
               <li>
-                <button
-                  onClick={() => scrollToSection('contact')}
-                  className="hover:text-gold transition-colors"
-                >
-                  اتصل بنا
-                </button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="hover:text-gold transition-colors">
+                      اتصل بنا
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" className="w-[200px]">
+                    <DropdownMenuItem onClick={handleCall} className="gap-2 cursor-pointer">
+                      <Phone className="h-5 w-5" />
+                      <span>اتصل بنا</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleWhatsApp} className="gap-2 cursor-pointer">
+                      <img 
+                        src="/lovable-uploads/5a30ecf6-b0b1-41ce-908d-7d07e173fe6e.png" 
+                        alt="WhatsApp"
+                        className="h-5 w-5"
+                      />
+                      <span>واتساب</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </li>
             </ul>
           </div>
