@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 const partners = [
   {
     name: "البنك الأهلي السعودي",
-    logo: "/lovable-uploads/068d882a-f5d2-4ab7-a1ae-61f394c0ed28.png",
+    logo: "/lovable-uploads/068ea1f1-b31d-466b-ba02-6780020395c1.png",
   },
   {
     name: "الدار العقارية",
