@@ -4,39 +4,39 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 const partners = [
   {
     name: "البنك الأهلي السعودي",
-    logo: "/uploads/6fe8f39b-e015-4493-866d-f073883d6e52.png",
+    logo: "/lovable-uploads/6fe8f39b-e015-4493-866d-f073883d6e52.png",
   },
   {
     name: "مصرف الراجحي",
-    logo: "/uploads/18437cd2-1c8f-484d-beb7-675bf3e8d912.png",
+    logo: "/lovable-uploads/18437cd2-1c8f-484d-beb7-675bf3e8d912.png",
   },
   {
     name: "مصرف الإنماء",
-    logo: "/uploads/0de09264-fb28-428d-93b2-451753c9f96f.png",
+    logo: "/lovable-uploads/0de09264-fb28-428d-93b2-451753c9f96f.png",
   },
   {
     name: "بنك الرياض",
-    logo: "/uploads/dd9a17ff-23e4-433c-b305-be825666128c.png",
+    logo: "/lovable-uploads/dd9a17ff-23e4-433c-b305-be825666128c.png",
   },
   {
     name: "البنك العربي الوطني",
-    logo: "/uploads/cdf2739a-f7e4-4b33-8c20-5b947606b0fb.png",
+    logo: "/lovable-uploads/cdf2739a-f7e4-4b33-8c20-5b947606b0fb.png",
   },
   {
     name: "البنك السعودي للاستثمار",
-    logo: "/uploads/e764f846-305a-4550-ad09-657c7f8022fe.png",
+    logo: "/lovable-uploads/e764f846-305a-4550-ad09-657c7f8022fe.png",
   },
   {
     name: "البنك السعودي الفرنسي",
-    logo: "/uploads/e8b87e27-6842-40b5-839d-23bcde810420.png",
+    logo: "/lovable-uploads/e8b87e27-6842-40b5-839d-23bcde810420.png",
   },
   {
     name: "عالم الخزائن",
-    logo: "/uploads/ae22bead-fa19-4118-ad43-5d1ad219282e.png",
+    logo: "/lovable-uploads/ae22bead-fa19-4118-ad43-5d1ad219282e.png",
   },
   {
     name: "الخزائن المبتكرة",
-    logo: "/uploads/44f0baef-16d0-414a-bb50-49b4dd8a7997.png",
+    logo: "/lovable-uploads/44f0baef-16d0-414a-bb50-49b4dd8a7997.png",
   },
 ];
 
