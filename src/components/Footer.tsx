@@ -7,6 +7,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+const Footer = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const phoneNumber = "+966505148231";
   const whatsappNumber = "966505148231";
 
@@ -49,10 +53,6 @@ import {
       }
     }
   };
-
-const Footer = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
 
   return (
     <footer className="bg-darkBlue text-white py-16">
@@ -138,26 +138,26 @@ const Footer = () => {
             </ul>
           </div>
 
-        <div>
-          <h3 className="text-xl font-bold mb-4">تواصل معنا</h3>
-          <div className="flex gap-4 justify-center md:justify-start">
-            <a
-              href="#"
-              className="text-white hover:text-gold transition-colors"
-              aria-label="Snapchat"
-            >
-              <svg
-                className="w-6 h-6"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+          <div>
+            <h3 className="text-xl font-bold mb-4">تواصل معنا</h3>
+            <div className="flex gap-4 justify-center md:justify-start">
+              <a
+                href="#"
+                className="text-white hover:text-gold transition-colors"
+                aria-label="Snapchat"
               >
-                <path d="M12 2a10 10 0 0 0-2.45 19.68c-.15-1.36-.37-5.06.05-7.25.37-1.92 2.37-12.32 2.4-12.43a.37.37 0 0 0-.65-.32c-.24.32-2.46 3.45-2.85 4.22-1.55 3.08-1.87 6.11-1.87 6.11-.51.29-1.91-.33-2.91-.95a.4.4 0 0 0-.58.42c.16.61 1.45 2.15 2.61 2.47 1.17.32 2.05.14 2.05.14s-.13 1.73-.17 2.33c-.04.6-.24 1.11.31 1.55.55.44 1.65.86 2.24 1.09.59.23 1.16.38 1.52.38.36 0 .93-.15 1.52-.38.59-.23 1.69-.65 2.24-1.09.55-.44.35-.95.31-1.55-.04-.6-.17-2.33-.17-2.33s.88.18 2.05-.14c1.16-.32 2.45-1.86 2.61-2.47a.4.4 0 0 0-.58-.42c-1 .62-2.4 1.24-2.91.95 0 0-.32-3.03-1.87-6.11-.39-.77-2.61-3.9-2.85-4.22a.37.37 0 0 0-.65.32c.03.11 2.03 10.51 2.4 12.43.42 2.19.2 5.89.05 7.25A10 10 0 0 0 12 2z"/>
-              </svg>
-            </a>
+                <svg
+                  className="w-6 h-6"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                </svg>
+              </a>
               <a
                 href="#"
                 className="text-white hover:text-gold transition-colors"
@@ -179,8 +179,8 @@ const Footer = () => {
               >
                 <Linkedin className="w-6 h-6" />
               </a>
+            </div>
           </div>
-        </div>
 
           <div>
             <h3 className="text-xl font-bold mb-4">النشرة البريدية</h3>
