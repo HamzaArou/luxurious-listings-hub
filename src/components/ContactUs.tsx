@@ -121,7 +121,6 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
                     "placeholder:text-gray-400 focus:ring-2 focus:ring-gold",
                     "transition duration-200 text-right min-h-[120px] resize-none"
                   )}
-                  required
                 />
               </div>
 
