@@ -23,37 +23,37 @@ const newsItems: NewsItem[] = [
     id: 1,
     title: "مشروع الفيصل السكني الفاخر",
     description: "إطلاق مشروع سكني فاخر جديد يجمع بين الأصالة والحداثة في قلب المدينة",
-    image: "/uploads/559e0c70-7274-4ffb-8512-e13bb0a18a3d.png"
+    image: "/lovable-uploads/559e0c70-7274-4ffb-8512-e13bb0a18a3d.png"
   },
   {
     id: 2,
     title: "فلل الفيصل المودرن",
     description: "تصاميم عصرية مع لمسات معمارية مميزة تلبي تطلعات الحياة العصرية",
-    image: "/uploads/b83d6a5d-d32d-4c33-9aba-4d64a54337e0.png"
+    image: "/lovable-uploads/b83d6a5d-d32d-4c33-9aba-4d64a54337e0.png"
   },
   {
     id: 3,
     title: "قصور الفيصل التراثية",
     description: "مزيج فريد من العمارة الإسلامية التقليدية مع وسائل الراحة العصرية",
-    image: "/uploads/360425e4-fe5f-4a1c-8f12-78ddf0e5c7d8.png"
+    image: "/lovable-uploads/360425e4-fe5f-4a1c-8f12-78ddf0e5c7d8.png"
   },
   {
     id: 4,
     title: "شقق الفيصل الفاخرة",
     description: "وحدات سكنية راقية بتشطيبات عالية الجودة وإطلالات خلابة",
-    image: "/uploads/a9ec60bc-445c-4c80-88e1-e74736caa605.png"
+    image: "/lovable-uploads/a9ec60bc-445c-4c80-88e1-e74736caa605.png"
   },
   {
     id: 5,
     title: "برج الفيصل السكني",
     description: "برج سكني حديث يوفر أسلوب حياة متكامل مع أحدث المرافق والخدمات",
-    image: "/uploads/c0b1fc97-9a18-4732-ae45-87e2556beff1.png"
+    image: "/lovable-uploads/c0b1fc97-9a18-4732-ae45-87e2556beff1.png"
   },
   {
     id: 6,
     title: "مجمع الفيصل السكني",
     description: "مجمع سكني متكامل يجمع بين الخصوصية والرفاهية مع مساحات خضراء واسعة",
-    image: "/uploads/559e0c70-7274-4ffb-8512-e13bb0a18a3d.png"
+    image: "/lovable-uploads/559e0c70-7274-4ffb-8512-e13bb0a18a3d.png"
   }
 ];
 
