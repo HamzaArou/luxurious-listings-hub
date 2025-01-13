@@ -23,20 +23,20 @@ const partners = [
     logo: "/lovable-uploads/cdf2739a-f7e4-4b33-8c20-5b947606b0fb.png",
   },
   {
-    name: "الدار العقارية",
-    logo: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=400&fit=crop",
+    name: "البنك السعودي للاستثمار",
+    logo: "/lovable-uploads/e764f846-305a-4550-ad09-657c7f8022fe.png",
   },
   {
-    name: "شركة دار الأركان",
-    logo: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=400&fit=crop",
+    name: "البنك السعودي الفرنسي",
+    logo: "/lovable-uploads/3eebda6d-63f0-4cb5-acd5-d56dce3947ae.png",
   },
   {
-    name: "مجموعة طلعت مصطفى",
-    logo: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=400&fit=crop",
+    name: "عالم الخزائن",
+    logo: "/lovable-uploads/ae22bead-fa19-4118-ad43-5d1ad219282e.png",
   },
   {
-    name: "شركة جبل عمر للتطوير",
-    logo: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=400&fit=crop",
+    name: "الخزائن المبتكرة",
+    logo: "/lovable-uploads/44f0baef-16d0-414a-bb50-49b4dd8a7997.png",
   },
 ];
 
