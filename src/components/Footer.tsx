@@ -159,7 +159,9 @@ const Footer = () => {
             <h3 className="text-xl font-bold mb-4">تواصل معنا</h3>
             <div className="flex gap-4 justify-center md:justify-start">
               <a
-                href="#"
+                href="https://www.snapchat.com/add/alfaisal_group"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-white hover:text-gold transition-colors"
                 aria-label="Snapchat"
               >
@@ -176,21 +178,27 @@ const Footer = () => {
                 </svg>
               </a>
               <a
-                href="#"
+                href="https://x.com/alfaisal_group?s=21"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-white hover:text-gold transition-colors"
                 aria-label="Twitter"
               >
                 <Twitter className="w-6 h-6" />
               </a>
               <a
-                href="#"
+                href="https://www.instagram.com/alfaisal_group?igsh=MXE2MGY2bzJiODB0Zw%3D%3D&utm_source=qr"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-white hover:text-gold transition-colors"
                 aria-label="Instagram"
               >
                 <Instagram className="w-6 h-6" />
               </a>
               <a
-                href="#"
+                href="https://www.tiktok.com/@alfaisal_group?_t=ZS-8t2MVNY6jxw&_r=1"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-white hover:text-gold transition-colors"
                 aria-label="TikTok"
               >
