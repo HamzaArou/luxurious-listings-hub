@@ -7,6 +7,22 @@ const partners = [
     logo: "/lovable-uploads/6fe8f39b-e015-4493-866d-f073883d6e52.png",
   },
   {
+    name: "مصرف الراجحي",
+    logo: "/lovable-uploads/18437cd2-1c8f-484d-beb7-675bf3e8d912.png",
+  },
+  {
+    name: "مصرف الإنماء",
+    logo: "/lovable-uploads/0de09264-fb28-428d-93b2-451753c9f96f.png",
+  },
+  {
+    name: "بنك الرياض",
+    logo: "/lovable-uploads/dd9a17ff-23e4-433c-b305-be825666128c.png",
+  },
+  {
+    name: "البنك العربي الوطني",
+    logo: "/lovable-uploads/cdf2739a-f7e4-4b33-8c20-5b947606b0fb.png",
+  },
+  {
     name: "الدار العقارية",
     logo: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=400&fit=crop",
   },
@@ -21,22 +37,6 @@ const partners = [
   {
     name: "شركة جبل عمر للتطوير",
     logo: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=400&fit=crop",
-  },
-  {
-    name: "شركة مكة للإنشاء والتعمير",
-    logo: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=400&fit=crop",
-  },
-  {
-    name: "الشركة العقارية السعودية",
-    logo: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=400&fit=crop",
-  },
-  {
-    name: "شركة البحر الأحمر العالمية",
-    logo: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=400&fit=crop",
-  },
-  {
-    name: "مدينة نيوم",
-    logo: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=400&fit=crop",
   },
 ];
 
