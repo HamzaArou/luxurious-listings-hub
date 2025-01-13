@@ -3,8 +3,8 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const partners = [
   {
-    name: "إعمار العقارية",
-    logo: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400&h=400&fit=crop",
+    name: "البنك الأهلي السعودي",
+    logo: "/lovable-uploads/3564801c-93e7-411f-ab27-8e9f0f543c98.png",
   },
   {
     name: "الدار العقارية",
