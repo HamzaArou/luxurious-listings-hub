@@ -17,6 +17,16 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!formData.phone) {
+      toast({
+        title: "خطأ",
+        description: "يرجى إدخال رقم الجوال",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -92,9 +102,7 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
                   disableSearchIcon
                   inputProps={{
                     required: true,
-                    placeholder: "الجوال - Mobile",
-                    "oninvalid": "this.setCustomValidity('يرجى إدخال رقم الجوال')",
-                    "oninput": "this.setCustomValidity('')"
+                    placeholder: "الجوال - Mobile*",
                   }}
                 />
               </div>
