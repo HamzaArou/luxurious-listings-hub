@@ -80,9 +80,9 @@ export default function ProjectDetails() {
           <h1 className="text-5xl font-bold text-gold mb-3">{project.name}</h1>
           <p className="text-2xl text-deepBlue mb-8">{project.location}</p>
           
-          {/* Project Hero Image - Updated with exact dimensions */}
-          <div className="relative mx-auto" style={{ width: '586px' }}>
-            <div className="w-full mx-auto rounded-3xl overflow-hidden shadow-xl" style={{ height: '539px' }}>
+          {/* Project Hero Image - Updated with background treatment */}
+          <div className="relative mx-auto bg-warmBeige p-6 rounded-[40px] shadow-lg" style={{ width: '650px' }}>
+            <div className="w-[586px] mx-auto rounded-3xl overflow-hidden shadow-xl" style={{ height: '539px' }}>
               <img
                 src={project.thumbnail_url}
                 alt={project.name}
