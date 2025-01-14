@@ -80,13 +80,13 @@ export default function ProjectDetails() {
           <h1 className="text-5xl font-bold text-gold mb-3">{project.name}</h1>
           <p className="text-2xl text-deepBlue mb-8">{project.location}</p>
           
-          {/* Project Hero Image - Updated for full visibility */}
+          {/* Project Hero Image - Updated to match image dimensions */}
           <div className="relative w-full max-w-4xl mx-auto">
-            <div className="w-full h-[400px] md:h-[600px] mx-auto rounded-3xl overflow-hidden shadow-xl bg-gray-100">
+            <div className="w-full aspect-[3/4] mx-auto rounded-3xl overflow-hidden shadow-xl">
               <img
                 src={project.thumbnail_url}
                 alt={project.name}
-                className="w-full h-full object-contain"
+                className="w-full h-full object-cover"
                 loading="lazy"
                 decoding="async"
               />
