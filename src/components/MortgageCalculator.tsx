@@ -225,12 +225,12 @@ const MortgageCalculator = () => {
                   <Slider
                     value={[propertyValue]}
                     onValueChange={([value]) => setPropertyValue(value)}
-                    max={100000}
-                    step={1000}
+                    max={1000000} // Increased max value significantly
+                    step={10000} // Adjusted step for better control with larger numbers
                     className="my-4"
                   />
                   <div className="flex justify-between text-sm text-gray-600 mt-2">
-                    <span>SR {(100000).toLocaleString()}</span>
+                    <span>SR {(1000000).toLocaleString()}</span>
                     <span>SR 0</span>
                   </div>
                 </div>
