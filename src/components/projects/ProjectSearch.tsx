@@ -13,12 +13,11 @@ interface ProjectSearchProps {
 }
 
 const ProjectSearch = ({ onFilterChange }: ProjectSearchProps) => {
-  // Memoize unique neighborhoods to prevent recalculation on every render
   const uniqueNeighborhoods = useMemo(() => {
     return Array.from(
       new Set(staticProjects.map(project => project.location))
     ).sort();
-  }, []); // Empty dependency array since staticProjects is constant
+  }, []);
 
   const handleNeighborhoodChange = (value: string) => {
     onFilterChange(value, "all");
@@ -29,10 +28,14 @@ const ProjectSearch = ({ onFilterChange }: ProjectSearchProps) => {
   };
 
   return (
-    <div className="flex items-center justify-between bg-darkBlue rounded-full px-6 w-full max-w-[462px] h-[54px] mb-4 mx-auto">
-      <div className="flex gap-2 flex-1">
+    <div className="flex flex-col md:flex-row items-center justify-between bg-darkBlue rounded-2xl md:rounded-full px-4 md:px-6 w-full max-w-[462px] py-4 md:h-[54px] mb-4 mx-auto gap-3 md:gap-2">
+      <span className="text-white text-lg md:text-xl font-semibold order-first md:order-last whitespace-nowrap">
+        ابحث عن وحدتك
+      </span>
+      
+      <div className="flex flex-col md:flex-row gap-2 w-full md:w-auto">
         <Select onValueChange={handleNeighborhoodChange}>
-          <SelectTrigger className="w-full bg-white rounded-full border-none">
+          <SelectTrigger className="w-full md:w-[140px] bg-white rounded-xl h-[40px] border-none text-right">
             <SelectValue placeholder="اسم الحي" />
           </SelectTrigger>
           <SelectContent>
@@ -46,7 +49,7 @@ const ProjectSearch = ({ onFilterChange }: ProjectSearchProps) => {
         </Select>
 
         <Select onValueChange={handleStatusChange}>
-          <SelectTrigger className="w-full bg-white rounded-full border-none">
+          <SelectTrigger className="w-full md:w-[140px] bg-white rounded-xl h-[40px] border-none text-right">
             <SelectValue placeholder="حالة المشروع" />
           </SelectTrigger>
           <SelectContent>
@@ -57,10 +60,6 @@ const ProjectSearch = ({ onFilterChange }: ProjectSearchProps) => {
           </SelectContent>
         </Select>
       </div>
-      
-      <span className="text-white text-xl font-semibold mr-4">
-        ابحث عن وحدتك
-      </span>
     </div>
   );
 };
