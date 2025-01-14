@@ -91,7 +91,7 @@ const Partners = () => {
                 <img
                   src={partner.logo}
                   alt={partner.name}
-                  className="max-w-[80%] max-h-[80%] object-contain"
+                  className="max-w-[95%] max-h-[95%] object-contain"
                 />
               </div>
             ))}
