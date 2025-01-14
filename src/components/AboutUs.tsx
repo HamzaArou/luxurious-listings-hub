@@ -1,6 +1,6 @@
 const AboutUs = () => {
   return (
-    <section className="py-24 bg-white">
+    <section className="py-24 bg-[#f5f5f5]">
       <div className="container mx-auto px-4 max-w-[960px]">
         <h2 className="text-4xl font-bold text-darkBlue text-center mb-12">
           عن الشركة
