@@ -76,7 +76,7 @@ export default function ProjectDetails() {
       <div className="container mx-auto px-4 py-8 mt-[120px]">
         {/* Hero Section */}
         <div className="mb-12 text-center">
-          <p className="text-gold text-lg mb-2">مشروع</p>
+          <p className="text-gold text-xl mb-2">مشروع</p>
           <h1 className="text-5xl font-bold text-gold mb-3">{project.name}</h1>
           <p className="text-2xl text-deepBlue mb-8">{project.location}</p>
           
