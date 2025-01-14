@@ -28,7 +28,7 @@ const partners = [
   },
   {
     name: "البنك السعودي الفرنسي",
-    logo: "/lovable-uploads/e8b87e27-6842-40b5-839d-23bcde810420.png",
+    logo: "/lovable-uploads/d3014d6a-083d-4d31-bda5-799c821b8001.png",
   },
   {
     name: "عالم الخزائن",
