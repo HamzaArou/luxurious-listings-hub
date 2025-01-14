@@ -35,7 +35,7 @@ const ProjectSearch = ({ onFilterChange }: ProjectSearchProps) => {
       
       <div className="flex flex-col md:flex-row gap-2 w-full md:w-auto">
         <Select onValueChange={handleNeighborhoodChange}>
-          <SelectTrigger className="w-full md:w-[140px] bg-white rounded-xl h-[40px] border-none text-right">
+          <SelectTrigger className="w-full md:w-[140px] bg-white rounded-2xl md:rounded-full h-[40px] border-none text-right">
             <SelectValue placeholder="اسم الحي" />
           </SelectTrigger>
           <SelectContent>
@@ -49,7 +49,7 @@ const ProjectSearch = ({ onFilterChange }: ProjectSearchProps) => {
         </Select>
 
         <Select onValueChange={handleStatusChange}>
-          <SelectTrigger className="w-full md:w-[140px] bg-white rounded-xl h-[40px] border-none text-right">
+          <SelectTrigger className="w-full md:w-[140px] bg-white rounded-2xl md:rounded-full h-[40px] border-none text-right">
             <SelectValue placeholder="حالة المشروع" />
           </SelectTrigger>
           <SelectContent>
