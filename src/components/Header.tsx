@@ -31,7 +31,6 @@ const Header = () => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       
-      // Only apply scroll-hiding behavior on the home page
       if (!location.pathname.includes('/project/')) {
         const newsSection = document.querySelector('section:nth-of-type(2)');
         const header = document.querySelector('header');
@@ -55,9 +54,7 @@ const Header = () => {
     const isProjectPage = location.pathname.includes('/project/');
     
     if (isProjectPage) {
-      // If on project page, first navigate to home
       navigate('/');
-      // Then scroll after a small delay to ensure navigation is complete
       setTimeout(() => {
         const section = document.getElementById(sectionId);
         if (section) {
@@ -70,7 +67,6 @@ const Header = () => {
         }
       }, 100);
     } else {
-      // On homepage, just scroll
       const section = document.getElementById(sectionId);
       if (section) {
         const headerHeight = document.querySelector('header')?.getBoundingClientRect().height || 0;
@@ -86,10 +82,12 @@ const Header = () => {
 
   const navLinks = [
     { href: "hero", text: "الرئيسية" },
-    { href: "projects", text: "مشاريعنا" },
-    { href: "services", text: "خدماتنا" },
-    { href: "stats", text: "مميزاتنا" },
-    { href: "about", text: "عن الشركة" },
+    { href: "projects", text: "العقارات" },
+    { href: "services", text: "من نحن" },
+    { href: "stats", text: "تمويل" },
+    { href: "about", text: "أملاك عقارية" },
+    { href: "contact", text: "طلب استثمار" },
+    { href: "login", text: "تسجيل" },
   ];
 
   const isProjectPage = location.pathname.includes('/project/');
@@ -97,7 +95,7 @@ const Header = () => {
   const renderContactButton = () => (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="nav-link font-ibm-arabic text-[#3a3a3a] font-medium text-lg hover:text-gold transition-colors duration-300">
+        <button className="nav-link font-ibm-arabic text-white font-medium text-lg hover:text-gold transition-colors duration-300">
           اتصل بنا
         </button>
       </DropdownMenuTrigger>
@@ -123,7 +121,7 @@ const Header = () => {
       className={`${
         isProjectPage ? 'absolute' : 'fixed'
       } top-0 left-0 w-full z-50 transition-all duration-300 ${
-        isScrolled ? "bg-white/95 shadow-md" : "bg-white/95"
+        isScrolled ? "bg-black/80 backdrop-blur-sm" : "bg-transparent"
       } h-[120px] transform ${
         !isProjectPage && !isVisible ? "-translate-y-full" : "translate-y-0"
       }`}
@@ -149,12 +147,11 @@ const Header = () => {
                 <button
                   key={link.href}
                   onClick={() => scrollToSection(link.href)}
-                  className="nav-link font-ibm-arabic text-[#3a3a3a] font-medium text-lg hover:text-gold transition-colors duration-300"
+                  className="nav-link font-ibm-arabic text-white font-medium text-lg hover:text-gold transition-colors duration-300"
                 >
                   {link.text}
                 </button>
               ))}
-              {renderContactButton()}
             </div>
           </nav>
         </div>
@@ -164,29 +161,29 @@ const Header = () => {
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label={isMobileMenuOpen ? "إغلاق القائمة" : "فتح القائمة"}
+            className="text-white"
           >
             {isMobileMenuOpen ? (
-              <X className="h-6 w-6 text-deepBlue" />
+              <X className="h-6 w-6" />
             ) : (
-              <Menu className="h-6 w-6 text-deepBlue" />
+              <Menu className="h-6 w-6" />
             )}
           </button>
         </div>
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden absolute top-full right-0 left-0 bg-white shadow-lg animate-slide-in">
+          <div className="lg:hidden absolute top-full right-0 left-0 bg-black/90 backdrop-blur-sm shadow-lg animate-slide-in">
             <nav className="flex flex-col p-4 rtl">
               {navLinks.map((link) => (
                 <button
                   key={link.href}
                   onClick={() => scrollToSection(link.href)}
-                  className="nav-link py-3 font-ibm-arabic text-lg hover:text-gold transition-colors duration-300 text-right w-full"
+                  className="nav-link py-3 font-ibm-arabic text-lg text-white hover:text-gold transition-colors duration-300 text-right w-full"
                 >
                   {link.text}
                 </button>
               ))}
-              {renderContactButton()}
             </nav>
           </div>
         )}
