@@ -24,11 +24,17 @@ function ProjectDetailsSkeleton() {
   );
 }
 
-async function fetchProject(id: string) {
+async function fetchProject(projectId: string) {
+  // Validate UUID format
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  if (!uuidRegex.test(projectId)) {
+    throw new Error('Invalid project ID format');
+  }
+
   const { data: project, error } = await supabase
     .from('projects')
     .select('*')
-    .eq('id', id)
+    .eq('id', projectId)
     .single();
 
   if (error) throw error;
@@ -38,6 +44,12 @@ async function fetchProject(id: string) {
 }
 
 async function fetchProjectImages(projectId: string) {
+  // Validate UUID format
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  if (!uuidRegex.test(projectId)) {
+    throw new Error('Invalid project ID format');
+  }
+
   const { data: images, error } = await supabase
     .from('project_images')
     .select('*')
@@ -55,13 +67,13 @@ export default function ProjectDetails() {
   const { data: project, isLoading, error } = useQuery({
     queryKey: ['project', id],
     queryFn: () => fetchProject(id!),
-    enabled: !!id
+    enabled: !!id && id.length === 36 // Only enable if ID looks like a UUID
   });
 
   const { data: galleryMedia = [] } = useQuery({
     queryKey: ['projectImages', id],
     queryFn: () => fetchProjectImages(id!),
-    enabled: !!id
+    enabled: !!id && id.length === 36 // Only enable if ID looks like a UUID
   });
 
   useEffect(() => {
@@ -76,6 +88,7 @@ export default function ProjectDetails() {
     return (
       <div className="container mx-auto px-4 py-8 text-center">
         <h1 className="text-2xl font-bold text-gray-900">المشروع غير موجود</h1>
+        <p className="text-gray-600 mt-2">تأكد من صحة رابط المشروع</p>
       </div>
     );
   }
