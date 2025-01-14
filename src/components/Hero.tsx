@@ -34,7 +34,7 @@ const Hero = () => {
         </h1>
         <div className="flex items-center gap-4">
           <button className="bg-white text-black px-6 py-3 rounded-lg flex items-center gap-2 hover:bg-opacity-90 transition-all duration-300">
-            عرض التفاصيل
+            عرض العقارات
             <ArrowRight className="h-5 w-5" />
           </button>
         </div>
