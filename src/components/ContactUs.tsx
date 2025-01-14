@@ -157,7 +157,7 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
               </div>
             )}
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d119183.79087230945!2d39.7421!3d21.3891!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15c21b4ced818775%3A0x98ab2469cf70c9ce!2sMakkah%20Saudi%20Arabia!5e0!3m2!1sar!2ssa!4v1647789012345!5m2!1sar!2ssa"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d119183.79087230945!2d39.7421!3d21.3891!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15c21b4ced818775%3A0x98ab2469cf70c9ce!2sMakkah%20Saudi%20Arabia!5e0!3m2!1sar!2ssa!4v1647789012345!5m2!1sar!2ssa&z=11&t=m&language=ar&region=SA"
               width="100%"
               height="100%"
               style={{ border: 0 }}
