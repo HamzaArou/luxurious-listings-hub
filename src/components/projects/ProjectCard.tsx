@@ -46,7 +46,9 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
 
   const handleClick = useCallback(() => {
     console.log("Navigating to project:", project.id);
-    navigate(`/project/${project.id}`);
+    if (project.id) {
+      navigate(`/project/${project.id}`);
+    }
   }, [navigate, project.id]);
 
   return (
