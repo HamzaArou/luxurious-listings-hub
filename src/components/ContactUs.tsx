@@ -4,6 +4,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
+import { staticProjects } from "./FeaturedProjects";
 
 const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName?: string }) => {
   const { toast } = useToast();
@@ -13,6 +14,7 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
     name: "",
     phone: "",
     message: "",
+    selectedProject: projectId || "",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -34,7 +36,7 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
         .from('interest_forms')
         .insert([
           {
-            project_id: projectId,
+            project_id: formData.selectedProject || null,
             full_name: formData.name,
             phone: formData.phone,
             email: formData.message,
@@ -52,6 +54,7 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
         name: "",
         phone: "",
         message: "",
+        selectedProject: "",
       });
     } catch (error) {
       toast({
@@ -109,7 +112,8 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
 
               <div>
                 <select
-                  value={projectId || ""}
+                  value={formData.selectedProject}
+                  onChange={(e) => setFormData({ ...formData, selectedProject: e.target.value })}
                   className={cn(
                     "w-full px-4 py-3 rounded-lg bg-offWhite border-0",
                     "text-gray-600 focus:ring-2 focus:ring-gold",
@@ -118,6 +122,11 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
                   disabled={!!projectId}
                 >
                   <option value="">{projectName || "المشروع - Project"}</option>
+                  {staticProjects.map((project) => (
+                    <option key={project.id} value={project.id}>
+                      {project.name} - {project.location}
+                    </option>
+                  ))}
                 </select>
               </div>
 
