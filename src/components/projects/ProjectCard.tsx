@@ -12,7 +12,8 @@ interface Project {
   units: number;
   thumbnail_url: string;
   price?: number;
-  price_single_street?: number;
+  price_max?: number;
+  details: string;
 }
 
 interface ProjectCardProps {
@@ -26,14 +27,17 @@ const getStatusColor = (status: string) => {
     case "قريباً":
       return "bg-newsGreen text-white";
     case "بدأ البيع":
-      return "bg-darkBlue text-white";
+      return "bg-deepBlue text-white";
     default:
       return "bg-gray-500 text-white";
   }
 };
 
-const formatPrice = (price?: number) => {
+const formatPrice = (price?: number, maxPrice?: number) => {
   if (!price) return "السعر عند الطلب";
+  if (maxPrice) {
+    return `السعر يبدأ من ${price.toLocaleString('en-US')} إلى ${maxPrice.toLocaleString('en-US')} ريال`;
+  }
   return `${price.toLocaleString('en-US')} ريال`;
 };
 
@@ -80,39 +84,23 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
               {project.name}
             </h3>
             <p className="text-sm text-gray-600">
-              مدينة مكة - {project.location}
+              {project.location}
             </p>
           </div>
 
           {/* Details Grid */}
-          <div className="grid grid-cols-2 gap-2 mb-3">
-            <div className="bg-gray-50 rounded-lg p-2">
-              <p className="text-base font-bold text-darkBlue">{project.floors}</p>
-              <p className="text-sm text-gray-600">الطوابق</p>
-            </div>
-            <div className="bg-gray-50 rounded-lg p-2">
-              <p className="text-base font-bold text-darkBlue">{project.units}</p>
-              <p className="text-sm text-gray-600">الشقق</p>
-            </div>
+          <div className="bg-gray-50 rounded-lg p-3 mb-3">
+            <p className="text-base text-gray-600 text-right">
+              {project.details}
+            </p>
           </div>
 
           {/* Price Section */}
           <div className="mt-auto text-center">
             <p className="text-sm font-medium text-gray-600 mb-1">السعر</p>
-            {project.price_single_street ? (
-              <div className="space-y-1">
-                <p className="text-base font-bold text-gold">
-                  على شارعين: {formatPrice(project.price)}
-                </p>
-                <p className="text-base font-bold text-gold">
-                  على شارع واحد: {formatPrice(project.price_single_street)}
-                </p>
-              </div>
-            ) : (
-              <p className="text-lg font-bold text-gold">
-                {formatPrice(project.price)}
-              </p>
-            )}
+            <p className="text-lg font-bold text-gold">
+              {formatPrice(project.price, project.price_max)}
+            </p>
           </div>
         </div>
       </Card>

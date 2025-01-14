@@ -7,38 +7,14 @@ import MortgageCalculator from "./MortgageCalculator";
 export const staticProjects = [
   {
     id: "1",
-    name: "شقة روف للتمليك",
-    location: "مخطط الشرائع 12",
-    details: "1 طابق | 1 شقة",
+    name: "شقق تمليك وروف - مدينة مكة",
+    location: "حي الشوقية - مخطط الشرائع 12",
+    details: "4 وحدات | المساحات من 200 م² إلى 400 م²",
     status: "بدأ البيع",
     floors: 1,
-    units: 1,
-    price: 900000,
-    projectLabel: "مشروع",
-    thumbnail_url: "/lovable-uploads/24de3b37-8a7e-4221-ae5e-14779e6522b9.png",
-  },
-  {
-    id: "2",
-    name: "شقق للتمليك",
-    location: "حي الشوقية",
-    details: "1 طابق | 2 شقة",
-    status: "بدأ البيع",
-    floors: 1,
-    units: 2,
-    price: 800000,
-    price_single_street: 750000,
-    projectLabel: "مشروع",
-    thumbnail_url: "/lovable-uploads/24de3b37-8a7e-4221-ae5e-14779e6522b9.png",
-  },
-  {
-    id: "3",
-    name: "شقة روف للتمليك",
-    location: "حي الشوقية",
-    details: "1 طابق | 1 شقة",
-    status: "بدأ البيع",
-    floors: 1,
-    units: 1,
-    price: 1400000,
+    units: 4,
+    price: 750000,
+    price_max: 1400000,
     projectLabel: "مشروع",
     thumbnail_url: "/lovable-uploads/24de3b37-8a7e-4221-ae5e-14779e6522b9.png",
   }
@@ -49,7 +25,6 @@ const FeaturedProjects = () => {
   const [selectedNeighborhood, setSelectedNeighborhood] = useState("all");
   const [selectedStatus, setSelectedStatus] = useState("all");
 
-  // Memoize filtered projects to prevent unnecessary recalculations
   const filteredProjects = useMemo(() => {
     return staticProjects.filter((project) => {
       if (selectedNeighborhood === "all" && selectedStatus === "all") {
@@ -61,7 +36,6 @@ const FeaturedProjects = () => {
     });
   }, [selectedNeighborhood, selectedStatus]);
 
-  // Memoize displayed projects
   const displayedProjects = useMemo(() => {
     return filteredProjects.slice(0, displayCount);
   }, [filteredProjects, displayCount]);
@@ -75,7 +49,7 @@ const FeaturedProjects = () => {
   const handleFilterChange = useCallback((neighborhood: string, status: string) => {
     setSelectedNeighborhood(neighborhood);
     setSelectedStatus(status);
-    setDisplayCount(6); // Reset display count when filters change
+    setDisplayCount(6);
   }, []);
 
   return (
