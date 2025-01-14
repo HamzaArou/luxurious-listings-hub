@@ -5,14 +5,12 @@ import ProjectUnits from "@/components/projects/ProjectUnits";
 import ProjectLocation from "@/components/projects/ProjectLocation";
 import ProjectUpdates from "@/components/projects/ProjectUpdates";
 import ContactUs from "@/components/ContactUs";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import { staticProjects } from "@/components/FeaturedProjects";
+import { useState, useEffect } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { useNavigate } from "react-router-dom";
-import { useToast } from "@/components/ui/use-toast";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 function ProjectDetailsSkeleton() {
   return (
@@ -28,82 +26,49 @@ function ProjectDetailsSkeleton() {
 
 export default function ProjectDetails() {
   const { id } = useParams();
-  const [project, setProject] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const project = staticProjects.find(p => p.id === id);
   const [selectedMedia, setSelectedMedia] = useState<string | null>(null);
-  const [galleryImages, setGalleryImages] = useState<any[]>([]);
-  const navigate = useNavigate();
-  const { toast } = useToast();
-
-  useEffect(() => {
-    const fetchProjectData = async () => {
-      try {
-        // Fetch project details
-        const { data: projectData, error: projectError } = await supabase
-          .from('projects')
-          .select('*')
-          .eq('id', id)
-          .single();
-
-        if (projectError) throw projectError;
-        if (!projectData) {
-          toast({
-            variant: "destructive",
-            title: "خطأ",
-            description: "لم يتم العثور على المشروع"
-          });
-          navigate('/');
-          return;
-        }
-
-        setProject(projectData);
-
-        // Fetch project images
-        const { data: imagesData, error: imagesError } = await supabase
-          .from('project_images')
-          .select('*')
-          .eq('project_id', id)
-          .order('created_at', { ascending: true });
-
-        if (imagesError) throw imagesError;
-        setGalleryImages(imagesData || []);
-
-      } catch (error) {
-        console.error('Error fetching project data:', error);
-        toast({
-          variant: "destructive",
-          title: "خطأ",
-          description: "حدث خطأ أثناء تحميل بيانات المشروع"
-        });
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (id) {
-      fetchProjectData();
-    }
-  }, [id, navigate, toast]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  if (loading) {
+  if (!project) {
     return (
-      <div className="min-h-screen">
-        <Header />
-        <div className="mt-[120px]">
-          <ProjectDetailsSkeleton />
-        </div>
-        <Footer />
+      <div className="container mx-auto px-4 py-8 text-center">
+        <h1 className="text-2xl font-bold text-gray-900">المشروع غير موجود</h1>
       </div>
     );
   }
 
-  if (!project) {
-    return null;
-  }
+  // Using the same images multiple times to fill the carousel
+  const mockGalleryMedia = [
+    {
+      id: '1',
+      url: '/lovable-uploads/559e0c70-7274-4ffb-8512-e13bb0a18a3d.png',
+      type: 'image'
+    },
+    {
+      id: '2',
+      url: '/lovable-uploads/b83d6a5d-d32d-4c33-9aba-4d64a54337e0.png',
+      type: 'image'
+    },
+    {
+      id: '3',
+      url: '/lovable-uploads/360425e4-fe5f-4a1c-8f12-78ddf0e5c7d8.png',
+      type: 'image'
+    },
+    {
+      id: '4',
+      url: '/lovable-uploads/a9ec60bc-445c-4c80-88e1-e74736caa605.png',
+      type: 'image'
+    },
+    {
+      id: '5',
+      url: '/lovable-uploads/c0b1fc97-9a18-4732-ae45-87e2556beff1.png',
+      type: 'image'
+    }
+  ];
 
   return (
     <div className="min-h-screen">
@@ -115,7 +80,7 @@ export default function ProjectDetails() {
           <h1 className="text-5xl font-bold text-gold mb-3">{project.name}</h1>
           <p className="text-2xl text-deepBlue mb-8">{project.location}</p>
           
-          {/* Project Hero Image */}
+          {/* Project Hero Image - Fixed dimensions for consistent display */}
           <div className="relative mx-auto bg-gradient-to-b from-deepBlue/10 to-deepBlue/5 p-4 sm:p-6 rounded-[30px] sm:rounded-[40px] shadow-lg w-[350px] sm:w-[450px]">
             <div className="w-[320px] sm:w-[386px] mx-auto rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl" style={{ height: '400px' }}>
               <img
@@ -138,7 +103,11 @@ export default function ProjectDetails() {
               </h2>
             </div>
             
-            <ProjectGallery images={galleryImages} />
+            <ProjectGallery images={mockGalleryMedia.map(media => ({
+              id: media.id,
+              image_url: media.url,
+              image_type: 'gallery'
+            }))} />
           </div>
         </div>
 
