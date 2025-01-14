@@ -20,7 +20,7 @@ const Hero = () => {
     <section className="relative w-full h-screen overflow-hidden">
       <img
         ref={imageRef}
-        src="/lovable-uploads/58c3d376-66e6-4605-a528-7db400b6ee8e.png"
+        src="/lovable-uploads/c87b89a6-0c42-40a2-947d-51e3a2553341.png"
         alt="مجموعة الفيصل العقارية - مشاريع سكنية فاخرة"
         className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-[2s] ease-out"
       />
