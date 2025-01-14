@@ -1,7 +1,7 @@
-import { Card } from "../ui/card";
+import { Card } from "./ui/card";
 import { useNavigate } from "react-router-dom";
 import { useCallback, memo } from "react";
-import { Badge } from "../ui/badge";
+import { Badge } from "./ui/badge";
 
 interface Project {
   id: string;
@@ -123,3 +123,4 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
 ProjectCard.displayName = 'ProjectCard';
 
 export default ProjectCard;
+
