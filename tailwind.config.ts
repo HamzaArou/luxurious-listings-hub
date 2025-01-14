@@ -37,9 +37,9 @@ export default {
         "collapsible-up": "collapsible-up 0.3s ease-in-out",
       },
       colors: {
-        gold: "#D4AF37",
-        darkBlue: "#000000", // Updated this color to black
-        deepBlue: "#000000", // Updated this as well for consistency
+        gold: "#606060", // Updated from #D4AF37 to #606060
+        darkBlue: "#000000",
+        deepBlue: "#000000",
         warmBeige: "#F7E4C8",
         offWhite: "#F5F5F5",
         newsGreen: "#234F27",
@@ -82,7 +82,7 @@ export default {
         'vertical-lines': "url('/patterns/vertical-lines.svg')",
       },
       boxShadow: {
-        'gold': '0 4px 14px 0 rgba(212, 175, 55, 0.39)',
+        'gold': '0 4px 14px 0 rgba(96, 96, 96, 0.39)', // Updated shadow color to match new gold color
       },
     },
   },
