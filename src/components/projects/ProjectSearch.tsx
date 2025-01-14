@@ -29,10 +29,10 @@ const ProjectSearch = ({ onFilterChange }: ProjectSearchProps) => {
   };
 
   return (
-    <div className="flex items-center justify-between bg-darkBlue rounded-full px-6 w-full max-w-[462px] h-[54px] mb-4 mx-auto">
-      <div className="flex gap-2 flex-1">
+    <div className="flex flex-col md:flex-row items-center justify-between bg-deepBlue rounded-full px-3 md:px-6 py-3 md:py-0 w-full max-w-[462px] min-h-[54px] mb-4 mx-auto gap-2 md:gap-0">
+      <div className="flex flex-col md:flex-row gap-2 w-full md:w-auto order-2 md:order-1">
         <Select onValueChange={handleNeighborhoodChange}>
-          <SelectTrigger className="w-full bg-white rounded-full border-none">
+          <SelectTrigger className="w-full md:w-[140px] bg-white rounded-full border-none">
             <SelectValue placeholder="اسم الحي" />
           </SelectTrigger>
           <SelectContent>
@@ -46,7 +46,7 @@ const ProjectSearch = ({ onFilterChange }: ProjectSearchProps) => {
         </Select>
 
         <Select onValueChange={handleStatusChange}>
-          <SelectTrigger className="w-full bg-white rounded-full border-none">
+          <SelectTrigger className="w-full md:w-[140px] bg-white rounded-full border-none">
             <SelectValue placeholder="حالة المشروع" />
           </SelectTrigger>
           <SelectContent>
@@ -58,7 +58,7 @@ const ProjectSearch = ({ onFilterChange }: ProjectSearchProps) => {
         </Select>
       </div>
       
-      <span className="text-white text-xl font-semibold mr-4">
+      <span className="text-white text-lg md:text-xl font-semibold order-1 md:order-2 md:mr-4">
         ابحث عن وحدتك
       </span>
     </div>
