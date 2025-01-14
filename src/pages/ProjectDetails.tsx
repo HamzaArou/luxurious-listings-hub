@@ -81,7 +81,7 @@ export default function ProjectDetails() {
           <p className="text-2xl text-deepBlue mb-8">{project.location}</p>
           
           {/* Project Hero Image - Updated with exact dimensions */}
-          <div className="relative mx-auto" style={{ width: '568px' }}>
+          <div className="relative mx-auto" style={{ width: '586px' }}>
             <div className="w-full mx-auto rounded-3xl overflow-hidden shadow-xl" style={{ height: '539px' }}>
               <img
                 src={project.thumbnail_url}
