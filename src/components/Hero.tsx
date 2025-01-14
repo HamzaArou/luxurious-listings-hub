@@ -30,7 +30,7 @@ const Hero = () => {
       {/* Hero Content */}
       <div className="absolute inset-0 flex flex-col justify-center items-center text-center text-white">
         <h1 className="text-5xl md:text-7xl font-bold mb-8 text-white">
-          حلول تمويلية مخصصة لك
+          ثقتك بوابتنا لتحقيق حلمك
         </h1>
         <div className="flex items-center gap-4">
           <button className="bg-white text-black px-6 py-3 rounded-lg flex items-center gap-2 hover:bg-opacity-90 transition-all duration-300">
