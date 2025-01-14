@@ -81,7 +81,7 @@ export default function ProjectDetails() {
           <p className="text-2xl text-deepBlue mb-8">{project.location}</p>
           
           {/* Project Hero Image - Fixed dimensions for consistent display */}
-          <div className="relative mx-auto bg-warmBeige p-4 sm:p-6 rounded-[30px] sm:rounded-[40px] shadow-lg w-[350px] sm:w-[450px]">
+          <div className="relative mx-auto bg-gradient-to-b from-deepBlue/10 to-deepBlue/5 p-4 sm:p-6 rounded-[30px] sm:rounded-[40px] shadow-lg w-[350px] sm:w-[450px]">
             <div className="w-[320px] sm:w-[386px] mx-auto rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl" style={{ height: '400px' }}>
               <img
                 src={project.thumbnail_url}
