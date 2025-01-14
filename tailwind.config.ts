@@ -38,8 +38,8 @@ export default {
       },
       colors: {
         gold: "#D4AF37",
-        darkBlue: "#01184E", // Updated this color
-        deepBlue: "#01184E", // Added this as well for consistency
+        darkBlue: "#000000", // Updated this color to black
+        deepBlue: "#000000", // Updated this as well for consistency
         warmBeige: "#F7E4C8",
         offWhite: "#F5F5F5",
         newsGreen: "#234F27",
