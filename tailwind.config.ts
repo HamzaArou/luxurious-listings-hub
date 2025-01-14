@@ -38,11 +38,11 @@ export default {
       },
       colors: {
         gold: "#D4AF37",
-        darkBlue: "#002E5D",
+        darkBlue: "#01184E", // Updated this color
+        deepBlue: "#01184E", // Added this as well for consistency
         warmBeige: "#F7E4C8",
         offWhite: "#F5F5F5",
         newsGreen: "#234F27",
-        deepBlue: "#01184E", // Added the new color
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

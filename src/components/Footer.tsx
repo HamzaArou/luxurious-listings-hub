@@ -26,9 +26,7 @@ const Footer = () => {
     const isProjectPage = location.pathname.includes('/project/');
     
     if (isProjectPage) {
-      // If on project page, first navigate to home
       navigate('/');
-      // Then scroll after a small delay to ensure navigation is complete
       setTimeout(() => {
         const section = document.getElementById(sectionId);
         if (section) {
@@ -41,7 +39,6 @@ const Footer = () => {
         }
       }, 100);
     } else {
-      // On homepage, just scroll
       const section = document.getElementById(sectionId);
       if (section) {
         const headerHeight = document.querySelector('header')?.getBoundingClientRect().height || 0;
@@ -216,7 +213,7 @@ const Footer = () => {
                 className="flex-1 px-4 py-2 bg-white/10 border border-white/20 rounded-r focus:outline-none focus:border-gold"
               />
               <button
-                className="px-4 py-2 bg-gold text-darkBlue rounded-l hover:bg-opacity-90 transition-colors"
+                className="px-4 py-2 bg-gold text-deepBlue rounded-l hover:bg-opacity-90 transition-colors"
                 aria-label="اشتراك"
               >
                 <Mail className="w-5 h-5" />

@@ -166,9 +166,9 @@ const Header = () => {
             aria-label={isMobileMenuOpen ? "إغلاق القائمة" : "فتح القائمة"}
           >
             {isMobileMenuOpen ? (
-              <X className="h-6 w-6 text-darkBlue" />
+              <X className="h-6 w-6 text-deepBlue" />
             ) : (
-              <Menu className="h-6 w-6 text-darkBlue" />
+              <Menu className="h-6 w-6 text-deepBlue" />
             )}
           </button>
         </div>
