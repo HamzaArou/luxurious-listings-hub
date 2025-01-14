@@ -6,7 +6,7 @@ import MortgageCalculator from "./MortgageCalculator";
 
 export const staticProjects = [
   {
-    id: "24de3b37-8a7e-4221-ae5e-14779e6522b9",
+    id: "1",
     name: "شقق تمليك وروف - مدينة مكة",
     location: "حي الشوقية - مخطط الشرائع 12",
     details: "4 وحدات | المساحات من 200 م² إلى 400 م²",

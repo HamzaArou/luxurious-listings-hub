@@ -44,11 +44,11 @@ const formatPrice = (price?: number, maxPrice?: number) => {
 const ProjectCard = memo(({ project }: ProjectCardProps) => {
   const navigate = useNavigate();
 
-  const handleClick = useCallback(() => {
-    console.log("Navigating to project:", project.id);
-    if (project.id) {
-      navigate(`/project/${project.id}`);
+  const handleClick = useCallback((e: React.MouseEvent) => {
+    if (window.getSelection()?.toString()) {
+      return;
     }
+    navigate(`/project/${project.id}`);
   }, [navigate, project.id]);
 
   return (
@@ -67,6 +67,7 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
             className="w-full h-full object-cover"
             loading="lazy"
             decoding="async"
+            fetchPriority="high"
           />
           <Badge 
             className={`absolute top-4 left-4 px-4 py-1 rounded-full text-sm font-medium ${getStatusColor(project.status)}`}
