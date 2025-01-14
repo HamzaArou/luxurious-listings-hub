@@ -95,8 +95,8 @@ const MortgageCalculator = () => {
 
         <div className="max-w-[960px] mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Results Box */}
-            <div className="bg-gradient-to-br from-darkBlue to-darkBlue/90 text-white p-8 rounded-lg order-2 lg:order-1">
+            {/* Results Box - Updated background color */}
+            <div className="bg-gradient-to-br from-[#cccccc] to-[#cccccc]/90 text-white p-8 rounded-lg order-2 lg:order-1">
               <div className="text-center mb-8">
                 <h3 className="text-lg mb-2">المبلغ الإجمالي المؤهل</h3>
                 <p className="text-4xl font-bold mb-4">
@@ -145,7 +145,7 @@ const MortgageCalculator = () => {
 
               <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogTrigger asChild>
-                  <Button className="w-full mt-6 bg-gold hover:bg-gold/90 text-white">
+                  <Button className="w-full mt-6 bg-darkBlue hover:bg-darkBlue/90 text-white">
                     تقدم بطلبك الآن
                   </Button>
                 </DialogTrigger>
