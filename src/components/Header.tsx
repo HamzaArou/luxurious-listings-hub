@@ -131,7 +131,9 @@ const Header = () => {
         <div className="flex items-center">
           <button onClick={() => scrollToSection('hero')}>
             <img
-              src="/lovable-uploads/452d0f08-89bf-4863-9d95-46a23971500f.png"
+              src={isScrolled 
+                ? "/lovable-uploads/7ea9b1a4-5e36-4f69-bed8-ed3e4e0e3862.png" 
+                : "/lovable-uploads/452d0f08-89bf-4863-9d95-46a23971500f.png"}
               alt="مجموعة الفيصل العقارية"
               className="w-[110px] h-[115px] object-contain transition-all duration-300"
             />
