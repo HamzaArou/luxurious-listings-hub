@@ -26,6 +26,9 @@ function ProjectDetailsSkeleton() {
   );
 }
 
+// UUID validation regex
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
 export default function ProjectDetails() {
   const { id } = useParams();
   const [project, setProject] = useState<any>(null);
@@ -38,12 +41,23 @@ export default function ProjectDetails() {
   useEffect(() => {
     const fetchProjectData = async () => {
       try {
+        // Validate UUID format
+        if (!id || !UUID_REGEX.test(id)) {
+          toast({
+            variant: "destructive",
+            title: "خطأ",
+            description: "رقم تعريف المشروع غير صالح"
+          });
+          navigate('/');
+          return;
+        }
+
         // Fetch project details
         const { data: projectData, error: projectError } = await supabase
           .from('projects')
           .select('*')
           .eq('id', id)
-          .single();
+          .maybeSingle();
 
         if (projectError) throw projectError;
         if (!projectData) {
@@ -75,6 +89,7 @@ export default function ProjectDetails() {
           title: "خطأ",
           description: "حدث خطأ أثناء تحميل بيانات المشروع"
         });
+        navigate('/');
       } finally {
         setLoading(false);
       }
