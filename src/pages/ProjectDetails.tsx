@@ -25,6 +25,13 @@ function ProjectDetailsSkeleton() {
   );
 }
 
+interface ProjectMedia {
+  id: string;
+  media_url: string;
+  media_type: "image" | "video";
+  content_type: string;
+}
+
 export default function ProjectDetails() {
   const { id } = useParams();
   const [selectedMedia, setSelectedMedia] = useState<string | null>(null);
@@ -36,7 +43,6 @@ export default function ProjectDetails() {
   const { data: project, isLoading, error } = useQuery({
     queryKey: ['project', id],
     queryFn: async () => {
-      // Validate if id is a valid UUID using a regex pattern
       const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
       if (!id || !uuidPattern.test(id)) {
         throw new Error('Invalid project ID format');
@@ -54,12 +60,11 @@ export default function ProjectDetails() {
 
       if (projectError) throw projectError;
       
-      // Ensure media_type is either 'image' or 'video'
       if (project?.project_images) {
         project.project_images = project.project_images.map(img => ({
           ...img,
-          media_type: img.media_type === 'video' ? 'video' : 'image'
-        } as const));
+          media_type: img.media_type === 'video' ? ('video' as const) : ('image' as const)
+        }));
       }
       
       return project;
@@ -82,7 +87,7 @@ export default function ProjectDetails() {
     );
   }
 
-  const galleryImages = project.project_images?.filter(img => img.content_type === 'gallery') || [];
+  const galleryImages = (project.project_images || []) as ProjectMedia[];
 
   return (
     <div className="min-h-screen">
