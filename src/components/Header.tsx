@@ -80,7 +80,6 @@ const Header = () => {
     setIsMobileMenuOpen(false);
   };
 
-  // Updated navLinks to match actual sections
   const navLinks = [
     { href: "hero", text: "الرئيسية" },
     { href: "news", text: "آخر الأخبار" },
@@ -125,14 +124,18 @@ const Header = () => {
                 <button
                   key={link.href}
                   onClick={() => scrollToSection(link.href)}
-                  className="nav-link font-ibm-arabic text-white font-medium text-lg hover:text-gold transition-colors duration-300"
+                  className={`nav-link font-ibm-arabic font-medium text-lg hover:text-gold transition-colors duration-300 ${
+                    isProjectPage && !isScrolled ? 'text-black' : 'text-white'
+                  }`}
                 >
                   {link.text}
                 </button>
               ))}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="nav-link font-ibm-arabic text-white font-medium text-lg hover:text-gold transition-colors duration-300">
+                  <button className={`nav-link font-ibm-arabic font-medium text-lg hover:text-gold transition-colors duration-300 ${
+                    isProjectPage && !isScrolled ? 'text-black' : 'text-white'
+                  }`}>
                     تواصل معنا
                   </button>
                 </DropdownMenuTrigger>
