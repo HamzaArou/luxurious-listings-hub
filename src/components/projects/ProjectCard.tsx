@@ -2,6 +2,7 @@ import { Card } from "../ui/card";
 import { useNavigate } from "react-router-dom";
 import { useCallback, memo } from "react";
 import { Badge } from "../ui/badge";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Project {
   id: string;
@@ -47,8 +48,11 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
     navigate(`/project/${project.id}`);
   }, [navigate, project.id]);
 
-  // Handle the image URL correctly
-  const imageUrl = `/${project.thumbnail_url}`;
+  // Get the public URL for the image from Supabase Storage
+  const imageUrl = supabase.storage
+    .from('project-images')
+    .getPublicUrl(project.thumbnail_url.replace('project-images/', ''))
+    .data.publicUrl;
   
   console.log('Project thumbnail URL:', project.thumbnail_url);
   console.log('Final image URL:', imageUrl);
