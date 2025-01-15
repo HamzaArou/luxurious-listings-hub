@@ -46,6 +46,14 @@ const partners = [
     name: "وتد الكيان العقارية",
     logo: "/lovable-uploads/685f1b71-7d10-4065-a7a5-7b83cfab395a.png",
   },
+  {
+    name: "المبنى الذكي",
+    logo: "/lovable-uploads/c203f25d-af44-4a55-831a-27de74b28fe9.png",
+  },
+  {
+    name: "تصاميم",
+    logo: "/lovable-uploads/1546fc60-ac3c-42af-9afc-a36b02435325.png",
+  },
 ];
 
 const Partners = () => {
