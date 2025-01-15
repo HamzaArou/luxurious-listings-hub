@@ -163,14 +163,14 @@ const Header = () => {
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label={isMobileMenuOpen ? "إغلاق القائمة" : "فتح القائمة"}
-            className={`transition-colors duration-300 ${
+            className={`transition-colors duration-300 animate-[pulse_2s_cubic-bezier(0.4,0,0.6,1)_infinite] ${
               isScrolled ? "text-white" : "text-black"
             }`}
           >
             {isMobileMenuOpen ? (
-              <X className="h-8 w-8" />
+              <X className="h-10 w-10" />
             ) : (
-              <Menu className="h-8 w-8" />
+              <Menu className="h-10 w-10" />
             )}
           </button>
         </div>
