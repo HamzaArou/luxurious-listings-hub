@@ -87,6 +87,15 @@ export default function ProjectDetails() {
     );
   }
 
+  // Get the public URL for the thumbnail image from Supabase Storage
+  const thumbnailUrl = supabase.storage
+    .from('project-images')
+    .getPublicUrl(project.thumbnail_url.replace('project-images/', ''))
+    .data.publicUrl;
+
+  console.log('Project thumbnail URL:', project.thumbnail_url);
+  console.log('Final thumbnail URL:', thumbnailUrl);
+
   const galleryImages = (project.project_images || []) as ProjectMedia[];
 
   return (
@@ -103,7 +112,7 @@ export default function ProjectDetails() {
           <div className="relative mx-auto bg-gradient-to-b from-deepBlue/10 to-deepBlue/5 p-4 sm:p-6 rounded-[30px] sm:rounded-[40px] shadow-lg w-[350px] sm:w-[450px]">
             <div className="w-[320px] sm:w-[386px] mx-auto rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl" style={{ height: '400px' }}>
               <img
-                src={project.thumbnail_url}
+                src={thumbnailUrl}
                 alt={project.name}
                 className="w-full h-full object-contain"
                 loading="lazy"
