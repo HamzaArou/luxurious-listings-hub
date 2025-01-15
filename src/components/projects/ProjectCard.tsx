@@ -48,12 +48,10 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
   }, [navigate, project.id]);
 
   // Handle the image URL correctly
-  const imageUrl = project.thumbnail_url.startsWith('lovable-uploads/') 
-    ? `/${project.thumbnail_url}`
-    : project.thumbnail_url;
+  const imageUrl = `/${project.thumbnail_url}`;
   
-  console.log('Original thumbnail URL:', project.thumbnail_url);
-  console.log('Processed image URL:', imageUrl);
+  console.log('Project thumbnail URL:', project.thumbnail_url);
+  console.log('Final image URL:', imageUrl);
 
   return (
     <div 
@@ -72,7 +70,9 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
             loading="lazy"
             onError={(e) => {
               console.error('Image failed to load:', imageUrl);
-              e.currentTarget.src = '/placeholder.svg';
+              const imgElement = e.currentTarget;
+              imgElement.onerror = null; // Prevent infinite loop
+              imgElement.src = '/placeholder.svg';
             }}
           />
           <Badge 
