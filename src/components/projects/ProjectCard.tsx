@@ -17,6 +17,8 @@ interface Project {
   project_units?: {
     count: number;
   }[];
+  price?: number;
+  price_single_street?: number;
 }
 
 interface ProjectCardProps {
@@ -36,12 +38,9 @@ const getStatusColor = (status: string) => {
   }
 };
 
-const formatPrice = (price?: number, maxPrice?: number) => {
+const formatPrice = (price?: number) => {
   if (!price) return "السعر عند الطلب";
-  if (maxPrice) {
-    return `${price.toLocaleString('en-US')} - ${maxPrice.toLocaleString('en-US')} ريال`;
-  }
-  return `${price.toLocaleString('en-US')} ريال`;
+  return `${price.toLocaleString('ar-SA')} ريال`;
 };
 
 const ProjectCard = memo(({ project }: ProjectCardProps) => {
@@ -56,6 +55,17 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
 
   const details = project.project_details?.[0]?.description || 
     `${project.floors} طوابق | ${project.units} وحدات`;
+
+  const minPrice = project.price_single_street || project.price;
+  const maxPrice = project.price;
+  
+  const priceDisplay = () => {
+    if (!minPrice && !maxPrice) return "السعر عند الطلب";
+    if (minPrice && maxPrice && minPrice !== maxPrice) {
+      return `${minPrice.toLocaleString('ar-SA')} - ${maxPrice.toLocaleString('ar-SA')} ريال`;
+    }
+    return `${(maxPrice || minPrice).toLocaleString('ar-SA')} ريال`;
+  };
 
   return (
     <div 
@@ -98,6 +108,13 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
           <div className="bg-gray-50 rounded-lg p-2.5 mb-3">
             <p className="text-sm text-gray-600 text-right leading-relaxed">
               {details}
+            </p>
+          </div>
+
+          {/* Price Section */}
+          <div className="mt-auto text-center">
+            <p className="text-base font-bold text-gold">
+              {priceDisplay()}
             </p>
           </div>
         </div>
