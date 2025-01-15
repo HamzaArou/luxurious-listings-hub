@@ -32,15 +32,10 @@ const getStatusColor = (status: string) => {
     case "قريباً":
       return "bg-newsGreen text-white";
     case "بدأ البيع":
-      return "bg-deepBlue text-white";
+      return "bg-black text-white";
     default:
       return "bg-gray-500 text-white";
   }
-};
-
-const formatPrice = (price?: number) => {
-  if (!price) return "السعر عند الطلب";
-  return `${price.toLocaleString('ar-SA')} ريال`;
 };
 
 const ProjectCard = memo(({ project }: ProjectCardProps) => {
@@ -52,9 +47,6 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
     }
     navigate(`/project/${project.id}`);
   }, [navigate, project.id]);
-
-  const details = project.project_details?.[0]?.description || 
-    `${project.floors} طوابق | ${project.units} وحدات`;
 
   const minPrice = project.price_single_street || project.price;
   const maxPrice = project.price;
@@ -74,9 +66,9 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
       role="button"
       tabIndex={0}
     >
-      <Card className="overflow-hidden bg-white rounded-[20px] shadow-lg hover:shadow-xl transition-all duration-300 transform group-hover:scale-[1.02] h-full flex flex-col">
+      <Card className="overflow-hidden bg-white rounded-[32px] shadow-lg hover:shadow-xl transition-all duration-300 transform group-hover:scale-[1.02] h-full flex flex-col">
         {/* Image Section */}
-        <div className="relative h-[250px] bg-gray-100">
+        <div className="relative h-[350px] bg-gray-100">
           <img
             src={project.thumbnail_url}
             alt={project.name}
@@ -86,34 +78,35 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
             fetchPriority="high"
           />
           <Badge 
-            className={`absolute top-4 left-4 px-4 py-1 rounded-full text-sm font-medium ${getStatusColor(project.status)}`}
+            className={`absolute top-6 right-6 px-6 py-2 rounded-full text-lg font-medium ${getStatusColor(project.status)}`}
           >
             {project.status}
           </Badge>
         </div>
 
         {/* Content Section */}
-        <div className="p-4 flex flex-col flex-grow">
+        <div className="p-6 flex flex-col flex-grow space-y-4">
           {/* Title and Location */}
-          <div className="text-right mb-3">
-            <h3 className="text-lg font-bold text-darkBlue mb-1">
+          <div className="text-right">
+            <h3 className="text-2xl font-bold text-darkBlue mb-2">
               {project.name}
             </h3>
-            <p className="text-sm text-gray-600">
+            <p className="text-lg text-gray-600">
               {project.location}
             </p>
           </div>
 
           {/* Details */}
-          <div className="bg-gray-50 rounded-lg p-2.5 mb-3">
-            <p className="text-sm text-gray-600 text-right leading-relaxed">
-              {details}
+          <div className="bg-gray-50 rounded-lg p-4">
+            <p className="text-lg text-gray-600 text-right leading-relaxed">
+              {`${project.units} وحدات | المساحات من ٢٠٠ م² إلى ٤٠٠ م²`}
             </p>
           </div>
 
           {/* Price Section */}
-          <div className="mt-auto text-center">
-            <p className="text-base font-bold text-gold">
+          <div className="mt-auto">
+            <p className="text-gray-500 text-right mb-1">السعر</p>
+            <p className="text-xl font-bold text-darkBlue text-right">
               {priceDisplay()}
             </p>
           </div>
