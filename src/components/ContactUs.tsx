@@ -4,7 +4,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
-import { staticProjects } from "./FeaturedProjects";
+import { useQuery } from "@tanstack/react-query";
 
 const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName?: string }) => {
   const { toast } = useToast();
@@ -15,6 +15,17 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
     phone: "",
     message: "",
     selectedProject: projectId || "",
+  });
+
+  const { data: projects = [] } = useQuery({
+    queryKey: ['projects'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('projects')
+        .select('*');
+      if (error) throw error;
+      return data || [];
+    },
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -122,7 +133,7 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
                   disabled={!!projectId}
                 >
                   <option value="">{projectName || "المشروع - Project"}</option>
-                  {staticProjects.map((project) => (
+                  {projects.map((project) => (
                     <option key={project.id} value={project.id}>
                       {project.name} - {project.location}
                     </option>
