@@ -88,34 +88,9 @@ const Header = () => {
     { href: "stats", text: "إنجازاتنا" },
     { href: "services", text: "خدماتنا" },
     { href: "about", text: "عن الشركة" },
-    { href: "contact", text: "تواصل معنا" },
   ];
 
   const isProjectPage = location.pathname.includes('/project/');
-
-  const renderContactButton = () => (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <button className="nav-link font-ibm-arabic text-white font-medium text-lg hover:text-gold transition-colors duration-300">
-          اتصل بنا
-        </button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="start" className="w-[200px]">
-        <DropdownMenuItem onClick={handleCall} className="gap-2 cursor-pointer">
-          <Phone className="h-5 w-5" />
-          <span>اتصل بنا</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={handleWhatsApp} className="gap-2 cursor-pointer">
-          <img 
-            src="/lovable-uploads/5a30ecf6-b0b1-41ce-908d-7d07e173fe6e.png" 
-            alt="WhatsApp"
-            className="h-5 w-5"
-          />
-          <span>واتساب</span>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
 
   return (
     <header
@@ -155,6 +130,27 @@ const Header = () => {
                   {link.text}
                 </button>
               ))}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="nav-link font-ibm-arabic text-white font-medium text-lg hover:text-gold transition-colors duration-300">
+                    تواصل معنا
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-[200px]">
+                  <DropdownMenuItem onClick={handleCall} className="gap-2 cursor-pointer">
+                    <Phone className="h-5 w-5" />
+                    <span>اتصل بنا</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleWhatsApp} className="gap-2 cursor-pointer">
+                    <img 
+                      src="/lovable-uploads/5a30ecf6-b0b1-41ce-908d-7d07e173fe6e.png" 
+                      alt="WhatsApp"
+                      className="h-5 w-5"
+                    />
+                    <span>واتساب</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </nav>
         </div>
@@ -187,6 +183,20 @@ const Header = () => {
                   {link.text}
                 </button>
               ))}
+              <div className="flex gap-4 py-3">
+                <button onClick={handleCall} className="flex items-center gap-2 text-white hover:text-gold">
+                  <Phone className="h-5 w-5" />
+                  <span>اتصل بنا</span>
+                </button>
+                <button onClick={handleWhatsApp} className="flex items-center gap-2 text-white hover:text-gold">
+                  <img 
+                    src="/lovable-uploads/5a30ecf6-b0b1-41ce-908d-7d07e173fe6e.png" 
+                    alt="WhatsApp"
+                    className="h-5 w-5"
+                  />
+                  <span>واتساب</span>
+                </button>
+              </div>
             </nav>
           </div>
         )}
