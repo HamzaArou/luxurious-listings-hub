@@ -47,9 +47,13 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
     navigate(`/project/${project.id}`);
   }, [navigate, project.id]);
 
-  // Clean the image URL by removing any 'public/' prefix
-  const imageUrl = project.thumbnail_url.replace(/^public\//, '');
-  console.log('Image URL:', imageUrl); // Debug log
+  // Handle the image URL correctly
+  const imageUrl = project.thumbnail_url.startsWith('lovable-uploads/') 
+    ? `/${project.thumbnail_url}`
+    : project.thumbnail_url;
+  
+  console.log('Original thumbnail URL:', project.thumbnail_url);
+  console.log('Processed image URL:', imageUrl);
 
   return (
     <div 
