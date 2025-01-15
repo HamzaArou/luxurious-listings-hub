@@ -107,7 +107,11 @@ const Partners = () => {
                 <img
                   src={partner.logo}
                   alt={partner.name}
-                  className="max-w-[85%] max-h-[85%] object-contain"
+                  className={`object-contain ${
+                    partner.name === "المبنى الذكي" || partner.name === "تصاميم"
+                      ? "max-w-[95%] max-h-[95%]"
+                      : "max-w-[85%] max-h-[85%]"
+                  }`}
                 />
               </div>
             ))}
