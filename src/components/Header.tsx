@@ -131,29 +131,31 @@ const Header = () => {
                   {link.text}
                 </button>
               ))}
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <button className={`nav-link font-ibm-arabic font-medium text-lg hover:text-gold transition-colors duration-300 ${
-                    isProjectPage && !isScrolled ? 'text-black' : 'text-white'
-                  }`}>
-                    تواصل معنا
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-[200px]">
-                  <DropdownMenuItem onClick={handleCall} className="gap-2 cursor-pointer">
-                    <Phone className="h-5 w-5" />
-                    <span>اتصل بنا</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={handleWhatsApp} className="gap-2 cursor-pointer">
-                    <img 
-                      src="/lovable-uploads/5a30ecf6-b0b1-41ce-908d-7d07e173fe6e.png" 
-                      alt="WhatsApp"
-                      className="h-5 w-5"
-                    />
-                    <span>واتساب</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <div className="relative">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className={`nav-link font-ibm-arabic font-medium text-lg hover:text-gold transition-colors duration-300 ${
+                      isProjectPage && !isScrolled ? 'text-black' : 'text-white'
+                    }`}>
+                      تواصل معنا
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-[200px] absolute">
+                    <DropdownMenuItem onClick={handleCall} className="gap-2 cursor-pointer">
+                      <Phone className="h-5 w-5" />
+                      <span>اتصل بنا</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleWhatsApp} className="gap-2 cursor-pointer">
+                      <img 
+                        src="/lovable-uploads/5a30ecf6-b0b1-41ce-908d-7d07e173fe6e.png" 
+                        alt="WhatsApp"
+                        className="h-5 w-5"
+                      />
+                      <span>واتساب</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
             </div>
           </nav>
         </div>
