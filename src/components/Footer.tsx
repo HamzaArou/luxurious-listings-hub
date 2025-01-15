@@ -216,7 +216,7 @@ const Footer = () => {
               <img
                 src="/lovable-uploads/a544c699-418c-470d-b4ab-94ab59cf1cc0.png"
                 alt="موقع الشركة على الخريطة"
-                className="w-full md:w-[300px] md:h-[200px] rounded-lg shadow-md object-cover"
+                className="w-full rounded-lg shadow-md"
               />
             </a>
             <p className="text-white/80 text-sm leading-relaxed">
