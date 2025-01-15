@@ -129,24 +129,27 @@ export type Database = {
       }
       project_images: {
         Row: {
+          content_type: string
           created_at: string
           id: string
-          image_type: string
-          image_url: string
+          media_type: string
+          media_url: string
           project_id: string | null
         }
         Insert: {
+          content_type: string
           created_at?: string
           id?: string
-          image_type: string
-          image_url: string
+          media_type?: string
+          media_url: string
           project_id?: string | null
         }
         Update: {
+          content_type?: string
           created_at?: string
           id?: string
-          image_type?: string
-          image_url?: string
+          media_type?: string
+          media_url?: string
           project_id?: string | null
         }
         Relationships: [

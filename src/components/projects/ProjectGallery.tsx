@@ -1,30 +1,77 @@
 import { useState } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { cn } from "@/lib/utils";
+import { Play } from "lucide-react";
 
-interface ProjectImage {
+interface ProjectMedia {
   id: string;
-  image_url: string;
-  image_type: string;
+  media_url: string;
+  media_type: 'image' | 'video';
+  content_type: string;
 }
 
 interface ProjectGalleryProps {
-  images: ProjectImage[];
+  images: ProjectMedia[];
 }
 
 export default function ProjectGallery({ images }: ProjectGalleryProps) {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const galleryImages = images.filter(img => img.image_type === 'gallery');
+  const [selectedMedia, setSelectedMedia] = useState<ProjectMedia | null>(null);
+  const galleryMedia = images.filter(img => img.content_type === 'gallery');
 
-  if (galleryImages.length === 0) {
+  if (galleryMedia.length === 0) {
     return (
       <div className="text-center py-8">
-        <p className="text-gray-500">لا توجد صور متاحة</p>
+        <p className="text-gray-500">لا توجد وسائط متاحة</p>
       </div>
     );
   }
+
+  const renderMediaPreview = (media: ProjectMedia) => {
+    if (media.media_type === 'video') {
+      return (
+        <div className="relative w-full h-full">
+          <video
+            src={media.media_url}
+            className="w-full h-full object-cover"
+            controls={false}
+          />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Play className="w-12 h-12 text-white opacity-80" />
+          </div>
+        </div>
+      );
+    }
+    return (
+      <img
+        src={media.media_url}
+        alt=""
+        className="w-full h-full object-cover"
+        loading="lazy"
+        decoding="async"
+      />
+    );
+  };
+
+  const renderMediaDialog = (media: ProjectMedia) => {
+    if (media.media_type === 'video') {
+      return (
+        <video
+          src={media.media_url}
+          className="w-full h-full"
+          controls
+          autoPlay
+        />
+      );
+    }
+    return (
+      <img
+        src={media.media_url}
+        alt=""
+        className="w-full h-full object-contain"
+      />
+    );
+  };
 
   return (
     <>
@@ -37,25 +84,19 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
           className="w-full"
         >
           <CarouselContent className="-ml-2 md:-ml-4">
-            {galleryImages.map((image) => (
+            {galleryMedia.map((media) => (
               <CarouselItem 
-                key={image.id} 
+                key={media.id} 
                 className="pl-2 md:pl-4 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4"
               >
                 <button
-                  onClick={() => setSelectedImage(image.image_url)}
+                  onClick={() => setSelectedMedia(media)}
                   className={cn(
                     "w-full aspect-square rounded-lg overflow-hidden",
                     "transition-all duration-300 hover:shadow-[0_0_15px_rgba(14,165,233,0.3)]",
                   )}
                 >
-                  <img
-                    src={image.image_url}
-                    alt=""
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                    decoding="async"
-                  />
+                  {renderMediaPreview(media)}
                 </button>
               </CarouselItem>
             ))}
@@ -65,15 +106,11 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
         </Carousel>
       </div>
 
-      {/* Image Preview Dialog */}
-      <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
+      {/* Media Preview Dialog */}
+      <Dialog open={!!selectedMedia} onOpenChange={() => setSelectedMedia(null)}>
         <DialogContent className="max-w-4xl w-full p-0 overflow-hidden">
           <div className="relative w-full aspect-video">
-            <img
-              src={selectedImage || ''}
-              alt=""
-              className="w-full h-full object-contain"
-            />
+            {selectedMedia && renderMediaDialog(selectedMedia)}
           </div>
         </DialogContent>
       </Dialog>
