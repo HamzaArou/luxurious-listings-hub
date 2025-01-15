@@ -295,6 +295,8 @@ export type Database = {
           lng: number | null
           location: string
           name: string
+          price: number | null
+          price_single_street: number | null
           side: string | null
           status: Database["public"]["Enums"]["project_status"]
           thumbnail_url: string
@@ -310,6 +312,8 @@ export type Database = {
           lng?: number | null
           location: string
           name: string
+          price?: number | null
+          price_single_street?: number | null
           side?: string | null
           status?: Database["public"]["Enums"]["project_status"]
           thumbnail_url: string
@@ -325,6 +329,8 @@ export type Database = {
           lng?: number | null
           location?: string
           name?: string
+          price?: number | null
+          price_single_street?: number | null
           side?: string | null
           status?: Database["public"]["Enums"]["project_status"]
           thumbnail_url?: string
