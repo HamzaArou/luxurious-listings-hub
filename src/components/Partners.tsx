@@ -38,6 +38,14 @@ const partners = [
     name: "الخزائن المبتكرة",
     logo: "/lovable-uploads/44f0baef-16d0-414a-bb50-49b4dd8a7997.png",
   },
+  {
+    name: "العيدروس",
+    logo: "/lovable-uploads/cab06c45-41de-43d7-bbaa-cdf3b3cee32f.png",
+  },
+  {
+    name: "وتد الكيان العقارية",
+    logo: "/lovable-uploads/685f1b71-7d10-4065-a7a5-7b83cfab395a.png",
+  },
 ];
 
 const Partners = () => {
