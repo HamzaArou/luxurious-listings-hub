@@ -80,14 +80,15 @@ const Header = () => {
     setIsMobileMenuOpen(false);
   };
 
+  // Updated navLinks to match actual sections
   const navLinks = [
     { href: "hero", text: "الرئيسية" },
-    { href: "projects", text: "العقارات" },
-    { href: "services", text: "من نحن" },
-    { href: "stats", text: "تمويل" },
-    { href: "about", text: "أملاك عقارية" },
-    { href: "contact", text: "طلب استثمار" },
-    { href: "login", text: "تسجيل" },
+    { href: "news", text: "آخر الأخبار" },
+    { href: "projects", text: "مشاريعنا" },
+    { href: "stats", text: "إنجازاتنا" },
+    { href: "services", text: "خدماتنا" },
+    { href: "about", text: "عن الشركة" },
+    { href: "contact", text: "تواصل معنا" },
   ];
 
   const isProjectPage = location.pathname.includes('/project/');
