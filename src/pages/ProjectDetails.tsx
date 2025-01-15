@@ -36,6 +36,12 @@ export default function ProjectDetails() {
   const { data: project, isLoading, error } = useQuery({
     queryKey: ['project', id],
     queryFn: async () => {
+      // Validate if id is a valid UUID using a regex pattern
+      const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      if (!id || !uuidPattern.test(id)) {
+        throw new Error('Invalid project ID format');
+      }
+
       const { data: project, error: projectError } = await supabase
         .from('projects')
         .select(`
@@ -49,6 +55,7 @@ export default function ProjectDetails() {
       if (projectError) throw projectError;
       return project;
     },
+    enabled: !!id, // Only run query if id exists
   });
 
   if (isLoading) {
@@ -59,6 +66,9 @@ export default function ProjectDetails() {
     return (
       <div className="container mx-auto px-4 py-8 text-center">
         <h1 className="text-2xl font-bold text-gray-900">المشروع غير موجود</h1>
+        <p className="text-gray-600 mt-2">
+          {error instanceof Error ? error.message : 'حدث خطأ أثناء تحميل المشروع'}
+        </p>
       </div>
     );
   }
@@ -112,7 +122,7 @@ export default function ProjectDetails() {
             </div>
             
             <div className="max-w-4xl mx-auto">
-              <ProjectUpdates projectId={id || ''} />
+              <ProjectUpdates projectId={id} />
             </div>
           </div>
         </div>
