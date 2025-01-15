@@ -131,7 +131,7 @@ const Header = () => {
                   {link.text}
                 </button>
               ))}
-              <div className="relative">
+              <div className="relative inline-block">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <button className={`nav-link font-ibm-arabic font-medium text-lg hover:text-gold transition-colors duration-300 ${
@@ -140,7 +140,11 @@ const Header = () => {
                       تواصل معنا
                     </button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-[200px] absolute">
+                  <DropdownMenuContent 
+                    align="end" 
+                    className="w-[200px] z-[60]"
+                    sideOffset={5}
+                  >
                     <DropdownMenuItem onClick={handleCall} className="gap-2 cursor-pointer">
                       <Phone className="h-5 w-5" />
                       <span>اتصل بنا</span>
