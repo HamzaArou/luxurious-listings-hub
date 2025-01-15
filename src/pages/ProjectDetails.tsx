@@ -59,7 +59,7 @@ export default function ProjectDetails() {
         project.project_images = project.project_images.map(img => ({
           ...img,
           media_type: img.media_type === 'video' ? 'video' : 'image'
-        }));
+        } as const));
       }
       
       return project;
