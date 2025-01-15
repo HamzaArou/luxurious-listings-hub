@@ -53,9 +53,18 @@ export default function ProjectDetails() {
         .single();
 
       if (projectError) throw projectError;
+      
+      // Ensure media_type is either 'image' or 'video'
+      if (project?.project_images) {
+        project.project_images = project.project_images.map(img => ({
+          ...img,
+          media_type: img.media_type === 'video' ? 'video' : 'image'
+        }));
+      }
+      
       return project;
     },
-    enabled: !!id, // Only run query if id exists
+    enabled: !!id,
   });
 
   if (isLoading) {
