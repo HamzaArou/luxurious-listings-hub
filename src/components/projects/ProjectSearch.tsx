@@ -28,7 +28,7 @@ const ProjectSearch = ({ onFilterChange }: ProjectSearchProps) => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row items-center justify-between bg-darkBlue rounded-2xl md:rounded-full px-4 md:px-8 w-full max-w-[462px] py-4 md:h-[54px] mb-4 mx-auto gap-3 md:gap-4">
+    <div className="flex flex-col md:flex-row items-center justify-center bg-darkBlue rounded-2xl md:rounded-full px-4 md:px-8 w-full max-w-[462px] py-4 md:h-[54px] mb-4 mx-auto gap-3 md:gap-4">
       <span className="text-white text-lg md:text-xl font-semibold order-first md:order-last whitespace-nowrap">
         ابحث عن وحدتك
       </span>
