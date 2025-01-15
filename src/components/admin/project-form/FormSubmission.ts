@@ -104,8 +104,9 @@ export const useFormSubmission = (
           .insert(
             urls.map(url => ({
               project_id: projectId,
-              image_url: url,
-              image_type: "gallery",
+              media_url: url,
+              content_type: "gallery",
+              media_type: "image"
             }))
           );
 

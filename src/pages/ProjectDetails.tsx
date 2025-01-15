@@ -73,7 +73,7 @@ export default function ProjectDetails() {
     );
   }
 
-  const galleryImages = project.project_images?.filter(img => img.image_type === 'gallery') || [];
+  const galleryImages = project.project_images?.filter(img => img.content_type === 'gallery') || [];
 
   return (
     <div className="min-h-screen">

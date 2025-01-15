@@ -7,7 +7,7 @@ import { Play } from "lucide-react";
 interface ProjectMedia {
   id: string;
   media_url: string;
-  media_type: 'image' | 'video';
+  media_type: "image" | "video";
   content_type: string;
 }
 
