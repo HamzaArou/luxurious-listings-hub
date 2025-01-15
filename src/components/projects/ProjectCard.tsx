@@ -47,8 +47,9 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
     navigate(`/project/${project.id}`);
   }, [navigate, project.id]);
 
-  // Remove the public/ prefix if it exists in the thumbnail_url
-  const imageUrl = project.thumbnail_url.replace('public/', '/');
+  // Clean the image URL by removing any 'public/' prefix
+  const imageUrl = project.thumbnail_url.replace(/^public\//, '');
+  console.log('Image URL:', imageUrl); // Debug log
 
   return (
     <div 
@@ -65,6 +66,10 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
             alt={project.name}
             className="w-full h-full object-cover"
             loading="lazy"
+            onError={(e) => {
+              console.error('Image failed to load:', imageUrl);
+              e.currentTarget.src = '/placeholder.svg';
+            }}
           />
           <Badge 
             className={`absolute top-4 left-4 px-4 py-1 rounded-full text-sm font-medium ${getStatusColor(project.status)}`}
