@@ -3,30 +3,32 @@ import { Button } from "./ui/button";
 import ProjectSearch from "./projects/ProjectSearch";
 import ProjectCard from "./projects/ProjectCard";
 import MortgageCalculator from "./MortgageCalculator";
-
-export const staticProjects = [
-  {
-    id: "1",
-    name: "شقق تمليك وروف - مدينة مكة",
-    location: "حي الشوقية - مخطط الشرائع 12",
-    details: "4 وحدات | المساحات من 200 م² إلى 400 م²",
-    status: "بدأ البيع",
-    floors: 1,
-    units: 4,
-    price: 750000,
-    price_max: 1400000,
-    projectLabel: "مشروع",
-    thumbnail_url: "/lovable-uploads/24de3b37-8a7e-4221-ae5e-14779e6522b9.png",
-  }
-];
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 const FeaturedProjects = () => {
   const [displayCount, setDisplayCount] = useState(6);
   const [selectedNeighborhood, setSelectedNeighborhood] = useState("all");
   const [selectedStatus, setSelectedStatus] = useState("all");
 
+  const { data: projects = [], isLoading } = useQuery({
+    queryKey: ['projects'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('projects')
+        .select(`
+          *,
+          project_units(count),
+          project_details(*)
+        `);
+
+      if (error) throw error;
+      return data || [];
+    },
+  });
+
   const filteredProjects = useMemo(() => {
-    return staticProjects.filter((project) => {
+    return projects.filter((project) => {
       if (selectedNeighborhood === "all" && selectedStatus === "all") {
         return true;
       }
@@ -34,7 +36,7 @@ const FeaturedProjects = () => {
       const statusMatch = selectedStatus === "all" || project.status === selectedStatus;
       return neighborhoodMatch && statusMatch;
     });
-  }, [selectedNeighborhood, selectedStatus]);
+  }, [projects, selectedNeighborhood, selectedStatus]);
 
   const displayedProjects = useMemo(() => {
     return filteredProjects.slice(0, displayCount);
@@ -51,6 +53,10 @@ const FeaturedProjects = () => {
     setSelectedStatus(status);
     setDisplayCount(6);
   }, []);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>

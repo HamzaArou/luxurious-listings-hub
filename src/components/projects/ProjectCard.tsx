@@ -11,9 +11,12 @@ interface Project {
   floors: number;
   units: number;
   thumbnail_url: string;
-  price?: number;
-  price_max?: number;
-  details: string;
+  project_details?: {
+    description?: string;
+  }[];
+  project_units?: {
+    count: number;
+  }[];
 }
 
 interface ProjectCardProps {
@@ -51,6 +54,9 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
     navigate(`/project/${project.id}`);
   }, [navigate, project.id]);
 
+  const details = project.project_details?.[0]?.description || 
+    `${project.floors} طوابق | ${project.units} وحدات`;
+
   return (
     <div 
       onClick={handleClick} 
@@ -59,7 +65,7 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
       tabIndex={0}
     >
       <Card className="overflow-hidden bg-white rounded-[20px] shadow-lg hover:shadow-xl transition-all duration-300 transform group-hover:scale-[1.02] h-full flex flex-col">
-        {/* Image Section with contain fit */}
+        {/* Image Section */}
         <div className="relative h-[250px] bg-gray-100">
           <img
             src={project.thumbnail_url}
@@ -91,15 +97,7 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
           {/* Details */}
           <div className="bg-gray-50 rounded-lg p-2.5 mb-3">
             <p className="text-sm text-gray-600 text-right leading-relaxed">
-              {project.details}
-            </p>
-          </div>
-
-          {/* Price Section */}
-          <div className="mt-auto">
-            <p className="text-xs font-medium text-gray-500 mb-1 text-right">السعر</p>
-            <p className="text-base font-bold text-gold text-right">
-              {formatPrice(project.price, project.price_max)}
+              {details}
             </p>
           </div>
         </div>
