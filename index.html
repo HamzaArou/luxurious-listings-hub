@@ -15,15 +15,17 @@
     <meta property="og:type" content="website" />
     <meta name="theme-color" content="#000000" />
     
-    <!-- DNS Prefetch -->
-    <link rel="dns-prefetch" href="//tdybblvmlsvxgkkwapei.supabase.co" />
+    <!-- Preconnect to Supabase -->
+    <link rel="preconnect" href="https://tdybblvmlsvxgkkwapei.supabase.co" crossorigin />
+    <link rel="dns-prefetch" href="https://tdybblvmlsvxgkkwapei.supabase.co" />
     
-    <!-- Preload assets with base URL -->
+    <!-- Preload critical assets -->
     <link 
       rel="preload" 
       href="./lovable-uploads/452d0f08-89bf-4863-9d95-46a23971500f.png" 
       as="image"
       type="image/png"
+      fetchpriority="high"
       crossorigin="anonymous"
     />
     
@@ -32,10 +34,11 @@
       href="./lovable-uploads/64c77c40-1e36-4888-9b2a-45b0bb0eb897.png" 
       as="image"
       type="image/png"
+      fetchpriority="high"
       crossorigin="anonymous"
     />
     
-    <!-- Preload fonts with correct paths -->
+    <!-- Preload fonts -->
     <link 
       rel="preload" 
       href="./node_modules/@fontsource/ibm-plex-sans-arabic/files/ibm-plex-sans-arabic-arabic-400-normal.woff2" 
@@ -60,7 +63,6 @@
   </head>
   <body>
     <div id="root"></div>
-    <!-- Added Lovable script tag -->
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script type="module" src="/src/main.tsx"></script>
   </body>

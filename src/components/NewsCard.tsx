@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { memo } from "react";
 
 interface NewsCardProps {
   title: string;
@@ -8,24 +9,27 @@ interface NewsCardProps {
   opacity: number;
 }
 
-const NewsCard = ({ title, description, image, scale, opacity }: NewsCardProps) => {
+const NewsCard = memo(({ title, description, image, scale, opacity }: NewsCardProps) => {
   return (
     <div 
       className={cn(
         "relative group overflow-hidden transition-all duration-500",
-        "rounded-2xl aspect-[3/4]"  // Changed from 16/9 to 3/4 for taller cards
+        "rounded-2xl aspect-[3/4]"
       )}
       style={{
         opacity,
         transition: 'opacity 0.4s ease-in-out',
-        willChange: 'opacity'
+        willChange: 'opacity, transform'
       }}
     >
       {/* Image Container - Now takes up 60% of the height */}
       <div className="relative h-[60%] w-full overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-          style={{ backgroundImage: `url(${image})` }}
+          style={{ 
+            backgroundImage: `url(${image})`,
+            willChange: 'transform'
+          }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/20 to-transparent" />
       </div>
@@ -44,6 +48,8 @@ const NewsCard = ({ title, description, image, scale, opacity }: NewsCardProps) 
       </div>
     </div>
   );
-};
+});
+
+NewsCard.displayName = 'NewsCard';
 
 export default NewsCard;

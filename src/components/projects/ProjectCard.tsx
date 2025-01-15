@@ -48,14 +48,10 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
     navigate(`/project/${project.id}`);
   }, [navigate, project.id]);
 
-  // Get the public URL for the image from Supabase Storage
   const imageUrl = supabase.storage
     .from('project-images')
     .getPublicUrl(project.thumbnail_url.replace('project-images/', ''))
     .data.publicUrl;
-  
-  console.log('Project thumbnail URL:', project.thumbnail_url);
-  console.log('Final image URL:', imageUrl);
 
   return (
     <div 
@@ -65,19 +61,14 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
       tabIndex={0}
     >
       <Card className="overflow-hidden bg-white rounded-[20px] shadow-lg hover:shadow-xl transition-all duration-300 transform group-hover:scale-[1.02] h-full flex flex-col">
-        {/* Image Section with contain fit */}
         <div className="relative h-[320px] bg-gray-100">
           <img
             src={imageUrl}
             alt={project.name}
             className="w-full h-full object-cover"
             loading="lazy"
-            onError={(e) => {
-              console.error('Image failed to load:', imageUrl);
-              const imgElement = e.currentTarget;
-              imgElement.onerror = null; // Prevent infinite loop
-              imgElement.src = '/placeholder.svg';
-            }}
+            decoding="async"
+            fetchPriority="low"
           />
           <Badge 
             className={`absolute top-4 left-4 px-4 py-1 rounded-full text-sm font-medium ${getStatusColor(project.status)}`}
@@ -86,9 +77,7 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
           </Badge>
         </div>
 
-        {/* Content Section */}
         <div className="p-4 flex flex-col flex-grow">
-          {/* Title and Location */}
           <div className="text-right mb-3">
             <h3 className="text-lg font-bold text-darkBlue">
               {project.name}
@@ -98,7 +87,6 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
             </p>
           </div>
 
-          {/* Details Grid */}
           <div className="grid grid-cols-2 gap-2 mb-3">
             <div className="bg-gray-50 rounded-lg p-2">
               <p className="text-base font-bold text-darkBlue">{project.floors}</p>
@@ -110,7 +98,6 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
             </div>
           </div>
 
-          {/* Price Section */}
           <div className="mt-auto text-center">
             <p className="text-sm font-medium text-gray-600 mb-1">السعر</p>
             {project.price_single_street ? (
