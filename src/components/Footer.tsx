@@ -13,6 +13,7 @@ const Footer = () => {
 
   const phoneNumber = "+966505148231";
   const whatsappNumber = "966505148231";
+  const mapUrl = "https://maps.app.goo.gl/MqS1HB1ZJpb7xXZv8";
 
   const handleCall = () => {
     window.location.href = `tel:${phoneNumber}`;
@@ -205,20 +206,22 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="text-xl font-bold mb-4">النشرة البريدية</h3>
-            <div className="flex">
-              <input
-                type="email"
-                placeholder="البريد الإلكتروني"
-                className="flex-1 px-4 py-2 bg-white/10 border border-white/20 rounded-r focus:outline-none focus:border-gold"
+            <h3 className="text-xl font-bold mb-4">موقعنا</h3>
+            <a 
+              href={mapUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block mb-4 hover:opacity-90 transition-opacity"
+            >
+              <img
+                src="/lovable-uploads/a544c699-418c-470d-b4ab-94ab59cf1cc0.png"
+                alt="موقع الشركة على الخريطة"
+                className="w-full rounded-lg shadow-md"
               />
-              <button
-                className="px-4 py-2 bg-gold text-deepBlue rounded-l hover:bg-opacity-90 transition-colors"
-                aria-label="اشتراك"
-              >
-                <Mail className="w-5 h-5" />
-              </button>
-            </div>
+            </a>
+            <p className="text-white/80 text-sm leading-relaxed">
+              القاضي, Batha Quraish, Makkah 24231, Saudi Arabia
+            </p>
           </div>
         </div>
 
