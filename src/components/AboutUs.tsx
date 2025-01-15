@@ -2,7 +2,7 @@ const AboutUs = () => {
   return (
     <section className="py-16 bg-[#2B2B2B] overflow-hidden">
       <div className="container mx-auto px-4 max-w-[1200px]">
-        <h2 className="text-4xl font-bold text-white text-center mb-8">
+        <h2 className="text-5xl font-bold text-white text-center mb-8">
           عن الشركة
         </h2>
 
