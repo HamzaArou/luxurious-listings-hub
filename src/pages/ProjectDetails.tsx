@@ -7,7 +7,6 @@ import ProjectUpdates from "@/components/projects/ProjectUpdates";
 import ContactUs from "@/components/ContactUs";
 import { useState, useEffect } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { cn } from "@/lib/utils";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useQuery } from "@tanstack/react-query";
@@ -44,10 +43,8 @@ export default function ProjectDetails() {
   const { data: project, isLoading, error } = useQuery({
     queryKey: ['project', id],
     queryFn: async () => {
-      // First validate the UUID format
-      const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-      if (!id || !uuidPattern.test(id)) {
-        throw new Error('Invalid project ID format');
+      if (!id) {
+        throw new Error('Project ID is required');
       }
 
       const { data: project, error: projectError } = await supabase
@@ -60,12 +57,20 @@ export default function ProjectDetails() {
         .eq('id', id)
         .maybeSingle();
 
-      if (projectError) throw projectError;
-      if (!project) throw new Error('Project not found');
-      
+      if (projectError) {
+        console.error('Error fetching project:', projectError);
+        throw projectError;
+      }
+
+      if (!project) {
+        throw new Error('Project not found');
+      }
+
       return project;
     },
     retry: false,
+    staleTime: 1000 * 60 * 5, // Cache for 5 minutes
+    cacheTime: 1000 * 60 * 30, // Keep in cache for 30 minutes
   });
 
   if (isLoading) {
@@ -84,12 +89,7 @@ export default function ProjectDetails() {
     return <NotFound />;
   }
 
-  // Get the public URL for the thumbnail image from Supabase Storage
-  const thumbnailUrl = supabase.storage
-    .from('project-images')
-    .getPublicUrl(project.thumbnail_url.replace('project-images/', ''))
-    .data.publicUrl;
-
+  const thumbnailUrl = project.thumbnail_url;
   const galleryImages = (project.project_images || []) as ProjectMedia[];
 
   return (
