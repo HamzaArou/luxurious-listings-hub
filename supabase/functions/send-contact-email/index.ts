@@ -1,4 +1,4 @@
-import { serve } from "https://deno.fresh.runtime.dev";
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -24,16 +24,16 @@ serve(async (req) => {
       Message: ${message || 'No message provided'}
     `;
 
-    // Send to a free email forwarding service
+    // Send email using EmailJS
     const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        service_id: 'default_service',
-        template_id: 'template_default',
-        user_id: 'user_your_user_id',
+        service_id: 'service_2qk0ydg',
+        template_id: 'template_8qxdwxp',
+        user_id: 'user_tG2SxArIHIuGHpKmXqB5R',
         template_params: {
           to_email: 'hamzaaroussi22@gmail.com',
           from_name: name,
