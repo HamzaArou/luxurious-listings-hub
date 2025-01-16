@@ -10,7 +10,7 @@ const AboutUs = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="order-2 md:order-1 relative">
             {/* Title visible only on desktop, positioned at the top of the text */}
-            <h2 className="hidden md:block text-5xl font-bold text-white mb-8">
+            <h2 className="hidden md:block text-5xl font-bold text-white mb-8 text-center">
               عن الشركة
             </h2>
             
