@@ -6,6 +6,7 @@ import AdminDashboard from "@/pages/AdminDashboard";
 import ProjectForm from "@/pages/ProjectForm";
 import FloatingContact from "@/components/FloatingContact";
 import { Toaster } from "@/components/ui/toaster";
+import NotFound from "@/components/NotFound";
 import "./App.css";
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/project/new" element={<ProjectForm />} />
         <Route path="/admin/project/:id" element={<ProjectForm />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Toaster />
     </Router>

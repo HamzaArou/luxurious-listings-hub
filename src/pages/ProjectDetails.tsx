@@ -12,6 +12,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import NotFound from "@/components/NotFound";
 
 function ProjectDetailsSkeleton() {
   return (
@@ -59,32 +60,27 @@ export default function ProjectDetails() {
         .single();
 
       if (projectError) throw projectError;
-      
-      if (project?.project_images) {
-        project.project_images = project.project_images.map(img => ({
-          ...img,
-          media_type: img.media_type === 'video' ? ('video' as const) : ('image' as const)
-        }));
-      }
+      if (!project) throw new Error('Project not found');
       
       return project;
     },
-    enabled: !!id,
+    retry: false,
   });
 
   if (isLoading) {
-    return <ProjectDetailsSkeleton />;
+    return (
+      <div>
+        <Header />
+        <div className="mt-[120px]">
+          <ProjectDetailsSkeleton />
+        </div>
+        <Footer />
+      </div>
+    );
   }
 
   if (error || !project) {
-    return (
-      <div className="container mx-auto px-4 py-8 text-center">
-        <h1 className="text-2xl font-bold text-gray-900">المشروع غير موجود</h1>
-        <p className="text-gray-600 mt-2">
-          {error instanceof Error ? error.message : 'حدث خطأ أثناء تحميل المشروع'}
-        </p>
-      </div>
-    );
+    return <NotFound />;
   }
 
   // Get the public URL for the thumbnail image from Supabase Storage
@@ -92,9 +88,6 @@ export default function ProjectDetails() {
     .from('project-images')
     .getPublicUrl(project.thumbnail_url.replace('project-images/', ''))
     .data.publicUrl;
-
-  console.log('Project thumbnail URL:', project.thumbnail_url);
-  console.log('Final thumbnail URL:', thumbnailUrl);
 
   const galleryImages = (project.project_images || []) as ProjectMedia[];
 
