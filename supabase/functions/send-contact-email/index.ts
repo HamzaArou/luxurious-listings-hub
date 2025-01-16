@@ -15,11 +15,12 @@ serve(async (req) => {
     const { name, phone, message, selectedProject } = await req.json();
     console.log('Received form data:', { name, phone, message, selectedProject });
 
-    // Format email content
+    // Format email content with proper headers for server-side requests
     const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'origin': 'http://localhost',  // Required for server-side calls
       },
       body: JSON.stringify({
         service_id: 'service_vsb08u9',
@@ -32,6 +33,7 @@ serve(async (req) => {
           project: selectedProject || 'Not specified',
           message: message || 'No message provided',
         },
+        accessToken: 'DJX_dy28zAjctAAIj', // Add access token for server-side authentication
       }),
     });
 
