@@ -15,29 +15,21 @@ serve(async (req) => {
     const { name, phone, message, selectedProject } = await req.json();
 
     // Format email content
-    const emailContent = `
-      New Contact Form Submission:
-      
-      Name: ${name}
-      Phone: ${phone}
-      Project: ${selectedProject || 'Not specified'}
-      Message: ${message || 'No message provided'}
-    `;
-
-    // Send email using EmailJS
     const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        service_id: 'service_2qk0ydg',
-        template_id: 'template_8qxdwxp',
-        user_id: 'user_tG2SxArIHIuGHpKmXqB5R',
+        service_id: 'service_vsb08u9',
+        template_id: 'template_31x8lw5',
+        user_id: 'DJX_dy28zAjctAAIj',
         template_params: {
-          to_email: 'hamzaaroussi22@gmail.com',
+          to_email: 'pr@wtd.com.sa',
           from_name: name,
-          message: emailContent,
+          phone: phone,
+          project: selectedProject || 'Not specified',
+          message: message || 'No message provided',
         },
       }),
     });
@@ -45,6 +37,9 @@ serve(async (req) => {
     if (!response.ok) {
       throw new Error('Failed to send email');
     }
+
+    const data = await response.json();
+    console.log('Email sent successfully:', data);
 
     return new Response(JSON.stringify({ success: true }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },

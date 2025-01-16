@@ -78,7 +78,7 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
         name: "",
         phone: "",
         message: "",
-        selectedProject: "",
+        selectedProject: projectId || "",
       });
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -91,6 +91,8 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
       setIsSubmitting(false);
     }
   };
+
+  // ... keep existing code (JSX for the form and map)
 
   return (
     <section className="py-12 bg-offWhite">
