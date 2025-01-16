@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import PhoneInput from 'react-phone-input-2';
@@ -27,6 +27,16 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
       return data || [];
     },
   });
+
+  // Update selected project when projectId prop changes
+  useEffect(() => {
+    if (projectId) {
+      setFormData(prev => ({
+        ...prev,
+        selectedProject: projectId
+      }));
+    }
+  }, [projectId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
