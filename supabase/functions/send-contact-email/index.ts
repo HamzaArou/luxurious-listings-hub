@@ -13,6 +13,7 @@ serve(async (req) => {
 
   try {
     const { name, phone, message, selectedProject } = await req.json();
+    console.log('Received form data:', { name, phone, message, selectedProject });
 
     // Format email content
     const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
@@ -34,21 +35,34 @@ serve(async (req) => {
       }),
     });
 
+    const responseText = await response.text();
+    console.log('EmailJS response:', response.status, responseText);
+
     if (!response.ok) {
-      throw new Error('Failed to send email');
+      throw new Error(`EmailJS error: ${response.status} ${responseText}`);
     }
 
-    const data = await response.json();
-    console.log('Email sent successfully:', data);
+    try {
+      const data = JSON.parse(responseText);
+      console.log('Email sent successfully:', data);
+    } catch (e) {
+      console.log('Could not parse response as JSON:', responseText);
+    }
 
     return new Response(JSON.stringify({ success: true }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
+
   } catch (error) {
-    console.error('Error sending email:', error);
-    return new Response(JSON.stringify({ error: error.message }), {
-      status: 500,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-    });
+    console.error('Error in send-contact-email function:', error);
+    return new Response(
+      JSON.stringify({ 
+        error: error.message,
+        details: error.stack 
+      }), {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      }
+    );
   }
 });
