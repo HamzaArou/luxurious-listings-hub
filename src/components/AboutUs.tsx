@@ -28,7 +28,7 @@ const AboutUs = () => {
           <div className="order-1 md:order-2">
             <div className="relative overflow-hidden rounded-[50px] shadow-2xl">
               <img
-                src="/lovable-uploads/553bf2ea-8559-47f8-8a5d-d23e8dadffc6.png"
+                src="/lovable-uploads/846a9d6e-0e88-4891-b25c-203b5b88bc86.png"
                 alt="مجموعة الفيصل العقارية - نموذج معماري"
                 className="w-full h-auto object-cover"
               />
