@@ -1,10 +1,8 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
-import { useQuery } from "@tanstack/react-query";
 
 const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName?: string }) => {
   const { toast } = useToast();
@@ -15,17 +13,6 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
     phone: "",
     message: "",
     selectedProject: projectId || "",
-  });
-
-  const { data: projects = [] } = useQuery({
-    queryKey: ['projects'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('projects')
-        .select('*');
-      if (error) throw error;
-      return data || [];
-    },
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -43,31 +30,28 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
     setIsSubmitting(true);
 
     try {
-      // First, save to Supabase as before
-      const { error: supabaseError } = await supabase
-        .from('interest_forms')
-        .insert([
-          {
-            project_id: formData.selectedProject || null,
-            full_name: formData.name,
-            phone: formData.phone,
-            email: formData.message,
-          }
-        ]);
-
-      if (supabaseError) throw supabaseError;
-
-      // Then, send email using our Edge Function
-      const { error: emailError } = await supabase.functions.invoke('send-contact-email', {
-        body: {
-          name: formData.name,
-          phone: formData.phone,
-          message: formData.message,
-          selectedProject: projectName || formData.selectedProject,
+      const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
+        body: JSON.stringify({
+          service_id: 'service_vsb08u9',
+          template_id: 'template_31x8lw5',
+          user_id: 'DJX_dy28zAjctAAIj',
+          template_params: {
+            to_email: 'pr@wtd.com.sa',
+            from_name: formData.name,
+            phone: formData.phone,
+            project: projectName || formData.selectedProject,
+            message: formData.message || 'No message provided',
+          },
+        }),
       });
 
-      if (emailError) throw emailError;
+      if (!response.ok) {
+        throw new Error(`EmailJS error: ${response.status} ${await response.text()}`);
+      }
 
       toast({
         title: "تم إرسال الطلب بنجاح",
@@ -91,8 +75,6 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
       setIsSubmitting(false);
     }
   };
-
-  // ... keep existing code (JSX for the form and map)
 
   return (
     <section className="py-12 bg-offWhite">
@@ -135,26 +117,6 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
                     placeholder: "الجوال - Mobile*",
                   }}
                 />
-              </div>
-
-              <div>
-                <select
-                  value={formData.selectedProject}
-                  onChange={(e) => setFormData({ ...formData, selectedProject: e.target.value })}
-                  className={cn(
-                    "w-full px-4 py-3 rounded-lg bg-offWhite border-0",
-                    "text-gray-600 focus:ring-2 focus:ring-gold",
-                    "transition duration-200 text-right"
-                  )}
-                  disabled={!!projectId}
-                >
-                  <option value="">{projectName || "المشروع - Project"}</option>
-                  {projects.map((project) => (
-                    <option key={project.id} value={project.id}>
-                      {project.name} - {project.location}
-                    </option>
-                  ))}
-                </select>
               </div>
 
               <div>
