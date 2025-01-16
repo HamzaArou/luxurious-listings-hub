@@ -2,12 +2,18 @@ const AboutUs = () => {
   return (
     <section className="py-16 bg-[#2B2B2B] overflow-hidden">
       <div className="container mx-auto px-4 max-w-[1200px]">
-        <h2 className="text-5xl font-bold text-white text-center mb-8">
+        {/* Title visible only on mobile */}
+        <h2 className="text-5xl font-bold text-white text-center mb-8 md:hidden">
           عن الشركة
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="order-2 md:order-1 relative">
+            {/* Title visible only on desktop, positioned at the top of the text */}
+            <h2 className="hidden md:block text-5xl font-bold text-white mb-8">
+              عن الشركة
+            </h2>
+            
             {/* Oblique background with more pronounced slanting and reduced height */}
             <div className="absolute inset-0 bg-[#234F27] transform -skew-x-12 -skew-y-3 rounded-[20px] -z-10"></div>
             
