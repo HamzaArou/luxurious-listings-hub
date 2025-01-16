@@ -3,6 +3,8 @@ import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName?: string }) => {
   const { toast } = useToast();
@@ -13,6 +15,17 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
     phone: "",
     message: "",
     selectedProject: projectId || "",
+  });
+
+  const { data: projects = [] } = useQuery({
+    queryKey: ['projects'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('projects')
+        .select('*');
+      if (error) throw error;
+      return data || [];
+    },
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -42,8 +55,8 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
           template_params: {
             to_email: 'pr@wtd.com.sa',
             from_name: formData.name,
-            phone: formData.phone,
-            project: projectName || formData.selectedProject,
+            phone_number: formData.phone,
+            project: projectName || (formData.selectedProject ? projects.find(p => p.id === formData.selectedProject)?.name : ''),
             message: formData.message || 'No message provided',
           },
         }),
@@ -118,6 +131,27 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
                   }}
                 />
               </div>
+
+              {!projectId && (
+                <div>
+                  <select
+                    value={formData.selectedProject}
+                    onChange={(e) => setFormData({ ...formData, selectedProject: e.target.value })}
+                    className={cn(
+                      "w-full px-4 py-3 rounded-lg bg-offWhite border-0",
+                      "text-gray-600 focus:ring-2 focus:ring-gold",
+                      "transition duration-200 text-right"
+                    )}
+                  >
+                    <option value="">اختر المشروع - Select Project</option>
+                    {projects.map((project) => (
+                      <option key={project.id} value={project.id}>
+                        {project.name} - {project.location}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
 
               <div>
                 <textarea
