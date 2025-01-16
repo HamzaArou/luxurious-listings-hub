@@ -14,7 +14,7 @@ const NewsCard = memo(({ title, description, image, scale, opacity }: NewsCardPr
     <div 
       className={cn(
         "relative group overflow-hidden transition-all duration-500",
-        "rounded-2xl aspect-[3/4]"
+        "rounded-2xl aspect-[4/5]"
       )}
       style={{
         opacity,
@@ -22,8 +22,8 @@ const NewsCard = memo(({ title, description, image, scale, opacity }: NewsCardPr
         willChange: 'opacity, transform'
       }}
     >
-      {/* Image Container - Takes up 50% of the height instead of 60% */}
-      <div className="relative h-[50%] w-full overflow-hidden">
+      {/* Image Container - Takes up 55% of the height for better image display */}
+      <div className="relative h-[55%] w-full overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
           style={{ 
@@ -34,8 +34,8 @@ const NewsCard = memo(({ title, description, image, scale, opacity }: NewsCardPr
         <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/20 to-transparent" />
       </div>
       
-      {/* Text Container - Now 50% height with better text handling */}
-      <div className="h-[50%] p-4 bg-white overflow-y-auto">
+      {/* Text Container - Now 45% height with better text handling */}
+      <div className="h-[45%] p-4 bg-white overflow-y-auto">
         <div className="flex flex-col justify-start text-right h-full">
           <h3 className="text-lg md:text-xl font-bold text-darkBlue mb-2">
             {title}
