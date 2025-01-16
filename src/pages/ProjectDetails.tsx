@@ -44,6 +44,7 @@ export default function ProjectDetails() {
   const { data: project, isLoading, error } = useQuery({
     queryKey: ['project', id],
     queryFn: async () => {
+      // First validate the UUID format
       const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
       if (!id || !uuidPattern.test(id)) {
         throw new Error('Invalid project ID format');
@@ -57,7 +58,7 @@ export default function ProjectDetails() {
           project_images(*)
         `)
         .eq('id', id)
-        .single();
+        .maybeSingle();
 
       if (projectError) throw projectError;
       if (!project) throw new Error('Project not found');
