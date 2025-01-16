@@ -43,7 +43,8 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
     setIsSubmitting(true);
 
     try {
-      const { error } = await supabase
+      // First, save to Supabase as before
+      const { error: supabaseError } = await supabase
         .from('interest_forms')
         .insert([
           {
@@ -54,7 +55,19 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
           }
         ]);
 
-      if (error) throw error;
+      if (supabaseError) throw supabaseError;
+
+      // Then, send email using our Edge Function
+      const { error: emailError } = await supabase.functions.invoke('send-contact-email', {
+        body: {
+          name: formData.name,
+          phone: formData.phone,
+          message: formData.message,
+          selectedProject: projectName || formData.selectedProject,
+        },
+      });
+
+      if (emailError) throw emailError;
 
       toast({
         title: "تم إرسال الطلب بنجاح",
@@ -68,6 +81,7 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
         selectedProject: "",
       });
     } catch (error) {
+      console.error('Error submitting form:', error);
       toast({
         title: "حدث خطأ",
         description: "الرجاء المحاولة مرة أخرى",
