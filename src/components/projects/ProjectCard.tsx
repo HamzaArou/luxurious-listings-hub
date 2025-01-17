@@ -48,10 +48,15 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
     navigate(`/project/${project.id}`);
   }, [navigate, project.id]);
 
-  const imageUrl = supabase.storage
-    .from('project-images')
-    .getPublicUrl(project.thumbnail_url.replace('project-images/', ''))
-    .data.publicUrl;
+  // Get the public URL directly from the thumbnail_url
+  const imageUrl = project.thumbnail_url.startsWith('http') 
+    ? project.thumbnail_url 
+    : supabase.storage
+        .from('project-images')
+        .getPublicUrl(project.thumbnail_url)
+        .data.publicUrl;
+
+  console.log('Project Card Image URL:', imageUrl);
 
   return (
     <div 
