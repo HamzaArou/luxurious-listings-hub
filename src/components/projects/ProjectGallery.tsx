@@ -104,15 +104,17 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
             align: "start",
             loop: true,
             dragFree: true,
-            containScroll: "trimSnaps",
+            containScroll: false,
+            skipSnaps: true,
+            inViewThreshold: 0.7,
           }}
           className="w-full relative"
         >
-          <CarouselContent className="-ml-2 md:-ml-4">
+          <CarouselContent className="-ml-2 md:-ml-4 flex-nowrap">
             {galleryMedia.map((media) => (
               <CarouselItem 
                 key={media.id} 
-                className="pl-2 md:pl-4 basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4"
+                className="pl-2 md:pl-4 basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4 shrink-0"
               >
                 <button
                   onClick={() => setSelectedMedia(media)}
