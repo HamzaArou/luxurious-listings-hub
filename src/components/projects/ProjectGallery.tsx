@@ -91,9 +91,9 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
   };
 
   return (
-    <div className="w-full bg-gray-50 rounded-3xl overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-        <div className="text-center mb-4">
+    <div className="w-full bg-gray-50">
+      <div className="max-w-7xl mx-auto px-0">
+        <div className="text-center mb-4 pt-8">
           <p className="text-sm text-gray-600 rtl">
             {galleryMedia.length} صور وفيديوهات متاحة - اسحب للمزيد
           </p>
@@ -106,22 +106,21 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
             dragFree: true,
             containScroll: false,
             skipSnaps: true,
-            inViewThreshold: 0.7,
+            inViewThreshold: 1,
           }}
-          className="w-full relative"
+          className="w-full"
         >
-          <CarouselContent className="-ml-2 md:-ml-4 flex-nowrap">
+          <CarouselContent className="flex">
             {galleryMedia.map((media) => (
               <CarouselItem 
                 key={media.id} 
-                className="pl-2 md:pl-4 basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4 shrink-0"
+                className="basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4 min-w-0 pl-0"
               >
                 <button
                   onClick={() => setSelectedMedia(media)}
                   className={cn(
-                    "w-full aspect-square rounded-2xl overflow-hidden",
+                    "w-full aspect-square overflow-hidden",
                     "transition-all duration-300",
-                    "shadow-md hover:shadow-xl",
                     "relative group"
                   )}
                 >
@@ -133,10 +132,10 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
           </CarouselContent>
           
           <CarouselPrevious 
-            className="absolute left-4 top-1/2 -translate-y-1/2 h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-white/90 shadow-lg hover:bg-white transition-colors border-none" 
+            className="absolute left-2 top-1/2 -translate-y-1/2 h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-white/90 shadow-lg hover:bg-white transition-colors border-none z-10" 
           />
           <CarouselNext 
-            className="absolute right-4 top-1/2 -translate-y-1/2 h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-white/90 shadow-lg hover:bg-white transition-colors border-none" 
+            className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-white/90 shadow-lg hover:bg-white transition-colors border-none z-10" 
           />
         </Carousel>
       </div>
