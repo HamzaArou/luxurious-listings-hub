@@ -103,7 +103,11 @@ export default function ProjectDetails() {
     return <NotFound />;
   }
 
-  const thumbnailUrl = project.thumbnail_url;
+  const thumbnailUrl = supabase.storage
+    .from('project-images')
+    .getPublicUrl(project.thumbnail_url.replace('project-images/', ''))
+    .data.publicUrl;
+
   const galleryImages = (project.project_images || []) as ProjectMedia[];
 
   return (
@@ -122,9 +126,8 @@ export default function ProjectDetails() {
               <img
                 src={thumbnailUrl}
                 alt={project.name}
-                className="w-full h-full object-contain"
+                className="w-full h-full object-cover"
                 loading="lazy"
-                decoding="async"
               />
             </div>
           </div>
