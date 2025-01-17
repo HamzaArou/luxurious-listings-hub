@@ -113,7 +113,7 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
             {galleryMedia.map((media) => (
               <CarouselItem 
                 key={media.id} 
-                className="pl-0 basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4 shrink-0"
+                className="pl-0 basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4 shrink-0 grow-0"
               >
                 <button
                   onClick={() => setSelectedMedia(media)}
