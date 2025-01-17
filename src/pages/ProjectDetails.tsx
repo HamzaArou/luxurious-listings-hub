@@ -44,8 +44,11 @@ export default function ProjectDetails() {
     queryKey: ['project', id],
     queryFn: async () => {
       if (!id) {
+        console.error('No project ID provided');
         throw new Error('Project ID is required');
       }
+
+      console.log('Fetching project with ID:', id);
 
       try {
         const { data: project, error: projectError } = await supabase
@@ -59,21 +62,24 @@ export default function ProjectDetails() {
           .maybeSingle();
 
         if (projectError) {
-          console.error('Error fetching project:', projectError);
+          console.error('Supabase error:', projectError);
           throw projectError;
         }
 
         if (!project) {
+          console.error('Project not found for ID:', id);
           throw new Error('Project not found');
         }
 
+        console.log('Project data retrieved:', project);
         return project;
       } catch (error) {
         console.error('Error in query function:', error);
         throw error;
       }
     },
-    retry: 1,
+    retry: 2,
+    retryDelay: 1000,
     staleTime: 1000 * 60 * 5, // Cache for 5 minutes
     gcTime: 1000 * 60 * 30, // Keep in cache for 30 minutes
   });
