@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
 import { Play } from "lucide-react";
@@ -91,7 +91,7 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
   };
 
   return (
-    <div className="w-full bg-gray-50">
+    <div className="w-full">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-4 px-4">
           <p className="text-sm text-gray-600 rtl">
@@ -107,13 +107,13 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
             skipSnaps: true,
             containScroll: false,
           }}
-          className="w-full"
+          className="relative w-full"
         >
           <CarouselContent className="-ml-0 flex-nowrap">
             {galleryMedia.map((media) => (
               <CarouselItem 
                 key={media.id} 
-                className="pl-0 basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4"
+                className="pl-0 basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4 shrink-0"
               >
                 <button
                   onClick={() => setSelectedMedia(media)}
@@ -141,6 +141,7 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
 
       <Dialog open={!!selectedMedia} onOpenChange={() => setSelectedMedia(null)}>
         <DialogContent className="max-w-4xl w-[95vw] p-0 overflow-hidden bg-black/95">
+          <DialogTitle className="sr-only">معرض الصور</DialogTitle>
           <div className="relative w-full aspect-video">
             {selectedMedia && renderMediaDialog(selectedMedia)}
           </div>
