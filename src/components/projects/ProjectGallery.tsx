@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
 import { Play } from "lucide-react";
@@ -19,6 +19,8 @@ interface ProjectGalleryProps {
 export default function ProjectGallery({ images }: ProjectGalleryProps) {
   const [selectedMedia, setSelectedMedia] = useState<ProjectMedia | null>(null);
   const galleryMedia = images.filter(img => img.content_type === 'gallery');
+
+  console.log('Gallery media items:', galleryMedia);
 
   const getPublicUrl = (mediaUrl: string) => {
     if (mediaUrl.startsWith('http')) {
@@ -90,7 +92,7 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
 
   return (
     <div className="w-full bg-gray-50 rounded-3xl overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         <div className="text-center mb-4">
           <p className="text-sm text-gray-600 rtl">
             {galleryMedia.length} صور وفيديوهات متاحة - اسحب للمزيد
@@ -101,13 +103,13 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
           opts={{
             align: "start",
             loop: true,
-            skipSnaps: false,
+            dragFree: true,
             containScroll: "trimSnaps",
           }}
-          className="w-full"
+          className="w-full relative"
         >
           <CarouselContent className="-ml-2 md:-ml-4">
-            {galleryMedia.map((media, index) => (
+            {galleryMedia.map((media) => (
               <CarouselItem 
                 key={media.id} 
                 className="pl-2 md:pl-4 basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4"
@@ -128,20 +130,17 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
             ))}
           </CarouselContent>
           
-          <div className="absolute -left-3 -right-3 top-1/2 -translate-y-1/2 flex items-center justify-between pointer-events-none">
-            <CarouselPrevious 
-              className="pointer-events-auto relative right-0 h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-white shadow-lg opacity-90 hover:opacity-100 transition-all border-none" 
-            />
-            <CarouselNext 
-              className="pointer-events-auto relative left-0 h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-white shadow-lg opacity-90 hover:opacity-100 transition-all border-none" 
-            />
-          </div>
+          <CarouselPrevious 
+            className="absolute left-4 top-1/2 -translate-y-1/2 h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-white/90 shadow-lg hover:bg-white transition-colors border-none" 
+          />
+          <CarouselNext 
+            className="absolute right-4 top-1/2 -translate-y-1/2 h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-white/90 shadow-lg hover:bg-white transition-colors border-none" 
+          />
         </Carousel>
       </div>
 
       <Dialog open={!!selectedMedia} onOpenChange={() => setSelectedMedia(null)}>
         <DialogContent className="max-w-4xl w-full p-0 overflow-hidden bg-black/95">
-          <DialogTitle className="sr-only">Media Preview</DialogTitle>
           <div className="relative w-full aspect-video">
             {selectedMedia && renderMediaDialog(selectedMedia)}
           </div>
