@@ -20,18 +20,16 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   const getPublicUrl = (mediaUrl: string) => {
+    if (!mediaUrl) return '';
+    
     // If it's already a full URL, return it
     if (mediaUrl.startsWith('http')) {
       return mediaUrl;
     }
     
-    // Clean up the URL by removing any potential 'project-images/' prefix
-    const cleanPath = mediaUrl.replace('project-images/', '');
-    
-    // Get the public URL using Supabase storage
     const { data: { publicUrl } } = supabase.storage
       .from('project-images')
-      .getPublicUrl(cleanPath);
+      .getPublicUrl(mediaUrl);
       
     console.log('Generated public URL:', publicUrl);
     return publicUrl;
@@ -45,13 +43,16 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
     setCurrentIndex((prev) => (prev === galleryMedia.length - 1 ? 0 : prev + 1));
   };
 
-  if (galleryMedia.length === 0) {
+  if (!galleryMedia || galleryMedia.length === 0) {
     return (
       <div className="text-center py-8">
         <p className="text-gray-500">لا توجد وسائط متاحة</p>
       </div>
     );
   }
+
+  console.log('Total gallery media:', galleryMedia.length);
+  console.log('Current media:', galleryMedia[currentIndex]);
 
   return (
     <section className="py-12 relative">
@@ -82,12 +83,20 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
                     onClick={() => setSelectedMedia(media)}
                     className="w-full aspect-video relative group overflow-hidden rounded-lg"
                   >
-                    <img
-                      src={getPublicUrl(media.media_url)}
-                      alt=""
-                      className="w-full h-full object-cover"
-                      loading="lazy"
-                    />
+                    {media.media_type === 'video' ? (
+                      <video
+                        src={getPublicUrl(media.media_url)}
+                        className="w-full h-full object-cover"
+                        controls
+                      />
+                    ) : (
+                      <img
+                        src={getPublicUrl(media.media_url)}
+                        alt=""
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                    )}
                     <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </button>
                 </div>
@@ -124,11 +133,19 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
           </button>
           <div className="relative w-full aspect-video">
             {selectedMedia && (
-              <img
-                src={getPublicUrl(selectedMedia.media_url)}
-                alt=""
-                className="w-full h-full object-contain"
-              />
+              selectedMedia.media_type === 'video' ? (
+                <video
+                  src={getPublicUrl(selectedMedia.media_url)}
+                  controls
+                  className="w-full h-full object-contain"
+                />
+              ) : (
+                <img
+                  src={getPublicUrl(selectedMedia.media_url)}
+                  alt=""
+                  className="w-full h-full object-contain"
+                />
+              )
             )}
           </div>
         </DialogContent>
