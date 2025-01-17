@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { cn } from "@/lib/utils";
-import { Play } from "lucide-react";
+import { ChevronLeft, ChevronRight, Play, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 interface ProjectMedia {
@@ -19,6 +17,7 @@ interface ProjectGalleryProps {
 export default function ProjectGallery({ images }: ProjectGalleryProps) {
   const [selectedMedia, setSelectedMedia] = useState<ProjectMedia | null>(null);
   const galleryMedia = images.filter(img => img.content_type === 'gallery');
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   console.log('Gallery media items:', galleryMedia);
 
@@ -30,6 +29,14 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
       .from('project-images')
       .getPublicUrl(mediaUrl.replace('project-images/', ''))
       .data.publicUrl;
+  };
+
+  const handlePrevious = () => {
+    setCurrentIndex((prev) => (prev === 0 ? galleryMedia.length - 1 : prev - 1));
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev === galleryMedia.length - 1 ? 0 : prev + 1));
   };
 
   if (galleryMedia.length === 0) {
@@ -63,7 +70,6 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
         alt=""
         className="w-full h-full object-cover"
         loading="lazy"
-        decoding="async"
       />
     );
   };
@@ -91,62 +97,79 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
   };
 
   return (
-    <div className="w-full">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-4">
-          <p className="text-sm text-gray-600 rtl">
-            {galleryMedia.length} صور وفيديوهات متاحة - اسحب للمزيد
-          </p>
+    <section className="py-12 bg-[#f5f5f5] relative">
+      <div className="container mx-auto px-4">
+        <div className="mb-6 text-right">
+          <h2 className="text-3xl font-bold text-white inline-block bg-darkBlue px-4 py-2 rounded-tl-[100px] rounded-tr-[5px] rounded-br-[100px] rounded-bl-[5px]">
+            معرض الصور والفيديو
+          </h2>
         </div>
         
-        <Carousel
-          opts={{
-            align: "start",
-            loop: true,
-            dragFree: true,
-            skipSnaps: false,
-            containScroll: "trimSnaps",
-          }}
-          className="relative w-full"
-        >
-          <CarouselContent className="-ml-0 flex-nowrap">
-            {galleryMedia.map((media) => (
-              <CarouselItem 
-                key={media.id} 
-                className="pl-0 basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4 grow-0 shrink-0"
-              >
-                <button
-                  onClick={() => setSelectedMedia(media)}
-                  className={cn(
-                    "w-full aspect-square overflow-hidden",
-                    "transition-all duration-300",
-                    "relative group"
-                  )}
+        <div className="relative mx-16">
+          <button 
+            onClick={handlePrevious}
+            className="absolute -left-16 top-1/2 -translate-y-1/2 z-10 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition-colors duration-300"
+            aria-label="Previous"
+          >
+            <ChevronLeft className="h-6 w-6 text-gray-600" />
+          </button>
+
+          <div className="overflow-hidden">
+            <div className="flex gap-8 px-4">
+              {galleryMedia.map((media, index) => (
+                <div
+                  key={media.id}
+                  className={`flex-shrink-0 bg-white rounded-lg p-4 w-72 h-72 flex items-center justify-center transform transition-all duration-300 ${
+                    index === currentIndex ? 'scale-100 opacity-100' : 'scale-95 opacity-50'
+                  }`}
+                  style={{
+                    transform: `translateX(${(index - currentIndex) * 100}%)`,
+                    transition: 'transform 0.3s ease-in-out',
+                  }}
                 >
-                  {renderMediaPreview(media)}
-                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </button>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          
-          <CarouselPrevious 
-            className="absolute left-2 top-1/2 -translate-y-1/2 h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-white/90 shadow-lg hover:bg-white transition-colors border-none z-10" 
-          />
-          <CarouselNext 
-            className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-white/90 shadow-lg hover:bg-white transition-colors border-none z-10" 
-          />
-        </Carousel>
+                  <button
+                    onClick={() => setSelectedMedia(media)}
+                    className="w-full h-full relative group overflow-hidden rounded-lg"
+                  >
+                    {renderMediaPreview(media)}
+                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <button 
+            onClick={handleNext}
+            className="absolute -right-16 top-1/2 -translate-y-1/2 z-10 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition-colors duration-300"
+            aria-label="Next"
+          >
+            <ChevronRight className="h-6 w-6 text-gray-600" />
+          </button>
+        </div>
+
+        <div className="text-center mt-6">
+          <p className="text-sm text-gray-600 rtl">
+            {currentIndex + 1} من {galleryMedia.length} - اضغط على الصورة لعرضها بالحجم الكامل
+          </p>
+        </div>
       </div>
 
       <Dialog open={!!selectedMedia} onOpenChange={() => setSelectedMedia(null)}>
         <DialogContent className="max-w-4xl w-[95vw] p-0 overflow-hidden bg-black/95">
           <DialogTitle className="sr-only">معرض الصور</DialogTitle>
+          <button
+            onClick={() => setSelectedMedia(null)}
+            className="absolute right-4 top-4 z-50 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
+          >
+            <X className="h-4 w-4 text-white" />
+            <span className="sr-only">Close</span>
+          </button>
           <div className="relative w-full aspect-video">
             {selectedMedia && renderMediaDialog(selectedMedia)}
           </div>
         </DialogContent>
       </Dialog>
-    </div>
+    </section>
   );
 }
