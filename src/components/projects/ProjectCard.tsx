@@ -48,15 +48,15 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
     navigate(`/project/${project.id}`);
   }, [navigate, project.id]);
 
-  // Get the public URL directly from the thumbnail_url
-  const imageUrl = project.thumbnail_url.startsWith('http') 
+  // Get the public URL for the thumbnail
+  const thumbnailUrl = project.thumbnail_url.startsWith('http') 
     ? project.thumbnail_url 
     : supabase.storage
         .from('project-images')
         .getPublicUrl(project.thumbnail_url)
         .data.publicUrl;
 
-  console.log('Project Card Image URL:', imageUrl);
+  console.log('Project Card Thumbnail URL:', thumbnailUrl);
 
   return (
     <div 
@@ -68,12 +68,12 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
       <Card className="overflow-hidden bg-white rounded-[20px] shadow-lg hover:shadow-xl transition-all duration-300 transform group-hover:scale-[1.02] h-full flex flex-col">
         <div className="relative h-[320px] bg-gray-100">
           <img
-            src={imageUrl}
+            src={thumbnailUrl}
             alt={project.name}
             className="w-full h-full object-cover"
             loading="lazy"
             decoding="async"
-            fetchPriority="low"
+            fetchPriority="high"
           />
           <Badge 
             className={`absolute top-4 left-4 px-4 py-1 rounded-full text-sm font-medium ${getStatusColor(project.status)}`}
