@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { ChevronLeft, ChevronRight, Play, X } from "lucide-react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 interface ProjectMedia {
@@ -20,13 +20,21 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   const getPublicUrl = (mediaUrl: string) => {
+    // If it's already a full URL, return it
     if (mediaUrl.startsWith('http')) {
       return mediaUrl;
     }
-    return supabase.storage
+    
+    // Clean up the URL by removing any potential 'project-images/' prefix
+    const cleanPath = mediaUrl.replace('project-images/', '');
+    
+    // Get the public URL using Supabase storage
+    const { data: { publicUrl } } = supabase.storage
       .from('project-images')
-      .getPublicUrl(mediaUrl.replace('project-images/', ''))
-      .data.publicUrl;
+      .getPublicUrl(cleanPath);
+      
+    console.log('Generated public URL:', publicUrl);
+    return publicUrl;
   };
 
   const handlePrevious = () => {
@@ -74,25 +82,12 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
                     onClick={() => setSelectedMedia(media)}
                     className="w-full aspect-video relative group overflow-hidden rounded-lg"
                   >
-                    {media.media_type === 'video' ? (
-                      <>
-                        <video
-                          src={getPublicUrl(media.media_url)}
-                          className="w-full h-full object-cover"
-                          controls={false}
-                        />
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <Play className="w-12 h-12 text-white opacity-80" />
-                        </div>
-                      </>
-                    ) : (
-                      <img
-                        src={getPublicUrl(media.media_url)}
-                        alt=""
-                        className="w-full h-full object-cover"
-                        loading="lazy"
-                      />
-                    )}
+                    <img
+                      src={getPublicUrl(media.media_url)}
+                      alt=""
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
                     <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </button>
                 </div>
@@ -120,7 +115,6 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
       {/* Fullscreen Dialog */}
       <Dialog open={!!selectedMedia} onOpenChange={() => setSelectedMedia(null)}>
         <DialogContent className="max-w-4xl w-[95vw] p-0 overflow-hidden bg-black/95">
-          <DialogTitle className="sr-only">معرض الصور</DialogTitle>
           <button
             onClick={() => setSelectedMedia(null)}
             className="absolute right-4 top-4 z-50 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
@@ -129,16 +123,9 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
             <span className="sr-only">Close</span>
           </button>
           <div className="relative w-full aspect-video">
-            {selectedMedia?.media_type === 'video' ? (
-              <video
-                src={getPublicUrl(selectedMedia.media_url)}
-                className="w-full h-full"
-                controls
-                autoPlay
-              />
-            ) : (
+            {selectedMedia && (
               <img
-                src={selectedMedia ? getPublicUrl(selectedMedia.media_url) : ''}
+                src={getPublicUrl(selectedMedia.media_url)}
                 alt=""
                 className="w-full h-full object-contain"
               />
