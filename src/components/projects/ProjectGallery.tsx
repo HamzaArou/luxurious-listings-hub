@@ -48,13 +48,6 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
   return (
     <section className="py-12 relative">
       <div className="container mx-auto px-4">
-        {/* Title */}
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold text-white inline-block bg-black px-6 py-3 rounded-tl-[30px] rounded-tr-[5px] rounded-br-[30px] rounded-bl-[5px]">
-            معرض الصور والفيديو
-          </h2>
-        </div>
-
         {/* Gallery */}
         <div className="relative max-w-4xl mx-auto">
           {/* Navigation Buttons */}
