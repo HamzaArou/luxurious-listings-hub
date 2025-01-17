@@ -3,6 +3,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
 import { Play } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 interface ProjectMedia {
   id: string;
@@ -19,6 +20,18 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
   const [selectedMedia, setSelectedMedia] = useState<ProjectMedia | null>(null);
   const galleryMedia = images.filter(img => img.content_type === 'gallery');
 
+  const getPublicUrl = (mediaUrl: string) => {
+    // If the URL is already a full URL, return it
+    if (mediaUrl.startsWith('http')) {
+      return mediaUrl;
+    }
+    // Otherwise, get the public URL from Supabase storage
+    return supabase.storage
+      .from('project-images')
+      .getPublicUrl(mediaUrl.replace('project-images/', ''))
+      .data.publicUrl;
+  };
+
   if (galleryMedia.length === 0) {
     return (
       <div className="text-center py-8">
@@ -28,11 +41,13 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
   }
 
   const renderMediaPreview = (media: ProjectMedia) => {
+    const publicUrl = getPublicUrl(media.media_url);
+    
     if (media.media_type === 'video') {
       return (
         <div className="relative w-full h-full">
           <video
-            src={media.media_url}
+            src={publicUrl}
             className="w-full h-full object-cover"
             controls={false}
           />
@@ -44,7 +59,7 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
     }
     return (
       <img
-        src={media.media_url}
+        src={publicUrl}
         alt=""
         className="w-full h-full object-cover"
         loading="lazy"
@@ -54,10 +69,12 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
   };
 
   const renderMediaDialog = (media: ProjectMedia) => {
+    const publicUrl = getPublicUrl(media.media_url);
+    
     if (media.media_type === 'video') {
       return (
         <video
-          src={media.media_url}
+          src={publicUrl}
           className="w-full h-full"
           controls
           autoPlay
@@ -66,7 +83,7 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
     }
     return (
       <img
-        src={media.media_url}
+        src={publicUrl}
         alt=""
         className="w-full h-full object-contain"
       />
