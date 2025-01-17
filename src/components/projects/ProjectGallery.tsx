@@ -21,11 +21,9 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
   const galleryMedia = images.filter(img => img.content_type === 'gallery');
 
   const getPublicUrl = (mediaUrl: string) => {
-    // If the URL is already a full URL, return it
     if (mediaUrl.startsWith('http')) {
       return mediaUrl;
     }
-    // Otherwise, get the public URL from Supabase storage
     return supabase.storage
       .from('project-images')
       .getPublicUrl(mediaUrl.replace('project-images/', ''))
@@ -92,34 +90,50 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
 
   return (
     <>
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl mx-auto relative">
+        {galleryMedia.length > 1 && (
+          <div className="text-center mb-4">
+            <p className="text-sm text-gray-500">
+              {galleryMedia.length} صور وفيديوهات متاحة - اسحب للمزيد
+            </p>
+          </div>
+        )}
+        
         <Carousel
           opts={{
             align: "start",
             loop: true,
           }}
-          className="w-full"
+          className="w-full relative"
         >
           <CarouselContent className="-ml-2 md:-ml-4">
             {galleryMedia.map((media) => (
               <CarouselItem 
                 key={media.id} 
-                className="pl-2 md:pl-4 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4"
+                className="pl-2 md:pl-4 basis-full sm:basis-1/2 md:basis-1/3"
               >
                 <button
                   onClick={() => setSelectedMedia(media)}
                   className={cn(
                     "w-full aspect-square rounded-lg overflow-hidden",
                     "transition-all duration-300 hover:shadow-[0_0_15px_rgba(14,165,233,0.3)]",
+                    "relative group"
                   )}
                 >
                   {renderMediaPreview(media)}
+                  <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300" />
                 </button>
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="hidden md:flex" />
-          <CarouselNext className="hidden md:flex" />
+          <div className="absolute -left-12 -right-12 top-0 bottom-0 flex items-center justify-between pointer-events-none">
+            <CarouselPrevious 
+              className="pointer-events-auto relative left-0 h-8 w-8 rounded-full opacity-70 hover:opacity-100 transition-opacity" 
+            />
+            <CarouselNext 
+              className="pointer-events-auto relative right-0 h-8 w-8 rounded-full opacity-70 hover:opacity-100 transition-opacity" 
+            />
+          </div>
         </Carousel>
       </div>
 
