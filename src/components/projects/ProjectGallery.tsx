@@ -20,20 +20,17 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   const getPublicUrl = (mediaUrl: string) => {
-    if (!mediaUrl) {
-      console.error('No media URL provided');
-      return '';
-    }
-
+    if (!mediaUrl) return '';
+    
+    // If it's already a full URL, return it
     if (mediaUrl.startsWith('http')) {
       return mediaUrl;
     }
-
+    
     const { data: { publicUrl } } = supabase.storage
       .from('project-images')
       .getPublicUrl(mediaUrl);
-
-    console.log('Media URL:', mediaUrl);
+      
     console.log('Generated public URL:', publicUrl);
     return publicUrl;
   };
@@ -47,7 +44,6 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
   };
 
   if (!galleryMedia || galleryMedia.length === 0) {
-    console.log('No gallery media found');
     return (
       <div className="text-center py-8">
         <p className="text-gray-500">لا توجد وسائط متاحة</p>
@@ -61,7 +57,9 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
   return (
     <section className="py-12 relative">
       <div className="container mx-auto px-4">
+        {/* Gallery */}
         <div className="relative max-w-4xl mx-auto">
+          {/* Navigation Buttons */}
           <button
             onClick={handlePrevious}
             className="absolute -right-4 sm:-right-12 top-1/2 -translate-y-1/2 z-10 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition-colors duration-300"
@@ -70,43 +68,39 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
             <ChevronRight className="h-6 w-6 text-gray-600" />
           </button>
 
+          {/* Gallery Container */}
           <div className="overflow-hidden partners-carousel">
             <div className="flex rtl">
-              {galleryMedia.map((media, index) => {
-                const mediaUrl = getPublicUrl(media.media_url);
-                console.log(`Media ${index + 1}:`, { id: media.id, url: mediaUrl, type: media.media_type });
-                
-                return (
-                  <div
-                    key={media.id}
-                    className={`w-full flex-shrink-0 transition-all duration-300 px-2`}
-                    style={{
-                      transform: `translateX(${(index - currentIndex) * 100}%)`,
-                    }}
+              {galleryMedia.map((media, index) => (
+                <div
+                  key={media.id}
+                  className={`w-full flex-shrink-0 transition-all duration-300 px-2`}
+                  style={{
+                    transform: `translateX(${(index - currentIndex) * 100}%)`,
+                  }}
+                >
+                  <button
+                    onClick={() => setSelectedMedia(media)}
+                    className="w-full aspect-video relative group overflow-hidden rounded-lg"
                   >
-                    <button
-                      onClick={() => setSelectedMedia(media)}
-                      className="w-full aspect-video relative group overflow-hidden rounded-lg"
-                    >
-                      {media.media_type === 'video' ? (
-                        <video
-                          src={mediaUrl}
-                          className="w-full h-full object-cover"
-                          controls
-                        />
-                      ) : (
-                        <img
-                          src={mediaUrl}
-                          alt=""
-                          className="w-full h-full object-cover"
-                          loading="lazy"
-                        />
-                      )}
-                      <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </button>
-                  </div>
-                );
-              })}
+                    {media.media_type === 'video' ? (
+                      <video
+                        src={getPublicUrl(media.media_url)}
+                        className="w-full h-full object-cover"
+                        controls
+                      />
+                    ) : (
+                      <img
+                        src={getPublicUrl(media.media_url)}
+                        alt=""
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                    )}
+                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </button>
+                </div>
+              ))}
             </div>
           </div>
 
@@ -119,6 +113,7 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
           </button>
         </div>
 
+        {/* Counter */}
         <div className="text-center mt-6">
           <p className="text-sm text-gray-600 rtl">
             {currentIndex + 1} من {galleryMedia.length} - اضغط على الصورة لعرضها بالحجم الكامل
@@ -126,6 +121,7 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
         </div>
       </div>
 
+      {/* Fullscreen Dialog */}
       <Dialog open={!!selectedMedia} onOpenChange={() => setSelectedMedia(null)}>
         <DialogContent className="max-w-4xl w-[95vw] p-0 overflow-hidden bg-black/95">
           <button
