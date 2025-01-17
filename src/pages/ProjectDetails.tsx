@@ -49,27 +49,8 @@ export default function ProjectDetails() {
       }
 
       console.log('Fetching project with ID:', id);
-      console.log('Supabase client status:', !!supabase);
 
       try {
-        // First, try to fetch just the project to verify it exists
-        const { data: projectExists, error: existsError } = await supabase
-          .from('projects')
-          .select('id')
-          .eq('id', id)
-          .maybeSingle();
-
-        if (existsError) {
-          console.error('Error checking project existence:', existsError);
-          throw existsError;
-        }
-
-        if (!projectExists) {
-          console.error('Project not found for ID:', id);
-          throw new Error('Project not found');
-        }
-
-        // Now fetch the full project data with related tables
         const { data: project, error: projectError } = await supabase
           .from('projects')
           .select(`
@@ -86,8 +67,8 @@ export default function ProjectDetails() {
         }
 
         if (!project) {
-          console.error('Project details not found for ID:', id);
-          throw new Error('Project details not found');
+          console.error('Project not found for ID:', id);
+          return null;
         }
 
         console.log('Project data retrieved:', project);
@@ -97,7 +78,7 @@ export default function ProjectDetails() {
         throw error;
       }
     },
-    retry: 2,
+    retry: 1,
     retryDelay: 1000,
     staleTime: 1000 * 60 * 5, // Cache for 5 minutes
     gcTime: 1000 * 60 * 30, // Keep in cache for 30 minutes
@@ -116,7 +97,7 @@ export default function ProjectDetails() {
     );
   }
 
-  // Show error state
+  // Show error or not found state
   if (error || !project) {
     console.error('Project details error:', error);
     return <NotFound />;

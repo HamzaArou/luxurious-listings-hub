@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Index from "@/pages/Index";
 import ProjectDetails from "@/pages/ProjectDetails";
 import AdminLogin from "@/pages/AdminLogin";
@@ -15,7 +15,10 @@ function App() {
       <FloatingContact />
       <Routes>
         <Route path="/" element={<Index />} />
-        <Route path="/project/:id" element={<ProjectDetails />} />
+        <Route path="/project">
+          <Route index element={<Navigate to="/" replace />} />
+          <Route path=":id" element={<ProjectDetails />} />
+        </Route>
         <Route path="/admin" element={<AdminLogin />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/project/new" element={<ProjectForm />} />
