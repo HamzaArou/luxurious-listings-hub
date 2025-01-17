@@ -93,7 +93,7 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
   return (
     <div className="w-full">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-4 px-4">
+        <div className="text-center mb-4">
           <p className="text-sm text-gray-600 rtl">
             {galleryMedia.length} صور وفيديوهات متاحة - اسحب للمزيد
           </p>
@@ -104,8 +104,8 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
             align: "start",
             loop: true,
             dragFree: true,
-            skipSnaps: true,
-            containScroll: false,
+            skipSnaps: false,
+            containScroll: "trimSnaps",
           }}
           className="relative w-full"
         >
@@ -113,7 +113,7 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
             {galleryMedia.map((media) => (
               <CarouselItem 
                 key={media.id} 
-                className="pl-0 basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4 shrink-0 grow-0"
+                className="pl-0 basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4 grow-0 shrink-0"
               >
                 <button
                   onClick={() => setSelectedMedia(media)}
