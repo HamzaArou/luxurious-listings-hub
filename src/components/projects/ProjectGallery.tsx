@@ -19,8 +19,6 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
   const galleryMedia = images.filter(img => img.content_type === 'gallery');
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
-  console.log('Gallery media items:', galleryMedia);
-
   const getPublicUrl = (mediaUrl: string) => {
     if (mediaUrl.startsWith('http')) {
       return mediaUrl;
@@ -47,91 +45,61 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
     );
   }
 
-  const renderMediaPreview = (media: ProjectMedia) => {
-    const publicUrl = getPublicUrl(media.media_url);
-    
-    if (media.media_type === 'video') {
-      return (
-        <div className="relative w-full h-full">
-          <video
-            src={publicUrl}
-            className="w-full h-full object-cover"
-            controls={false}
-          />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <Play className="w-12 h-12 text-white opacity-80" />
-          </div>
-        </div>
-      );
-    }
-    return (
-      <img
-        src={publicUrl}
-        alt=""
-        className="w-full h-full object-cover"
-        loading="lazy"
-      />
-    );
-  };
-
-  const renderMediaDialog = (media: ProjectMedia) => {
-    const publicUrl = getPublicUrl(media.media_url);
-    
-    if (media.media_type === 'video') {
-      return (
-        <video
-          src={publicUrl}
-          className="w-full h-full"
-          controls
-          autoPlay
-        />
-      );
-    }
-    return (
-      <img
-        src={publicUrl}
-        alt=""
-        className="w-full h-full object-contain"
-      />
-    );
-  };
-
   return (
-    <section className="py-12 bg-[#f5f5f5] relative">
+    <section className="py-12 relative">
       <div className="container mx-auto px-4">
-        <div className="mb-6 text-right">
-          <h2 className="text-3xl font-bold text-white inline-block bg-darkBlue px-4 py-2 rounded-tl-[100px] rounded-tr-[5px] rounded-br-[100px] rounded-bl-[5px]">
+        {/* Title */}
+        <div className="mb-8">
+          <h2 className="text-3xl font-bold text-white inline-block bg-black px-6 py-3 rounded-tl-[30px] rounded-tr-[5px] rounded-br-[30px] rounded-bl-[5px]">
             معرض الصور والفيديو
           </h2>
         </div>
-        
-        <div className="relative mx-16">
-          <button 
+
+        {/* Gallery */}
+        <div className="relative max-w-4xl mx-auto">
+          {/* Navigation Buttons */}
+          <button
             onClick={handlePrevious}
-            className="absolute -left-16 top-1/2 -translate-y-1/2 z-10 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition-colors duration-300"
+            className="absolute -right-4 sm:-right-12 top-1/2 -translate-y-1/2 z-10 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition-colors duration-300"
             aria-label="Previous"
           >
-            <ChevronLeft className="h-6 w-6 text-gray-600" />
+            <ChevronRight className="h-6 w-6 text-gray-600" />
           </button>
 
-          <div className="overflow-hidden">
-            <div className="flex gap-8 px-4">
+          {/* Gallery Container */}
+          <div className="overflow-hidden partners-carousel">
+            <div className="flex rtl">
               {galleryMedia.map((media, index) => (
                 <div
                   key={media.id}
-                  className={`flex-shrink-0 bg-white rounded-lg p-4 w-72 h-72 flex items-center justify-center transform transition-all duration-300 ${
-                    index === currentIndex ? 'scale-100 opacity-100' : 'scale-95 opacity-50'
-                  }`}
+                  className={`w-full flex-shrink-0 transition-all duration-300 px-2`}
                   style={{
                     transform: `translateX(${(index - currentIndex) * 100}%)`,
-                    transition: 'transform 0.3s ease-in-out',
                   }}
                 >
                   <button
                     onClick={() => setSelectedMedia(media)}
-                    className="w-full h-full relative group overflow-hidden rounded-lg"
+                    className="w-full aspect-video relative group overflow-hidden rounded-lg"
                   >
-                    {renderMediaPreview(media)}
+                    {media.media_type === 'video' ? (
+                      <>
+                        <video
+                          src={getPublicUrl(media.media_url)}
+                          className="w-full h-full object-cover"
+                          controls={false}
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <Play className="w-12 h-12 text-white opacity-80" />
+                        </div>
+                      </>
+                    ) : (
+                      <img
+                        src={getPublicUrl(media.media_url)}
+                        alt=""
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                    )}
                     <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </button>
                 </div>
@@ -139,15 +107,16 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
             </div>
           </div>
 
-          <button 
+          <button
             onClick={handleNext}
-            className="absolute -right-16 top-1/2 -translate-y-1/2 z-10 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition-colors duration-300"
+            className="absolute -left-4 sm:-left-12 top-1/2 -translate-y-1/2 z-10 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition-colors duration-300"
             aria-label="Next"
           >
-            <ChevronRight className="h-6 w-6 text-gray-600" />
+            <ChevronLeft className="h-6 w-6 text-gray-600" />
           </button>
         </div>
 
+        {/* Counter */}
         <div className="text-center mt-6">
           <p className="text-sm text-gray-600 rtl">
             {currentIndex + 1} من {galleryMedia.length} - اضغط على الصورة لعرضها بالحجم الكامل
@@ -155,6 +124,7 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
         </div>
       </div>
 
+      {/* Fullscreen Dialog */}
       <Dialog open={!!selectedMedia} onOpenChange={() => setSelectedMedia(null)}>
         <DialogContent className="max-w-4xl w-[95vw] p-0 overflow-hidden bg-black/95">
           <DialogTitle className="sr-only">معرض الصور</DialogTitle>
@@ -166,7 +136,20 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
             <span className="sr-only">Close</span>
           </button>
           <div className="relative w-full aspect-video">
-            {selectedMedia && renderMediaDialog(selectedMedia)}
+            {selectedMedia?.media_type === 'video' ? (
+              <video
+                src={getPublicUrl(selectedMedia.media_url)}
+                className="w-full h-full"
+                controls
+                autoPlay
+              />
+            ) : (
+              <img
+                src={selectedMedia ? getPublicUrl(selectedMedia.media_url) : ''}
+                alt=""
+                className="w-full h-full object-contain"
+              />
+            )}
           </div>
         </DialogContent>
       </Dialog>
