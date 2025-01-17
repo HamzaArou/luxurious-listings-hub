@@ -68,7 +68,7 @@ export default function ProjectDetails() {
 
       return project;
     },
-    retry: false,
+    retry: 1,
     staleTime: 1000 * 60 * 5, // Cache for 5 minutes
     gcTime: 1000 * 60 * 30, // Keep in cache for 30 minutes (formerly cacheTime)
   });
@@ -86,6 +86,7 @@ export default function ProjectDetails() {
   }
 
   if (error || !project) {
+    console.error('Project details error:', error);
     return <NotFound />;
   }
 
