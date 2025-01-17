@@ -47,32 +47,38 @@ export default function ProjectDetails() {
         throw new Error('Project ID is required');
       }
 
-      const { data: project, error: projectError } = await supabase
-        .from('projects')
-        .select(`
-          *,
-          project_details(*),
-          project_images(*)
-        `)
-        .eq('id', id)
-        .maybeSingle();
+      try {
+        const { data: project, error: projectError } = await supabase
+          .from('projects')
+          .select(`
+            *,
+            project_details(*),
+            project_images(*)
+          `)
+          .eq('id', id)
+          .maybeSingle();
 
-      if (projectError) {
-        console.error('Error fetching project:', projectError);
-        throw projectError;
+        if (projectError) {
+          console.error('Error fetching project:', projectError);
+          throw projectError;
+        }
+
+        if (!project) {
+          throw new Error('Project not found');
+        }
+
+        return project;
+      } catch (error) {
+        console.error('Error in query function:', error);
+        throw error;
       }
-
-      if (!project) {
-        throw new Error('Project not found');
-      }
-
-      return project;
     },
     retry: 1,
     staleTime: 1000 * 60 * 5, // Cache for 5 minutes
-    gcTime: 1000 * 60 * 30, // Keep in cache for 30 minutes (formerly cacheTime)
+    gcTime: 1000 * 60 * 30, // Keep in cache for 30 minutes
   });
 
+  // Show loading state
   if (isLoading) {
     return (
       <div>
@@ -85,6 +91,7 @@ export default function ProjectDetails() {
     );
   }
 
+  // Show error state
   if (error || !project) {
     console.error('Project details error:', error);
     return <NotFound />;
