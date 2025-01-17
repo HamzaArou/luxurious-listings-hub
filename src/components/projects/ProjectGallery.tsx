@@ -90,56 +90,64 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
 
   return (
     <>
-      <div className="max-w-4xl mx-auto relative">
-        {galleryMedia.length > 1 && (
-          <div className="text-center mb-4">
-            <p className="text-sm text-gray-500">
-              {galleryMedia.length} صور وفيديوهات متاحة - اسحب للمزيد
-            </p>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 relative">
+        <div className="bg-black/5 rounded-2xl p-6 sm:p-8">
+          <div className="text-center mb-6">
+            <h2 className="text-2xl font-bold text-deepBlue bg-white/80 py-2 px-8 rounded-full inline-block shadow-sm">
+              معرض صور وفيديوهات المشروع
+            </h2>
+            {galleryMedia.length > 0 && (
+              <p className="text-sm text-gray-600 mt-2">
+                {galleryMedia.length} صور وفيديوهات متاحة - اسحب للمزيد
+              </p>
+            )}
           </div>
-        )}
-        
-        <Carousel
-          opts={{
-            align: "start",
-            loop: true,
-          }}
-          className="w-full relative"
-        >
-          <CarouselContent className="-ml-2 md:-ml-4">
-            {galleryMedia.map((media) => (
-              <CarouselItem 
-                key={media.id} 
-                className="pl-2 md:pl-4 basis-full sm:basis-1/2 md:basis-1/3"
-              >
-                <button
-                  onClick={() => setSelectedMedia(media)}
-                  className={cn(
-                    "w-full aspect-square rounded-lg overflow-hidden",
-                    "transition-all duration-300 hover:shadow-[0_0_15px_rgba(14,165,233,0.3)]",
-                    "relative group"
-                  )}
+          
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+              slidesToScroll: 1,
+              startIndex: 0,
+            }}
+            className="w-full relative"
+          >
+            <CarouselContent className="-ml-2 md:-ml-4">
+              {galleryMedia.map((media, index) => (
+                <CarouselItem 
+                  key={media.id} 
+                  className="pl-2 md:pl-4 basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4"
                 >
-                  {renderMediaPreview(media)}
-                  <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300" />
-                </button>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <div className="absolute -left-12 -right-12 top-0 bottom-0 flex items-center justify-between pointer-events-none">
-            <CarouselPrevious 
-              className="pointer-events-auto relative left-0 h-8 w-8 rounded-full opacity-70 hover:opacity-100 transition-opacity" 
-            />
-            <CarouselNext 
-              className="pointer-events-auto relative right-0 h-8 w-8 rounded-full opacity-70 hover:opacity-100 transition-opacity" 
-            />
-          </div>
-        </Carousel>
+                  <button
+                    onClick={() => setSelectedMedia(media)}
+                    className={cn(
+                      "w-full aspect-square rounded-xl overflow-hidden",
+                      "transition-all duration-300",
+                      "shadow-md hover:shadow-xl",
+                      "relative group"
+                    )}
+                  >
+                    {renderMediaPreview(media)}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </button>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            
+            <div className="absolute -left-4 sm:-left-8 -right-4 sm:-right-8 top-0 bottom-0 flex items-center justify-between pointer-events-none">
+              <CarouselPrevious 
+                className="pointer-events-auto relative left-0 h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-white/90 hover:bg-white shadow-md opacity-90 hover:opacity-100 transition-all border-none" 
+              />
+              <CarouselNext 
+                className="pointer-events-auto relative right-0 h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-white/90 hover:bg-white shadow-md opacity-90 hover:opacity-100 transition-all border-none" 
+              />
+            </div>
+          </Carousel>
+        </div>
       </div>
 
-      {/* Media Preview Dialog */}
       <Dialog open={!!selectedMedia} onOpenChange={() => setSelectedMedia(null)}>
-        <DialogContent className="max-w-4xl w-full p-0 overflow-hidden">
+        <DialogContent className="max-w-4xl w-full p-0 overflow-hidden bg-black/95">
           <div className="relative w-full aspect-video">
             {selectedMedia && renderMediaDialog(selectedMedia)}
           </div>
