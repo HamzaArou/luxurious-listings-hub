@@ -1,5 +1,4 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -24,19 +23,10 @@ serve(async (req) => {
   }
 
   try {
-    const supabaseClient = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-    )
-
     const requestData: MortgageRequest = await req.json()
+    console.log('Received mortgage request:', requestData)
     
-    // Validate input data
-    if (!requestData.email || !requestData.full_name || !requestData.phone) {
-      throw new Error('Missing required fields')
-    }
-
-    // Create email content in Arabic
+    // Format email content in Arabic
     const emailContent = `
       <div dir="rtl" style="text-align: right; font-family: Arial, sans-serif;">
         <h2>طلب تمويل عقاري جديد</h2>
@@ -62,32 +52,43 @@ serve(async (req) => {
       </div>
     `
 
-    // Send email using Supabase's built-in email service
-    const { error } = await supabaseClient.auth.admin.sendEmail(
-      'info@alfaisal.com.sa',
-      'noreply@alfaisal.com.sa',
-      {
-        subject: 'طلب تمويل عقاري جديد - ' + requestData.full_name,
-        html: emailContent,
-      }
-    )
+    // Send email using EmailJS
+    const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'origin': 'http://localhost',
+      },
+      body: JSON.stringify({
+        service_id: 'service_vsb08u9',
+        template_id: 'template_31x8lw5',
+        user_id: 'DJX_dy28zAjctAAIj',
+        template_params: {
+          to_email: 'pr@wtd.com.sa',
+          from_name: requestData.full_name,
+          phone: requestData.phone,
+          message: emailContent,
+        },
+        accessToken: 'DJX_dy28zAjctAAIj',
+      }),
+    })
 
-    if (error) throw error
+    if (!response.ok) {
+      throw new Error(`EmailJS error: ${response.status} ${await response.text()}`)
+    }
 
     return new Response(
-      JSON.stringify({ message: 'Email sent successfully' }),
-      {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 200,
-      }
+      JSON.stringify({ success: true }),
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     )
+
   } catch (error) {
-    console.error('Error:', error.message)
+    console.error('Error in send-mortgage-email function:', error)
     return new Response(
       JSON.stringify({ error: error.message }),
-      {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      { 
         status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       }
     )
   }
