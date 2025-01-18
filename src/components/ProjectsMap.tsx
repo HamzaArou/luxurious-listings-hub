@@ -1,8 +1,9 @@
-import { useEffect, useState, lazy, Suspense } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from "@/integrations/supabase/client";
 import 'leaflet/dist/leaflet.css';
 import { Icon } from 'leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 
 // Fix for default marker icon
 const defaultIcon = new Icon({
@@ -17,14 +18,8 @@ const defaultIcon = new Icon({
 // Center of Makkah
 const center: [number, number] = [21.3891, 39.8579];
 
-// Lazy load react-leaflet components
-const MapContainer = lazy(() => import('react-leaflet').then(mod => ({ default: mod.MapContainer })));
-const TileLayer = lazy(() => import('react-leaflet').then(mod => ({ default: mod.TileLayer })));
-const Marker = lazy(() => import('react-leaflet').then(mod => ({ default: mod.Marker })));
-const Popup = lazy(() => import('react-leaflet').then(mod => ({ default: mod.Popup })));
-
 const ProjectsMap = () => {
-  const [isClient, setIsClient] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   const { data: projects = [] } = useQuery({
     queryKey: ['projects'],
@@ -41,43 +36,41 @@ const ProjectsMap = () => {
   });
 
   useEffect(() => {
-    setIsClient(true);
+    setIsMounted(true);
   }, []);
 
-  if (!isClient) {
+  if (!isMounted || typeof window === 'undefined') {
     return <div className="h-[600px] w-full bg-gray-100" />;
   }
 
   return (
     <div className="h-[600px] w-full">
-      <Suspense fallback={<div className="h-full w-full bg-gray-100" />}>
-        <MapContainer 
-          center={center} 
-          zoom={12} 
-          className="h-full w-full rounded-lg"
-        >
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          {projects.map((project) => 
-            project.lat && project.lng ? (
-              <Marker
-                key={project.id}
-                position={[Number(project.lat), Number(project.lng)]}
-                icon={defaultIcon}
-              >
-                <Popup>
-                  <div className="text-center">
-                    <h3 className="font-bold">{project.name}</h3>
-                    <p>{project.location}</p>
-                  </div>
-                </Popup>
-              </Marker>
-            ) : null
-          )}
-        </MapContainer>
-      </Suspense>
+      <MapContainer 
+        center={center} 
+        zoom={12} 
+        className="h-full w-full rounded-lg"
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        {projects.map((project) => 
+          project.lat && project.lng ? (
+            <Marker
+              key={project.id}
+              position={[Number(project.lat), Number(project.lng)]}
+              icon={defaultIcon}
+            >
+              <Popup>
+                <div className="text-center">
+                  <h3 className="font-bold">{project.name}</h3>
+                  <p>{project.location}</p>
+                </div>
+              </Popup>
+            </Marker>
+          ) : null
+        )}
+      </MapContainer>
     </div>
   );
 };
