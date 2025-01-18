@@ -5,17 +5,6 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-interface MortgageRequest {
-  full_name: string;
-  email: string;
-  phone: string;
-  propertyValue: number;
-  downPayment: number;
-  duration: number;
-  monthlyInstallment: string;
-  totalEligibleAmount: number;
-}
-
 serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
@@ -23,7 +12,7 @@ serve(async (req) => {
   }
 
   try {
-    const requestData: MortgageRequest = await req.json()
+    const requestData = await req.json()
     console.log('Received mortgage request:', requestData)
     
     // Format email content in Arabic

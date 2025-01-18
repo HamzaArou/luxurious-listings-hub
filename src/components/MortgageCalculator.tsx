@@ -49,7 +49,7 @@ const MortgageCalculator = () => {
 
       if (dbError) throw dbError;
 
-      // Then, send email
+      // Then, send email using Supabase Edge Function
       const { error: emailError } = await supabase.functions.invoke('send-mortgage-email', {
         body: {
           ...formData,
