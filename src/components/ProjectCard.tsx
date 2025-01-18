@@ -87,11 +87,11 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
 
           {/* Details Grid */}
           <div className="grid grid-cols-2 gap-2 mb-3">
-            <div className="bg-gray-50 rounded-lg p-2">
+            <div className="bg-gray-50 rounded-lg p-2 text-center">
               <p className="text-base font-bold text-darkBlue">{project.floors}</p>
               <p className="text-sm text-gray-600">الطوابق</p>
             </div>
-            <div className="bg-gray-50 rounded-lg p-2">
+            <div className="bg-gray-50 rounded-lg p-2 text-center">
               <p className="text-base font-bold text-darkBlue">{project.units}</p>
               <p className="text-sm text-gray-600">الشقق</p>
             </div>
