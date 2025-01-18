@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { Icon } from 'leaflet';
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from "@/integrations/supabase/client";
 import 'leaflet/dist/leaflet.css';
 
 // Fix for default marker icon
@@ -34,23 +34,14 @@ const ProjectsMap = () => {
   const center: [number, number] = [21.3891, 39.8579];
 
   useEffect(() => {
-    // Add marker images to public directory if they don't exist
-    const markerIcon = document.createElement('link');
-    markerIcon.rel = 'preload';
-    markerIcon.as = 'image';
-    markerIcon.href = '/marker-icon.png';
-    document.head.appendChild(markerIcon);
-
-    const markerShadow = document.createElement('link');
-    markerShadow.rel = 'preload';
-    markerShadow.as = 'image';
-    markerShadow.href = '/marker-shadow.png';
-    document.head.appendChild(markerShadow);
-
-    return () => {
-      document.head.removeChild(markerIcon);
-      document.head.removeChild(markerShadow);
+    // Preload marker images
+    const preloadImage = (url: string) => {
+      const img = new Image();
+      img.src = url;
     };
+
+    preloadImage('/marker-icon.png');
+    preloadImage('/marker-shadow.png');
   }, []);
 
   return (
