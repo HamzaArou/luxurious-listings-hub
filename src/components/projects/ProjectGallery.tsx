@@ -1,9 +1,6 @@
-import { useState, useCallback } from "react";
-import useEmblaCarousel from "embla-carousel-react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { useState } from "react";
+import { useKeenSlider } from "keen-slider/react";
+import "keen-slider/keen-slider.min.css";
 
 interface ProjectMedia {
   id: string;
@@ -17,22 +14,35 @@ interface ProjectGalleryProps {
 }
 
 export default function ProjectGallery({ images }: ProjectGalleryProps) {
-  const [selectedMedia, setSelectedMedia] = useState<ProjectMedia | null>(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
   const galleryMedia = images.filter(img => img.content_type === 'gallery');
-  
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
-  const [thumbnailsRef, thumbnailsApi] = useEmblaCarousel({
-    containScroll: "keepSnaps",
-    dragFree: true,
+
+  const [sliderRef, instanceRef] = useKeenSlider({
+    initial: 0,
+    slides: {
+      perView: 1,
+      spacing: 0,
+    },
+    slideChanged(slider) {
+      setCurrentSlide(slider.track.details.rel);
+    },
   });
 
-  const scrollPrev = useCallback(() => {
-    if (emblaApi) emblaApi.scrollPrev();
-  }, [emblaApi]);
-
-  const scrollNext = useCallback(() => {
-    if (emblaApi) emblaApi.scrollNext();
-  }, [emblaApi]);
+  const [thumbnailRef] = useKeenSlider({
+    initial: 0,
+    slides: {
+      perView: 6,
+      spacing: 10,
+    },
+    breakpoints: {
+      "(max-width: 768px)": {
+        slides: { perView: 4, spacing: 5 },
+      },
+      "(max-width: 480px)": {
+        slides: { perView: 3, spacing: 5 },
+      },
+    },
+  });
 
   const getPublicUrl = (mediaUrl: string) => {
     if (!mediaUrl) return '';
@@ -51,122 +61,87 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
   return (
     <section className="py-12">
       <div className="container mx-auto px-4">
-        {/* Main Carousel */}
-        <div className="relative max-w-5xl mx-auto bg-black/5 rounded-xl overflow-hidden">
-          <div className="embla overflow-hidden" ref={emblaRef}>
-            <div className="flex">
-              {galleryMedia.map((media) => (
-                <div key={media.id} className="flex-[0_0_100%] min-w-0">
-                  <button
-                    onClick={() => setSelectedMedia(media)}
-                    className="w-full aspect-[16/9] relative group"
-                  >
-                    {media.media_type === 'video' ? (
-                      <video
-                        src={getPublicUrl(media.media_url)}
-                        className="w-full h-full object-contain bg-black/5"
-                        controls
-                      />
-                    ) : (
-                      <img
-                        src={getPublicUrl(media.media_url)}
-                        alt=""
-                        className="w-full h-full object-contain bg-black/5"
-                        loading="lazy"
-                      />
-                    )}
-                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <Button
-            variant="outline"
-            size="icon"
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-10 rounded-full bg-white/90 hover:bg-white"
-            onClick={scrollPrev}
-          >
-            <ChevronLeft className="h-4 w-4" />
-          </Button>
-
-          <Button
-            variant="outline"
-            size="icon"
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-10 rounded-full bg-white/90 hover:bg-white"
-            onClick={scrollNext}
-          >
-            <ChevronRight className="h-4 w-4" />
-          </Button>
-        </div>
-
-        {/* Thumbnails */}
-        <div className="max-w-5xl mx-auto mt-4">
-          <div className="embla overflow-hidden" ref={thumbnailsRef}>
-            <div className="flex gap-2 px-2">
-              {galleryMedia.map((media) => (
-                <button
-                  key={media.id}
-                  onClick={() => setSelectedMedia(media)}
-                  className={cn(
-                    "flex-[0_0_100px] min-w-0 aspect-video relative rounded-lg overflow-hidden",
-                    "hover:ring-2 hover:ring-offset-2 hover:ring-primary transition-all",
-                    "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
-                  )}
-                >
+        {/* Main Gallery */}
+        <div className="relative max-w-5xl mx-auto bg-gray-100 rounded-xl overflow-hidden">
+          <div ref={sliderRef} className="keen-slider h-[500px]">
+            {galleryMedia.map((media) => (
+              <div key={media.id} className="keen-slider__slide">
+                <div className="w-full h-full flex items-center justify-center bg-black/5">
                   {media.media_type === 'video' ? (
                     <video
                       src={getPublicUrl(media.media_url)}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain"
+                      controls
+                      playsInline
                     />
                   ) : (
                     <img
                       src={getPublicUrl(media.media_url)}
                       alt=""
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain"
                       loading="lazy"
                     />
                   )}
-                </button>
-              ))}
-            </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Navigation Arrows */}
+          <button
+            onClick={() => instanceRef.current?.prev()}
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white p-2 rounded-full shadow-lg"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            </svg>
+          </button>
+          <button
+            onClick={() => instanceRef.current?.next()}
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white p-2 rounded-full shadow-lg"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Thumbnails */}
+        <div className="max-w-5xl mx-auto mt-4">
+          <div ref={thumbnailRef} className="keen-slider">
+            {galleryMedia.map((media, idx) => (
+              <div
+                key={media.id}
+                onClick={() => instanceRef.current?.moveToIdx(idx)}
+                className={`keen-slider__slide cursor-pointer ${
+                  currentSlide === idx ? 'ring-2 ring-primary' : ''
+                }`}
+              >
+                {media.media_type === 'video' ? (
+                  <div className="aspect-video bg-gray-100 relative">
+                    <video
+                      src={getPublicUrl(media.media_url)}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-8 h-8">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.986V5.653z" />
+                      </svg>
+                    </div>
+                  </div>
+                ) : (
+                  <img
+                    src={getPublicUrl(media.media_url)}
+                    alt=""
+                    className="aspect-video w-full object-cover"
+                    loading="lazy"
+                  />
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </div>
-
-      {/* Fullscreen Dialog */}
-      <Dialog open={!!selectedMedia} onOpenChange={() => setSelectedMedia(null)}>
-        <DialogContent className="max-w-7xl w-[95vw] p-0 overflow-hidden bg-black/95">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute right-4 top-4 z-50 text-white hover:bg-white/20"
-            onClick={() => setSelectedMedia(null)}
-          >
-            <X className="h-4 w-4" />
-            <span className="sr-only">Close</span>
-          </Button>
-          <div className="relative w-full aspect-video">
-            {selectedMedia && (
-              selectedMedia.media_type === 'video' ? (
-                <video
-                  src={getPublicUrl(selectedMedia.media_url)}
-                  controls
-                  className="w-full h-full object-contain"
-                  autoPlay
-                />
-              ) : (
-                <img
-                  src={getPublicUrl(selectedMedia.media_url)}
-                  alt=""
-                  className="w-full h-full object-contain"
-                />
-              )
-            )}
-          </div>
-        </DialogContent>
-      </Dialog>
     </section>
   );
 }
