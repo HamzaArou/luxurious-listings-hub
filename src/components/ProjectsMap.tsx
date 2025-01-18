@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useQuery } from '@tanstack/react-query';
@@ -14,8 +14,8 @@ interface Project {
 
 const ProjectsMap = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<maplibregl.Map | null>(null);
-  const markersRef = useRef<maplibregl.Marker[]>([]);
+  const [map, setMap] = useState<maplibregl.Map | null>(null);
+  const markers = useRef<maplibregl.Marker[]>([]);
 
   const { data: projects = [] } = useQuery({
     queryKey: ['projects'],
@@ -28,52 +28,64 @@ const ProjectsMap = () => {
     },
   });
 
+  // Initialize map
   useEffect(() => {
-    if (!mapContainer.current) return;
+    if (!mapContainer.current || map) return;
 
-    // Initialize map
-    map.current = new maplibregl.Map({
+    const initializeMap = new maplibregl.Map({
       container: mapContainer.current,
-      style: `https://api.maptiler.com/maps/streets/style.json?key=YOUR_KEY`,
+      style: `https://api.maptiler.com/maps/streets/style.json?key=0xThwp5hzLtXF2Nvi1LZ`,
       center: [39.8256, 21.4225], // Makkah coordinates
       zoom: 12,
     });
 
-    // Add navigation controls
-    map.current.addControl(new maplibregl.NavigationControl(), 'top-right');
+    initializeMap.addControl(new maplibregl.NavigationControl(), 'top-right');
+
+    initializeMap.on('load', () => {
+      setMap(initializeMap);
+    });
 
     return () => {
-      map.current?.remove();
+      initializeMap.remove();
     };
   }, []);
 
-  // Add markers when projects data is loaded
+  // Handle markers
   useEffect(() => {
-    if (!map.current || !projects.length) return;
+    if (!map || !projects.length) return;
 
     // Clear existing markers
-    markersRef.current.forEach(marker => marker.remove());
-    markersRef.current = [];
+    markers.current.forEach(marker => marker.remove());
+    markers.current = [];
 
     // Add new markers
     projects.forEach(project => {
       if (project.lat && project.lng) {
-        const popup = new maplibregl.Popup({ offset: 25 }).setHTML(
-          `<div dir="rtl" class="p-2">
-            <h3 class="font-bold text-lg mb-1">${project.name}</h3>
-            <p class="text-sm text-gray-600">${project.location}</p>
-          </div>`
-        );
+        try {
+          const popup = new maplibregl.Popup({ offset: 25 }).setHTML(
+            `<div dir="rtl" class="p-2">
+              <h3 class="font-bold text-lg mb-1">${project.name}</h3>
+              <p class="text-sm text-gray-600">${project.location}</p>
+            </div>`
+          );
 
-        const marker = new maplibregl.Marker()
-          .setLngLat([project.lng, project.lat])
-          .setPopup(popup)
-          .addTo(map.current!);
+          const marker = new maplibregl.Marker()
+            .setLngLat([project.lng, project.lat])
+            .setPopup(popup)
+            .addTo(map);
 
-        markersRef.current.push(marker);
+          markers.current.push(marker);
+        } catch (error) {
+          console.error('Error adding marker:', error);
+        }
       }
     });
-  }, [projects]);
+
+    return () => {
+      markers.current.forEach(marker => marker.remove());
+      markers.current = [];
+    };
+  }, [map, projects]);
 
   return (
     <div className="h-[600px] w-full rounded-2xl overflow-hidden">
