@@ -19,14 +19,11 @@ const ProjectsMap = () => {
   const { data: projects = [] } = useQuery({
     queryKey: ['projects'],
     queryFn: async () => {
-      console.log('Fetching projects...');
       const { data, error } = await supabase
         .from('projects')
         .select('id, name, location, lat, lng');
-      if (error) {
-        console.error('Error fetching projects:', error);
-        throw error;
-      }
+      
+      if (error) throw error;
       console.log('Fetched projects:', data);
       return data as Project[];
     },
@@ -35,64 +32,57 @@ const ProjectsMap = () => {
   useEffect(() => {
     if (!mapContainer.current || mapInstance.current) return;
 
-    console.log('Initializing map...');
     const map = new maplibregl.Map({
       container: mapContainer.current,
-      style: `https://api.maptiler.com/maps/streets/style.json?key=0xThwp5hzLtXF2Nvi1LZ&language=ar`,
+      style: `https://api.maptiler.com/maps/streets/style.json?key=0xThwp5hzLtXF2Nvi1LZ`,
       center: [39.8256, 21.4225], // Makkah coordinates
       zoom: 11,
     });
 
     map.addControl(new maplibregl.NavigationControl(), 'top-right');
 
-    // Add markers only after map is loaded
     map.on('load', () => {
       console.log('Map loaded, adding markers for projects:', projects);
+      
+      // Create bounds to fit all markers
+      const bounds = new maplibregl.LngLatBounds();
+      
       projects.forEach(project => {
-        // Convert coordinates to numbers if they're strings
-        const lat = typeof project.lat === 'string' ? parseFloat(project.lat) : project.lat;
-        const lng = typeof project.lng === 'string' ? parseFloat(project.lng) : project.lng;
-
-        if (lat && lng && !isNaN(lat) && !isNaN(lng)) {
+        if (project.lat && project.lng) {
           try {
-            const popup = new maplibregl.Popup({ offset: 25 }).setHTML(
-              `<div dir="rtl" class="p-2">
-                <h3 class="font-bold text-lg mb-1">${project.name}</h3>
-                <p class="text-sm text-gray-600">${project.location}</p>
-                <p class="text-xs text-gray-500 mt-1">الإحداثيات: ${lat}, ${lng}</p>
-              </div>`
-            );
-
-            new maplibregl.Marker()
-              .setLngLat([lng, lat])
-              .setPopup(popup)
+            // Add marker
+            const marker = new maplibregl.Marker({
+              color: '#FF0000',
+            })
+              .setLngLat([project.lng, project.lat])
               .addTo(map);
 
-            console.log(`Added marker for project: ${project.name} at coordinates:`, { lat, lng });
+            // Add popup
+            const popup = new maplibregl.Popup({ offset: 25 })
+              .setHTML(`
+                <div dir="rtl" class="p-2">
+                  <h3 class="font-bold text-lg mb-1">${project.name}</h3>
+                  <p class="text-sm text-gray-600">${project.location}</p>
+                </div>
+              `);
+
+            marker.setPopup(popup);
+
+            // Extend bounds to include this point
+            bounds.extend([project.lng, project.lat]);
+            
+            console.log(`Added marker for project: ${project.name} at:`, { lat: project.lat, lng: project.lng });
           } catch (error) {
             console.error('Error adding marker for project:', project, error);
           }
-        } else {
-          console.warn('Project missing or invalid coordinates:', {
-            project,
-            parsedLat: lat,
-            parsedLng: lng
-          });
         }
       });
 
-      // Fit map to show all markers
-      const bounds = new maplibregl.LngLatBounds();
-      projects.forEach(project => {
-        if (project.lat && project.lng) {
-          bounds.extend([project.lng, project.lat]);
-        }
-      });
-      
+      // Fit map to show all markers with padding
       if (!bounds.isEmpty()) {
         map.fitBounds(bounds, {
           padding: 50,
-          maxZoom: 15
+          maxZoom: 13
         });
       }
     });
@@ -103,7 +93,7 @@ const ProjectsMap = () => {
       map.remove();
       mapInstance.current = null;
     };
-  }, [projects]); // Add projects as dependency
+  }, [projects]);
 
   return (
     <div className="h-[600px] w-full rounded-2xl overflow-hidden">
