@@ -7,8 +7,8 @@ import 'leaflet/dist/leaflet.css';
 
 // Fix for default marker icon
 const defaultIcon = new Icon({
-  iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
-  shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
+  iconUrl: '/marker-icon.png',
+  shadowUrl: '/marker-shadow.png',
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
@@ -34,14 +34,23 @@ const ProjectsMap = () => {
   const center: [number, number] = [21.3891, 39.8579];
 
   useEffect(() => {
-    // This is needed to fix the map container rendering issue
-    const L = require('leaflet');
-    delete L.Icon.Default.prototype._getIconUrl;
-    L.Icon.Default.mergeOptions({
-      iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-      iconUrl: require('leaflet/dist/images/marker-icon.png'),
-      shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
-    });
+    // Add marker images to public directory if they don't exist
+    const markerIcon = document.createElement('link');
+    markerIcon.rel = 'preload';
+    markerIcon.as = 'image';
+    markerIcon.href = '/marker-icon.png';
+    document.head.appendChild(markerIcon);
+
+    const markerShadow = document.createElement('link');
+    markerShadow.rel = 'preload';
+    markerShadow.as = 'image';
+    markerShadow.href = '/marker-shadow.png';
+    document.head.appendChild(markerShadow);
+
+    return () => {
+      document.head.removeChild(markerIcon);
+      document.head.removeChild(markerShadow);
+    };
   }, []);
 
   return (
