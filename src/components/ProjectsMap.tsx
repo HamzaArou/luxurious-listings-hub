@@ -49,36 +49,61 @@ const ProjectsMap = () => {
     map.on('load', () => {
       console.log('Map loaded, adding markers for projects:', projects);
       projects.forEach(project => {
-        if (project.lat && project.lng) {
+        // Convert coordinates to numbers if they're strings
+        const lat = typeof project.lat === 'string' ? parseFloat(project.lat) : project.lat;
+        const lng = typeof project.lng === 'string' ? parseFloat(project.lng) : project.lng;
+
+        if (lat && lng && !isNaN(lat) && !isNaN(lng)) {
           try {
             const popup = new maplibregl.Popup({ offset: 25 }).setHTML(
               `<div dir="rtl" class="p-2">
                 <h3 class="font-bold text-lg mb-1">${project.name}</h3>
                 <p class="text-sm text-gray-600">${project.location}</p>
+                <p class="text-xs text-gray-500 mt-1">الإحداثيات: ${lat}, ${lng}</p>
               </div>`
             );
 
             new maplibregl.Marker()
-              .setLngLat([project.lng, project.lat])
+              .setLngLat([lng, lat])
               .setPopup(popup)
               .addTo(map);
+
+            console.log(`Added marker for project: ${project.name} at coordinates:`, { lat, lng });
           } catch (error) {
             console.error('Error adding marker for project:', project, error);
           }
         } else {
-          console.warn('Project missing coordinates:', project);
+          console.warn('Project missing or invalid coordinates:', {
+            project,
+            parsedLat: lat,
+            parsedLng: lng
+          });
         }
       });
+
+      // Fit map to show all markers
+      const bounds = new maplibregl.LngLatBounds();
+      projects.forEach(project => {
+        if (project.lat && project.lng) {
+          bounds.extend([project.lng, project.lat]);
+        }
+      });
+      
+      if (!bounds.isEmpty()) {
+        map.fitBounds(bounds, {
+          padding: 50,
+          maxZoom: 15
+        });
+      }
     });
 
     mapInstance.current = map;
 
-    // Cleanup
     return () => {
       map.remove();
       mapInstance.current = null;
     };
-  }, [projects]); // Add projects as dependency to update markers when data changes
+  }, [projects]); // Add projects as dependency
 
   return (
     <div className="h-[600px] w-full rounded-2xl overflow-hidden">
