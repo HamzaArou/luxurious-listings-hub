@@ -1,1 +1,16 @@
 project_id = "tdybblvmlsvxgkkwapei"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "storage", "graphql_public"]
+
+[db]
+port = 54322
+
+[studio]
+enabled = true
+port = 54323
+
+[[fetch.endpoints]]
+url = "https://api.emailjs.com/api/v1.0/email/send"
