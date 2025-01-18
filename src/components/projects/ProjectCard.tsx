@@ -64,6 +64,10 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
             loading="lazy"
             decoding="async"
             fetchPriority="low"
+            onError={(e) => {
+              console.error('Image failed to load:', project.thumbnail_url);
+              e.currentTarget.src = '/placeholder.svg';
+            }}
           />
           <Badge 
             className={`absolute top-4 left-4 px-4 py-1 rounded-full text-sm font-medium ${getStatusColor(project.status)}`}
