@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
+import useEmblaCarousel from "embla-carousel-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface ProjectMedia {
   id: string;
@@ -17,30 +19,25 @@ interface ProjectGalleryProps {
 export default function ProjectGallery({ images }: ProjectGalleryProps) {
   const [selectedMedia, setSelectedMedia] = useState<ProjectMedia | null>(null);
   const galleryMedia = images.filter(img => img.content_type === 'gallery');
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+  const [thumbnailsRef, thumbnailsApi] = useEmblaCarousel({
+    containScroll: "keepSnaps",
+    dragFree: true,
+  });
+
+  const scrollPrev = useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev();
+  }, [emblaApi]);
+
+  const scrollNext = useCallback(() => {
+    if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
 
   const getPublicUrl = (mediaUrl: string) => {
     if (!mediaUrl) return '';
-    
-    // If it's already a full URL, return it
-    if (mediaUrl.startsWith('http')) {
-      return mediaUrl;
-    }
-    
-    const { data: { publicUrl } } = supabase.storage
-      .from('project-images')
-      .getPublicUrl(mediaUrl);
-      
-    console.log('Generated public URL:', publicUrl);
-    return publicUrl;
-  };
-
-  const handlePrevious = () => {
-    setCurrentIndex((prev) => (prev === 0 ? galleryMedia.length - 1 : prev - 1));
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev === galleryMedia.length - 1 ? 0 : prev + 1));
+    if (mediaUrl.startsWith('http')) return mediaUrl;
+    return `https://tdybblvmlsvxgkkwapei.supabase.co/storage/v1/object/public/project-images/${mediaUrl}`;
   };
 
   if (!galleryMedia || galleryMedia.length === 0) {
@@ -51,49 +48,30 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
     );
   }
 
-  console.log('Total gallery media:', galleryMedia.length);
-  console.log('Current media:', galleryMedia[currentIndex]);
-
   return (
-    <section className="py-12 relative">
+    <section className="py-12">
       <div className="container mx-auto px-4">
-        {/* Gallery */}
-        <div className="relative max-w-4xl mx-auto">
-          {/* Navigation Buttons */}
-          <button
-            onClick={handlePrevious}
-            className="absolute -right-4 sm:-right-12 top-1/2 -translate-y-1/2 z-10 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition-colors duration-300"
-            aria-label="Previous"
-          >
-            <ChevronRight className="h-6 w-6 text-gray-600" />
-          </button>
-
-          {/* Gallery Container */}
-          <div className="overflow-hidden partners-carousel">
-            <div className="flex rtl">
-              {galleryMedia.map((media, index) => (
-                <div
-                  key={media.id}
-                  className={`w-full flex-shrink-0 transition-all duration-300 px-2`}
-                  style={{
-                    transform: `translateX(${(index - currentIndex) * 100}%)`,
-                  }}
-                >
+        {/* Main Carousel */}
+        <div className="relative max-w-5xl mx-auto bg-black/5 rounded-xl overflow-hidden">
+          <div className="embla overflow-hidden" ref={emblaRef}>
+            <div className="flex">
+              {galleryMedia.map((media) => (
+                <div key={media.id} className="flex-[0_0_100%] min-w-0">
                   <button
                     onClick={() => setSelectedMedia(media)}
-                    className="w-full aspect-video relative group overflow-hidden rounded-lg"
+                    className="w-full aspect-[16/9] relative group"
                   >
                     {media.media_type === 'video' ? (
                       <video
                         src={getPublicUrl(media.media_url)}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-contain bg-black/5"
                         controls
                       />
                     ) : (
                       <img
                         src={getPublicUrl(media.media_url)}
                         alt=""
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-contain bg-black/5"
                         loading="lazy"
                       />
                     )}
@@ -104,33 +82,71 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
             </div>
           </div>
 
-          <button
-            onClick={handleNext}
-            className="absolute -left-4 sm:-left-12 top-1/2 -translate-y-1/2 z-10 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition-colors duration-300"
-            aria-label="Next"
+          <Button
+            variant="outline"
+            size="icon"
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-10 rounded-full bg-white/90 hover:bg-white"
+            onClick={scrollPrev}
           >
-            <ChevronLeft className="h-6 w-6 text-gray-600" />
-          </button>
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
+
+          <Button
+            variant="outline"
+            size="icon"
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-10 rounded-full bg-white/90 hover:bg-white"
+            onClick={scrollNext}
+          >
+            <ChevronRight className="h-4 w-4" />
+          </Button>
         </div>
 
-        {/* Counter */}
-        <div className="text-center mt-6">
-          <p className="text-sm text-gray-600 rtl">
-            {currentIndex + 1} من {galleryMedia.length} - اضغط على الصورة لعرضها بالحجم الكامل
-          </p>
+        {/* Thumbnails */}
+        <div className="max-w-5xl mx-auto mt-4">
+          <div className="embla overflow-hidden" ref={thumbnailsRef}>
+            <div className="flex gap-2 px-2">
+              {galleryMedia.map((media) => (
+                <button
+                  key={media.id}
+                  onClick={() => setSelectedMedia(media)}
+                  className={cn(
+                    "flex-[0_0_100px] min-w-0 aspect-video relative rounded-lg overflow-hidden",
+                    "hover:ring-2 hover:ring-offset-2 hover:ring-primary transition-all",
+                    "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                  )}
+                >
+                  {media.media_type === 'video' ? (
+                    <video
+                      src={getPublicUrl(media.media_url)}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <img
+                      src={getPublicUrl(media.media_url)}
+                      alt=""
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Fullscreen Dialog */}
       <Dialog open={!!selectedMedia} onOpenChange={() => setSelectedMedia(null)}>
-        <DialogContent className="max-w-4xl w-[95vw] p-0 overflow-hidden bg-black/95">
-          <button
+        <DialogContent className="max-w-7xl w-[95vw] p-0 overflow-hidden bg-black/95">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="absolute right-4 top-4 z-50 text-white hover:bg-white/20"
             onClick={() => setSelectedMedia(null)}
-            className="absolute right-4 top-4 z-50 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
           >
-            <X className="h-4 w-4 text-white" />
+            <X className="h-4 w-4" />
             <span className="sr-only">Close</span>
-          </button>
+          </Button>
           <div className="relative w-full aspect-video">
             {selectedMedia && (
               selectedMedia.media_type === 'video' ? (
@@ -138,6 +154,7 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
                   src={getPublicUrl(selectedMedia.media_url)}
                   controls
                   className="w-full h-full object-contain"
+                  autoPlay
                 />
               ) : (
                 <img
