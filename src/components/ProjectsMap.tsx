@@ -44,43 +44,39 @@ const ProjectsMap = () => {
     preloadImage('/marker-shadow.png');
   }, []);
 
-  // Only render map on client side
+  // Only render on client side
   if (typeof window === 'undefined') {
     return <div className="h-[600px] w-full bg-gray-100" />;
   }
 
-  const Map = () => (
-    <MapContainer 
-      center={center} 
-      zoom={12} 
-      className="h-full w-full rounded-lg"
-    >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      {projects.map((project) => 
-        project.lat && project.lng ? (
-          <Marker
-            key={project.id}
-            position={[Number(project.lat), Number(project.lng)]}
-            icon={defaultIcon}
-          >
-            <Popup>
-              <div className="text-center">
-                <h3 className="font-bold">{project.name}</h3>
-                <p>{project.location}</p>
-              </div>
-            </Popup>
-          </Marker>
-        ) : null
-      )}
-    </MapContainer>
-  );
-
   return (
     <div className="h-[600px] w-full">
-      <Map />
+      <MapContainer 
+        center={center} 
+        zoom={12} 
+        className="h-full w-full rounded-lg"
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        {projects.map((project) => 
+          project.lat && project.lng ? (
+            <Marker
+              key={project.id}
+              position={[Number(project.lat), Number(project.lng)]}
+              icon={defaultIcon}
+            >
+              <Popup>
+                <div className="text-center">
+                  <h3 className="font-bold">{project.name}</h3>
+                  <p>{project.location}</p>
+                </div>
+              </Popup>
+            </Marker>
+          ) : null
+        )}
+      </MapContainer>
     </div>
   );
 };
