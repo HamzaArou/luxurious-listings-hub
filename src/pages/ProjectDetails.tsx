@@ -103,10 +103,7 @@ export default function ProjectDetails() {
     return <NotFound />;
   }
 
-  const thumbnailUrl = supabase.storage
-    .from('project-images')
-    .getPublicUrl(project.thumbnail_url.replace('project-images/', ''))
-    .data.publicUrl;
+  const thumbnailUrl = project.thumbnail_url;
 
   const galleryImages = (project.project_images || []) as ProjectMedia[];
 
