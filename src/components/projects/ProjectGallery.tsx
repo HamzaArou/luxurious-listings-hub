@@ -107,7 +107,6 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
                       controls
                       playsInline
                       preload="metadata"
-                      loading="lazy"
                     />
                   ) : (
                     <img
@@ -164,7 +163,6 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
                       src={getPublicUrl(media.media_url)}
                       className="w-full h-full object-cover"
                       preload="none"
-                      loading="lazy"
                     />
                     <div className="absolute inset-0 flex items-center justify-center bg-black/20">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-8 h-8">
