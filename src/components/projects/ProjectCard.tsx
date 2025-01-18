@@ -63,7 +63,7 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
             className="w-full h-full object-cover"
             loading="lazy"
             decoding="async"
-            fetchPriority="low"
+            fetchPriority="high"
             onError={(e) => {
               console.error('Image failed to load:', project.thumbnail_url);
               e.currentTarget.src = '/placeholder.svg';
