@@ -103,15 +103,10 @@ export default function ProjectDetails() {
     return <NotFound />;
   }
 
-  // Handle the thumbnail URL
-  const thumbnailUrl = project.thumbnail_url.startsWith('http') 
-    ? project.thumbnail_url 
-    : supabase.storage
-        .from('project-images')
-        .getPublicUrl(project.thumbnail_url.replace('project-images/', ''))
-        .data.publicUrl;
-
-  console.log('Thumbnail URL:', thumbnailUrl); // Add this for debugging
+  const thumbnailUrl = supabase.storage
+    .from('project-images')
+    .getPublicUrl(project.thumbnail_url.replace('project-images/', ''))
+    .data.publicUrl;
 
   const galleryImages = (project.project_images || []) as ProjectMedia[];
 
@@ -133,10 +128,6 @@ export default function ProjectDetails() {
                 alt={project.name}
                 className="w-full h-full object-cover"
                 loading="lazy"
-                onError={(e) => {
-                  console.error('Image failed to load:', thumbnailUrl);
-                  e.currentTarget.src = '/placeholder.svg'; // Fallback image
-                }}
               />
             </div>
           </div>
