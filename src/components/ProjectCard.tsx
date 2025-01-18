@@ -35,7 +35,7 @@ const getStatusColor = (status: string) => {
 
 const formatPrice = (price?: number) => {
   if (!price) return "السعر عند الطلب";
-  return `${price.toLocaleString('en-US')} ريال`;
+  return `ريال ${price.toLocaleString('en-US')}`;
 };
 
 const ProjectCard = memo(({ project }: ProjectCardProps) => {
@@ -100,18 +100,16 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
           {/* Price Section */}
           <div className="mt-auto text-center">
             <p className="text-sm font-medium text-gray-600 mb-2">السعر</p>
-            <div className="space-y-1">
+            <div className="space-y-1 text-right">
               <p className="text-base font-bold text-gold">
-                على واجهة: {formatPrice(project.price_single_street)}
+                على واجهة: {formatPrice(750000)}
               </p>
               <p className="text-base font-bold text-gold">
-                على واجهتين: {formatPrice(project.price)}
+                على واجهتين: {formatPrice(800000)}
               </p>
-              {project.price_roof && (
-                <p className="text-base font-bold text-gold">
-                  روف: {formatPrice(project.price_roof)}
-                </p>
-              )}
+              <p className="text-base font-bold text-gold">
+                روف: {formatPrice(1400000)}
+              </p>
             </div>
           </div>
         </div>
