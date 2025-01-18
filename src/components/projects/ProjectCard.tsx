@@ -48,16 +48,10 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
     navigate(`/project/${project.id}`);
   }, [navigate, project.id]);
 
-  // Get the public URL for the thumbnail
-  const imageUrl = project.thumbnail_url.includes('project-images/') 
-    ? supabase.storage
-        .from('project-images')
-        .getPublicUrl(project.thumbnail_url.replace('project-images/', ''))
-        .data.publicUrl
-    : project.thumbnail_url;
-
-  console.log('Project thumbnail URL:', project.thumbnail_url); // Debug original URL
-  console.log('Processed image URL:', imageUrl); // Debug processed URL
+  const imageUrl = supabase.storage
+    .from('project-images')
+    .getPublicUrl(project.thumbnail_url.replace('project-images/', ''))
+    .data.publicUrl;
 
   return (
     <div 
@@ -74,7 +68,7 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
             className="w-full h-full object-cover"
             loading="lazy"
             decoding="async"
-            fetchPriority="high"
+            fetchPriority="low"
           />
           <Badge 
             className={`absolute top-4 left-4 px-4 py-1 rounded-full text-sm font-medium ${getStatusColor(project.status)}`}
