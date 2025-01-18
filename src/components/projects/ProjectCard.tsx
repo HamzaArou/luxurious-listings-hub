@@ -49,14 +49,15 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
   }, [navigate, project.id]);
 
   // Get the public URL for the thumbnail
-  const imageUrl = project.thumbnail_url.startsWith('http') 
-    ? project.thumbnail_url 
-    : supabase.storage
+  const imageUrl = project.thumbnail_url.includes('project-images/') 
+    ? supabase.storage
         .from('project-images')
-        .getPublicUrl(project.thumbnail_url)
-        .data.publicUrl;
+        .getPublicUrl(project.thumbnail_url.replace('project-images/', ''))
+        .data.publicUrl
+    : project.thumbnail_url;
 
-  console.log('Project thumbnail URL:', imageUrl); // Debug log
+  console.log('Project thumbnail URL:', project.thumbnail_url); // Debug original URL
+  console.log('Processed image URL:', imageUrl); // Debug processed URL
 
   return (
     <div 
