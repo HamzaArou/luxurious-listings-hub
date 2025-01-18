@@ -1,0 +1,60 @@
+import { Icon } from 'leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+
+// Fix for default marker icon
+const defaultIcon = new Icon({
+  iconUrl: '/marker-icon.png',
+  shadowUrl: '/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+});
+
+// Center of Makkah
+const center: [number, number] = [21.3891, 39.8579];
+
+interface Project {
+  id: string;
+  name: string;
+  location: string;
+  lat: number;
+  lng: number;
+}
+
+interface MapComponentProps {
+  projects: Project[];
+}
+
+const MapComponent = ({ projects }: MapComponentProps) => {
+  return (
+    <MapContainer 
+      center={center} 
+      zoom={12} 
+      className="h-full w-full rounded-lg"
+    >
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      {projects.map((project) => 
+        project.lat && project.lng ? (
+          <Marker
+            key={project.id}
+            position={[Number(project.lat), Number(project.lng)]}
+            icon={defaultIcon}
+          >
+            <Popup>
+              <div className="text-center">
+                <h3 className="font-bold">{project.name}</h3>
+                <p>{project.location}</p>
+              </div>
+            </Popup>
+          </Marker>
+        ) : null
+      )}
+    </MapContainer>
+  );
+};
+
+export default MapComponent;
