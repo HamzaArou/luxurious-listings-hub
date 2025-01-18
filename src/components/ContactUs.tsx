@@ -104,97 +104,104 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
     <section className="py-12 bg-offWhite">
       <div className="container mx-auto px-4 max-w-6xl">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Contact Form */}
-          <div className="bg-white rounded-2xl shadow-lg p-8">
-            <h2 className="text-3xl font-bold text-darkBlue mb-8 text-center">
+          {/* Contact Form Section with Title */}
+          <div className="space-y-6">
+            <h2 className="text-3xl font-bold text-darkBlue text-center">
               {projectId ? "سجل اهتمامك بهذا المشروع" : "سجل اهتمامك"}
             </h2>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <input
-                  type="text"
-                  placeholder="الاسم - Name"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className={cn(
-                    "w-full px-4 py-3 rounded-lg bg-offWhite border-0",
-                    "placeholder:text-gray-400 focus:ring-2 focus:ring-gold",
-                    "transition duration-200 text-right"
-                  )}
-                  required
-                />
-              </div>
-              
-              <div className="phone-input-container">
-                <PhoneInput
-                  country={'sa'}
-                  value={formData.phone}
-                  onChange={(phone) => setFormData({ ...formData, phone })}
-                  inputClass="!w-full !px-4 !py-3 !rounded-lg !bg-offWhite !border-0 !text-right"
-                  containerClass="!w-full !dir-ltr"
-                  buttonClass="!bg-offWhite !border-0 !rounded-lg !left-0 !right-auto"
-                  dropdownClass="!bg-white !left-0 !right-auto"
-                  enableSearch={false}
-                  disableSearchIcon
-                  inputProps={{
-                    required: true,
-                    placeholder: "الجوال - Mobile*",
-                  }}
-                />
-              </div>
-
-              {!projectId && (
+            <div className="bg-white rounded-2xl shadow-lg p-8">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <select
-                    value={formData.selectedProject}
-                    onChange={(e) => setFormData({ ...formData, selectedProject: e.target.value })}
+                  <input
+                    type="text"
+                    placeholder="الاسم - Name"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className={cn(
                       "w-full px-4 py-3 rounded-lg bg-offWhite border-0",
-                      "text-gray-600 focus:ring-2 focus:ring-gold",
+                      "placeholder:text-gray-400 focus:ring-2 focus:ring-gold",
                       "transition duration-200 text-right"
                     )}
-                  >
-                    <option value="">اختر المشروع - Select Project</option>
-                    {projects.map((project) => (
-                      <option key={project.id} value={project.id}>
-                        {project.name} - {project.location}
-                      </option>
-                    ))}
-                  </select>
+                    required
+                  />
                 </div>
-              )}
+                
+                <div className="phone-input-container">
+                  <PhoneInput
+                    country={'sa'}
+                    value={formData.phone}
+                    onChange={(phone) => setFormData({ ...formData, phone })}
+                    inputClass="!w-full !px-4 !py-3 !rounded-lg !bg-offWhite !border-0 !text-right"
+                    containerClass="!w-full !dir-ltr"
+                    buttonClass="!bg-offWhite !border-0 !rounded-lg !left-0 !right-auto"
+                    dropdownClass="!bg-white !left-0 !right-auto"
+                    enableSearch={false}
+                    disableSearchIcon
+                    inputProps={{
+                      required: true,
+                      placeholder: "الجوال - Mobile*",
+                    }}
+                  />
+                </div>
 
-              <div>
-                <textarea
-                  placeholder="الطلب - Looking for"
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className={cn(
-                    "w-full px-4 py-3 rounded-lg bg-offWhite border-0",
-                    "placeholder:text-gray-400 focus:ring-2 focus:ring-gold",
-                    "transition duration-200 text-right min-h-[120px] resize-none"
-                  )}
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className={cn(
-                  "w-full py-3 px-6 rounded-lg",
-                  "bg-gold text-white font-semibold",
-                  "hover:bg-gold/90 transition duration-200",
-                  "disabled:opacity-50 disabled:cursor-not-allowed"
+                {!projectId && (
+                  <div>
+                    <select
+                      value={formData.selectedProject}
+                      onChange={(e) => setFormData({ ...formData, selectedProject: e.target.value })}
+                      className={cn(
+                        "w-full px-4 py-3 rounded-lg bg-offWhite border-0",
+                        "text-gray-600 focus:ring-2 focus:ring-gold",
+                        "transition duration-200 text-right"
+                      )}
+                    >
+                      <option value="">اختر المشروع - Select Project</option>
+                      {projects.map((project) => (
+                        <option key={project.id} value={project.id}>
+                          {project.name} - {project.location}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 )}
-              >
-                {isSubmitting ? "جاري الإرسال..." : "Send - إرسال"}
-              </button>
-            </form>
+
+                <div>
+                  <textarea
+                    placeholder="الطلب - Looking for"
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    className={cn(
+                      "w-full px-4 py-3 rounded-lg bg-offWhite border-0",
+                      "placeholder:text-gray-400 focus:ring-2 focus:ring-gold",
+                      "transition duration-200 text-right min-h-[120px] resize-none"
+                    )}
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={cn(
+                    "w-full py-3 px-6 rounded-lg",
+                    "bg-gold text-white font-semibold",
+                    "hover:bg-gold/90 transition duration-200",
+                    "disabled:opacity-50 disabled:cursor-not-allowed"
+                  )}
+                >
+                  {isSubmitting ? "جاري الإرسال..." : "Send - إرسال"}
+                </button>
+              </form>
+            </div>
           </div>
 
-          {/* Map Section */}
-          <div className="bg-white rounded-2xl shadow-lg overflow-hidden h-[600px] relative">
-            <ProjectsMap />
+          {/* Map Section with Title */}
+          <div className="space-y-6">
+            <h2 className="text-3xl font-bold text-darkBlue text-center">
+              مشاريع الفيصل
+            </h2>
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden h-[600px] relative">
+              <ProjectsMap />
+            </div>
           </div>
         </div>
       </div>
