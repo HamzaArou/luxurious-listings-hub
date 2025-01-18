@@ -19,10 +19,15 @@ const ProjectsMap = () => {
   const { data: projects = [] } = useQuery({
     queryKey: ['projects'],
     queryFn: async () => {
+      console.log('Fetching projects...');
       const { data, error } = await supabase
         .from('projects')
         .select('id, name, location, lat, lng');
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching projects:', error);
+        throw error;
+      }
+      console.log('Fetched projects:', data);
       return data as Project[];
     },
   });
@@ -30,17 +35,19 @@ const ProjectsMap = () => {
   useEffect(() => {
     if (!mapContainer.current || mapInstance.current) return;
 
+    console.log('Initializing map...');
     const map = new maplibregl.Map({
       container: mapContainer.current,
-      style: `https://api.maptiler.com/maps/streets/style.json?key=0xThwp5hzLtXF2Nvi1LZ`,
-      center: [39.8256, 21.4225],
-      zoom: 12,
+      style: `https://api.maptiler.com/maps/streets/style.json?key=0xThwp5hzLtXF2Nvi1LZ&language=ar`,
+      center: [39.8256, 21.4225], // Makkah coordinates
+      zoom: 11,
     });
 
     map.addControl(new maplibregl.NavigationControl(), 'top-right');
 
     // Add markers only after map is loaded
     map.on('load', () => {
+      console.log('Map loaded, adding markers for projects:', projects);
       projects.forEach(project => {
         if (project.lat && project.lng) {
           try {
@@ -56,8 +63,10 @@ const ProjectsMap = () => {
               .setPopup(popup)
               .addTo(map);
           } catch (error) {
-            console.error('Error adding marker:', error);
+            console.error('Error adding marker for project:', project, error);
           }
+        } else {
+          console.warn('Project missing coordinates:', project);
         }
       });
     });
