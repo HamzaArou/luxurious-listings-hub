@@ -38,7 +38,7 @@ const ProjectsMap = () => {
           zoom: 12
         }}
         style={{ width: '100%', height: '100%' }}
-        mapStyle="https://api.maptiler.com/maps/basic-v2/style.json?key=YOUR_KEY"
+        mapStyle={`https://api.maptiler.com/maps/basic-v2/style.json?key=0xThwp5hzLtXF2Nvi1LZ`}
       >
         <NavigationControl position="top-right" />
         
