@@ -56,7 +56,7 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
       tabIndex={0}
     >
       <Card className="overflow-hidden bg-white rounded-[20px] shadow-lg hover:shadow-xl transition-all duration-300 transform group-hover:scale-[1.02] h-full flex flex-col">
-        <div className="relative h-[320px] bg-gray-100">
+        <div className="relative h-[280px] bg-gray-100">
           <img
             src="https://tdybblvmlsvxgkkwapei.supabase.co/storage/v1/object/public/project-images/project_f47ac10b-58cc-4372-a567-0e02b2c3d479/project1.png"
             alt={project.name}
@@ -76,9 +76,9 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
           </Badge>
         </div>
 
-        <div className="p-4 flex flex-col flex-grow">
-          <div className="text-right mb-3">
-            <h3 className="text-lg font-bold text-darkBlue">
+        <div className="p-3 flex flex-col flex-grow space-y-2">
+          <div className="text-right">
+            <h3 className="text-lg font-bold text-darkBlue leading-tight">
               {project.name}
             </h3>
             <p className="text-sm text-gray-600">
@@ -86,27 +86,27 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-2 mb-3">
-            <div className="bg-gray-50 rounded-lg p-2">
-              <p className="text-base font-bold text-darkBlue">{project.floors}</p>
-              <p className="text-sm text-gray-600">الطوابق</p>
+          <div className="grid grid-cols-2 gap-2">
+            <div className="bg-gray-50 rounded-lg p-2 text-center">
+              <p className="text-base font-bold text-darkBlue leading-none">{project.floors}</p>
+              <p className="text-xs text-gray-600 mt-1">الطوابق</p>
             </div>
-            <div className="bg-gray-50 rounded-lg p-2">
-              <p className="text-base font-bold text-darkBlue">{project.units}</p>
-              <p className="text-sm text-gray-600">الشقق</p>
+            <div className="bg-gray-50 rounded-lg p-2 text-center">
+              <p className="text-base font-bold text-darkBlue leading-none">{project.units}</p>
+              <p className="text-xs text-gray-600 mt-1">الشقق</p>
             </div>
           </div>
 
           <div className="mt-auto">
-            <p className="text-sm font-medium text-gray-600 mb-2 text-center">السعر</p>
-            <div className="space-y-1 text-right">
-              <p className="text-base font-bold text-gold">
+            <p className="text-xs font-medium text-gray-600 mb-1 text-center">السعر</p>
+            <div className="space-y-0.5 text-right">
+              <p className="text-sm font-bold text-gold">
                 على واجهة: {formatPrice(750000)}
               </p>
-              <p className="text-base font-bold text-gold">
+              <p className="text-sm font-bold text-gold">
                 على واجهتين: {formatPrice(800000)}
               </p>
-              <p className="text-base font-bold text-gold">
+              <p className="text-sm font-bold text-gold">
                 روف: {formatPrice(1400000)}
               </p>
             </div>
