@@ -14,21 +14,21 @@ interface Project {
 
 // Hardcoded locations that should always appear on the map
 const FIXED_LOCATIONS = [
-  { lat: 21.3175, lng: 39.2091, name: 'موقع 1', location: 'مكة المكرمة' },
-  { lat: 21.4421, lng: 39.8283, name: 'موقع 2', location: 'مكة المكرمة' },
-  { lat: 21.2854, lng: 39.2375, name: 'موقع 3', location: 'مكة المكرمة' },
-  { lat: 21.5322, lng: 39.1769, name: 'موقع 4', location: 'مكة المكرمة' },
-  { lat: 21.5765, lng: 39.1584, name: 'موقع 5', location: 'مكة المكرمة' },
-  { lat: 21.4887, lng: 39.2833, name: 'موقع 6', location: 'مكة المكرمة' },
-  { lat: 21.4038, lng: 39.8285, name: 'موقع 7', location: 'مكة المكرمة' },
-  { lat: 21.3586, lng: 39.2572, name: 'موقع 8', location: 'مكة المكرمة' },
-  { lat: 21.3257, lng: 39.6816, name: 'موقع 9', location: 'مكة المكرمة' },
-  { lat: 21.3289, lng: 39.6997, name: 'موقع 10', location: 'مكة المكرمة' },
-  { lat: 21.4561, lng: 39.7506, name: 'موقع 11', location: 'مكة المكرمة' },
-  { lat: 21.4533, lng: 39.7111, name: 'موقع 12', location: 'مكة المكرمة' },
-  { lat: 21.2987, lng: 39.1692, name: 'موقع 13', location: 'مكة المكرمة' },
-  { lat: 21.3809, lng: 39.1345, name: 'موقع 14', location: 'مكة المكرمة' },
-  { lat: 21.4416, lng: 39.7903, name: 'موقع 15', location: 'مكة المكرمة' },
+  { lat: 21.3175, lng: 39.2091, name: 'مشروع الفيصل الأول', location: 'مكة المكرمة' },
+  { lat: 21.4421, lng: 39.8283, name: 'مشروع الفيصل الثاني', location: 'مكة المكرمة' },
+  { lat: 21.2854, lng: 39.2375, name: 'مشروع الفيصل الثالث', location: 'مكة المكرمة' },
+  { lat: 21.5322, lng: 39.1769, name: 'مشروع الفيصل الرابع', location: 'مكة المكرمة' },
+  { lat: 21.5765, lng: 39.1584, name: 'مشروع الفيصل الخامس', location: 'مكة المكرمة' },
+  { lat: 21.4887, lng: 39.2833, name: 'مشروع الفيصل السادس', location: 'مكة المكرمة' },
+  { lat: 21.4038, lng: 39.8285, name: 'مشروع الفيصل السابع', location: 'مكة المكرمة' },
+  { lat: 21.3586, lng: 39.2572, name: 'مشروع الفيصل الثامن', location: 'مكة المكرمة' },
+  { lat: 21.3257, lng: 39.6816, name: 'مشروع الفيصل التاسع', location: 'مكة المكرمة' },
+  { lat: 21.3289, lng: 39.6997, name: 'مشروع الفيصل العاشر', location: 'مكة المكرمة' },
+  { lat: 21.4561, lng: 39.7506, name: 'مشروع الفيصل الحادي عشر', location: 'مكة المكرمة' },
+  { lat: 21.4533, lng: 39.7111, name: 'مشروع الفيصل الثاني عشر', location: 'مكة المكرمة' },
+  { lat: 21.2987, lng: 39.1692, name: 'مشروع الفيصل الثالث عشر', location: 'مكة المكرمة' },
+  { lat: 21.3809, lng: 39.1345, name: 'مشروع الفيصل الرابع عشر', location: 'مكة المكرمة' },
+  { lat: 21.4416, lng: 39.7903, name: 'مشروع الفيصل الخامس عشر', location: 'مكة المكرمة' },
 ];
 
 const ProjectsMap = () => {
@@ -108,8 +108,8 @@ const ProjectsMap = () => {
         .setHTML(`
           <div dir="rtl" class="p-2">
             <h3 class="font-bold text-lg mb-1">${location.name}</h3>
-            <p class="text-sm text-gray-600">${location.location}</p>
-            <p class="text-xs text-gray-500">${location.lat}, ${location.lng}</p>
+            <p class="text-sm text-gray-600">المنطقة: ${location.location}</p>
+            <p class="text-xs text-gray-500">الإحداثيات: ${location.lat}, ${location.lng}</p>
           </div>
         `);
 
