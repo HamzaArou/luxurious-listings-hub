@@ -1,9 +1,10 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
+}
 
 interface MortgageRequest {
   full_name: string;
@@ -16,70 +17,78 @@ interface MortgageRequest {
   totalEligibleAmount: number;
 }
 
-const handler = async (req: Request): Promise<Response> => {
+serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
+    return new Response(null, { headers: corsHeaders })
   }
 
   try {
-    const requestData: MortgageRequest = await req.json();
+    const supabaseClient = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+    )
+
+    const requestData: MortgageRequest = await req.json()
     
-    // Format email content with proper headers for server-side requests
-    const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'origin': 'http://localhost',  // Required for server-side calls
-      },
-      body: JSON.stringify({
-        service_id: 'service_vsb08u9',
-        template_id: 'template_31x8lw5',
-        user_id: 'DJX_dy28zAjctAAIj',
-        template_params: {
-          to_email: 'pr@wtd.com.sa',
-          from_name: requestData.full_name,
-          phone: requestData.phone,
-          property_value: requestData.propertyValue.toLocaleString(),
-          down_payment: requestData.downPayment.toLocaleString(),
-          duration: requestData.duration,
-          monthly_installment: requestData.monthlyInstallment,
-          total_eligible: requestData.totalEligibleAmount.toLocaleString(),
-        },
-        accessToken: 'DJX_dy28zAjctAAIj', // Add access token for server-side authentication
-      }),
-    });
-
-    const responseText = await response.text();
-    console.log('EmailJS response:', response.status, responseText);
-
-    if (!response.ok) {
-      throw new Error(`EmailJS error: ${response.status} ${responseText}`);
+    // Validate input data
+    if (!requestData.email || !requestData.full_name || !requestData.phone) {
+      throw new Error('Missing required fields')
     }
 
-    try {
-      const data = JSON.parse(responseText);
-      console.log('Email sent successfully:', data);
-    } catch (e) {
-      console.log('Could not parse response as JSON:', responseText);
-    }
+    // Create email content in Arabic
+    const emailContent = `
+      <div dir="rtl" style="text-align: right; font-family: Arial, sans-serif;">
+        <h2>طلب تمويل عقاري جديد</h2>
+        <p>تم استلام طلب تمويل عقاري جديد من موقع الشركة:</p>
+        
+        <h3>معلومات مقدم الطلب:</h3>
+        <ul style="list-style: none; padding: 0;">
+          <li>الاسم: ${requestData.full_name}</li>
+          <li>البريد الإلكتروني: ${requestData.email}</li>
+          <li>رقم الجوال: ${requestData.phone}</li>
+        </ul>
 
-    return new Response(JSON.stringify({ success: true }), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-    });
+        <h3>تفاصيل التمويل المطلوب:</h3>
+        <ul style="list-style: none; padding: 0;">
+          <li>قيمة العقار: ${requestData.propertyValue.toLocaleString()} ريال</li>
+          <li>الدفعة الأولى: ${requestData.downPayment.toLocaleString()} ريال</li>
+          <li>مدة التمويل: ${requestData.duration} سنة</li>
+          <li>القسط الشهري: ${requestData.monthlyInstallment} ريال</li>
+          <li>إجمالي مبلغ التمويل: ${requestData.totalEligibleAmount.toLocaleString()} ريال</li>
+        </ul>
 
-  } catch (error) {
-    console.error('Error in send-mortgage-email function:', error);
-    return new Response(
-      JSON.stringify({ 
-        error: error.message,
-        details: error.stack 
-      }), {
-        status: 500,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        <p>تم إرسال هذا البريد تلقائياً من نظام الموقع الإلكتروني.</p>
+      </div>
+    `
+
+    // Send email using Supabase's built-in email service
+    const { error } = await supabaseClient.auth.admin.sendEmail(
+      'info@alfaisal.com.sa',
+      'noreply@alfaisal.com.sa',
+      {
+        subject: 'طلب تمويل عقاري جديد - ' + requestData.full_name,
+        html: emailContent,
       }
-    );
-  }
-});
+    )
 
-serve(handler);
+    if (error) throw error
+
+    return new Response(
+      JSON.stringify({ message: 'Email sent successfully' }),
+      {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 200,
+      }
+    )
+  } catch (error) {
+    console.error('Error:', error.message)
+    return new Response(
+      JSON.stringify({ error: error.message }),
+      {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 500,
+      }
+    )
+  }
+})
