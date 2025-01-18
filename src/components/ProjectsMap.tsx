@@ -44,33 +44,37 @@ const ProjectsMap = () => {
     preloadImage('/marker-shadow.png');
   }, []);
 
+  if (typeof window === 'undefined') return null;
+
   return (
-    <MapContainer
-      center={center}
-      zoom={12}
-      style={{ height: '600px', width: '100%', borderRadius: '0.5rem' }}
-    >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      {projects.map((project) => (
-        project.lat && project.lng ? (
-          <Marker
-            key={project.id}
-            position={[project.lat, project.lng]}
-            icon={defaultIcon}
-          >
-            <Popup>
-              <div className="text-center">
-                <h3 className="font-bold">{project.name}</h3>
-                <p>{project.location}</p>
-              </div>
-            </Popup>
-          </Marker>
-        ) : null
-      ))}
-    </MapContainer>
+    <div style={{ height: '600px', width: '100%' }}>
+      <MapContainer 
+        center={center} 
+        zoom={12} 
+        style={{ height: '100%', width: '100%', borderRadius: '0.5rem' }}
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        {projects.map((project) => (
+          project.lat && project.lng ? (
+            <Marker
+              key={project.id}
+              position={[project.lat, project.lng]}
+              icon={defaultIcon}
+            >
+              <Popup>
+                <div className="text-center">
+                  <h3 className="font-bold">{project.name}</h3>
+                  <p>{project.location}</p>
+                </div>
+              </Popup>
+            </Marker>
+          ) : null
+        ))}
+      </MapContainer>
+    </div>
   );
 };
 
