@@ -14,6 +14,7 @@ interface Project {
   thumbnail_url: string;
   price?: number;
   price_single_street?: number;
+  price_roof?: number;
 }
 
 interface ProjectCardProps {
@@ -48,8 +49,6 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
     navigate(`/project/${project.id}`);
   }, [navigate, project.id]);
 
-  const imageUrl = "https://tdybblvmlsvxgkkwapei.supabase.co/storage/v1/object/public/project-images/project_f47ac10b-58cc-4372-a567-0e02b2c3d479/project1.png";
-
   return (
     <div 
       onClick={handleClick} 
@@ -60,16 +59,12 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
       <Card className="overflow-hidden bg-white rounded-[20px] shadow-lg hover:shadow-xl transition-all duration-300 transform group-hover:scale-[1.02] h-full flex flex-col">
         <div className="relative h-[320px] bg-gray-100">
           <img
-            src={imageUrl}
+            src={project.thumbnail_url}
             alt={project.name}
             className="w-full h-full object-cover"
             loading="lazy"
             decoding="async"
-            fetchPriority="low"
-            onError={(e) => {
-              console.error('Image failed to load:', imageUrl);
-              e.currentTarget.src = '/placeholder.svg';
-            }}
+            fetchPriority="high"
           />
           <Badge 
             className={`absolute top-4 left-4 px-4 py-1 rounded-full text-sm font-medium ${getStatusColor(project.status)}`}
@@ -100,21 +95,20 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
           </div>
 
           <div className="mt-auto text-center">
-            <p className="text-sm font-medium text-gray-600 mb-1">السعر</p>
-            {project.price_single_street ? (
-              <div className="space-y-1">
-                <p className="text-base font-bold text-gold">
-                  على شارعين: {formatPrice(project.price)}
-                </p>
-                <p className="text-base font-bold text-gold">
-                  على شارع واحد: {formatPrice(project.price_single_street)}
-                </p>
-              </div>
-            ) : (
-              <p className="text-lg font-bold text-gold">
-                {formatPrice(project.price)}
+            <p className="text-sm font-medium text-gray-600 mb-2">السعر</p>
+            <div className="space-y-1">
+              <p className="text-base font-bold text-gold">
+                على واجهة: {formatPrice(project.price_single_street)}
               </p>
-            )}
+              <p className="text-base font-bold text-gold">
+                على واجهتين: {formatPrice(project.price)}
+              </p>
+              {project.price_roof && (
+                <p className="text-base font-bold text-gold">
+                  روف: {formatPrice(project.price_roof)}
+                </p>
+              )}
+            </div>
           </div>
         </div>
       </Card>
