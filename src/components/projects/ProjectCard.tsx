@@ -48,10 +48,7 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
     navigate(`/project/${project.id}`);
   }, [navigate, project.id]);
 
-  const imageUrl = supabase.storage
-    .from('project-images')
-    .getPublicUrl(project.thumbnail_url.replace('project-images/', ''))
-    .data.publicUrl;
+  const imageUrl = "https://tdybblvmlsvxgkkwapei.supabase.co/storage/v1/object/public/project-images/project_f47ac10b-58cc-4372-a567-0e02b2c3d479/project1.png";
 
   return (
     <div 
@@ -69,6 +66,10 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
             loading="lazy"
             decoding="async"
             fetchPriority="low"
+            onError={(e) => {
+              console.error('Image failed to load:', imageUrl);
+              e.currentTarget.src = '/placeholder.svg';
+            }}
           />
           <Badge 
             className={`absolute top-4 left-4 px-4 py-1 rounded-full text-sm font-medium ${getStatusColor(project.status)}`}
