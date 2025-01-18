@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, lazy, Suspense } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from "@/integrations/supabase/client";
-import dynamic from 'react-dynamic-import';
 import 'leaflet/dist/leaflet.css';
 
-// Dynamically import the Map component
-const MapComponent = dynamic(() => import('./MapComponent'));
+// Lazy load the MapComponent
+const MapComponent = lazy(() => import('./MapComponent'));
 
 const ProjectsMap = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -34,7 +33,9 @@ const ProjectsMap = () => {
 
   return (
     <div className="h-[600px] w-full">
-      {isMounted && <MapComponent projects={projects} />}
+      <Suspense fallback={<div className="h-full w-full bg-gray-100" />}>
+        {isMounted && <MapComponent projects={projects} />}
+      </Suspense>
     </div>
   );
 };

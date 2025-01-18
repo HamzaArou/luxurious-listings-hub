@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { Icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -28,8 +29,20 @@ interface MapComponentProps {
 const center: [number, number] = [21.3891, 39.8579];
 
 const MapComponent = ({ projects }: MapComponentProps) => {
+  const mapRef = useRef(null);
+
+  useEffect(() => {
+    // This ensures the map is properly initialized after mounting
+    if (mapRef.current) {
+      setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+      }, 100);
+    }
+  }, []);
+
   return (
     <MapContainer 
+      ref={mapRef}
       center={center} 
       zoom={12} 
       className="h-full w-full rounded-lg"
