@@ -1,5 +1,6 @@
-import { Icon } from 'leaflet';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { Icon } from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 // Fix for default marker icon
 const defaultIcon = new Icon({
@@ -10,9 +11,6 @@ const defaultIcon = new Icon({
   popupAnchor: [1, -34],
   shadowSize: [41, 41]
 });
-
-// Center of Makkah
-const center: [number, number] = [21.3891, 39.8579];
 
 interface Project {
   id: string;
@@ -25,6 +23,9 @@ interface Project {
 interface MapComponentProps {
   projects: Project[];
 }
+
+// Center of Makkah
+const center: [number, number] = [21.3891, 39.8579];
 
 const MapComponent = ({ projects }: MapComponentProps) => {
   return (
