@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from "@/integrations/supabase/client";
+import dynamic from 'vite-plugin-dynamic-import';
 import 'leaflet/dist/leaflet.css';
 import { Icon } from 'leaflet';
 
@@ -14,9 +15,17 @@ const defaultIcon = new Icon({
   shadowSize: [41, 41]
 });
 
+// Center of Makkah
+const center: [number, number] = [21.3891, 39.8579];
+
+// Dynamically import the map components
+const MapContainer = dynamic(() => import('react-leaflet').then(mod => mod.MapContainer));
+const TileLayer = dynamic(() => import('react-leaflet').then(mod => mod.TileLayer));
+const Marker = dynamic(() => import('react-leaflet').then(mod => mod.Marker));
+const Popup = dynamic(() => import('react-leaflet').then(mod => mod.Popup));
+
 const ProjectsMap = () => {
-  const [isMounted, setIsMounted] = useState(false);
-  const [Map, setMap] = useState<any>(null);
+  const [isClient, setIsClient] = useState(false);
 
   const { data: projects = [] } = useQuery({
     queryKey: ['projects'],
@@ -32,30 +41,13 @@ const ProjectsMap = () => {
     },
   });
 
-  // Center of Makkah
-  const center: [number, number] = [21.3891, 39.8579];
-
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      Promise.all([
-        import('react-leaflet').then(module => ({
-          MapContainer: module.MapContainer,
-          TileLayer: module.TileLayer,
-          Marker: module.Marker,
-          Popup: module.Popup
-        }))
-      ]).then(([{ MapContainer, TileLayer, Marker, Popup }]) => {
-        setMap({ MapContainer, TileLayer, Marker, Popup });
-        setIsMounted(true);
-      });
-    }
+    setIsClient(true);
   }, []);
 
-  if (!isMounted || !Map) {
+  if (!isClient) {
     return <div className="h-[600px] w-full bg-gray-100" />;
   }
-
-  const { MapContainer, TileLayer, Marker, Popup } = Map;
 
   return (
     <div className="h-[600px] w-full">
@@ -63,6 +55,7 @@ const ProjectsMap = () => {
         center={center} 
         zoom={12} 
         className="h-full w-full rounded-lg"
+        key="map-container"
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
