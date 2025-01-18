@@ -36,30 +36,22 @@ const ProjectsMap = () => {
   const center: [number, number] = [21.3891, 39.8579];
 
   useEffect(() => {
-    // Preload marker images
-    const preloadImage = (url: string) => {
-      const img = new Image();
-      img.src = url;
-    };
-
-    preloadImage('/marker-icon.png');
-    preloadImage('/marker-shadow.png');
-    setIsMounted(true);
+    if (typeof window !== 'undefined') {
+      setIsMounted(true);
+    }
   }, []);
 
-  // Only render on client side and after mounting
-  if (!isMounted || typeof window === 'undefined') {
+  if (!isMounted) {
     return <div className="h-[600px] w-full bg-gray-100" />;
   }
 
   return (
     <div className="h-[600px] w-full">
-      <div className="h-full w-full">
+      {isMounted && (
         <MapContainer 
           center={center} 
           zoom={12} 
           className="h-full w-full rounded-lg"
-          key="map-container"
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -82,7 +74,7 @@ const ProjectsMap = () => {
             ) : null
           )}
         </MapContainer>
-      </div>
+      )}
     </div>
   );
 };
