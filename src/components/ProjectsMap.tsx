@@ -53,7 +53,7 @@ const ProjectsMap = () => {
                 <h3 className="font-bold text-lg mb-2">{project.name}</h3>
                 <p className="text-sm mb-2">{project.location}</p>
                 <Link 
-                  to={`/project/${project.id}`}
+                  to={`/projects/${project.id}`}
                   className="text-gold hover:underline"
                 >
                   عرض التفاصيل
