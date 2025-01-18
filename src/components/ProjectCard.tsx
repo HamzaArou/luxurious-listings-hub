@@ -13,6 +13,7 @@ interface Project {
   thumbnail_url: string;
   price?: number;
   price_single_street?: number;
+  price_roof?: number;
 }
 
 interface ProjectCardProps {
@@ -55,7 +56,7 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
       tabIndex={0}
     >
       <Card className="overflow-hidden bg-white rounded-[20px] shadow-lg hover:shadow-xl transition-all duration-300 transform group-hover:scale-[1.02] h-full flex flex-col">
-        {/* Image Section with contain fit */}
+        {/* Image Section */}
         <div className="relative h-[320px] bg-gray-100">
           <img
             src={project.thumbnail_url}
@@ -98,21 +99,20 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
 
           {/* Price Section */}
           <div className="mt-auto text-center">
-            <p className="text-sm font-medium text-gray-600 mb-1">السعر</p>
-            {project.price_single_street ? (
-              <div className="space-y-1">
-                <p className="text-base font-bold text-gold">
-                  على شارعين: {formatPrice(project.price)}
-                </p>
-                <p className="text-base font-bold text-gold">
-                  على شارع واحد: {formatPrice(project.price_single_street)}
-                </p>
-              </div>
-            ) : (
-              <p className="text-lg font-bold text-gold">
-                {formatPrice(project.price)}
+            <p className="text-sm font-medium text-gray-600 mb-2">السعر</p>
+            <div className="space-y-1">
+              <p className="text-base font-bold text-gold">
+                على واجهة: {formatPrice(project.price_single_street)}
               </p>
-            )}
+              <p className="text-base font-bold text-gold">
+                على واجهتين: {formatPrice(project.price)}
+              </p>
+              {project.price_roof && (
+                <p className="text-base font-bold text-gold">
+                  روف: {formatPrice(project.price_roof)}
+                </p>
+              )}
+            </div>
           </div>
         </div>
       </Card>
@@ -123,4 +123,3 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
 ProjectCard.displayName = 'ProjectCard';
 
 export default ProjectCard;
-
