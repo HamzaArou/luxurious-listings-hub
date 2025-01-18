@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { Icon } from 'leaflet';
 import { useQuery } from '@tanstack/react-query';
@@ -16,6 +16,8 @@ const defaultIcon = new Icon({
 });
 
 const ProjectsMap = () => {
+  const [isMounted, setIsMounted] = useState(false);
+
   const { data: projects = [] } = useQuery({
     queryKey: ['projects'],
     queryFn: async () => {
@@ -42,41 +44,45 @@ const ProjectsMap = () => {
 
     preloadImage('/marker-icon.png');
     preloadImage('/marker-shadow.png');
+    setIsMounted(true);
   }, []);
 
-  // Only render on client side
-  if (typeof window === 'undefined') {
+  // Only render on client side and after mounting
+  if (!isMounted || typeof window === 'undefined') {
     return <div className="h-[600px] w-full bg-gray-100" />;
   }
 
   return (
     <div className="h-[600px] w-full">
-      <MapContainer 
-        center={center} 
-        zoom={12} 
-        className="h-full w-full rounded-lg"
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {projects.map((project) => 
-          project.lat && project.lng ? (
-            <Marker
-              key={project.id}
-              position={[Number(project.lat), Number(project.lng)]}
-              icon={defaultIcon}
-            >
-              <Popup>
-                <div className="text-center">
-                  <h3 className="font-bold">{project.name}</h3>
-                  <p>{project.location}</p>
-                </div>
-              </Popup>
-            </Marker>
-          ) : null
-        )}
-      </MapContainer>
+      <div className="h-full w-full">
+        <MapContainer 
+          center={center} 
+          zoom={12} 
+          className="h-full w-full rounded-lg"
+          key="map-container"
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          {projects.map((project) => 
+            project.lat && project.lng ? (
+              <Marker
+                key={project.id}
+                position={[Number(project.lat), Number(project.lng)]}
+                icon={defaultIcon}
+              >
+                <Popup>
+                  <div className="text-center">
+                    <h3 className="font-bold">{project.name}</h3>
+                    <p>{project.location}</p>
+                  </div>
+                </Popup>
+              </Marker>
+            ) : null
+          )}
+        </MapContainer>
+      </div>
     </div>
   );
 };
