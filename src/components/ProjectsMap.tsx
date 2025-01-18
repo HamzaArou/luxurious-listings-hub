@@ -12,6 +12,25 @@ interface Project {
   lng?: number;
 }
 
+// Hardcoded locations that should always appear on the map
+const FIXED_LOCATIONS = [
+  { lat: 21.3175, lng: 39.2091, name: 'موقع 1', location: 'مكة المكرمة' },
+  { lat: 21.4421, lng: 39.8283, name: 'موقع 2', location: 'مكة المكرمة' },
+  { lat: 21.2854, lng: 39.2375, name: 'موقع 3', location: 'مكة المكرمة' },
+  { lat: 21.5322, lng: 39.1769, name: 'موقع 4', location: 'مكة المكرمة' },
+  { lat: 21.5765, lng: 39.1584, name: 'موقع 5', location: 'مكة المكرمة' },
+  { lat: 21.4887, lng: 39.2833, name: 'موقع 6', location: 'مكة المكرمة' },
+  { lat: 21.4038, lng: 39.8285, name: 'موقع 7', location: 'مكة المكرمة' },
+  { lat: 21.3586, lng: 39.2572, name: 'موقع 8', location: 'مكة المكرمة' },
+  { lat: 21.3257, lng: 39.6816, name: 'موقع 9', location: 'مكة المكرمة' },
+  { lat: 21.3289, lng: 39.6997, name: 'موقع 10', location: 'مكة المكرمة' },
+  { lat: 21.4561, lng: 39.7506, name: 'موقع 11', location: 'مكة المكرمة' },
+  { lat: 21.4533, lng: 39.7111, name: 'موقع 12', location: 'مكة المكرمة' },
+  { lat: 21.2987, lng: 39.1692, name: 'موقع 13', location: 'مكة المكرمة' },
+  { lat: 21.3809, lng: 39.1345, name: 'موقع 14', location: 'مكة المكرمة' },
+  { lat: 21.4416, lng: 39.7903, name: 'موقع 15', location: 'مكة المكرمة' },
+];
+
 const ProjectsMap = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<maplibregl.Map | null>(null);
@@ -42,40 +61,21 @@ const ProjectsMap = () => {
     map.addControl(new maplibregl.NavigationControl(), 'top-right');
 
     map.on('load', () => {
-      console.log('Map loaded, adding markers for projects:', projects);
+      console.log('Map loaded, adding markers for all locations');
       
       // Create bounds to fit all markers
       const bounds = new maplibregl.LngLatBounds();
       
+      // Add markers for database projects
       projects.forEach(project => {
         if (project.lat && project.lng) {
-          try {
-            // Add marker
-            const marker = new maplibregl.Marker({
-              color: '#FF0000',
-            })
-              .setLngLat([project.lng, project.lat])
-              .addTo(map);
-
-            // Add popup
-            const popup = new maplibregl.Popup({ offset: 25 })
-              .setHTML(`
-                <div dir="rtl" class="p-2">
-                  <h3 class="font-bold text-lg mb-1">${project.name}</h3>
-                  <p class="text-sm text-gray-600">${project.location}</p>
-                </div>
-              `);
-
-            marker.setPopup(popup);
-
-            // Extend bounds to include this point
-            bounds.extend([project.lng, project.lat]);
-            
-            console.log(`Added marker for project: ${project.name} at:`, { lat: project.lat, lng: project.lng });
-          } catch (error) {
-            console.error('Error adding marker for project:', project, error);
-          }
+          addMarker(map, project, bounds);
         }
+      });
+
+      // Add markers for fixed locations
+      FIXED_LOCATIONS.forEach(location => {
+        addMarker(map, location, bounds);
       });
 
       // Fit map to show all markers with padding
@@ -94,6 +94,33 @@ const ProjectsMap = () => {
       mapInstance.current = null;
     };
   }, [projects]);
+
+  // Helper function to add a marker to the map
+  const addMarker = (map: maplibregl.Map, location: any, bounds: maplibregl.LngLatBounds) => {
+    try {
+      const marker = new maplibregl.Marker({
+        color: '#FF0000',
+      })
+        .setLngLat([location.lng, location.lat])
+        .addTo(map);
+
+      const popup = new maplibregl.Popup({ offset: 25 })
+        .setHTML(`
+          <div dir="rtl" class="p-2">
+            <h3 class="font-bold text-lg mb-1">${location.name}</h3>
+            <p class="text-sm text-gray-600">${location.location}</p>
+            <p class="text-xs text-gray-500">${location.lat}, ${location.lng}</p>
+          </div>
+        `);
+
+      marker.setPopup(popup);
+      bounds.extend([location.lng, location.lat]);
+      
+      console.log(`Added marker for location:`, location);
+    } catch (error) {
+      console.error('Error adding marker:', error);
+    }
+  };
 
   return (
     <div className="h-[600px] w-full rounded-2xl overflow-hidden">
