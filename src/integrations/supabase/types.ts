@@ -201,6 +201,7 @@ export type Database = {
           floor_number: number | null
           id: string
           name: string
+          price: number | null
           project_id: string | null
           rooms: number | null
           side: string | null
@@ -218,6 +219,7 @@ export type Database = {
           floor_number?: number | null
           id?: string
           name: string
+          price?: number | null
           project_id?: string | null
           rooms?: number | null
           side?: string | null
@@ -235,6 +237,7 @@ export type Database = {
           floor_number?: number | null
           id?: string
           name?: string
+          price?: number | null
           project_id?: string | null
           rooms?: number | null
           side?: string | null

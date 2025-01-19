@@ -6,183 +6,34 @@ import UnitBlock from "./unit-updates/UnitBlock";
 import UnitDetails from "./unit-updates/UnitDetails";
 import { Info } from "lucide-react";
 import type { ProjectUnit } from "@/types/project";
+import { useQuery } from "@tanstack/react-query";
 
 interface ProjectUpdatesProps {
   projectId: string;
 }
 
 export default function ProjectUpdates({ projectId }: ProjectUpdatesProps) {
-  const [units, setUnits] = useState<ProjectUnit[]>([]);
-  const [loading, setLoading] = useState(true);
   const [selectedUnit, setSelectedUnit] = useState<number | null>(null);
 
-  const fetchUnits = useCallback(async () => {
-    const mockUnits = [
-      {
-        id: 'mock-1',
-        unit_number: 1,
-        status: 'متاح',
-        unit_type: 'شقة روف',
-        area: 400,
-        floor_number: 1,
-        side: 'شارع 15',
-        rooms: 5,
-        bathrooms: 3,
-        name: 'شقة روف للتمليك',
-        details: {
-          features: [
-            'مجلس رجال',
-            'صالة',
-            'مطبخ',
-            'غرفة غسيل',
-            '3 غرفة نوم',
-            'غرفة نوم ماستر',
-            '2 دورة مياه',
-            'سطح'
-          ],
-          guarantees: [
-            'كرت إشراف هندسي',
-            'ضمانات السباكة والكهرباء',
-            'ضمانات الهيكل الإنشائي',
-            'دخول ذكي',
-            'بجوار مسجد',
-            'موقف خاص',
-            'شارع 15'
-          ],
-          specifications: [
-            'المساحة: 400 متر مربع',
-            'السعر: 900,000 ريال'
-          ]
-        }
-      },
-      {
-        id: 'mock-2',
-        unit_number: 2,
-        status: 'متاح',
-        unit_type: 'شقة',
-        area: 200,
-        floor_number: 1,
-        side: 'على شارعين',
-        rooms: 6,
-        bathrooms: 4,
-        name: 'شقق تمليك - حي الشوقية (شارعين)',
-        details: {
-          features: [
-            'مجلس رجال',
-            'مقلط',
-            'مجلس نساء',
-            'مطبخ',
-            '2 غرفة نوم',
-            'غرفة نوم ماستر',
-            'غرفة غسيل',
-            '3 دورة مياه'
-          ],
-          guarantees: [
-            'ضمانات السباكة والكهرباء',
-            'كرت إشراف هندسي',
-            'ضمانات الهيكل الإنشائي',
-            'مدخلين',
-            'خزانات مستقلة',
-            'عداد مستقل',
-            'بجوار مسجد',
-            'بالقرب من الخدمات التجارية',
-            'بالقرب من المدارس',
-            'موقف خاص'
-          ],
-          specifications: [
-            'المساحة: 200 متر مربع',
-            'السعر: 800,000 ريال'
-          ]
-        }
-      },
-      {
-        id: 'mock-3',
-        unit_number: 3,
-        status: 'متاح',
-        unit_type: 'شقة',
-        area: 200,
-        floor_number: 1,
-        side: 'على شارع واحد',
-        rooms: 6,
-        bathrooms: 4,
-        name: 'شقق تمليك - حي الشوقية (شارع واحد)',
-        details: {
-          features: [
-            'مجلس رجال',
-            'مقلط',
-            'مجلس نساء',
-            'مطبخ',
-            '2 غرفة نوم',
-            'غرفة نوم ماستر',
-            'غرفة غسيل',
-            '3 دورة مياه'
-          ],
-          guarantees: [
-            'ضمانات السباكة والكهرباء',
-            'كرت إشراف هندسي',
-            'ضمانات الهيكل الإنشائي',
-            'مدخلين',
-            'خزانات مستقلة',
-            'عداد مستقل',
-            'بجوار مسجد',
-            'بالقرب من الخدمات التجارية',
-            'بالقرب من المدارس',
-            'موقف خاص'
-          ],
-          specifications: [
-            'المساحة: 200 متر مربع',
-            'السعر: 750,000 ريال'
-          ]
-        }
-      },
-      {
-        id: 'mock-4',
-        unit_number: 4,
-        status: 'متاح',
-        unit_type: 'شقة روف',
-        area: 370,
-        floor_number: 1,
-        side: 'غير محددة',
-        rooms: 4,
-        bathrooms: 5,
-        name: 'شقة روف للتمليك - حي الشوقية',
-        details: {
-          features: [
-            'مدخلين',
-            'مجلس رجال',
-            'مطبخ',
-            'غرفة نوم ماستر',
-            '3 غرف نوم',
-            '4 دورات مياه',
-            'مخزن'
-          ],
-          guarantees: [
-            'ضمانات السباكة والكهرباء',
-            'كرت إشراف هندسي',
-            'ضمانات الهيكل الإنشائي',
-            'مدخلين',
-            'خزانات مستقلة',
-            'عداد مستقل',
-            'بجوار مسجد',
-            'بالقرب من الخدمات التجارية',
-            'بالقرب من المدارس',
-            'موقف خاص'
-          ],
-          specifications: [
-            'المساحة: 370 متر مربع',
-            'السعر: 1,400,000 ريال'
-          ]
-        }
+  const { data: units = [], isLoading: loading } = useQuery({
+    queryKey: ['project-units', projectId],
+    queryFn: async () => {
+      console.log('Fetching units for project:', projectId);
+      const { data, error } = await supabase
+        .from('project_units')
+        .select('*')
+        .eq('project_id', projectId)
+        .order('unit_number', { ascending: true });
+
+      if (error) {
+        console.error('Error fetching units:', error);
+        throw error;
       }
-    ];
 
-    setUnits(mockUnits);
-    setLoading(false);
-  }, []);
-
-  useEffect(() => {
-    fetchUnits();
-  }, [projectId, fetchUnits]);
+      console.log('Fetched units:', data);
+      return data as ProjectUnit[];
+    },
+  });
 
   if (loading) {
     return (
@@ -196,7 +47,7 @@ export default function ProjectUpdates({ projectId }: ProjectUpdatesProps) {
     <div className="space-y-8">
       <StatusLegend />
 
-      {units.length === 0 ? (
+      {!units || units.length === 0 ? (
         <div className="text-center py-8 text-gray-500">
           لا توجد وحدات متاحة حالياً
         </div>
