@@ -56,7 +56,8 @@ export default function ProjectDetails() {
           .select(`
             *,
             project_details(*),
-            project_images(*)
+            project_images(*),
+            project_units(*)
           `)
           .eq('id', id)
           .maybeSingle();
