@@ -5,7 +5,7 @@ import "keen-slider/keen-slider.min.css";
 interface ProjectMedia {
   id: string;
   media_url: string;
-  media_type: "image" | "video";
+  media_type: string; // Changed from "image" | "video" to string to match Supabase
   content_type: string;
 }
 
