@@ -12,6 +12,7 @@ interface Project {
   lng?: number;
 }
 
+// Hardcoded locations that should always appear on the map
 const FIXED_LOCATIONS = [
   { lat: 21.328682, lng: 39.682289, name: 'مشروع الفيصل الأول', location: 'مكة المكرمة' },
   { lat: 21.335788, lng: 39.695381, name: 'مشروع الفيصل الثاني', location: 'مكة المكرمة' },
@@ -34,8 +35,6 @@ const FIXED_LOCATIONS = [
 const ProjectsMap = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<maplibregl.Map | null>(null);
-  const markersRef = useRef<maplibregl.Marker[]>([]);
-  const popupsRef = useRef<maplibregl.Popup[]>([]);
 
   const { data: projects = [] } = useQuery({
     queryKey: ['projects'],
@@ -55,34 +54,32 @@ const ProjectsMap = () => {
 
     const map = new maplibregl.Map({
       container: mapContainer.current,
-      style: 'https://api.maptiler.com/maps/arabic/style.json?key=0xThwp5hzLtXF2Nvi1LZ',
-      center: [39.8256, 21.4225],
+      style: `https://api.maptiler.com/maps/streets/style.json?key=0xThwp5hzLtXF2Nvi1LZ`,
+      center: [39.8256, 21.4225], // Makkah coordinates
       zoom: 11,
-      maxZoom: 18,
-      minZoom: 8,
     });
 
-    const navigationControl = new maplibregl.NavigationControl({
-      showCompass: true,
-      showZoom: true,
-      visualizePitch: true
-    });
+    map.addControl(new maplibregl.NavigationControl(), 'top-right');
 
     map.on('load', () => {
       console.log('Map loaded, adding markers for all locations');
       
+      // Create bounds to fit all markers
       const bounds = new maplibregl.LngLatBounds();
       
+      // Add markers for database projects
       projects.forEach(project => {
         if (project.lat && project.lng) {
           addMarker(map, project, bounds);
         }
       });
 
+      // Add markers for fixed locations
       FIXED_LOCATIONS.forEach(location => {
         addMarker(map, location, bounds);
       });
 
+      // Fit map to show all markers with padding
       if (!bounds.isEmpty()) {
         map.fitBounds(bounds, {
           padding: 50,
@@ -91,51 +88,33 @@ const ProjectsMap = () => {
       }
     });
 
-    map.addControl(navigationControl, 'top-right');
     mapInstance.current = map;
 
     return () => {
-      markersRef.current.forEach(marker => marker.remove());
-      popupsRef.current.forEach(popup => popup.remove());
-      markersRef.current = [];
-      popupsRef.current = [];
       map.remove();
       mapInstance.current = null;
     };
   }, [projects]);
 
+  // Helper function to add a marker to the map
   const addMarker = (map: maplibregl.Map, location: any, bounds: maplibregl.LngLatBounds) => {
     try {
-      const markerElement = document.createElement('div');
-      markerElement.className = 'custom-marker';
-      markerElement.style.width = '30px';
-      markerElement.style.height = '30px';
-      markerElement.style.backgroundImage = 'url("data:image/svg+xml,%3Csvg width=\'30\' height=\'30\' viewBox=\'0 0 24 24\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath fill=\'%23FF0000\' d=\'M12 0C7.31 0 3.5 3.81 3.5 8.5C3.5 14.88 12 24 12 24S20.5 14.88 20.5 8.5C20.5 3.81 16.69 0 12 0ZM12 13C9.79 13 8 11.21 8 9C8 6.79 9.79 5 12 5C14.21 5 16 6.79 16 9C16 11.21 14.21 13 12 13Z\'/%3E%3C/svg%3E")';
-      markerElement.style.backgroundSize = 'cover';
-      markerElement.style.cursor = 'pointer';
-
-      const popup = new maplibregl.Popup({ 
-        offset: 25,
-        closeButton: true,
-        closeOnClick: true,
-        maxWidth: '300px',
-        className: 'custom-popup'
+      const marker = new maplibregl.Marker({
+        color: '#FF0000',
       })
+        .setLngLat([location.lng, location.lat])
+        .addTo(map);
+
+      const popup = new maplibregl.Popup({ offset: 25 })
         .setHTML(`
-          <div dir="rtl" class="p-3 font-arabic">
-            <h3 class="font-bold text-lg mb-2" style="font-family: 'IBM Plex Sans Arabic', sans-serif;">${location.name}</h3>
-            <p class="text-sm text-gray-600" style="font-family: 'IBM Plex Sans Arabic', sans-serif;">المنطقة: ${location.location}</p>
-            <p class="text-xs text-gray-500 mt-2" style="font-family: 'IBM Plex Sans Arabic', sans-serif;">الإحداثيات: ${location.lat}, ${location.lng}</p>
+          <div dir="rtl" class="p-2">
+            <h3 class="font-bold text-lg mb-1">${location.name}</h3>
+            <p class="text-sm text-gray-600">المنطقة: ${location.location}</p>
+            <p class="text-xs text-gray-500">الإحداثيات: ${location.lat}, ${location.lng}</p>
           </div>
         `);
 
-      const marker = new maplibregl.Marker(markerElement)
-        .setLngLat([location.lng, location.lat])
-        .setPopup(popup)
-        .addTo(map);
-
-      markersRef.current.push(marker);
-      popupsRef.current.push(popup);
+      marker.setPopup(popup);
       bounds.extend([location.lng, location.lat]);
       
       console.log(`Added marker for location:`, location);
@@ -147,24 +126,6 @@ const ProjectsMap = () => {
   return (
     <div className="h-[600px] w-full rounded-2xl overflow-hidden">
       <div ref={mapContainer} className="w-full h-full" />
-      <style dangerouslySetInnerHTML={{
-        __html: `
-          .maplibregl-popup-content {
-            font-family: 'IBM Plex Sans Arabic', sans-serif;
-            direction: rtl;
-            text-align: right;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-          }
-          .custom-marker {
-            cursor: pointer;
-            transition: transform 0.2s;
-          }
-          .custom-marker:hover {
-            transform: scale(1.2);
-          }
-        `
-      }} />
     </div>
   );
 };
