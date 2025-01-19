@@ -89,15 +89,11 @@ const UnitDetails = memo(({ unit, isSelected }: UnitDetailsProps) => {
         </div>
       )}
 
-      {/* Specifications Section */}
-      {unit.details?.specifications && unit.details.specifications.length > 0 && (
+      {/* Price Section (Previously Specifications) */}
+      {unit.price && (
         <div className="p-4 border-t">
-          <h3 className="font-bold mb-2 text-darkBlue">المواصفات</h3>
-          <ul className="list-disc list-inside space-y-1">
-            {unit.details.specifications.map((spec, index) => (
-              <li key={index} className="text-gray-700">{spec}</li>
-            ))}
-          </ul>
+          <h3 className="font-bold mb-2 text-darkBlue">السعر</h3>
+          <p className="text-lg font-semibold text-amber-600">{unit.price.toLocaleString()} ريال</p>
         </div>
       )}
     </div>
