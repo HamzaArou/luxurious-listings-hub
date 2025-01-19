@@ -34,7 +34,18 @@ interface ProjectMedia {
 
 export default function ProjectDetails() {
   const { id } = useParams();
-  const [selectedMedia, setSelectedMedia] = useState<string | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedMediaUrl, setSelectedMediaUrl] = useState<string>("");
+
+  const handleMediaSelect = (mediaUrl: string) => {
+    setSelectedMediaUrl(mediaUrl);
+    setDialogOpen(true);
+  };
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+    setSelectedMediaUrl("");
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -144,7 +155,7 @@ export default function ProjectDetails() {
               </h2>
             </div>
             
-            <ProjectGallery images={galleryImages} />
+            <ProjectGallery images={galleryImages} onImageClick={handleMediaSelect} />
           </div>
         </div>
 
@@ -169,12 +180,12 @@ export default function ProjectDetails() {
       <Footer />
 
       {/* Media Preview Dialog */}
-      <Dialog open={!!selectedMedia} onOpenChange={() => setSelectedMedia(null)}>
+      <Dialog open={dialogOpen} onOpenChange={handleDialogClose}>
         <DialogContent className="max-w-4xl w-full p-0 overflow-hidden">
           <div className="relative w-full aspect-video">
             <img
-              src={selectedMedia || ''}
-              alt=""
+              src={selectedMediaUrl}
+              alt="Preview"
               className="w-full h-full object-contain"
             />
           </div>
