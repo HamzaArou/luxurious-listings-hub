@@ -16,6 +16,7 @@ export const projectUnitSchema = z.object({
   side: z.string().min(1, "الجهة مطلوبة"),
   rooms: z.number().min(1, "عدد الغرف مطلوب"),
   bathrooms: z.number().min(1, "عدد دورات المياه مطلوب"),
+  price: z.number().optional(),
 });
 
 // Project form schema
@@ -49,6 +50,7 @@ export interface ProjectUnit {
   side: string;
   rooms: number;
   bathrooms: number;
+  price?: number;
   details?: Record<string, any>;
 }
 
