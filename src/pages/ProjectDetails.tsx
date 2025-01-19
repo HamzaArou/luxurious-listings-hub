@@ -123,10 +123,17 @@ export default function ProjectDetails() {
             </div>
             
             <ProjectGallery images={galleryImages} onImageClick={handleMediaClick} />
+
+            <div className="mt-16">
+              <div className="flex justify-center mb-8">
+                <h2 className="text-3xl font-bold text-white bg-deepBlue py-2 px-8 rounded-tr-[5px] rounded-tl-[100px] rounded-br-[100px] rounded-bl-[5px] inline-block">
+                  جولة افتراضية 360°
+                </h2>
+              </div>
+              <Project360Views projectId={id} />
+            </div>
           </div>
         </div>
-
-        <Project360Views projectId={id} />
 
         <div className="relative py-16 bg-gradient-to-b from-deepBlue/10 to-deepBlue/5 rounded-3xl mb-12">
           <div className="container mx-auto px-4">
