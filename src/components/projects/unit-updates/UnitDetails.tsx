@@ -89,15 +89,15 @@ const UnitDetails = memo(({ unit, isSelected }: UnitDetailsProps) => {
         </div>
       )}
 
-      {/* Specifications Section */}
+      {/* Price Section */}
       {unit.details?.specifications && unit.details.specifications.length > 0 && (
         <div className="p-4 border-t">
-          <h3 className="font-bold mb-2 text-darkBlue">السعر</h3>
-          <ul className="list-disc list-inside space-y-1">
+          <h3 className="font-bold mb-4 text-darkBlue text-center">السعر</h3>
+          <div className="text-center text-2xl font-bold text-gold">
             {unit.details.specifications.map((spec, index) => (
-              <li key={index} className="text-gray-700">{spec}</li>
+              <div key={index} className="mb-2">{spec}</div>
             ))}
-          </ul>
+          </div>
         </div>
       )}
     </div>
