@@ -29,7 +29,7 @@ export default function Project360Views({ projectId }: Project360ViewsProps) {
       <div className="container mx-auto px-4">
         <div className="flex justify-center mb-8">
           <h2 className="text-3xl font-bold text-white bg-deepBlue py-2 px-8 rounded-tr-[5px] rounded-tl-[100px] rounded-br-[100px] rounded-bl-[5px] inline-block">
-            جولة افتراضية 360°
+            جولة افتراضية 360° للمشروع
           </h2>
         </div>
 
