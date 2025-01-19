@@ -54,16 +54,14 @@ const ProjectsMap = () => {
 
     const map = new maplibregl.Map({
       container: mapContainer.current,
-      style: 'https://api.maptiler.com/maps/arabic/style.json?key=0xThwp5hzLtXF2Nvi1LZ', // Using Arabic-optimized style
+      style: 'https://api.maptiler.com/maps/arabic/style.json?key=0xThwp5hzLtXF2Nvi1LZ',
       center: [39.8256, 21.4225], // Makkah coordinates
       zoom: 11,
       maxZoom: 18,
       minZoom: 8,
     });
 
-    // Add Arabic font loading if needed
     map.on('load', () => {
-      // Add custom Arabic font if needed
       if (!map.hasImage('custom-marker')) {
         const markerElement = document.createElement('div');
         markerElement.className = 'custom-marker';
@@ -74,22 +72,18 @@ const ProjectsMap = () => {
 
       console.log('Map loaded, adding markers for all locations');
       
-      // Create bounds to fit all markers
       const bounds = new maplibregl.LngLatBounds();
       
-      // Add markers for database projects
       projects.forEach(project => {
         if (project.lat && project.lng) {
           addMarker(map, project, bounds);
         }
       });
 
-      // Add markers for fixed locations
       FIXED_LOCATIONS.forEach(location => {
         addMarker(map, location, bounds);
       });
 
-      // Fit map to show all markers with padding
       if (!bounds.isEmpty()) {
         map.fitBounds(bounds, {
           padding: 50,
@@ -115,10 +109,8 @@ const ProjectsMap = () => {
     };
   }, [projects]);
 
-  // Helper function to add a marker to the map
   const addMarker = (map: maplibregl.Map, location: any, bounds: maplibregl.LngLatBounds) => {
     try {
-      // Create marker element
       const markerElement = document.createElement('div');
       markerElement.className = 'custom-marker';
       markerElement.style.width = '30px';
