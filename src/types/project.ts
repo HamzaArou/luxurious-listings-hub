@@ -51,6 +51,7 @@ export interface ProjectUnit {
   rooms: number;
   bathrooms: number;
   details?: Record<string, any>;
+  price?: number;  // Added price as optional property
 }
 
 // Project interface
