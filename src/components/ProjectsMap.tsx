@@ -59,7 +59,6 @@ const ProjectsMap = () => {
       zoom: 11,
       maxZoom: 18,
       minZoom: 8,
-      language: 'ar', // Set language to Arabic
     });
 
     // Add Arabic font loading if needed
@@ -159,22 +158,24 @@ const ProjectsMap = () => {
   return (
     <div className="h-[600px] w-full rounded-2xl overflow-hidden">
       <div ref={mapContainer} className="w-full h-full" />
-      <style jsx global>{`
-        .maplibregl-popup-content {
-          font-family: 'IBM Plex Sans Arabic', sans-serif;
-          direction: rtl;
-          text-align: right;
-          border-radius: 8px;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .custom-marker {
-          cursor: pointer;
-          transition: transform 0.2s;
-        }
-        .custom-marker:hover {
-          transform: scale(1.2);
-        }
-      `}</style>
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          .maplibregl-popup-content {
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            direction: rtl;
+            text-align: right;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+          }
+          .custom-marker {
+            cursor: pointer;
+            transition: transform 0.2s;
+          }
+          .custom-marker:hover {
+            transform: scale(1.2);
+          }
+        `
+      }} />
     </div>
   );
 };
