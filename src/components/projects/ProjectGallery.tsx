@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 
@@ -28,7 +28,6 @@ export default function ProjectGallery({ images, onImageClick }: ProjectGalleryP
     },
     slideChanged(slider) {
       setCurrentSlide(slider.track.details.rel);
-      // Preload next and previous images
       const currentIndex = slider.track.details.rel;
       const nextIndex = (currentIndex + 1) % galleryMedia.length;
       const prevIndex = (currentIndex - 1 + galleryMedia.length) % galleryMedia.length;
@@ -56,7 +55,7 @@ export default function ProjectGallery({ images, onImageClick }: ProjectGalleryP
     },
   });
 
-  const preloadImage = (mediaUrl: string) => {
+  const preloadImage = useCallback((mediaUrl: string) => {
     if (!mediaUrl || mediaUrl.endsWith('.mp4') || preloadedImages.current.has(mediaUrl)) {
       return;
     }
@@ -64,11 +63,16 @@ export default function ProjectGallery({ images, onImageClick }: ProjectGalleryP
     const img = new Image();
     img.src = getPublicUrl(mediaUrl);
     preloadedImages.current.add(mediaUrl);
-  };
+  }, []);
+
+  const getPublicUrl = useCallback((mediaUrl: string) => {
+    if (!mediaUrl) return '';
+    if (mediaUrl.startsWith('http')) return mediaUrl;
+    return `https://tdybblvmlsvxgkkwapei.supabase.co/storage/v1/object/public/project-images/${mediaUrl}`;
+  }, []);
 
   useEffect(() => {
     if (galleryMedia.length > 0) {
-      // Preload first few images immediately
       const initialPreloadCount = Math.min(3, galleryMedia.length);
       for (let i = 0; i < initialPreloadCount; i++) {
         if (galleryMedia[i].media_type === 'image') {
@@ -76,13 +80,7 @@ export default function ProjectGallery({ images, onImageClick }: ProjectGalleryP
         }
       }
     }
-  }, [galleryMedia]);
-
-  const getPublicUrl = (mediaUrl: string) => {
-    if (!mediaUrl) return '';
-    if (mediaUrl.startsWith('http')) return mediaUrl;
-    return `https://tdybblvmlsvxgkkwapei.supabase.co/storage/v1/object/public/project-images/${mediaUrl}`;
-  };
+  }, [galleryMedia, preloadImage]);
 
   if (!galleryMedia || galleryMedia.length === 0) {
     return (
@@ -92,23 +90,28 @@ export default function ProjectGallery({ images, onImageClick }: ProjectGalleryP
     );
   }
 
-  const handleImageClick = (mediaUrl: string) => {
+  const handleImageClick = (e: React.MouseEvent, mediaUrl: string) => {
+    e.stopPropagation();
     if (onImageClick) {
-      onImageClick(getPublicUrl(mediaUrl));
+      onImageClick(mediaUrl);
     }
+  };
+
+  const handleSlideChange = (e: React.MouseEvent, idx: number) => {
+    e.stopPropagation();
+    instanceRef.current?.moveToIdx(idx);
   };
 
   return (
     <section className="py-12">
       <div className="container mx-auto px-4">
-        {/* Main Gallery */}
         <div className="relative max-w-5xl mx-auto bg-gray-100 rounded-xl overflow-hidden">
           <div ref={sliderRef} className="keen-slider h-[500px]">
             {galleryMedia.map((media) => (
               <div 
                 key={media.id} 
                 className="keen-slider__slide cursor-pointer"
-                onClick={() => handleImageClick(media.media_url)}
+                onClick={(e) => handleImageClick(e, media.media_url)}
               >
                 <div className="w-full h-full flex items-center justify-center bg-black/5">
                   {media.media_type === 'video' ? (
@@ -125,8 +128,6 @@ export default function ProjectGallery({ images, onImageClick }: ProjectGalleryP
                       alt=""
                       className="w-full h-full object-contain"
                       loading="eager"
-                      decoding="async"
-                      fetchPriority="high"
                     />
                   )}
                 </div>
@@ -134,7 +135,6 @@ export default function ProjectGallery({ images, onImageClick }: ProjectGalleryP
             ))}
           </div>
 
-          {/* Navigation Arrows */}
           {loaded && (
             <>
               <button
@@ -163,16 +163,12 @@ export default function ProjectGallery({ images, onImageClick }: ProjectGalleryP
           )}
         </div>
 
-        {/* Thumbnails */}
         <div className="max-w-5xl mx-auto mt-4">
           <div ref={thumbnailRef} className="keen-slider">
             {galleryMedia.map((media, idx) => (
               <div
                 key={media.id}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  instanceRef.current?.moveToIdx(idx);
-                }}
+                onClick={(e) => handleSlideChange(e, idx)}
                 className={`keen-slider__slide cursor-pointer ${
                   currentSlide === idx ? 'ring-2 ring-primary' : ''
                 }`}
@@ -196,7 +192,6 @@ export default function ProjectGallery({ images, onImageClick }: ProjectGalleryP
                     alt=""
                     className="aspect-video w-full object-cover"
                     loading="lazy"
-                    decoding="async"
                   />
                 )}
               </div>

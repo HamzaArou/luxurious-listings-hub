@@ -25,13 +25,6 @@ function ProjectDetailsSkeleton() {
   );
 }
 
-interface ProjectMedia {
-  id: string;
-  media_url: string;
-  media_type: "image" | "video";
-  content_type: string;
-}
-
 export default function ProjectDetails() {
   const { id } = useParams();
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -44,66 +37,41 @@ export default function ProjectDetails() {
   const { data: project, isLoading, error } = useQuery({
     queryKey: ['project', id],
     queryFn: async () => {
-      if (!id) {
-        console.error('No project ID provided');
-        throw new Error('Project ID is required');
-      }
+      if (!id) throw new Error('Project ID is required');
 
-      console.log('Fetching project with ID:', id);
+      const { data: project, error: projectError } = await supabase
+        .from('projects')
+        .select(`
+          *,
+          project_details(*),
+          project_images(*)
+        `)
+        .eq('id', id)
+        .maybeSingle();
 
-      try {
-        const { data: project, error: projectError } = await supabase
-          .from('projects')
-          .select(`
-            *,
-            project_details(*),
-            project_images(*)
-          `)
-          .eq('id', id)
-          .maybeSingle();
-
-        if (projectError) {
-          console.error('Supabase error:', projectError);
-          throw projectError;
-        }
-
-        if (!project) {
-          console.error('Project not found for ID:', id);
-          return null;
-        }
-
-        console.log('Project data retrieved:', project);
-        return project;
-      } catch (error) {
-        console.error('Error in query function:', error);
-        throw error;
-      }
+      if (projectError) throw projectError;
+      if (!project) return null;
+      return project;
     },
     retry: 1,
     retryDelay: 1000,
-    staleTime: 1000 * 60 * 5, // Cache for 5 minutes
-    gcTime: 1000 * 60 * 30, // Keep in cache for 30 minutes
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 30,
   });
 
   const handleMediaClick = (mediaUrl: string) => {
-    try {
-      setSelectedMediaUrl(mediaUrl);
-      setDialogOpen(true);
-    } catch (error) {
-      console.error('Error handling media click:', error);
-    }
+    if (!mediaUrl) return;
+    const url = mediaUrl.startsWith('http') ? mediaUrl : 
+      `https://tdybblvmlsvxgkkwapei.supabase.co/storage/v1/object/public/project-images/${mediaUrl}`;
+    setSelectedMediaUrl(url);
+    setDialogOpen(true);
   };
 
   const handleCloseDialog = () => {
-    try {
-      setDialogOpen(false);
-      setSelectedMediaUrl(null);
-    } catch (error) {
-      console.error('Error closing dialog:', error);
-    }
+    setDialogOpen(false);
+    setTimeout(() => setSelectedMediaUrl(null), 200);
   };
 
-  // Show loading state
   if (isLoading) {
     return (
       <div>
@@ -116,27 +84,23 @@ export default function ProjectDetails() {
     );
   }
 
-  // Show error or not found state
   if (error || !project) {
     console.error('Project details error:', error);
     return <NotFound />;
   }
 
   const thumbnailUrl = "https://tdybblvmlsvxgkkwapei.supabase.co/storage/v1/object/public/project-images/project_f47ac10b-58cc-4372-a567-0e02b2c3d479/project1.png";
-
-  const galleryImages = (project.project_images || []) as ProjectMedia[];
+  const galleryImages = (project.project_images || []);
 
   return (
     <div className="min-h-screen">
       <Header />
       <div className="container mx-auto px-4 py-8 mt-[120px]">
-        {/* Hero Section */}
         <div className="mb-12 text-center">
           <p className="text-gold text-xl mb-2">مشروع</p>
           <h1 className="text-5xl font-bold text-gold mb-3">{project.name}</h1>
           <p className="text-2xl text-deepBlue mb-8">{project.location}</p>
           
-          {/* Project Hero Image */}
           <div className="relative mx-auto bg-gradient-to-b from-deepBlue/10 to-deepBlue/5 p-4 sm:p-6 rounded-[30px] sm:rounded-[40px] shadow-lg w-[350px] sm:w-[450px]">
             <div className="w-[320px] sm:w-[386px] mx-auto rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl" style={{ height: '400px' }}>
               <img
@@ -144,16 +108,11 @@ export default function ProjectDetails() {
                 alt={project.name}
                 className="w-full h-full object-cover"
                 loading="lazy"
-                onError={(e) => {
-                  console.error('Image failed to load:', thumbnailUrl);
-                  e.currentTarget.src = '/placeholder.svg';
-                }}
               />
             </div>
           </div>
         </div>
 
-        {/* Project Media Gallery Section */}
         <div className="relative py-16 bg-gradient-to-b from-deepBlue/10 to-deepBlue/5 rounded-3xl mb-12">
           <div className="container mx-auto px-4">
             <div className="flex justify-center mb-8">
@@ -166,7 +125,6 @@ export default function ProjectDetails() {
           </div>
         </div>
 
-        {/* Project Updates Section */}
         <div className="relative py-16 bg-gradient-to-b from-deepBlue/10 to-deepBlue/5 rounded-3xl mb-12">
           <div className="container mx-auto px-4">
             <div className="flex justify-center mb-8">
@@ -181,12 +139,10 @@ export default function ProjectDetails() {
           </div>
         </div>
 
-        {/* Contact Us Section */}
         <ContactUs projectId={id} projectName={project.name} />
       </div>
       <Footer />
 
-      {/* Media Preview Dialog */}
       <Dialog open={dialogOpen} onOpenChange={handleCloseDialog}>
         <DialogContent className="max-w-4xl w-full p-0 overflow-hidden bg-black/90">
           {selectedMediaUrl && (
