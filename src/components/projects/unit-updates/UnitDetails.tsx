@@ -80,7 +80,7 @@ const UnitDetails = memo(({ unit, isSelected }: UnitDetailsProps) => {
       {/* Guarantees Section */}
       {unit.details?.guarantees && unit.details.guarantees.length > 0 && (
         <div className="p-4 border-t">
-          <h3 className="font-bold mb-2 text-darkBlue">الضمانات والمميزات الإضافية</h3>
+          <h3 className="font-bold mb-2 text-darkBlue">ضمانات ومميزات الإضافية</h3>
           <ul className="list-disc list-inside space-y-1">
             {unit.details.guarantees.map((guarantee, index) => (
               <li key={index} className="text-gray-700">{guarantee}</li>
