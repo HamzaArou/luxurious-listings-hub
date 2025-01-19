@@ -105,11 +105,11 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
       <div className="container mx-auto px-4 max-w-6xl">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Contact Form Section with Title */}
-          <div className="space-y-6">
+          <div className="space-y-6 h-[600px] flex flex-col">
             <h2 className="text-3xl font-bold text-darkBlue text-center">
               {projectId ? "سجل اهتمامك بهذا المشروع" : "سجل اهتمامك"}
             </h2>
-            <div className="bg-white rounded-2xl shadow-lg p-8">
+            <div className="bg-white rounded-2xl shadow-lg p-8 flex-1 overflow-y-auto">
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <input
@@ -195,11 +195,11 @@ const ContactUs = ({ projectId, projectName }: { projectId?: string, projectName
           </div>
 
           {/* Map Section with Title */}
-          <div className="space-y-6">
+          <div className="space-y-6 h-[600px] flex flex-col">
             <h2 className="text-3xl font-bold text-darkBlue text-center">
               مشاريع الفيصل
             </h2>
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden h-[600px] relative">
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden flex-1">
               <ProjectsMap />
             </div>
           </div>
