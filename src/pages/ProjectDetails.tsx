@@ -86,13 +86,21 @@ export default function ProjectDetails() {
   });
 
   const handleMediaClick = (mediaUrl: string) => {
-    setSelectedMediaUrl(mediaUrl);
-    setDialogOpen(true);
+    try {
+      setSelectedMediaUrl(mediaUrl);
+      setDialogOpen(true);
+    } catch (error) {
+      console.error('Error handling media click:', error);
+    }
   };
 
   const handleCloseDialog = () => {
-    setDialogOpen(false);
-    setSelectedMediaUrl(null);
+    try {
+      setDialogOpen(false);
+      setSelectedMediaUrl(null);
+    } catch (error) {
+      console.error('Error closing dialog:', error);
+    }
   };
 
   // Show loading state
@@ -180,13 +188,14 @@ export default function ProjectDetails() {
 
       {/* Media Preview Dialog */}
       <Dialog open={dialogOpen} onOpenChange={handleCloseDialog}>
-        <DialogContent className="max-w-4xl w-full p-0 overflow-hidden">
+        <DialogContent className="max-w-4xl w-full p-0 overflow-hidden bg-black/90">
           {selectedMediaUrl && (
             <div className="relative w-full aspect-video">
               <img
                 src={selectedMediaUrl}
                 alt=""
                 className="w-full h-full object-contain"
+                loading="eager"
               />
             </div>
           )}

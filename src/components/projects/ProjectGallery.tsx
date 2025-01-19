@@ -138,7 +138,10 @@ export default function ProjectGallery({ images, onImageClick }: ProjectGalleryP
           {loaded && (
             <>
               <button
-                onClick={() => instanceRef.current?.prev()}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  instanceRef.current?.prev();
+                }}
                 className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white p-2 rounded-full shadow-lg"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -146,7 +149,10 @@ export default function ProjectGallery({ images, onImageClick }: ProjectGalleryP
                 </svg>
               </button>
               <button
-                onClick={() => instanceRef.current?.next()}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  instanceRef.current?.next();
+                }}
                 className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white p-2 rounded-full shadow-lg"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -163,7 +169,10 @@ export default function ProjectGallery({ images, onImageClick }: ProjectGalleryP
             {galleryMedia.map((media, idx) => (
               <div
                 key={media.id}
-                onClick={() => instanceRef.current?.moveToIdx(idx)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  instanceRef.current?.moveToIdx(idx);
+                }}
                 className={`keen-slider__slide cursor-pointer ${
                   currentSlide === idx ? 'ring-2 ring-primary' : ''
                 }`}
