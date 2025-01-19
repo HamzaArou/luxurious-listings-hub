@@ -40,7 +40,7 @@ export default function Project360Views({ projectId }: Project360ViewsProps) {
               href={view.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group bg-white rounded-lg p-4 shadow-lg hover:shadow-xl transition-all duration-300 text-center"
+              className="group bg-white rounded-lg p-3 shadow-lg hover:shadow-xl transition-all duration-300 text-center"
             >
               <div className="flex justify-center mb-3">
                 <Rotate3d className="w-10 h-10 text-gold group-hover:scale-110 transition-transform duration-300" />
