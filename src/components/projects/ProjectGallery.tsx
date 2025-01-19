@@ -11,9 +11,10 @@ interface ProjectMedia {
 
 interface ProjectGalleryProps {
   images: ProjectMedia[];
+  onImageClick?: (mediaUrl: string) => void;
 }
 
-export default function ProjectGallery({ images }: ProjectGalleryProps) {
+export default function ProjectGallery({ images, onImageClick }: ProjectGalleryProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [loaded, setLoaded] = useState(false);
   const galleryMedia = images.filter(img => img.content_type === 'gallery');
@@ -91,6 +92,12 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
     );
   }
 
+  const handleImageClick = (mediaUrl: string) => {
+    if (onImageClick) {
+      onImageClick(getPublicUrl(mediaUrl));
+    }
+  };
+
   return (
     <section className="py-12">
       <div className="container mx-auto px-4">
@@ -98,7 +105,11 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
         <div className="relative max-w-5xl mx-auto bg-gray-100 rounded-xl overflow-hidden">
           <div ref={sliderRef} className="keen-slider h-[500px]">
             {galleryMedia.map((media) => (
-              <div key={media.id} className="keen-slider__slide">
+              <div 
+                key={media.id} 
+                className="keen-slider__slide cursor-pointer"
+                onClick={() => handleImageClick(media.media_url)}
+              >
                 <div className="w-full h-full flex items-center justify-center bg-black/5">
                   {media.media_type === 'video' ? (
                     <video

@@ -34,7 +34,8 @@ interface ProjectMedia {
 
 export default function ProjectDetails() {
   const { id } = useParams();
-  const [selectedMedia, setSelectedMedia] = useState<string | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedMediaUrl, setSelectedMediaUrl] = useState<string | null>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -83,6 +84,16 @@ export default function ProjectDetails() {
     staleTime: 1000 * 60 * 5, // Cache for 5 minutes
     gcTime: 1000 * 60 * 30, // Keep in cache for 30 minutes
   });
+
+  const handleMediaClick = (mediaUrl: string) => {
+    setSelectedMediaUrl(mediaUrl);
+    setDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+    setSelectedMediaUrl(null);
+  };
 
   // Show loading state
   if (isLoading) {
@@ -143,7 +154,7 @@ export default function ProjectDetails() {
               </h2>
             </div>
             
-            <ProjectGallery images={galleryImages} />
+            <ProjectGallery images={galleryImages} onImageClick={handleMediaClick} />
           </div>
         </div>
 
@@ -168,15 +179,17 @@ export default function ProjectDetails() {
       <Footer />
 
       {/* Media Preview Dialog */}
-      <Dialog open={!!selectedMedia} onOpenChange={() => setSelectedMedia(null)}>
+      <Dialog open={dialogOpen} onOpenChange={handleCloseDialog}>
         <DialogContent className="max-w-4xl w-full p-0 overflow-hidden">
-          <div className="relative w-full aspect-video">
-            <img
-              src={selectedMedia || ''}
-              alt=""
-              className="w-full h-full object-contain"
-            />
-          </div>
+          {selectedMediaUrl && (
+            <div className="relative w-full aspect-video">
+              <img
+                src={selectedMediaUrl}
+                alt=""
+                className="w-full h-full object-contain"
+              />
+            </div>
+          )}
         </DialogContent>
       </Dialog>
     </div>
