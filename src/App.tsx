@@ -21,8 +21,8 @@ function App() {
         </Route>
         <Route path="/admin" element={<AdminLogin />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/project/new" element={<ProjectForm />} />
-        <Route path="/admin/project/:id" element={<ProjectForm />} />
+        <Route path="/admin/projects/new" element={<ProjectForm />} />
+        <Route path="/admin/projects/:id" element={<ProjectForm />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Toaster />
