@@ -12,11 +12,6 @@ interface UnitDetailsProps {
 const UnitDetails = memo(({ unit, isSelected }: UnitDetailsProps) => {
   if (!isSelected) return null;
 
-  const formatPrice = (price?: number) => {
-    if (!price) return "السعر عند الطلب";
-    return `${price.toLocaleString('ar-SA')} ريال`;
-  };
-
   return (
     <div
       className={cn(
@@ -67,10 +62,6 @@ const UnitDetails = memo(({ unit, isSelected }: UnitDetailsProps) => {
             <TableCell className="font-bold">عدد دورات المياه</TableCell>
             <TableCell>{unit.bathrooms || 'غير محدد'}</TableCell>
           </TableRow>
-          <TableRow>
-            <TableCell className="font-bold">السعر</TableCell>
-            <TableCell className="text-gold font-bold">{formatPrice(unit.price)}</TableCell>
-          </TableRow>
         </TableBody>
       </Table>
 
@@ -93,6 +84,18 @@ const UnitDetails = memo(({ unit, isSelected }: UnitDetailsProps) => {
           <ul className="list-disc list-inside space-y-1">
             {unit.details.guarantees.map((guarantee, index) => (
               <li key={index} className="text-gray-700">{guarantee}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* Specifications Section */}
+      {unit.details?.specifications && unit.details.specifications.length > 0 && (
+        <div className="p-4 border-t">
+          <h3 className="font-bold mb-2 text-darkBlue">المواصفات</h3>
+          <ul className="list-disc list-inside space-y-1">
+            {unit.details.specifications.map((spec, index) => (
+              <li key={index} className="text-gray-700">{spec}</li>
             ))}
           </ul>
         </div>
