@@ -89,6 +89,38 @@ export type Database = {
         }
         Relationships: []
       }
+      project_360_views: {
+        Row: {
+          created_at: string
+          id: string
+          project_id: string | null
+          title: string;
+          url: string;
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          project_id?: string | null
+          title: string;
+          url: string;
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          project_id?: string | null
+          title?: string;
+          url?: string;
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_360_views_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       project_details: {
         Row: {
           created_at: string
@@ -172,7 +204,7 @@ export type Database = {
         Insert: {
           created_at?: string
           file_url: string
-          id?: string
+          id: string
           project_id?: string | null
         }
         Update: {
@@ -271,7 +303,7 @@ export type Database = {
           project_id?: string | null
           status: string
           unit_number: number
-          updated_at?: string
+          updated_at: string
         }
         Update: {
           created_at?: string
@@ -379,7 +411,7 @@ export type Tables<
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
         Database[PublicTableNameOrOptions["schema"]]["Views"])
-    : never = never,
+    : never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
       Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
@@ -433,8 +465,8 @@ export type TablesUpdate<
     : never
   : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
     ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
-        Update: infer U
-      }
+      Update: infer U
+    }
       ? U
       : never
     : never
@@ -466,3 +498,11 @@ export type CompositeTypes<
   : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
     ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
+
+export interface Project360View {
+  id: string;
+  project_id: string | null;
+  title: string;
+  url: string;
+  created_at: string;
+}

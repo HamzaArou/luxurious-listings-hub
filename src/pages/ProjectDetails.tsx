@@ -4,6 +4,7 @@ import ProjectGallery from "@/components/projects/ProjectGallery";
 import ProjectUnits from "@/components/projects/ProjectUnits";
 import ProjectLocation from "@/components/projects/ProjectLocation";
 import ProjectUpdates from "@/components/projects/ProjectUpdates";
+import Project360Views from "@/components/projects/Project360Views";
 import ContactUs from "@/components/ContactUs";
 import { useState, useEffect } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -124,6 +125,8 @@ export default function ProjectDetails() {
             <ProjectGallery images={galleryImages} onImageClick={handleMediaClick} />
           </div>
         </div>
+
+        <Project360Views projectId={id} />
 
         <div className="relative py-16 bg-gradient-to-b from-deepBlue/10 to-deepBlue/5 rounded-3xl mb-12">
           <div className="container mx-auto px-4">
