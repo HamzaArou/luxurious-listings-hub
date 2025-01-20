@@ -52,17 +52,18 @@ const ProjectsMap = () => {
   useEffect(() => {
     if (!mapContainer.current || mapInstance.current) return;
 
-    // Create custom icon for markers
+    // Create custom icon for markers with updated design
     const customIcon = L.icon({
       iconUrl: 'data:image/svg+xml;base64,' + btoa(`
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="16" cy="16" r="14" fill="#000000"/>
-          <circle cx="16" cy="16" r="6" fill="#006F3E"/>
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="20" r="18" fill="#000000"/>
+          <circle cx="20" cy="20" r="14" fill="#606060"/>
+          <circle cx="20" cy="20" r="8" fill="#006F3E"/>
         </svg>
       `),
-      iconSize: [32, 32],
-      iconAnchor: [16, 16],
-      popupAnchor: [0, -16],
+      iconSize: [40, 40],
+      iconAnchor: [20, 20],
+      popupAnchor: [0, -20],
     });
 
     const map = L.map(mapContainer.current, {
@@ -71,7 +72,6 @@ const ProjectsMap = () => {
       zoomControl: true,
     });
 
-    // Add MapTiler layer with Arabic labels
     L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=0xThwp5hzLtXF2Nvi1LZ', {
       attribution: '\u003ca href="https://www.maptiler.com/copyright/" target="_blank"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href="https://www.openstreetmap.org/copyright" target="_blank"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e',
       maxZoom: 18,
