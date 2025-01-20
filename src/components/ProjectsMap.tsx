@@ -75,7 +75,6 @@ const ProjectsMap = () => {
     L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=0xThwp5hzLtXF2Nvi1LZ', {
       attribution: '\u003ca href="https://www.maptiler.com/copyright/" target="_blank"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href="https://www.openstreetmap.org/copyright" target="_blank"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e',
       maxZoom: 18,
-      language: 'ar',
     }).addTo(map);
 
     // Clear existing markers
@@ -94,14 +93,13 @@ const ProjectsMap = () => {
       addMarker(map, location, customIcon);
     });
 
-    // Fit bounds to show all markers
-    const bounds = L.latLngBounds(
-      [...projects, ...FIXED_LOCATIONS]
-        .filter(loc => loc.lat && loc.lng)
-        .map(loc => [loc.lat!, loc.lng!])
-    );
-    
-    if (!bounds.isEmpty()) {
+    // Create bounds from all valid coordinates
+    const coordinates = [...projects, ...FIXED_LOCATIONS]
+      .filter(loc => loc.lat && loc.lng)
+      .map(loc => [loc.lat!, loc.lng!]);
+
+    if (coordinates.length > 0) {
+      const bounds = L.latLngBounds(coordinates as [number, number][]);
       map.fitBounds(bounds, { padding: [50, 50] });
     }
 
