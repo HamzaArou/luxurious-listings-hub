@@ -58,11 +58,7 @@ const ProjectsMap = () => {
         <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="20" cy="20" r="18" fill="#000000"/>
           <circle cx="20" cy="20" r="14" fill="#606060"/>
-          <image href="data:image/png;base64,${btoa(
-            '<svg width="16" height="16" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">' +
-            '<path d="M20,0 L180,0 L180,20 L160,20 L160,40 L140,40 L140,60 L120,60 L120,80 L100,80 L100,100 L80,100 L80,80 L60,80 L60,60 L40,60 L40,40 L20,40 L20,20 L0,20 L0,0 Z" fill="white"/>' +
-            '</svg>'
-          )}" x="12" y="12" width="16" height="16"/>
+          <image href="/lovable-uploads/0087e3eb-113f-4d49-af86-7bcb5ccdbf3c.png" x="8" y="8" width="24" height="24" preserveAspectRatio="xMidYMid meet"/>
         </svg>
       `),
       iconSize: [40, 40],
@@ -74,8 +70,8 @@ const ProjectsMap = () => {
       center: [21.4225, 39.8256], // Makkah coordinates
       zoom: 11,
       zoomControl: true,
-      minZoom: 10, // Prevent zooming out too far
-      maxZoom: 18, // Allow closer zoom for detail
+      minZoom: 10,
+      maxZoom: 18,
     });
 
     // Use MapTiler's Arabic-optimized style with more POIs and labels
@@ -112,14 +108,20 @@ const ProjectsMap = () => {
       map.fitBounds(bounds, { padding: [50, 50] });
     }
 
-    // Add custom CSS to increase Arabic text size
+    // Add custom CSS to increase Arabic text size and visibility
     const style = document.createElement('style');
     style.textContent = `
       .leaflet-tile-container img {
-        font-size: 14px !important;
+        font-size: 16px !important;
       }
       .leaflet-popup-content {
-        font-size: 16px !important;
+        font-size: 18px !important;
+      }
+      .leaflet-container {
+        font: 16px/1.5 "IBM Plex Sans Arabic", sans-serif !important;
+      }
+      .leaflet-marker-icon {
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
       }
     `;
     document.head.appendChild(style);
