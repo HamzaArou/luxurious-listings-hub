@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
-import maplibregl from 'maplibre-gl';
-import 'maplibre-gl/dist/maplibre-gl.css';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 interface Project {
   id: string;
@@ -33,7 +33,8 @@ const FIXED_LOCATIONS = [
 
 const ProjectsMap = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
-  const mapInstance = useRef<maplibregl.Map | null>(null);
+  const mapInstance = useRef<L.Map | null>(null);
+  const markersRef = useRef<L.Marker[]>([]);
 
   const { data: projects = [] } = useQuery({
     queryKey: ['projects'],
@@ -51,59 +52,73 @@ const ProjectsMap = () => {
   useEffect(() => {
     if (!mapContainer.current || mapInstance.current) return;
 
-    const map = new maplibregl.Map({
-      container: mapContainer.current,
-      style: `https://api.maptiler.com/maps/streets-v2/style.json?key=0xThwp5hzLtXF2Nvi1LZ&language=ar`,
-      center: [39.8256, 21.4225], // Makkah coordinates
-      zoom: 11,
+    // Create custom icon for markers
+    const customIcon = L.icon({
+      iconUrl: 'data:image/svg+xml;base64,' + btoa(`
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="16" cy="16" r="14" fill="#000000"/>
+          <circle cx="16" cy="16" r="6" fill="#006F3E"/>
+        </svg>
+      `),
+      iconSize: [32, 32],
+      iconAnchor: [16, 16],
+      popupAnchor: [0, -16],
     });
 
-    map.addControl(new maplibregl.NavigationControl(), 'top-right');
+    const map = L.map(mapContainer.current, {
+      center: [21.4225, 39.8256], // Makkah coordinates
+      zoom: 11,
+      zoomControl: true,
+    });
 
-    map.on('load', () => {
-      console.log('Map loaded, adding markers for all locations');
-      
-      // Create bounds to fit all markers
-      const bounds = new maplibregl.LngLatBounds();
-      
-      // Add markers for database projects
-      projects.forEach(project => {
-        if (project.lat && project.lng) {
-          addMarker(map, project, bounds);
-        }
-      });
+    // Add MapTiler layer with Arabic labels
+    L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=0xThwp5hzLtXF2Nvi1LZ', {
+      attribution: '\u003ca href="https://www.maptiler.com/copyright/" target="_blank"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href="https://www.openstreetmap.org/copyright" target="_blank"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e',
+      maxZoom: 18,
+      language: 'ar',
+    }).addTo(map);
 
-      // Add markers for fixed locations
-      FIXED_LOCATIONS.forEach(location => {
-        addMarker(map, location, bounds);
-      });
+    // Clear existing markers
+    markersRef.current.forEach(marker => marker.remove());
+    markersRef.current = [];
 
-      // Fit map to show all markers with padding
-      if (!bounds.isEmpty()) {
-        map.fitBounds(bounds, {
-          padding: 50,
-          maxZoom: 13
-        });
+    // Add markers for database projects
+    projects.forEach(project => {
+      if (project.lat && project.lng) {
+        addMarker(map, project, customIcon);
       }
     });
+
+    // Add markers for fixed locations
+    FIXED_LOCATIONS.forEach(location => {
+      addMarker(map, location, customIcon);
+    });
+
+    // Fit bounds to show all markers
+    const bounds = L.latLngBounds(
+      [...projects, ...FIXED_LOCATIONS]
+        .filter(loc => loc.lat && loc.lng)
+        .map(loc => [loc.lat!, loc.lng!])
+    );
+    
+    if (!bounds.isEmpty()) {
+      map.fitBounds(bounds, { padding: [50, 50] });
+    }
 
     mapInstance.current = map;
 
     return () => {
       map.remove();
       mapInstance.current = null;
+      markersRef.current = [];
     };
   }, [projects]);
 
-  const addMarker = (map: maplibregl.Map, location: any, bounds: maplibregl.LngLatBounds) => {
+  const addMarker = (map: L.Map, location: any, icon: L.Icon) => {
     try {
-      const marker = new maplibregl.Marker({
-        color: '#FF0000',
-      })
-        .setLngLat([location.lng, location.lat])
+      const marker = L.marker([location.lat, location.lng], { icon })
         .addTo(map);
 
-      // Create a popup element with proper RTL support
       const popupContent = document.createElement('div');
       popupContent.className = 'rtl-popup';
       popupContent.innerHTML = `
@@ -114,16 +129,8 @@ const ProjectsMap = () => {
         </div>
       `;
 
-      const popup = new maplibregl.Popup({ 
-        offset: 25,
-        closeButton: true,
-        closeOnClick: true,
-        maxWidth: '300px'
-      })
-      .setDOMContent(popupContent);
-
-      marker.setPopup(popup);
-      bounds.extend([location.lng, location.lat]);
+      marker.bindPopup(popupContent);
+      markersRef.current.push(marker);
       
       console.log(`Added marker for location:`, location);
     } catch (error) {
@@ -135,7 +142,7 @@ const ProjectsMap = () => {
     <div className="h-[600px] w-full rounded-2xl overflow-hidden">
       <div ref={mapContainer} className="w-full h-full" />
       <style>{`
-        .rtl-popup .maplibregl-popup-content {
+        .rtl-popup .leaflet-popup-content {
           direction: rtl;
           text-align: right;
           font-family: 'IBM Plex Sans Arabic', sans-serif;

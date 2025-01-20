@@ -53,6 +53,7 @@
     "embla-carousel-react": "^8.3.0",
     "input-otp": "^1.2.4",
     "keen-slider": "^6.8.6",
+    "leaflet": "^1.9.4",
     "lucide-react": "^0.462.0",
     "mapbox-gl": "^3.9.2",
     "maplibre-gl": "^5.0.1",
