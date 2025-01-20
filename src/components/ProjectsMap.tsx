@@ -52,18 +52,18 @@ const ProjectsMap = () => {
   useEffect(() => {
     if (!mapContainer.current || mapInstance.current) return;
 
-    // Create custom icon for markers with updated design
+    // Create custom icon for markers with updated pin design
     const customIcon = L.icon({
       iconUrl: 'data:image/svg+xml;base64,' + btoa(`
-        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="20" cy="20" r="18" fill="#000000"/>
-          <circle cx="20" cy="20" r="14" fill="#606060"/>
+        <svg width="40" height="50" viewBox="0 0 40 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 0C8.954 0 0 8.954 0 20c0 15 20 30 20 30s20-15 20-30c0-11.046-8.954-20-20-20z" fill="#000000"/>
+          <path d="M20 4C10.059 4 2 12.059 2 22c0 13 18 26 18 26s18-13 18-26c0-9.941-8.059-18-18-18z" fill="#606060"/>
           <image href="/lovable-uploads/0087e3eb-113f-4d49-af86-7bcb5ccdbf3c.png" x="8" y="8" width="24" height="24" preserveAspectRatio="xMidYMid meet"/>
         </svg>
       `),
-      iconSize: [40, 40],
-      iconAnchor: [20, 20],
-      popupAnchor: [0, -20],
+      iconSize: [40, 50],
+      iconAnchor: [20, 50],
+      popupAnchor: [0, -45],
     });
 
     const map = L.map(mapContainer.current, {
@@ -129,7 +129,6 @@ const ProjectsMap = () => {
     mapInstance.current = map;
 
     return () => {
-      style.remove();
       map.remove();
       mapInstance.current = null;
       markersRef.current = [];
@@ -171,6 +170,9 @@ const ProjectsMap = () => {
         }
         .leaflet-container {
           font: 16px/1.5 "IBM Plex Sans Arabic", sans-serif !important;
+        }
+        .leaflet-marker-icon {
+          filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
         }
       `}</style>
     </div>
