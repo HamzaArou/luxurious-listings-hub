@@ -105,14 +105,24 @@ const ProjectsMap = () => {
         .setLngLat([location.lng, location.lat])
         .addTo(map);
 
-      const popup = new maplibregl.Popup({ offset: 25 })
-        .setHTML(`
-          <div dir="rtl" class="p-2">
-            <h3 class="font-bold text-lg mb-1">${location.name}</h3>
-            <p class="text-sm text-gray-600">المنطقة: ${location.location}</p>
-            <p class="text-xs text-gray-500">الإحداثيات: ${location.lat}, ${location.lng}</p>
-          </div>
-        `);
+      // Create a popup element with proper RTL support
+      const popupContent = document.createElement('div');
+      popupContent.className = 'rtl-popup';
+      popupContent.innerHTML = `
+        <div style="direction: rtl; text-align: right; font-family: 'IBM Plex Sans Arabic', sans-serif;">
+          <h3 style="font-weight: bold; font-size: 1rem; margin-bottom: 0.25rem; color: #1a1a1a;">${location.name}</h3>
+          <p style="font-size: 0.875rem; color: #4a5568;">المنطقة: ${location.location}</p>
+          <p style="font-size: 0.75rem; color: #718096;">الإحداثيات: ${location.lat}, ${location.lng}</p>
+        </div>
+      `;
+
+      const popup = new maplibregl.Popup({ 
+        offset: 25,
+        closeButton: true,
+        closeOnClick: true,
+        maxWidth: '300px'
+      })
+      .setDOMContent(popupContent);
 
       marker.setPopup(popup);
       bounds.extend([location.lng, location.lat]);
@@ -126,6 +136,13 @@ const ProjectsMap = () => {
   return (
     <div className="h-[600px] w-full rounded-2xl overflow-hidden">
       <div ref={mapContainer} className="w-full h-full" />
+      <style>{`
+        .rtl-popup .maplibregl-popup-content {
+          direction: rtl;
+          text-align: right;
+          font-family: 'IBM Plex Sans Arabic', sans-serif;
+        }
+      `}</style>
     </div>
   );
 };
