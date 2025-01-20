@@ -12,7 +12,6 @@ interface Project {
   lng?: number;
 }
 
-// Hardcoded locations that should always appear on the map
 const FIXED_LOCATIONS = [
   { lat: 21.328682, lng: 39.682289, name: 'مشروع الفيصل الأول', location: 'مكة المكرمة' },
   { lat: 21.335788, lng: 39.695381, name: 'مشروع الفيصل الثاني', location: 'مكة المكرمة' },
@@ -54,16 +53,9 @@ const ProjectsMap = () => {
 
     const map = new maplibregl.Map({
       container: mapContainer.current,
-      style: `https://api.maptiler.com/maps/basic-v2/style.json?key=0xThwp5hzLtXF2Nvi1LZ`,
+      style: `https://api.maptiler.com/maps/streets-v2/style.json?key=0xThwp5hzLtXF2Nvi1LZ&language=ar`,
       center: [39.8256, 21.4225], // Makkah coordinates
       zoom: 11,
-      transformRequest: (url, resourceType) => {
-        if (resourceType === 'Style' && url.includes('maptiler')) {
-          return {
-            url: url + '&language=ar'
-          };
-        }
-      }
     });
 
     map.addControl(new maplibregl.NavigationControl(), 'top-right');
@@ -103,7 +95,6 @@ const ProjectsMap = () => {
     };
   }, [projects]);
 
-  // Helper function to add a marker to the map
   const addMarker = (map: maplibregl.Map, location: any, bounds: maplibregl.LngLatBounds) => {
     try {
       const marker = new maplibregl.Marker({
