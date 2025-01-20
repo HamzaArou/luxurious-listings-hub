@@ -54,9 +54,10 @@ const ProjectsMap = () => {
 
     const map = new maplibregl.Map({
       container: mapContainer.current,
-      style: `https://api.maptiler.com/maps/streets/style.json?key=0xThwp5hzLtXF2Nvi1LZ`,
+      style: `https://api.maptiler.com/maps/streets-ar/style.json?key=0xThwp5hzLtXF2Nvi1LZ`, // Changed to Arabic-optimized style
       center: [39.8256, 21.4225], // Makkah coordinates
       zoom: 11,
+      language: 'ar', // Set language to Arabic
     });
 
     map.addControl(new maplibregl.NavigationControl(), 'top-right');
