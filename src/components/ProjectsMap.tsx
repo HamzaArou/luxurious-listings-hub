@@ -58,7 +58,11 @@ const ProjectsMap = () => {
         <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="20" cy="20" r="18" fill="#000000"/>
           <circle cx="20" cy="20" r="14" fill="#606060"/>
-          <circle cx="20" cy="20" r="8" fill="#006F3E"/>
+          <image href="data:image/png;base64,${btoa(
+            '<svg width="16" height="16" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">' +
+            '<path d="M20,0 L180,0 L180,20 L160,20 L160,40 L140,40 L140,60 L120,60 L120,80 L100,80 L100,100 L80,100 L80,80 L60,80 L60,60 L40,60 L40,40 L20,40 L20,20 L0,20 L0,0 Z" fill="white"/>' +
+            '</svg>'
+          )}" x="12" y="12" width="16" height="16"/>
         </svg>
       `),
       iconSize: [40, 40],
@@ -70,11 +74,16 @@ const ProjectsMap = () => {
       center: [21.4225, 39.8256], // Makkah coordinates
       zoom: 11,
       zoomControl: true,
+      minZoom: 10, // Prevent zooming out too far
+      maxZoom: 18, // Allow closer zoom for detail
     });
 
-    L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=0xThwp5hzLtXF2Nvi1LZ', {
+    // Use MapTiler's Arabic-optimized style with more POIs and labels
+    L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=0xThwp5hzLtXF2Nvi1LZ&language=ar', {
       attribution: '\u003ca href="https://www.maptiler.com/copyright/" target="_blank"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href="https://www.openstreetmap.org/copyright" target="_blank"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e',
       maxZoom: 18,
+      tileSize: 512,
+      zoomOffset: -1,
     }).addTo(map);
 
     // Clear existing markers
@@ -94,18 +103,31 @@ const ProjectsMap = () => {
     });
 
     // Create bounds from all valid coordinates
-    const coordinates = [...projects, ...FIXED_LOCATIONS]
+    const validCoordinates = [...projects, ...FIXED_LOCATIONS]
       .filter(loc => loc.lat && loc.lng)
       .map(loc => [loc.lat!, loc.lng!]);
 
-    if (coordinates.length > 0) {
-      const bounds = L.latLngBounds(coordinates as [number, number][]);
+    if (validCoordinates.length > 0) {
+      const bounds = L.latLngBounds(validCoordinates as [number, number][]);
       map.fitBounds(bounds, { padding: [50, 50] });
     }
+
+    // Add custom CSS to increase Arabic text size
+    const style = document.createElement('style');
+    style.textContent = `
+      .leaflet-tile-container img {
+        font-size: 14px !important;
+      }
+      .leaflet-popup-content {
+        font-size: 16px !important;
+      }
+    `;
+    document.head.appendChild(style);
 
     mapInstance.current = map;
 
     return () => {
+      style.remove();
       map.remove();
       mapInstance.current = null;
       markersRef.current = [];
@@ -121,9 +143,9 @@ const ProjectsMap = () => {
       popupContent.className = 'rtl-popup';
       popupContent.innerHTML = `
         <div style="direction: rtl; text-align: right; font-family: 'IBM Plex Sans Arabic', sans-serif;">
-          <h3 style="font-weight: bold; font-size: 1rem; margin-bottom: 0.25rem; color: #1a1a1a;">${location.name}</h3>
-          <p style="font-size: 0.875rem; color: #4a5568;">المنطقة: ${location.location}</p>
-          <p style="font-size: 0.75rem; color: #718096;">الإحداثيات: ${location.lat}, ${location.lng}</p>
+          <h3 style="font-weight: bold; font-size: 1.125rem; margin-bottom: 0.25rem; color: #1a1a1a;">${location.name}</h3>
+          <p style="font-size: 1rem; color: #4a5568;">المنطقة: ${location.location}</p>
+          <p style="font-size: 0.875rem; color: #718096;">الإحداثيات: ${location.lat}, ${location.lng}</p>
         </div>
       `;
 
@@ -144,6 +166,9 @@ const ProjectsMap = () => {
           direction: rtl;
           text-align: right;
           font-family: 'IBM Plex Sans Arabic', sans-serif;
+        }
+        .leaflet-container {
+          font: 16px/1.5 "IBM Plex Sans Arabic", sans-serif !important;
         }
       `}</style>
     </div>
