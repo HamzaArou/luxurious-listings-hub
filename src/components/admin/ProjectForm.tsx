@@ -15,6 +15,8 @@ import FormTabs, { TABS, TabType } from "./project-form/FormTabs";
 import { useFormValidation } from "./project-form/FormValidation";
 import { useFormSubmission } from "./project-form/FormSubmission";
 import { useToast } from "@/hooks/use-toast";
+import ProjectDetails from "./project-form/ProjectDetails";
+import Project360Views from "./project-form/Project360Views";
 
 export default function ProjectForm({ initialData }: ProjectFormProps) {
   const [isLoading, setIsLoading] = useState(false);
@@ -22,7 +24,6 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
   const [thumbnail, setThumbnail] = useState<File | null>(null);
   const [thumbnailError, setThumbnailError] = useState(false);
   const [galleryImages, setGalleryImages] = useState<FileList | null>(null);
-  const [plans, setPlans] = useState<FileList | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -38,16 +39,22 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
       thumbnail_url: "",
       project_units: [],
       gallery_type: "coming_soon",
+      description: "",
+      features: [],
+      specifications: [],
+      views360: [],
+      price: 0,
+      price_single_street: 0,
+      price_roof: 0,
     },
     mode: "onChange",
   });
 
-  const { validateTab } = useFormValidation(form, thumbnail, initialData, galleryImages, plans);
+  const { validateTab } = useFormValidation(form, thumbnail, initialData, galleryImages);
   const { submitForm } = useFormSubmission(
     form,
     thumbnail,
     galleryImages,
-    plans,
     initialData,
     navigate,
     setIsLoading
@@ -120,6 +127,13 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
             />
           </TabsContent>
 
+          <TabsContent value="details">
+            <ProjectDetails
+              form={form}
+              isLoading={isLoading}
+            />
+          </TabsContent>
+
           <TabsContent value="gallery">
             <ProjectGallery
               form={form}
@@ -133,12 +147,10 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
             <ProjectLocation form={form} isLoading={isLoading} />
           </TabsContent>
 
-          <TabsContent value="plans">
-            <ProjectPlans
+          <TabsContent value="360views">
+            <Project360Views
               form={form}
               isLoading={isLoading}
-              onPlansChange={setPlans}
-              initialPlans={initialData?.plans}
             />
           </TabsContent>
 
@@ -153,14 +165,15 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
                   {
                     id: crypto.randomUUID(),
                     unit_number: currentUnits.length + 1,
-                    name: `Unit ${currentUnits.length + 1}`,
-                    status: "للبيع",
+                    name: `وحدة ${currentUnits.length + 1}`,
+                    status: "متاح",
                     unit_type: "",
                     area: 0,
                     floor_number: 1,
                     side: "شمال",
                     rooms: 1,
                     bathrooms: 1,
+                    price: 0,
                   },
                 ]);
               }}

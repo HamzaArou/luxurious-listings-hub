@@ -1,6 +1,6 @@
 import { TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-export const TABS = ["basic", "gallery", "location", "plans", "units"] as const;
+export const TABS = ["basic", "details", "gallery", "location", "360views", "units"] as const;
 export type TabType = typeof TABS[number];
 
 interface FormTabsProps {
@@ -9,11 +9,12 @@ interface FormTabsProps {
 
 export default function FormTabs({ currentTab }: FormTabsProps) {
   return (
-    <TabsList className="grid w-full grid-cols-5">
+    <TabsList className="grid w-full grid-cols-6">
       <TabsTrigger value="basic">معلومات أساسية</TabsTrigger>
-      <TabsTrigger value="gallery">صور المشروع</TabsTrigger>
+      <TabsTrigger value="details">التفاصيل</TabsTrigger>
+      <TabsTrigger value="gallery">معرض الصور</TabsTrigger>
       <TabsTrigger value="location">الموقع</TabsTrigger>
-      <TabsTrigger value="plans">المخططات</TabsTrigger>
+      <TabsTrigger value="360views">جولة 360</TabsTrigger>
       <TabsTrigger value="units">الوحدات</TabsTrigger>
     </TabsList>
   );

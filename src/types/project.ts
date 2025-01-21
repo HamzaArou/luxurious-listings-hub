@@ -1,10 +1,8 @@
 import { z } from "zod";
 import { Database } from "@/integrations/supabase/types";
 
-// Database project status type
 export type DbProjectStatus = Database["public"]["Enums"]["project_status"];
 
-// Project unit schema for form validation
 export const projectUnitSchema = z.object({
   id: z.string(),
   unit_number: z.number().min(1, "رقم الوحدة مطلوب"),
@@ -16,9 +14,15 @@ export const projectUnitSchema = z.object({
   side: z.string().min(1, "الجهة مطلوبة"),
   rooms: z.number().min(1, "عدد الغرف مطلوب"),
   bathrooms: z.number().min(1, "عدد دورات المياه مطلوب"),
+  price: z.number().optional(),
 });
 
-// Project form schema
+export const view360Schema = z.object({
+  id: z.string(),
+  title: z.string().min(1, "عنوان الجولة مطلوب"),
+  url: z.string().url("الرجاء إدخال رابط صحيح"),
+});
+
 export const projectFormSchema = z.object({
   name: z.string().min(1, "اسم المشروع مطلوب"),
   location: z.string().min(1, "الموقع مطلوب"),
@@ -29,10 +33,16 @@ export const projectFormSchema = z.object({
   units: z.number().min(1, "عدد الشقق يجب أن يكون أكبر من 0"),
   status: z.enum(["بدأ البيع", "تم البيع بالكامل", "قريباً"] as const),
   thumbnail_url: z.string().optional(),
+  description: z.string().optional(),
+  features: z.array(z.string()).optional(),
+  specifications: z.array(z.string()).optional(),
   project_units: z.array(projectUnitSchema),
+  views360: z.array(view360Schema).optional(),
   gallery_type: z.enum(["images", "coming_soon"]),
   gallery_images: z.any().optional(),
-  plans: z.any().optional(),
+  price: z.number().optional(),
+  price_single_street: z.number().optional(),
+  price_roof: z.number().optional(),
 });
 
 export type ProjectFormValues = z.infer<typeof projectFormSchema>;
