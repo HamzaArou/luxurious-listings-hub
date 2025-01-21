@@ -18,12 +18,6 @@ export const projectUnitSchema = z.object({
   bathrooms: z.number().min(1, "عدد دورات المياه مطلوب"),
 });
 
-const view360Schema = z.object({
-  id: z.string(),
-  title: z.string().min(1, "عنوان الجولة مطلوب"),
-  url: z.string().min(1, "رابط الجولة مطلوب"),
-});
-
 // Project form schema
 export const projectFormSchema = z.object({
   name: z.string().min(1, "اسم المشروع مطلوب"),
@@ -38,7 +32,7 @@ export const projectFormSchema = z.object({
   project_units: z.array(projectUnitSchema),
   gallery_type: z.enum(["images", "coming_soon"]),
   gallery_images: z.any().optional(),
-  views360: z.array(view360Schema).optional(),
+  plans: z.any().optional(),
 });
 
 export type ProjectFormValues = z.infer<typeof projectFormSchema>;

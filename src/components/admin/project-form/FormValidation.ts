@@ -7,7 +7,8 @@ export const useFormValidation = (
   form: UseFormReturn<ProjectFormValues>,
   thumbnail: File | null,
   initialData: any,
-  galleryImages: FileList | null
+  galleryImages: FileList | null,
+  plans: FileList | null
 ) => {
   const { toast } = useToast();
 
@@ -45,8 +46,15 @@ export const useFormValidation = (
         isValid = await form.trigger("address");
         break;
 
-      case "360views":
-        isValid = await form.trigger("views360");
+      case "plans":
+        if (!plans && !initialData?.plans?.length) {
+          toast({
+            title: "خطأ",
+            description: "الرجاء إضافة مخططات للمشروع",
+            variant: "destructive",
+          });
+          return false;
+        }
         break;
 
       case "units":

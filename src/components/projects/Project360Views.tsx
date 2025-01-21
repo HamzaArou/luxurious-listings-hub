@@ -1,92 +1,58 @@
-import { UseFormReturn } from "react-hook-form";
-import { ProjectFormValues } from "@/types/project";
-import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Plus, Trash } from "lucide-react";
+import { Rotate3d } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Project360ViewsProps {
-  form: UseFormReturn<ProjectFormValues>;
-  isLoading: boolean;
+  projectId: string | undefined;
 }
 
-export default function Project360Views({ form, isLoading }: Project360ViewsProps) {
-  const views360 = form.watch("views360") || [];
+export default function Project360Views({ projectId }: Project360ViewsProps) {
+  const { data: views, isLoading } = useQuery({
+    queryKey: ['project-360-views', projectId],
+    queryFn: async () => {
+      if (!projectId) return [];
+      const { data, error } = await supabase
+        .from('project_360_views')
+        .select('*')
+        .eq('project_id', projectId);
 
-  const addView = () => {
-    const currentViews = form.getValues("views360") || [];
-    form.setValue("views360", [
-      ...currentViews,
-      { id: crypto.randomUUID(), title: "", url: "" }
-    ]);
-  };
+      if (error) throw error;
+      return data || [];
+    },
+    enabled: !!projectId,
+  });
 
-  const removeView = (index: number) => {
-    const currentViews = form.getValues("views360") || [];
-    form.setValue(
-      "views360",
-      currentViews.filter((_, i) => i !== index)
-    );
-  };
+  if (isLoading || !views?.length) return null;
 
   return (
-    <div className="space-y-4">
-      <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold">جولات افتراضية 360°</h3>
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={addView}
-          disabled={isLoading}
-        >
-          <Plus className="h-4 w-4 ml-2" />
-          إضافة جولة
-        </Button>
-      </div>
-
-      {views360.map((_, index) => (
-        <div key={index} className="space-y-4 p-4 border rounded-lg relative">
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            className="absolute top-2 left-2"
-            onClick={() => removeView(index)}
-            disabled={isLoading}
-          >
-            <Trash className="h-4 w-4" />
-          </Button>
-
-          <FormField
-            control={form.control}
-            name={`views360.${index}.title`}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>عنوان الجولة</FormLabel>
-                <FormControl>
-                  <Input {...field} disabled={isLoading} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name={`views360.${index}.url`}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>رابط الجولة</FormLabel>
-                <FormControl>
-                  <Input {...field} disabled={isLoading} dir="ltr" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+    <div className="relative py-12 bg-gradient-to-b from-deepBlue/10 to-deepBlue/5 rounded-3xl mb-12">
+      <div className="container mx-auto px-4">
+        <div className="flex justify-center mb-6">
+          <h2 className="text-3xl font-bold text-white bg-deepBlue py-2 px-8 rounded-tr-[5px] rounded-tl-[100px] rounded-br-[100px] rounded-bl-[5px] inline-block">
+            جولة افتراضية 360° للمشروع
+          </h2>
         </div>
-      ))}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
+          {views.map((view) => (
+            <a
+              key={view.id}
+              href={view.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group bg-white rounded-lg p-3 shadow-lg hover:shadow-xl transition-all duration-300 text-center"
+            >
+              <div className="flex justify-center mb-3">
+                <Rotate3d className="w-10 h-10 text-gold group-hover:scale-110 transition-transform duration-300" />
+              </div>
+              <h3 className="text-lg font-bold text-deepBlue mb-1">{view.title}</h3>
+              <p className="text-gray-600 text-sm">
+                انقر لمشاهدة جولة افتراضية 360° درجة
+              </p>
+            </a>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
