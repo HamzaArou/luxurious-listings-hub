@@ -58,7 +58,17 @@ const ProjectsMap = () => {
         <svg width="40" height="50" viewBox="0 0 40 50" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M20 0C8.954 0 0 8.954 0 20c0 15 20 30 20 30s20-15 20-30c0-11.046-8.954-20-20-20z" fill="#000000"/>
           <path d="M20 4C10.059 4 2 12.059 2 22c0 13 18 26 18 26s18-13 18-26c0-9.941-8.059-18-18-18z" fill="#606060"/>
-          <image href="/lovable-uploads/0087e3eb-113f-4d49-af86-7bcb5ccdbf3c.png" x="8" y="8" width="24" height="24" preserveAspectRatio="xMidYMid meet"/>
+          <!-- White background circle for logo -->
+          <circle cx="20" cy="20" r="12" fill="white"/>
+          <!-- The logo image with proper sizing and positioning -->
+          <image 
+            href="/lovable-uploads/f4db9871-8689-4fc8-be39-f46dfdcd8609.png" 
+            x="8" 
+            y="8" 
+            width="24" 
+            height="24" 
+            preserveAspectRatio="xMidYMid meet"
+          />
         </svg>
       `),
       iconSize: [40, 50],
@@ -121,7 +131,7 @@ const ProjectsMap = () => {
         font: 16px/1.5 "IBM Plex Sans Arabic", sans-serif !important;
       }
       .leaflet-marker-icon {
-        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
       }
     `;
     document.head.appendChild(style);
