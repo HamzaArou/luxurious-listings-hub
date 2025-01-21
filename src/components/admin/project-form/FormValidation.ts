@@ -1,14 +1,13 @@
 import { UseFormReturn } from "react-hook-form";
-import { ProjectFormValues } from "@/types/project";
+import { ProjectFormValues, TabType } from "@/types/project";
 import { useToast } from "@/hooks/use-toast";
-import { TabType } from "./FormTabs";
 
 export const useFormValidation = (
   form: UseFormReturn<ProjectFormValues>,
   thumbnail: File | null,
   initialData: any,
   galleryImages: FileList | null,
-  plans: FileList | null
+  views360: any[]
 ) => {
   const { toast } = useToast();
 
@@ -46,15 +45,16 @@ export const useFormValidation = (
         isValid = await form.trigger("address");
         break;
 
-      case "plans":
-        if (!plans && !initialData?.plans?.length) {
+      case "360views":
+        if (!views360?.length && !initialData?.views360?.length) {
           toast({
             title: "خطأ",
-            description: "الرجاء إضافة مخططات للمشروع",
+            description: "الرجاء إضافة جولة افتراضية واحدة على الأقل",
             variant: "destructive",
           });
           return false;
         }
+        isValid = await form.trigger("views360");
         break;
 
       case "units":

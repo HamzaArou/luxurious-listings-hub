@@ -5,6 +5,19 @@ export const view360Schema = z.object({
   url: z.string().url("الرجاء إدخال رابط صحيح")
 });
 
+export type ProjectUnit = {
+  id: string;
+  unit_number: number;
+  name: string;
+  status: string;
+  unit_type: string;
+  area: number;
+  floor_number: number;
+  side: string;
+  rooms: number;
+  bathrooms: number;
+};
+
 export const projectFormSchema = z.object({
   name: z.string().min(1, "اسم المشروع مطلوب"),
   location: z.string().min(1, "الموقع مطلوب"),
@@ -31,6 +44,7 @@ export const projectFormSchema = z.object({
     bathrooms: z.number().min(1, "عدد دورات المياه مطلوب"),
   })),
   gallery_type: z.enum(["images", "coming_soon"]),
+  gallery_images: z.any().optional(),
   views360: z.array(view360Schema).optional(),
 });
 

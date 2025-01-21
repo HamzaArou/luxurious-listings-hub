@@ -27,7 +27,7 @@ export default function ProjectGallery({
   useEffect(() => {
     setPreviewUrls([]);
     const formFiles = form.getValues("gallery_images");
-    if (formFiles) {
+    if (formFiles instanceof FileList) {
       const filesArray = Array.from(formFiles) as File[];
       setSelectedFiles(filesArray);
       
