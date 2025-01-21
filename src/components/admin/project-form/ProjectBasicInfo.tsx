@@ -3,13 +3,23 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { UseFormReturn } from "react-hook-form";
 import { ProjectFormValues } from "@/types/project";
+import ProjectImageUpload from "@/components/admin/ProjectImageUpload";
 
 interface ProjectBasicInfoProps {
   form: UseFormReturn<ProjectFormValues>;
   isLoading: boolean;
+  onThumbnailChange: (file: File | null) => void;
+  initialThumbnailUrl?: string;
+  thumbnailError?: boolean;
 }
 
-export default function ProjectBasicInfo({ form, isLoading }: ProjectBasicInfoProps) {
+export default function ProjectBasicInfo({ 
+  form, 
+  isLoading,
+  onThumbnailChange,
+  initialThumbnailUrl,
+  thumbnailError
+}: ProjectBasicInfoProps) {
   return (
     <div className="space-y-4">
       <div className="text-center mb-4">
@@ -32,6 +42,14 @@ export default function ProjectBasicInfo({ form, isLoading }: ProjectBasicInfoPr
           )}
         />
       </div>
+
+      <ProjectImageUpload
+        initialThumbnailUrl={initialThumbnailUrl}
+        isLoading={isLoading}
+        onFileChange={onThumbnailChange}
+        error={thumbnailError}
+        className="mb-6"
+      />
 
       <FormField
         control={form.control}

@@ -20,6 +20,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [currentTab, setCurrentTab] = useState<TabType>("basic");
   const [thumbnail, setThumbnail] = useState<File | null>(null);
+  const [thumbnailError, setThumbnailError] = useState(false);
   const [galleryImages, setGalleryImages] = useState<FileList | null>(null);
   const [plans, setPlans] = useState<FileList | null>(null);
   const navigate = useNavigate();
@@ -107,7 +108,16 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
           <FormTabs currentTab={currentTab} />
 
           <TabsContent value="basic" className="space-y-4">
-            <ProjectBasicInfo form={form} isLoading={isLoading} />
+            <ProjectBasicInfo 
+              form={form} 
+              isLoading={isLoading}
+              onThumbnailChange={(file) => {
+                setThumbnail(file);
+                setThumbnailError(false);
+              }}
+              initialThumbnailUrl={initialData?.thumbnail_url}
+              thumbnailError={thumbnailError}
+            />
           </TabsContent>
 
           <TabsContent value="gallery">
