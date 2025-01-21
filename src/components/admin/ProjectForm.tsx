@@ -8,7 +8,7 @@ import ProjectImageUpload from "./ProjectImageUpload";
 import { ProjectFormProps, projectFormSchema, ProjectFormValues } from "@/types/project";
 import ProjectBasicInfo from "./project-form/ProjectBasicInfo";
 import ProjectLocation from "./project-form/ProjectLocation";
-import ProjectPlans from "./project-form/ProjectPlans";
+import Project360Views from "./project-form/Project360Views";
 import ProjectUnits from "./project-form/ProjectUnits";
 import ProjectGallery from "./project-form/ProjectGallery";
 import FormNavigation from "./project-form/FormNavigation";
@@ -21,7 +21,6 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
   const [currentTab, setCurrentTab] = useState<TabType>("basic");
   const [thumbnail, setThumbnail] = useState<File | null>(null);
   const [galleryImages, setGalleryImages] = useState<FileList | null>(null);
-  const [plans, setPlans] = useState<FileList | null>(null);
   const navigate = useNavigate();
 
   const form = useForm<ProjectFormValues>({
@@ -36,20 +35,13 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
       thumbnail_url: "",
       project_units: [],
       gallery_type: "coming_soon",
+      views360: [],
     },
     mode: "onChange",
   });
 
-  const { validateTab } = useFormValidation(form, thumbnail, initialData, galleryImages, plans);
-  const { submitForm } = useFormSubmission(
-    form,
-    thumbnail,
-    galleryImages,
-    plans,
-    initialData,
-    navigate,
-    setIsLoading
-  );
+  const { validateTab } = useFormValidation(form, thumbnail, initialData, galleryImages);
+  const { submitForm } = useFormSubmission(form, thumbnail, galleryImages, initialData, navigate, setIsLoading);
 
   const currentTabIndex = TABS.indexOf(currentTab);
   const isLastTab = currentTabIndex === TABS.length - 1;
@@ -119,13 +111,8 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
             <ProjectLocation form={form} isLoading={isLoading} />
           </TabsContent>
 
-          <TabsContent value="plans">
-            <ProjectPlans
-              form={form}
-              isLoading={isLoading}
-              onPlansChange={setPlans}
-              initialPlans={initialData?.plans}
-            />
+          <TabsContent value="360views">
+            <Project360Views form={form} isLoading={isLoading} />
           </TabsContent>
 
           <TabsContent value="units">
