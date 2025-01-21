@@ -7,7 +7,6 @@ import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { ProjectFormProps, projectFormSchema, ProjectFormValues } from "@/types/project";
 import ProjectBasicInfo from "./project-form/ProjectBasicInfo";
 import ProjectLocation from "./project-form/ProjectLocation";
-import ProjectPlans from "./project-form/ProjectPlans";
 import ProjectUnits from "./project-form/ProjectUnits";
 import ProjectGallery from "./project-form/ProjectGallery";
 import FormNavigation from "./project-form/FormNavigation";
@@ -24,6 +23,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
   const [thumbnail, setThumbnail] = useState<File | null>(null);
   const [thumbnailError, setThumbnailError] = useState(false);
   const [galleryImages, setGalleryImages] = useState<FileList | null>(null);
+  const [views360, setViews360] = useState<any[]>([]);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -50,14 +50,15 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
     mode: "onChange",
   });
 
-  const { validateTab } = useFormValidation(form, thumbnail, initialData, galleryImages);
+  const { validateTab } = useFormValidation(form, thumbnail, initialData, galleryImages, views360);
   const { submitForm } = useFormSubmission(
     form,
     thumbnail,
     galleryImages,
     initialData,
     navigate,
-    setIsLoading
+    setIsLoading,
+    views360
   );
 
   const currentTabIndex = TABS.indexOf(currentTab);
@@ -151,6 +152,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
             <Project360Views
               form={form}
               isLoading={isLoading}
+              onViews360Change={setViews360}
             />
           </TabsContent>
 
