@@ -13,12 +13,27 @@ export default function ProjectFormPage() {
       if (!id) return null;
       const { data, error } = await supabase
         .from("projects")
-        .select("*")
+        .select(`
+          *,
+          project_units (*),
+          project_images (
+            id,
+            media_url
+          ),
+          project_plans (
+            id,
+            file_url
+          )
+        `)
         .eq("id", id)
         .single();
 
       if (error) throw error;
-      return data;
+      return {
+        ...data,
+        gallery_images: data.project_images,
+        plans: data.project_plans?.map((plan: any) => plan.file_url),
+      };
     },
     enabled: !!id,
   });

@@ -2,7 +2,6 @@ import { UseFormReturn } from "react-hook-form";
 import { ProjectFormValues } from "@/types/project";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { uploadFile, uploadFiles } from "./FileUploadHandler";
 import { NavigateFunction } from "react-router-dom";
 
 export const useFormSubmission = (
@@ -15,6 +14,37 @@ export const useFormSubmission = (
   setIsLoading: (loading: boolean) => void
 ) => {
   const { toast } = useToast();
+
+  const uploadFile = async (file: File, bucket: "project-images" | "project-plans") => {
+    const fileExt = file.name.split(".").pop();
+    const fileName = `${crypto.randomUUID()}.${fileExt}`;
+
+    const { data, error } = await supabase.storage
+      .from(bucket)
+      .upload(fileName, file, {
+        cacheControl: "3600",
+        upsert: true,
+      });
+
+    if (error) throw error;
+
+    const { data: { publicUrl } } = supabase.storage
+      .from(bucket)
+      .getPublicUrl(data.path);
+
+    return publicUrl;
+  };
+
+  const uploadFiles = async (files: FileList, bucket: "project-images" | "project-plans") => {
+    const urls: string[] = [];
+    
+    for (let i = 0; i < files.length; i++) {
+      const url = await uploadFile(files[i], bucket);
+      urls.push(url);
+    }
+
+    return urls;
+  };
 
   const submitForm = async (data: ProjectFormValues) => {
     console.log("Starting form submission with data:", data);
@@ -47,28 +77,35 @@ export const useFormSubmission = (
 
       console.log("Project data to be inserted:", projectData);
 
-      // Create new project
-      const { data: newProject, error: insertError } = await supabase
-        .from("projects")
-        .insert(projectData)
-        .select()
-        .single();
+      // Create or update project
+      const { data: project, error: projectError } = initialData?.id
+        ? await supabase
+            .from("projects")
+            .update(projectData)
+            .eq("id", initialData.id)
+            .select()
+            .single()
+        : await supabase
+            .from("projects")
+            .insert(projectData)
+            .select()
+            .single();
 
-      if (insertError) {
-        console.error("Error creating project:", insertError);
-        throw insertError;
-      }
+      if (projectError) throw projectError;
+      if (!project) throw new Error("Failed to create/update project");
 
-      if (!newProject) {
-        throw new Error("Failed to create project - no data returned");
-      }
-
-      const projectId = newProject.id;
-      console.log("New project created with ID:", projectId);
+      const projectId = project.id;
 
       // Handle units
       if (data.project_units && data.project_units.length > 0) {
-        console.log("Handling project units...");
+        if (initialData?.id) {
+          // Delete existing units
+          await supabase
+            .from("project_units")
+            .delete()
+            .eq("project_id", projectId);
+        }
+
         const unitsData = data.project_units.map(unit => ({
           project_id: projectId,
           name: unit.name,
@@ -82,23 +119,26 @@ export const useFormSubmission = (
           bathrooms: unit.bathrooms,
         }));
 
-        console.log("Inserting units:", unitsData);
         const { error: unitsError } = await supabase
           .from("project_units")
           .insert(unitsData);
 
-        if (unitsError) {
-          console.error("Error inserting units:", unitsError);
-          throw unitsError;
-        }
+        if (unitsError) throw unitsError;
       }
 
       // Handle gallery images
-      if (data.gallery_type === "images" && galleryImages && galleryImages.length > 0) {
-        console.log("Uploading gallery images...");
+      if (data.gallery_type === "images" && galleryImages?.length) {
+        if (initialData?.id) {
+          // Delete existing gallery images
+          await supabase
+            .from("project_images")
+            .delete()
+            .eq("project_id", projectId)
+            .eq("content_type", "gallery");
+        }
+
         const urls = await uploadFiles(galleryImages, "project-images");
         
-        console.log("Inserting gallery images...");
         const { error: imagesError } = await supabase
           .from("project_images")
           .insert(
@@ -110,18 +150,21 @@ export const useFormSubmission = (
             }))
           );
 
-        if (imagesError) {
-          console.error("Error inserting gallery images:", imagesError);
-          throw imagesError;
-        }
+        if (imagesError) throw imagesError;
       }
 
       // Handle plans
-      if (plans && plans.length > 0) {
-        console.log("Uploading plans...");
+      if (plans?.length) {
+        if (initialData?.id) {
+          // Delete existing plans
+          await supabase
+            .from("project_plans")
+            .delete()
+            .eq("project_id", projectId);
+        }
+
         const urls = await uploadFiles(plans, "project-plans");
         
-        console.log("Inserting plans...");
         const { error: plansError } = await supabase
           .from("project_plans")
           .insert(
@@ -131,26 +174,12 @@ export const useFormSubmission = (
             }))
           );
 
-        if (plansError) {
-          console.error("Error inserting plans:", plansError);
-          throw plansError;
-        }
+        if (plansError) throw plansError;
       }
 
-      toast({
-        title: "تم الإنشاء",
-        description: "تم إنشاء المشروع بنجاح",
-      });
-
-      console.log("Form submission completed successfully!");
       navigate("/admin");
     } catch (error: any) {
       console.error("Error during form submission:", error);
-      toast({
-        title: "خطأ",
-        description: error.message || "حدث خطأ أثناء حفظ المشروع",
-        variant: "destructive",
-      });
       throw error;
     } finally {
       setIsLoading(false);

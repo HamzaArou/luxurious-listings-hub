@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
-import ProjectImageUpload from "./ProjectImageUpload";
 import { ProjectFormProps, projectFormSchema, ProjectFormValues } from "@/types/project";
 import ProjectBasicInfo from "./project-form/ProjectBasicInfo";
 import ProjectLocation from "./project-form/ProjectLocation";
@@ -15,6 +14,7 @@ import FormNavigation from "./project-form/FormNavigation";
 import FormTabs, { TABS, TabType } from "./project-form/FormTabs";
 import { useFormValidation } from "./project-form/FormValidation";
 import { useFormSubmission } from "./project-form/FormSubmission";
+import { useToast } from "@/hooks/use-toast";
 
 export default function ProjectForm({ initialData }: ProjectFormProps) {
   const [isLoading, setIsLoading] = useState(false);
@@ -23,6 +23,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
   const [galleryImages, setGalleryImages] = useState<FileList | null>(null);
   const [plans, setPlans] = useState<FileList | null>(null);
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   const form = useForm<ProjectFormValues>({
     resolver: zodResolver(projectFormSchema),
@@ -83,8 +84,17 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
     try {
       setIsLoading(true);
       await submitForm(data);
+      toast({
+        title: initialData ? "تم التحديث" : "تم الإنشاء",
+        description: initialData ? "تم تحديث المشروع بنجاح" : "تم إنشاء المشروع بنجاح",
+      });
     } catch (error) {
       console.error("Form submission error:", error);
+      toast({
+        title: "خطأ",
+        description: error.message || "حدث خطأ أثناء حفظ المشروع",
+        variant: "destructive",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -98,12 +108,6 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
 
           <TabsContent value="basic" className="space-y-4">
             <ProjectBasicInfo form={form} isLoading={isLoading} />
-            <ProjectImageUpload
-              initialThumbnailUrl={initialData?.thumbnail_url}
-              isLoading={isLoading}
-              onFileChange={setThumbnail}
-              error={!thumbnail && !initialData?.thumbnail_url}
-            />
           </TabsContent>
 
           <TabsContent value="gallery">
