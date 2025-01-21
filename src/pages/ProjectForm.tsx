@@ -29,10 +29,15 @@ export default function ProjectFormPage() {
         .single();
 
       if (error) throw error;
+
+      // Transform the data to match the expected format
       return {
         ...data,
-        gallery_images: data.project_images,
-        plans: data.project_plans?.map((plan: any) => plan.file_url),
+        gallery_images: data.project_images?.map((image: { id: string; media_url: string }) => ({
+          id: image.id,
+          image_url: image.media_url // Map media_url to image_url
+        })),
+        plans: data.project_plans?.map((plan: { file_url: string }) => plan.file_url),
       };
     },
     enabled: !!id,
