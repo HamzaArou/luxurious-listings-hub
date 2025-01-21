@@ -8,7 +8,7 @@ export const useFormValidation = (
   thumbnail: File | null,
   initialData: any,
   galleryImages: FileList | null,
-  views360: any[] // Add this parameter
+  plans: FileList | null
 ) => {
   const { toast } = useToast();
 
@@ -46,16 +46,15 @@ export const useFormValidation = (
         isValid = await form.trigger("address");
         break;
 
-      case "360views":
-        if (!views360 || views360.length === 0) {
+      case "plans":
+        if (!plans && !initialData?.plans?.length) {
           toast({
             title: "خطأ",
-            description: "الرجاء إضافة رابط جولة 360 واحد على الأقل",
+            description: "الرجاء إضافة مخططات للمشروع",
             variant: "destructive",
           });
           return false;
         }
-        isValid = await form.trigger("views360");
         break;
 
       case "units":
@@ -69,10 +68,6 @@ export const useFormValidation = (
           return false;
         }
         isValid = await form.trigger("project_units");
-        break;
-
-      case "details":
-        isValid = await form.trigger(["description", "features", "specifications"]);
         break;
     }
 

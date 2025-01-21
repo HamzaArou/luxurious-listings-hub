@@ -13,32 +13,12 @@ export default function ProjectFormPage() {
       if (!id) return null;
       const { data, error } = await supabase
         .from("projects")
-        .select(`
-          *,
-          project_units (*),
-          project_images (
-            id,
-            media_url
-          ),
-          project_plans (
-            id,
-            file_url
-          )
-        `)
+        .select("*")
         .eq("id", id)
         .single();
 
       if (error) throw error;
-
-      // Transform the data to match the expected format
-      return {
-        ...data,
-        gallery_images: data.project_images?.map((image: { id: string; media_url: string }) => ({
-          id: image.id,
-          image_url: image.media_url // Map media_url to image_url
-        })),
-        plans: data.project_plans?.map((plan: { file_url: string }) => plan.file_url),
-      };
+      return data;
     },
     enabled: !!id,
   });

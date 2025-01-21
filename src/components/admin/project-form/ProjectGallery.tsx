@@ -12,7 +12,7 @@ interface ProjectGalleryProps {
   form: UseFormReturn<ProjectFormValues>;
   isLoading: boolean;
   onGalleryImagesChange: (files: FileList | null) => void;
-  initialImages?: { id: string; media_url: string }[];
+  initialImages?: { id: string; image_url: string }[];
 }
 
 export default function ProjectGallery({
@@ -120,7 +120,7 @@ export default function ProjectGallery({
               {initialImages.map((image) => (
                 <div key={image.id} className="relative group">
                   <img
-                    src={image.media_url}
+                    src={image.image_url}
                     alt="Gallery image"
                     className="w-full h-32 object-cover rounded-md"
                   />

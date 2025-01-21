@@ -4,28 +4,25 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
+import ProjectImageUpload from "./ProjectImageUpload";
 import { ProjectFormProps, projectFormSchema, ProjectFormValues } from "@/types/project";
 import ProjectBasicInfo from "./project-form/ProjectBasicInfo";
 import ProjectLocation from "./project-form/ProjectLocation";
+import ProjectPlans from "./project-form/ProjectPlans";
 import ProjectUnits from "./project-form/ProjectUnits";
 import ProjectGallery from "./project-form/ProjectGallery";
 import FormNavigation from "./project-form/FormNavigation";
 import FormTabs, { TABS, TabType } from "./project-form/FormTabs";
 import { useFormValidation } from "./project-form/FormValidation";
 import { useFormSubmission } from "./project-form/FormSubmission";
-import { useToast } from "@/hooks/use-toast";
-import ProjectDetails from "./project-form/ProjectDetails";
-import Project360Views from "./project-form/Project360Views";
 
 export default function ProjectForm({ initialData }: ProjectFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [currentTab, setCurrentTab] = useState<TabType>("basic");
   const [thumbnail, setThumbnail] = useState<File | null>(null);
-  const [thumbnailError, setThumbnailError] = useState(false);
   const [galleryImages, setGalleryImages] = useState<FileList | null>(null);
-  const [views360, setViews360] = useState<any[]>([]);
+  const [plans, setPlans] = useState<FileList | null>(null);
   const navigate = useNavigate();
-  const { toast } = useToast();
 
   const form = useForm<ProjectFormValues>({
     resolver: zodResolver(projectFormSchema),
@@ -39,26 +36,19 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
       thumbnail_url: "",
       project_units: [],
       gallery_type: "coming_soon",
-      description: "",
-      features: [],
-      specifications: [],
-      views360: [],
-      price: 0,
-      price_single_street: 0,
-      price_roof: 0,
     },
     mode: "onChange",
   });
 
-  const { validateTab } = useFormValidation(form, thumbnail, initialData, galleryImages, views360);
+  const { validateTab } = useFormValidation(form, thumbnail, initialData, galleryImages, plans);
   const { submitForm } = useFormSubmission(
     form,
     thumbnail,
     galleryImages,
+    plans,
     initialData,
     navigate,
-    setIsLoading,
-    views360
+    setIsLoading
   );
 
   const currentTabIndex = TABS.indexOf(currentTab);
@@ -93,17 +83,8 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
     try {
       setIsLoading(true);
       await submitForm(data);
-      toast({
-        title: initialData ? "تم التحديث" : "تم الإنشاء",
-        description: initialData ? "تم تحديث المشروع بنجاح" : "تم إنشاء المشروع بنجاح",
-      });
     } catch (error) {
       console.error("Form submission error:", error);
-      toast({
-        title: "خطأ",
-        description: error.message || "حدث خطأ أثناء حفظ المشروع",
-        variant: "destructive",
-      });
     } finally {
       setIsLoading(false);
     }
@@ -116,22 +97,12 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
           <FormTabs currentTab={currentTab} />
 
           <TabsContent value="basic" className="space-y-4">
-            <ProjectBasicInfo 
-              form={form} 
-              isLoading={isLoading}
-              onThumbnailChange={(file) => {
-                setThumbnail(file);
-                setThumbnailError(false);
-              }}
+            <ProjectBasicInfo form={form} isLoading={isLoading} />
+            <ProjectImageUpload
               initialThumbnailUrl={initialData?.thumbnail_url}
-              thumbnailError={thumbnailError}
-            />
-          </TabsContent>
-
-          <TabsContent value="details">
-            <ProjectDetails
-              form={form}
               isLoading={isLoading}
+              onFileChange={setThumbnail}
+              error={!thumbnail && !initialData?.thumbnail_url}
             />
           </TabsContent>
 
@@ -148,11 +119,12 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
             <ProjectLocation form={form} isLoading={isLoading} />
           </TabsContent>
 
-          <TabsContent value="360views">
-            <Project360Views
+          <TabsContent value="plans">
+            <ProjectPlans
               form={form}
               isLoading={isLoading}
-              onViews360Change={setViews360}
+              onPlansChange={setPlans}
+              initialPlans={initialData?.plans}
             />
           </TabsContent>
 
@@ -167,15 +139,14 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
                   {
                     id: crypto.randomUUID(),
                     unit_number: currentUnits.length + 1,
-                    name: `وحدة ${currentUnits.length + 1}`,
-                    status: "متاح",
+                    name: `Unit ${currentUnits.length + 1}`,
+                    status: "للبيع",
                     unit_type: "",
                     area: 0,
                     floor_number: 1,
                     side: "شمال",
                     rooms: 1,
                     bathrooms: 1,
-                    price: 0,
                   },
                 ]);
               }}

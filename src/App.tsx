@@ -1,26 +1,32 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Toaster } from "@/components/ui/toaster";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Index from "@/pages/Index";
-import AdminLogin from "@/pages/admin/AdminLogin";
-import Dashboard from "@/pages/admin/Dashboard";
-import ProjectForm from "@/pages/ProjectForm";
 import ProjectDetails from "@/pages/ProjectDetails";
+import AdminLogin from "@/pages/AdminLogin";
+import AdminDashboard from "@/pages/AdminDashboard";
+import ProjectForm from "@/pages/ProjectForm";
+import FloatingContact from "@/components/FloatingContact";
+import { Toaster } from "@/components/ui/toaster";
 import NotFound from "@/components/NotFound";
+import "./App.css";
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
+      <FloatingContact />
       <Routes>
         <Route path="/" element={<Index />} />
-        <Route path="/admin/login" element={<AdminLogin />} />
-        <Route path="/admin" element={<Dashboard />} />
-        <Route path="/admin/projects/new" element={<ProjectForm />} />
-        <Route path="/admin/projects/:id/edit" element={<ProjectForm />} />
-        <Route path="/projects/:id" element={<ProjectDetails />} />
+        <Route path="/project">
+          <Route index element={<Navigate to="/" replace />} />
+          <Route path=":id" element={<ProjectDetails />} />
+        </Route>
+        <Route path="/admin" element={<AdminLogin />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/project/new" element={<ProjectForm />} />
+        <Route path="/admin/project/:id" element={<ProjectForm />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Toaster />
-    </BrowserRouter>
+    </Router>
   );
 }
 

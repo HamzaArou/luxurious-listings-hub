@@ -3,9 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
@@ -20,22 +19,17 @@ const AdminLogin = () => {
   }, []);
 
   const checkSession = async () => {
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('role')
-          .eq('id', session.user.id)
-          .single();
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', session.user.id)
+        .single();
 
-        if (profile?.role === 'admin') {
-          navigate('/admin');
-          return;
-        }
+      if (profile?.role === 'admin') {
+        navigate('/admin');
       }
-    } catch (error) {
-      console.error("Session check error:", error);
     }
   };
 
@@ -53,7 +47,9 @@ const AdminLogin = () => {
         .gte('attempt_time', new Date(Date.now() - 30 * 60 * 1000).toISOString());
 
       if (count && count >= 5) {
-        throw new Error('Too many login attempts. Please try again later.');
+        setError('Account temporarily locked. Please try again later.');
+        setLoading(false);
+        return;
       }
 
       // Attempt login
@@ -66,37 +62,34 @@ const AdminLogin = () => {
 
       if (user) {
         // Check if user is admin
-        const { data: profile, error: profileError } = await supabase
+        const { data: profile } = await supabase
           .from('profiles')
           .select('role')
           .eq('id', user.id)
           .single();
-
-        if (profileError) throw profileError;
 
         if (profile?.role !== 'admin') {
           throw new Error('Unauthorized access');
         }
 
         toast({
-          title: "تم تسجيل الدخول بنجاح",
-          description: "مرحباً بك في لوحة التحكم",
+          title: "Success",
+          description: "Logged in successfully",
         });
-        
         navigate('/admin');
       }
-    } catch (err: any) {
+    } catch (err) {
       // Log failed attempt
       await supabase.from('login_attempts').insert({
         email,
         ip_address: 'client-ip', // In a real app, you'd get this from the server
       });
 
-      setError(err.message);
+      setError(err instanceof Error ? err.message : 'An error occurred');
       toast({
         variant: "destructive",
-        title: "خطأ",
-        description: "فشل تسجيل الدخول. يرجى التحقق من بياناتك.",
+        title: "Error",
+        description: "Invalid credentials",
       });
     }
 
@@ -105,53 +98,52 @@ const AdminLogin = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold">لوحة التحكم</CardTitle>
-          <CardDescription>تسجيل الدخول للمسؤولين</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleLogin} className="space-y-6">
-            {error && (
-              <Alert variant="destructive">
-                <AlertDescription>{error}</AlertDescription>
-              </Alert>
-            )}
-            <div className="space-y-4">
-              <div>
-                <Input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="البريد الإلكتروني"
-                  className="text-right"
-                  dir="rtl"
-                />
-              </div>
-              <div>
-                <Input
-                  type="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="كلمة المرور"
-                  className="text-right"
-                  dir="rtl"
-                />
-              </div>
+      <div className="max-w-md w-full space-y-8">
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            Admin Login
+          </h2>
+        </div>
+        <form className="mt-8 space-y-6" onSubmit={handleLogin}>
+          {error && (
+            <Alert variant="destructive">
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
+          <div className="rounded-md shadow-sm space-y-4">
+            <div>
+              <Input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email address"
+                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-darkBlue focus:border-darkBlue focus:z-10 sm:text-sm"
+              />
             </div>
+            <div>
+              <Input
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
+                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-darkBlue focus:border-darkBlue focus:z-10 sm:text-sm"
+              />
+            </div>
+          </div>
 
+          <div>
             <Button
               type="submit"
               disabled={loading}
-              className="w-full"
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-darkBlue hover:bg-darkBlue/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-darkBlue"
             >
-              {loading ? 'جاري تسجيل الدخول...' : 'تسجيل الدخول'}
+              {loading ? 'Signing in...' : 'Sign in'}
             </Button>
-          </form>
-        </CardContent>
-      </Card>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
