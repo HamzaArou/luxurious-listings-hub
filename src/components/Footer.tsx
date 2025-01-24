@@ -6,6 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const location = useLocation();
@@ -149,6 +150,14 @@ const Footer = () => {
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
+              </li>
+              <li>
+                <Link
+                  to="/privacy-policy"
+                  className="hover:text-gold transition-colors"
+                >
+                  سياسة الخصوصية
+                </Link>
               </li>
             </ul>
           </div>
