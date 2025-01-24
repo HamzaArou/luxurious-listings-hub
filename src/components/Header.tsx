@@ -90,6 +90,7 @@ const Header = () => {
   ];
 
   const isProjectPage = location.pathname.includes('/project/');
+  const isPrivacyPage = location.pathname === '/privacy-policy';
 
   return (
     <header
@@ -125,7 +126,7 @@ const Header = () => {
                   key={link.href}
                   onClick={() => scrollToSection(link.href)}
                   className={`nav-link font-ibm-arabic font-medium text-lg hover:text-gold transition-colors duration-300 ${
-                    isProjectPage && !isScrolled ? 'text-black' : 'text-white'
+                    (isPrivacyPage && !isScrolled) ? 'text-black' : 'text-white'
                   }`}
                 >
                   {link.text}
@@ -134,7 +135,7 @@ const Header = () => {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button className={`nav-link font-ibm-arabic font-medium text-lg hover:text-gold transition-colors duration-300 ${
-                    isProjectPage && !isScrolled ? 'text-black' : 'text-white'
+                    (isPrivacyPage && !isScrolled) ? 'text-black' : 'text-white'
                   }`}>
                     تواصل معنا
                   </button>
@@ -164,7 +165,7 @@ const Header = () => {
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label={isMobileMenuOpen ? "إغلاق القائمة" : "فتح القائمة"}
             className={`transition-colors duration-300 ${
-              isScrolled ? "text-white" : "text-black"
+              (isPrivacyPage && !isScrolled) ? 'text-black' : 'text-white'
             }`}
           >
             {isMobileMenuOpen ? (
