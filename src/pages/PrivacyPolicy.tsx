@@ -1,23 +1,16 @@
-import { ArrowRight } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import { useEffect } from "react";
 
 const PrivacyPolicy = () => {
-  const navigate = useNavigate();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="min-h-screen bg-white">
       <Header />
-      <main className="container mx-auto px-4 py-12 max-w-[960px]">
-        <button
-          onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-deepBlue hover:text-gold transition-colors mb-8 text-lg"
-        >
-          <ArrowRight className="rotate-180" />
-          العودة
-        </button>
-        
+      <main className="container mx-auto px-4 py-12 max-w-[960px] mt-[120px]">
         <h1 className="text-3xl font-bold text-deepBlue mb-8">سياسة الخصوصية لمجموعة الفيصل للتطوير العقاري</h1>
         
         <div className="prose prose-lg max-w-none text-right space-y-6">
