@@ -16,6 +16,11 @@ export type ProjectUnit = {
   side: string;
   rooms: number;
   bathrooms: number;
+  details?: {
+    features?: string[];
+    guarantees?: string[];
+    specifications?: string[];
+  };
 };
 
 export const projectFormSchema = z.object({
@@ -31,6 +36,7 @@ export const projectFormSchema = z.object({
   description: z.string().optional(),
   features: z.array(z.string()).optional(),
   specifications: z.array(z.string()).optional(),
+  plans: z.array(z.string()).optional(),
   project_units: z.array(z.object({
     id: z.string(),
     unit_number: z.number().min(1, "رقم الوحدة مطلوب"),
@@ -42,6 +48,11 @@ export const projectFormSchema = z.object({
     side: z.string().min(1, "الجهة مطلوبة"),
     rooms: z.number().min(1, "عدد الغرف مطلوب"),
     bathrooms: z.number().min(1, "عدد دورات المياه مطلوب"),
+    details: z.object({
+      features: z.array(z.string()).optional(),
+      guarantees: z.array(z.string()).optional(),
+      specifications: z.array(z.string()).optional(),
+    }).optional(),
   })),
   gallery_type: z.enum(["images", "coming_soon"]),
   gallery_images: z.any().optional(),
