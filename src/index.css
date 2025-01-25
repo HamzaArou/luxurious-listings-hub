@@ -37,17 +37,41 @@
     letter-spacing: -0.01em;
   }
 
-  /* Embla Carousel Styles */
-  .embla {
-    @apply overflow-hidden;
+  /* Horizontal Dividers */
+  .divider-gold {
+    @apply w-24 h-1 bg-gold mx-auto my-6;
   }
 
-  .embla__container {
-    @apply flex;
+  .divider-dark {
+    @apply w-full h-px bg-deepBlue/10;
   }
 
-  .embla__slide {
-    @apply flex-[0_0_100%] min-w-0;
+  /* Button Styles */
+  .btn-primary {
+    @apply px-6 py-3 bg-deepBlue text-gold font-medium rounded-lg 
+           transition-all duration-300 hover:bg-opacity-90 
+           border-2 border-transparent hover:border-gold;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 bg-gold text-white font-medium rounded-lg 
+           transition-all duration-300 hover:bg-opacity-90
+           border-2 border-transparent hover:border-deepBlue;
+  }
+
+  /* Icon Styles */
+  .icon-wrapper {
+    @apply w-12 h-12 flex items-center justify-center rounded-lg 
+           bg-gradient-to-br from-gold/10 to-deepBlue/10;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground rtl;
+    font-family: "IBM Plex Sans Arabic", sans-serif;
   }
 
   /* Geometric Patterns */
