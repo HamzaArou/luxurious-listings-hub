@@ -7,12 +7,8 @@ const Hero = () => {
 
   useEffect(() => {
     if (imageRef.current) {
+      // Start with zoomed in view
       imageRef.current.style.transform = 'scale(1.2)';
-      setTimeout(() => {
-        if (imageRef.current) {
-          imageRef.current.style.transform = 'scale(1)';
-        }
-      }, 100);
     }
   }, []);
 
@@ -29,9 +25,19 @@ const Hero = () => {
         ref={imageRef}
         src="/lovable-uploads/c87b89a6-0c42-40a2-947d-51e3a2553341.png"
         alt="مجموعة الفيصل العقارية - مشاريع سكنية فاخرة"
-        className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-[2s] ease-out"
+        className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-[15s] ease-out"
+        style={{ willChange: 'transform' }}
+        onLoad={() => {
+          if (imageRef.current) {
+            // Trigger the zoom out animation after the image loads
+            setTimeout(() => {
+              if (imageRef.current) {
+                imageRef.current.style.transform = 'scale(1)';
+              }
+            }, 100);
+          }
+        }}
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent" />
       <GeometricDecorator type="vertical-lines" className="opacity-20" />
       
       {/* Hero Content */}
