@@ -25,8 +25,11 @@ const Hero = () => {
         ref={imageRef}
         src="/lovable-uploads/c87b89a6-0c42-40a2-947d-51e3a2553341.png"
         alt="مجموعة الفيصل العقارية - مشاريع سكنية فاخرة"
-        className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-[15s] ease-out"
-        style={{ willChange: 'transform' }}
+        className="absolute top-0 left-0 w-full h-full object-cover"
+        style={{ 
+          willChange: 'transform',
+          transition: 'transform 15s linear'
+        }}
         onLoad={() => {
           if (imageRef.current) {
             // Trigger the zoom out animation after the image loads
