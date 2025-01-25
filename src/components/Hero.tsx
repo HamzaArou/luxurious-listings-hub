@@ -27,21 +27,23 @@ const Hero = () => {
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      nextImage();
-    }, 15000);
-
-    return () => clearInterval(interval);
-  }, [nextImage]);
-
-  useEffect(() => {
+    // Start zoom animation when image changes
     if (isZoomed) {
       const timer = setTimeout(() => {
         setIsZoomed(false);
-      }, 100);
+      }, 100); // Reset zoom quickly after image change
       return () => clearTimeout(timer);
     }
   }, [isZoomed]);
+
+  useEffect(() => {
+    // Auto advance to next image after zoom animation completes
+    const interval = setInterval(() => {
+      nextImage();
+    }, 15000); // Change image every 15 seconds after zoom completes
+
+    return () => clearInterval(interval);
+  }, [nextImage]);
 
   const scrollToProjects = () => {
     const projectsSection = document.getElementById('projects');
@@ -58,7 +60,7 @@ const Hero = () => {
           src={src}
           alt={`صورة ${index + 1}`}
           className={cn(
-            "absolute top-0 left-0 w-full h-full object-cover transition-all duration-[2s]",
+            "absolute top-0 left-0 w-full h-full object-cover transition-all duration-[15000ms]",
             isZoomed ? "scale-110" : "scale-100",
             currentImageIndex === index 
               ? "opacity-100 z-10" 

@@ -112,7 +112,7 @@
   }
 
   .image-zoom {
-    @apply transition-transform duration-[15s] ease-out;
+    @apply transition-transform duration-[15000ms] ease-linear;
   }
 
   .image-zoom.zoomed {
@@ -123,13 +123,17 @@
     @apply transition-opacity duration-1000 ease-in-out;
   }
 
-  /* Hide scrollbar for the partners carousel */
-  .partners-carousel::-webkit-scrollbar {
-    display: none;
+  /* Button Animation */
+  .btn-hover-effect {
+    @apply relative overflow-hidden;
   }
-  
-  .partners-carousel {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+
+  .btn-hover-effect::after {
+    content: '';
+    @apply absolute top-0 left-0 w-full h-full bg-gold/20 transform -translate-x-full transition-transform duration-500;
+  }
+
+  .btn-hover-effect:hover::after {
+    @apply translate-x-0;
   }
 }
