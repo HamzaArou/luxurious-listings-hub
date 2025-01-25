@@ -111,29 +111,18 @@
     @apply opacity-100 translate-y-0;
   }
 
-  .image-zoom {
-    @apply transition-transform duration-[15000ms] ease-linear;
+  /* Grid Layouts */
+  .symmetric-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6;
   }
 
-  .image-zoom.zoomed {
-    @apply scale-110;
+  /* Hide scrollbar for the partners carousel */
+  .partners-carousel::-webkit-scrollbar {
+    display: none;
   }
-
-  .image-fade {
-    @apply transition-opacity duration-1000 ease-in-out;
-  }
-
-  /* Button Animation */
-  .btn-hover-effect {
-    @apply relative overflow-hidden;
-  }
-
-  .btn-hover-effect::after {
-    content: '';
-    @apply absolute top-0 left-0 w-full h-full bg-gold/20 transform -translate-x-full transition-transform duration-500;
-  }
-
-  .btn-hover-effect:hover::after {
-    @apply translate-x-0;
+  
+  .partners-carousel {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
