@@ -48,15 +48,13 @@ const Hero = () => {
         <h1 className="text-5xl md:text-7xl font-bold mb-8 text-white">
           ثقتك بوابتنا لتحقيق حلمك
         </h1>
-        <div className="flex items-center gap-4">
-          <button 
-            onClick={scrollToProjects}
-            className="bg-white text-black px-6 py-3 rounded-lg flex items-center gap-2 hover:bg-opacity-90 transition-all duration-300"
-          >
-            عرض العقارات
-            <ArrowRight className="h-5 w-5" />
-          </button>
-        </div>
+        <button 
+          onClick={scrollToProjects}
+          className="bg-white text-black px-8 py-4 rounded-lg flex items-center gap-3 group transition-all duration-300 hover:bg-black hover:text-white"
+        >
+          <span className="text-lg font-bold">عرض العقارات</span>
+          <ArrowRight className="h-6 w-6 transition-colors duration-300" />
+        </button>
       </div>
     </section>
   );
