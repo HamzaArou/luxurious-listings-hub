@@ -24,11 +24,11 @@ const Footer = () => {
     window.location.href = `https://wa.me/${whatsappNumber}`;
   };
 
-  const scrollToSection = (sectionId: string) => {
-    const isProjectPage = location.pathname.includes('/project/');
+  const scrollToSection = async (sectionId: string) => {
+    const isPrivacyPolicy = location.pathname === '/privacy-policy';
     
-    if (isProjectPage) {
-      navigate('/');
+    if (isPrivacyPolicy) {
+      await navigate('/');
       setTimeout(() => {
         const section = document.getElementById(sectionId);
         if (section) {
