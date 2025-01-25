@@ -6,7 +6,7 @@ const TRANSITION_DURATION = 15000; // 15 seconds for zoom animation
 
 const images = [
   "/lovable-uploads/c87b89a6-0c42-40a2-947d-51e3a2553341.png",
-  "/lovable-uploads/c936d142-db1b-449f-bf47-e3d46253b213.png"
+  "/lovable-uploads/325c0faa-605f-42a9-8e71-adb278491bc5.png"
 ];
 
 const Hero = () => {
