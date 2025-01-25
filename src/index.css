@@ -111,9 +111,16 @@
     @apply opacity-100 translate-y-0;
   }
 
-  /* Grid Layouts */
-  .symmetric-grid {
-    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6;
+  .image-zoom {
+    @apply transition-transform duration-[15s] ease-out;
+  }
+
+  .image-zoom.zoomed {
+    @apply scale-110;
+  }
+
+  .image-fade {
+    @apply transition-opacity duration-1000 ease-in-out;
   }
 
   /* Hide scrollbar for the partners carousel */
