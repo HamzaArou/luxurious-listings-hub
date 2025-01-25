@@ -51,9 +51,10 @@ const Header = () => {
   }, [lastScrollY, location.pathname]);
 
   const scrollToSection = (sectionId: string) => {
+    const isPrivacyPage = location.pathname === '/privacy-policy';
     const isProjectPage = location.pathname.includes('/project/');
     
-    if (isProjectPage) {
+    if (isPrivacyPage || isProjectPage) {
       navigate('/');
       setTimeout(() => {
         const section = document.getElementById(sectionId);
