@@ -92,6 +92,7 @@ const Header = () => {
 
   const isProjectPage = location.pathname.includes('/project/');
   const isPrivacyPage = location.pathname === '/privacy-policy';
+  const shouldUseBlackText = (isProjectPage || isPrivacyPage) && !isScrolled;
 
   return (
     <header
@@ -127,7 +128,7 @@ const Header = () => {
                   key={link.href}
                   onClick={() => scrollToSection(link.href)}
                   className={`nav-link font-ibm-arabic font-medium text-lg hover:text-gold transition-colors duration-300 ${
-                    (isProjectPage && !isScrolled) ? 'text-black' : 'text-white'
+                    shouldUseBlackText ? 'text-black' : 'text-white'
                   }`}
                 >
                   {link.text}
@@ -136,7 +137,7 @@ const Header = () => {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button className={`nav-link font-ibm-arabic font-medium text-lg hover:text-gold transition-colors duration-300 ${
-                    (isProjectPage && !isScrolled) ? 'text-black' : 'text-white'
+                    shouldUseBlackText ? 'text-black' : 'text-white'
                   }`}>
                     تواصل معنا
                   </button>
@@ -166,7 +167,7 @@ const Header = () => {
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label={isMobileMenuOpen ? "إغلاق القائمة" : "فتح القائمة"}
             className={`transition-colors duration-300 ${
-              (isProjectPage && !isScrolled) ? 'text-black' : 'text-white'
+              shouldUseBlackText ? 'text-black' : 'text-white'
             }`}
           >
             {isMobileMenuOpen ? (
