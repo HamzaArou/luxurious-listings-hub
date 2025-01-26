@@ -1,13 +1,15 @@
-import { useEffect } from "react";
-import UIkit from "uikit";
-import "uikit/dist/css/uikit.min.css";
-import "uikit/dist/js/uikit.min.js";
-import "uikit/dist/js/uikit-icons.min.js";
+import { useEffect, useRef } from "react";
+import GeometricDecorator from "./GeometricDecorator";
+import { ArrowRight } from "lucide-react";
 
 const Hero = () => {
+  const imageRef = useRef<HTMLImageElement>(null);
+
   useEffect(() => {
-    // Initialize UIkit
-    UIkit.use(UIkit);
+    if (imageRef.current) {
+      // Start with zoomed in view
+      imageRef.current.style.transform = 'scale(1.2)';
+    }
   }, []);
 
   const scrollToProjects = () => {
@@ -18,79 +20,42 @@ const Hero = () => {
   };
 
   return (
-    <section 
-      id="slideShow" 
-      className="slide-show uk-position-relative uk-visible-toggle uk-light uk-slideshow" 
-      tabIndex={-1} 
-      data-uk-slideshow="animation: fade; ratio: false; autoplay: true; autoplay-interval: 15000;"
-    >
-      <ul className="uk-slideshow-items" uk-height-viewport="">
-        <li>
-          <div className="uk-position-cover uk-animation-kenburns uk-animation-reverse uk-transform-origin-center-left">
-            <picture>
-              <source media="(min-width: 799px)" srcSet="/lovable-uploads/64c77c40-1e36-4888-9b2a-45b0bb0eb897.png" />
-              <source media="(max-width: 799px)" srcSet="/lovable-uploads/64c77c40-1e36-4888-9b2a-45b0bb0eb897.png" />
-              <img 
-                src="/lovable-uploads/64c77c40-1e36-4888-9b2a-45b0bb0eb897.png" 
-                alt="مجموعة الفيصل العقارية - مشاريع سكنية فاخرة" 
-                width="100%" 
-                height="100%"
-                style={{ objectFit: 'cover' }}
-              />
-            </picture>
-          </div>
-          <div className="uk-container uk-container-large uk-flex uk-flex-column uk-flex-center uk-height-1-1">
-            <h3 className="slide-show__title text-5xl md:text-7xl font-bold mb-8 text-white text-center">
-              ثقتك بوابتنا لتحقيق حلمك
-            </h3>
-            <button 
-              onClick={scrollToProjects}
-              className="btn btn-white mx-auto bg-white text-black px-8 py-4 rounded-lg flex items-center gap-3 group transition-all duration-300 hover:bg-black hover:text-white uk-transition-slide-bottom"
-            >
-              <span className="text-lg font-bold">عرض العقارات</span>
-            </button>
-          </div>
-        </li>
-        <li>
-          <div className="uk-position-cover uk-animation-kenburns uk-animation-reverse uk-transform-origin-center-left">
-            <picture>
-              <source media="(min-width: 799px)" srcSet="/lovable-uploads/795bf368-cd1f-4497-a94c-ca250306e82a.png" />
-              <source media="(max-width: 799px)" srcSet="/lovable-uploads/795bf368-cd1f-4497-a94c-ca250306e82a.png" />
-              <img 
-                src="/lovable-uploads/795bf368-cd1f-4497-a94c-ca250306e82a.png" 
-                alt="مجموعة الفيصل العقارية - مشاريع سكنية فاخرة 2" 
-                width="100%" 
-                height="100%"
-                style={{ objectFit: 'cover' }}
-              />
-            </picture>
-          </div>
-          <div className="uk-container uk-container-large uk-flex uk-flex-column uk-flex-center uk-height-1-1">
-            <h3 className="slide-show__title text-5xl md:text-7xl font-bold mb-8 text-white text-center">
-              ثقتك بوابتنا لتحقيق حلمك
-            </h3>
-            <button 
-              onClick={scrollToProjects}
-              className="btn btn-white mx-auto bg-white text-black px-8 py-4 rounded-lg flex items-center gap-3 group transition-all duration-300 hover:bg-black hover:text-white uk-transition-slide-bottom"
-            >
-              <span className="text-lg font-bold">عرض العقارات</span>
-            </button>
-          </div>
-        </li>
-      </ul>
-
-      <a 
-        className="uk-position-center-left uk-position-small uk-hidden-hover uk-slidenav-previous" 
-        href="#" 
-        data-uk-slidenav-previous="" 
-        data-uk-slideshow-item="previous"
-      ></a>
-      <a 
-        className="uk-position-center-right uk-position-small uk-hidden-hover uk-slidenav-next" 
-        href="#" 
-        data-uk-slidenav-next="" 
-        data-uk-slideshow-item="next"
-      ></a>
+    <section className="relative w-full h-screen overflow-hidden">
+      <img
+        ref={imageRef}
+        src="/lovable-uploads/c87b89a6-0c42-40a2-947d-51e3a2553341.png"
+        alt="مجموعة الفيصل العقارية - مشاريع سكنية فاخرة"
+        className="absolute top-0 left-0 w-full h-full object-cover"
+        style={{ 
+          willChange: 'transform',
+          transition: 'transform 15s linear'
+        }}
+        onLoad={() => {
+          if (imageRef.current) {
+            // Trigger the zoom out animation after the image loads
+            setTimeout(() => {
+              if (imageRef.current) {
+                imageRef.current.style.transform = 'scale(1)';
+              }
+            }, 100);
+          }
+        }}
+      />
+      <GeometricDecorator type="vertical-lines" className="opacity-20" />
+      
+      {/* Hero Content */}
+      <div className="absolute inset-0 flex flex-col justify-center items-center text-center text-white">
+        <h1 className="text-5xl md:text-7xl font-bold mb-8 text-white">
+          ثقتك بوابتنا لتحقيق حلمك
+        </h1>
+        <button 
+          onClick={scrollToProjects}
+          className="bg-white text-black px-8 py-4 rounded-lg flex items-center gap-3 group transition-all duration-300 hover:bg-black hover:text-white"
+        >
+          <span className="text-lg font-bold">عرض العقارات</span>
+          <ArrowRight className="h-6 w-6 transition-colors duration-300" />
+        </button>
+      </div>
     </section>
   );
 };

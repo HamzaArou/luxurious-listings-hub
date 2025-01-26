@@ -15,7 +15,7 @@ export default function ProjectPlans({ form, isLoading, onPlansChange, initialPl
     <div className="space-y-4">
       <FormField
         control={form.control}
-        name="plans"
+        name="project_plans"
         render={({ field }) => (
           <FormItem>
             <FormLabel>مخططات المشروع</FormLabel>

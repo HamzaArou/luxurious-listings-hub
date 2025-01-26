@@ -21,8 +21,8 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [currentTab, setCurrentTab] = useState<TabType>("basic");
   const [thumbnail, setThumbnail] = useState<File | null>(null);
-  const [galleryImages, setGalleryImages] = useState<File[] | null>(null);
-  const [plans, setPlans] = useState<File[] | null>(null);
+  const [galleryImages, setGalleryImages] = useState<FileList | null>(null);
+  const [plans, setPlans] = useState<FileList | null>(null);
   const navigate = useNavigate();
 
   const form = useForm<ProjectFormValues>({
@@ -105,7 +105,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
             <ProjectGallery
               form={form}
               isLoading={isLoading}
-              onGalleryImagesChange={(files: FileList | null) => setGalleryImages(files ? Array.from(files) : null)}
+              onGalleryImagesChange={setGalleryImages}
               initialImages={initialData?.gallery_images}
             />
           </TabsContent>
@@ -154,7 +154,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
             <ProjectPlans
               form={form}
               isLoading={isLoading}
-              onPlansChange={(files: FileList | null) => setPlans(files ? Array.from(files) : null)}
+              onPlansChange={setPlans}
               initialPlans={initialData?.plans}
             />
           </TabsContent>
