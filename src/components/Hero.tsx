@@ -47,11 +47,30 @@ const Hero = () => {
               <h3 className="slide-show__title text-5xl md:text-7xl font-bold text-white mb-8">
                 ثقتك بوابتنا لتحقيق حلمك
               </h3>
-              <a href="#projects" className="btn btn-white" onClick={(e) => {
-                e.preventDefault();
-                document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
-              }}>
+              <a 
+                href="#projects" 
+                className="inline-flex items-center gap-3 px-8 py-4 text-lg font-bold text-gold hover:text-white bg-white hover:bg-gold transition-all duration-300 rounded-lg"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                aria-label="عرض العقارات المتوفرة"
+              >
                 <span>عرض العقارات</span>
+                <svg 
+                  width="24" 
+                  height="24" 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  strokeWidth="2" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
+                  className="transform rotate-180"
+                >
+                  <path d="M5 12h14"/>
+                  <path d="m12 5 7 7-7 7"/>
+                </svg>
               </a>
             </div>
           </div>
@@ -87,8 +106,26 @@ const Hero = () => {
               <h3 className="slide-show__title text-5xl md:text-7xl font-bold text-white mb-8">
                 حلول تمويليه مخصصة لك
               </h3>
-              <a href="/etmam" className="btn btn-white">
+              <a 
+                href="/etmam" 
+                className="inline-flex items-center gap-3 px-8 py-4 text-lg font-bold text-gold hover:text-white bg-white hover:bg-gold transition-all duration-300 rounded-lg"
+                aria-label="عرض التفاصيل"
+              >
                 <span>عرض التفاصيل</span>
+                <svg 
+                  width="24" 
+                  height="24" 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  strokeWidth="2" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
+                  className="transform rotate-180"
+                >
+                  <path d="M5 12h14"/>
+                  <path d="m12 5 7 7-7 7"/>
+                </svg>
               </a>
             </div>
           </div>
