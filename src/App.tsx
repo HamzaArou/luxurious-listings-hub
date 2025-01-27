@@ -6,12 +6,14 @@ import AdminDashboard from "@/pages/AdminDashboard";
 import ProjectForm from "@/pages/ProjectForm";
 import NotFound from "@/components/NotFound";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
+import LandingPage from "@/pages/LandingPage";
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Index />} />
+        <Route path="/landing" element={<LandingPage />} />
         <Route path="/project/:id" element={<ProjectDetails />} />
         <Route path="/admin" element={<AdminLogin />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
