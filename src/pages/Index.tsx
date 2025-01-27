@@ -1,41 +1,23 @@
-import Header from "@/components/Header";
 import Hero from "@/components/Hero";
-import NewsCarousel from "@/components/NewsCarousel";
+import AboutUs from "@/components/AboutUs";
+import Services from "@/components/Services";
 import Stats from "@/components/Stats";
 import FeaturedProjects from "@/components/FeaturedProjects";
-import Services from "@/components/Services";
 import Partners from "@/components/Partners";
-import AboutUs from "@/components/AboutUs";
 import ContactUs from "@/components/ContactUs";
-import Footer from "@/components/Footer";
+import FloatingContact from "@/components/FloatingContact";
 
-const Index = () => {
+export default function Index() {
   return (
-    <div className="min-h-screen">
-      <Header />
-      <div id="hero">
-        <Hero />
-      </div>
-      <div id="news">
-        <NewsCarousel />
-        <FeaturedProjects />
-      </div>
-      <div id="stats">
-        <Stats />
-      </div>
-      <div id="services">
-        <Services />
-      </div>
+    <main className="flex min-h-screen flex-col">
+      <Hero />
+      <AboutUs />
+      <Services />
+      <Stats />
+      <FeaturedProjects />
       <Partners />
-      <div id="about">
-        <AboutUs />
-      </div>
-      <div id="contact">
-        <ContactUs />
-      </div>
-      <Footer />
-    </div>
+      <ContactUs />
+      <FloatingContact />
+    </main>
   );
-};
-
-export default Index;
+}
