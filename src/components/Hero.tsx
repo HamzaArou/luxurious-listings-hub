@@ -4,7 +4,7 @@ const Hero = () => {
   return (
     <section
       id="slideShow"
-      className="slide-show uk-position-relative uk-visible-toggle uk-light uk-slideshow"
+      className="slide-show uk-position-relative uk-visible-toggle uk-light"
       tabIndex={-1}
       uk-slideshow="animation: fade; ratio: false; autoplay: true"
       role="region"
@@ -95,38 +95,34 @@ const Hero = () => {
         </li>
       </ul>
 
-      <div className="uk-slidenav-container">
-        <button
-          className="uk-position-center-left uk-position-small uk-hidden-hover"
-          uk-slidenav-previous=""
-          uk-slideshow-item="previous"
-          aria-label="Previous slide"
-        >
-          <svg width="14" height="24" viewBox="0 0 14 24">
-            <polyline
-              fill="none"
-              stroke="#fff"
-              strokeWidth="1.4"
-              points="12.775,1 1.225,12 12.775,23"
-            ></polyline>
-          </svg>
-        </button>
-        <button
-          className="uk-position-center-right uk-position-small uk-hidden-hover"
-          uk-slidenav-next=""
-          uk-slideshow-item="next"
-          aria-label="Next slide"
-        >
-          <svg width="14" height="24" viewBox="0 0 14 24">
-            <polyline
-              fill="none"
-              stroke="#fff"
-              strokeWidth="1.4"
-              points="1.225,23 12.775,12 1.225,1"
-            ></polyline>
-          </svg>
-        </button>
-      </div>
+      <button
+        className="uk-slidenav-previous uk-position-center-left uk-position-small uk-hidden-hover"
+        uk-slideshow-item="previous"
+        aria-label="Previous slide"
+      >
+        <svg width="14" height="24" viewBox="0 0 14 24">
+          <polyline
+            fill="none"
+            stroke="#fff"
+            strokeWidth="1.4"
+            points="12.775,1 1.225,12 12.775,23"
+          ></polyline>
+        </svg>
+      </button>
+      <button
+        className="uk-slidenav-next uk-position-center-right uk-position-small uk-hidden-hover"
+        uk-slideshow-item="next"
+        aria-label="Next slide"
+      >
+        <svg width="14" height="24" viewBox="0 0 14 24">
+          <polyline
+            fill="none"
+            stroke="#fff"
+            strokeWidth="1.4"
+            points="1.225,23 12.775,12 1.225,1"
+          ></polyline>
+        </svg>
+      </button>
     </section>
   );
 };
