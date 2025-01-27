@@ -72,7 +72,7 @@ const LandingPage = () => {
               <div className="flex justify-center mb-4">
                 <Tag className="w-12 h-12 text-gold" />
               </div>
-              <h3 className="text-xl font-bold mb-2">الأسعار تبدأ من 1.2 مليون ريال</h3>
+              <h3 className="text-xl font-bold mb-2">الأسعار تبدأ من 750,000 ريال</h3>
               <p className="text-gray-600">خطط مرنة تناسب ميزانيتك</p>
             </div>
 
