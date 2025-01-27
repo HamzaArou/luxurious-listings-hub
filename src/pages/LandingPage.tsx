@@ -25,7 +25,7 @@ const LandingPage = () => {
             alt="مجموعة الفيصل العقارية"
             className="w-48 mb-8"
           />
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white">
             اكتشف روعة العيش الفاخر
           </h1>
           <p className="text-lg md:text-xl mb-8 max-w-2xl">
