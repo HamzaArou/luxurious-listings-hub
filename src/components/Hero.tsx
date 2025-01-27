@@ -41,7 +41,7 @@ const Hero = () => {
               />
             </picture>
           </div>
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent h-[40%] bottom-0"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent"></div>
           <div className="uk-position-center uk-position-medium uk-text-center">
             <div className="uk-transition-slide-bottom">
               <h3 className="slide-show__title text-4xl md:text-7xl font-bold text-white mb-8">
@@ -100,7 +100,7 @@ const Hero = () => {
               />
             </picture>
           </div>
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent h-[40%] bottom-0"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent"></div>
           <div className="uk-position-center uk-position-medium uk-text-center">
             <div className="uk-transition-slide-bottom">
               <h3 className="slide-show__title text-4xl md:text-7xl font-bold text-white mb-8">
