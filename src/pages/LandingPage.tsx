@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import FloatingContact from "@/components/FloatingContact";
+import LandingFloatingContact from "@/components/LandingFloatingContact";
 import RegisterInterestDialog from "@/components/RegisterInterestDialog";
 
 const LandingPage = () => {
@@ -47,8 +47,8 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Add FloatingContact component with the register dialog handler */}
-      <FloatingContact onRegisterClick={() => setShowRegisterDialog(true)} />
+      {/* Landing Floating Contact */}
+      <LandingFloatingContact onRegisterClick={() => setShowRegisterDialog(true)} />
 
       {/* Register Interest Dialog */}
       <RegisterInterestDialog 
