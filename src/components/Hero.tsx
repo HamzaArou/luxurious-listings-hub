@@ -26,18 +26,18 @@ const Hero = () => {
             <picture>
               <source
                 media="(min-width: 799px)"
-                srcSet="/lovable-uploads/c87b89a6-0c42-40a2-947d-51e3a2553341.png"
+                srcSet="/lovable-uploads/e3cb0736-5822-44bc-b9d5-f81c5ef23bc0.png"
               />
               <source
                 media="(max-width: 799px)"
                 width="1200"
                 height="1500"
-                srcSet="/lovable-uploads/c87b89a6-0c42-40a2-947d-51e3a2553341.png"
+                srcSet="/lovable-uploads/e3cb0736-5822-44bc-b9d5-f81c5ef23bc0.png"
               />
               <img
                 width="100%"
                 height="100%"
-                src="/lovable-uploads/c87b89a6-0c42-40a2-947d-51e3a2553341.png"
+                src="/lovable-uploads/e3cb0736-5822-44bc-b9d5-f81c5ef23bc0.png"
                 alt="مجموعة الفيصل العقارية - مشاريع سكنية فاخرة"
               />
             </picture>
@@ -66,18 +66,18 @@ const Hero = () => {
             <picture>
               <source
                 media="(min-width: 799px)"
-                srcSet="/lovable-uploads/347279e4-6311-4ca1-ba11-f5f48c766bff.png"
+                srcSet="/lovable-uploads/7874e017-33d2-4303-90ae-cabbd7c02580.png"
               />
               <source
                 media="(max-width: 799px)"
                 width="1200"
                 height="1500"
-                srcSet="/lovable-uploads/347279e4-6311-4ca1-ba11-f5f48c766bff.png"
+                srcSet="/lovable-uploads/7874e017-33d2-4303-90ae-cabbd7c02580.png"
               />
               <img
                 width="100%"
                 height="100%"
-                src="/lovable-uploads/347279e4-6311-4ca1-ba11-f5f48c766bff.png"
+                src="/lovable-uploads/7874e017-33d2-4303-90ae-cabbd7c02580.png"
                 alt="مجموعة الفيصل العقارية - حلول تمويلية"
               />
             </picture>
