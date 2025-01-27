@@ -1,4 +1,5 @@
-import { Phone, MessageSquare, FileText, Facebook, Instagram, Youtube } from "lucide-react";
+import { Phone, MessageSquare, FileText } from "lucide-react";
+import { Twitter, Instagram } from "lucide-react";
 
 interface LandingFloatingContactProps {
   onRegisterClick: () => void;
@@ -16,6 +17,23 @@ const LandingFloatingContact = ({ onRegisterClick }: LandingFloatingContactProps
     window.location.href = `https://wa.me/${whatsappNumber}`;
   };
 
+  const TikTokIcon = () => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="w-6 h-6"
+    >
+      <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+    </svg>
+  );
+
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 bg-white shadow-lg border-t border-gray-200">
       <div className="container mx-auto px-4">
@@ -23,28 +41,50 @@ const LandingFloatingContact = ({ onRegisterClick }: LandingFloatingContactProps
           {/* Social Media Links */}
           <div className="flex gap-4">
             <a
-              href="https://facebook.com"
+              href="https://www.snapchat.com/add/alfaisal_group"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gold hover:text-gold/90 transition-colors"
+              aria-label="Snapchat"
             >
-              <Facebook className="h-6 w-6" />
+              <svg
+                className="w-6 h-6"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+              </svg>
             </a>
             <a
-              href="https://instagram.com"
+              href="https://x.com/alfaisal_group?s=21"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gold hover:text-gold/90 transition-colors"
+              aria-label="Twitter"
             >
-              <Instagram className="h-6 w-6" />
+              <Twitter className="w-6 h-6" />
             </a>
             <a
-              href="https://youtube.com"
+              href="https://www.instagram.com/alfaisal_group?igsh=MXE2MGY2bzJiODB0Zw%3D%3D&utm_source=qr"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gold hover:text-gold/90 transition-colors"
+              aria-label="Instagram"
             >
-              <Youtube className="h-6 w-6" />
+              <Instagram className="w-6 h-6" />
+            </a>
+            <a
+              href="https://www.tiktok.com/@alfaisal_group?_t=ZS-8t2MVNY6jxw&_r=1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gold hover:text-gold/90 transition-colors"
+              aria-label="TikTok"
+            >
+              <TikTokIcon />
             </a>
           </div>
 
