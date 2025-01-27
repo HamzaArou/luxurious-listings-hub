@@ -20,11 +20,6 @@ const LandingPage = () => {
           <div className="absolute inset-0 bg-black/30" />
         </div>
         <div className="relative z-10 container mx-auto px-4 h-full flex flex-col items-center justify-center text-center text-white">
-          <img
-            src="/lovable-uploads/452d0f08-89bf-4863-9d95-46a23971500f.png"
-            alt="مجموعة الفيصل العقارية"
-            className="w-48 mb-8"
-          />
           <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white">
             اكتشف روعة العيش الفاخر
           </h1>
