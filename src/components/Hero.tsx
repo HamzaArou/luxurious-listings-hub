@@ -11,8 +11,8 @@ const Hero = () => {
       aria-roledescription="carousel"
     >
       <ul
-        className="uk-slideshow-items"
-        uk-height-viewport=""
+        className="uk-slideshow-items min-h-screen"
+        uk-height-viewport="offset-top: true; offset-bottom: true"
         aria-live="off"
         role="presentation"
       >
@@ -21,6 +21,7 @@ const Hero = () => {
           aria-label="1 of 2"
           aria-roledescription="slide"
           tabIndex={-1}
+          className="min-h-screen"
         >
           <div className="uk-position-cover uk-animation-kenburns uk-animation-reverse uk-transform-origin-center-left">
             <picture>
@@ -30,21 +31,20 @@ const Hero = () => {
               />
               <source
                 media="(max-width: 799px)"
-                width="1200"
-                height="1500"
                 srcSet="/lovable-uploads/e3cb0736-5822-44bc-b9d5-f81c5ef23bc0.png"
               />
               <img
-                width="100%"
-                height="100%"
+                className="object-cover w-full h-full"
                 src="/lovable-uploads/e3cb0736-5822-44bc-b9d5-f81c5ef23bc0.png"
                 alt="مجموعة الفيصل العقارية - مشاريع سكنية فاخرة"
+                loading="eager"
               />
             </picture>
           </div>
-          <div className="uk-container uk-container-large uk-flex uk-flex-column uk-flex-center uk-height-1-1">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent"></div>
+          <div className="uk-position-center uk-position-medium uk-text-center">
             <div className="uk-transition-slide-bottom">
-              <h3 className="slide-show__title text-5xl md:text-7xl font-bold text-white mb-8">
+              <h3 className="slide-show__title text-4xl md:text-7xl font-bold text-white mb-8">
                 ثقتك بوابتنا لتحقيق حلمك
               </h3>
               <a 
@@ -80,6 +80,7 @@ const Hero = () => {
           aria-label="2 of 2"
           aria-roledescription="slide"
           tabIndex={-1}
+          className="min-h-screen"
         >
           <div className="uk-position-cover uk-animation-kenburns uk-animation-reverse uk-transform-origin-center-left">
             <picture>
@@ -89,21 +90,20 @@ const Hero = () => {
               />
               <source
                 media="(max-width: 799px)"
-                width="1200"
-                height="1500"
                 srcSet="/lovable-uploads/7874e017-33d2-4303-90ae-cabbd7c02580.png"
               />
               <img
-                width="100%"
-                height="100%"
+                className="object-cover w-full h-full"
                 src="/lovable-uploads/7874e017-33d2-4303-90ae-cabbd7c02580.png"
                 alt="مجموعة الفيصل العقارية - حلول تمويلية"
+                loading="eager"
               />
             </picture>
           </div>
-          <div className="uk-container uk-container-large uk-flex uk-flex-column uk-flex-center uk-height-1-1">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent"></div>
+          <div className="uk-position-center uk-position-medium uk-text-center">
             <div className="uk-transition-slide-bottom">
-              <h3 className="slide-show__title text-5xl md:text-7xl font-bold text-white mb-8">
+              <h3 className="slide-show__title text-4xl md:text-7xl font-bold text-white mb-8">
                 حلول تمويليه مخصصة لك
               </h3>
               <a 
