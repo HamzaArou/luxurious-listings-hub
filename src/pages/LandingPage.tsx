@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import LandingFloatingContact from "@/components/LandingFloatingContact";
 import RegisterInterestDialog from "@/components/RegisterInterestDialog";
+import { Building2, MapPin, Tag } from "lucide-react";
 
 const LandingPage = () => {
   const [showRegisterDialog, setShowRegisterDialog] = useState(false);
 
   useEffect(() => {
-    // Scroll to top on component mount
     window.scrollTo(0, 0);
   }, []);
 
@@ -43,6 +43,47 @@ const LandingPage = () => {
             >
               سجل اهتمامك
             </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-6">
+            اكتشف شقق الفيصل
+          </h2>
+          <p className="text-lg text-center max-w-4xl mx-auto mb-16 text-gray-600 leading-relaxed">
+            توفر مجموعة الفيصل العقارية تجربة سكنية متكاملة بفضل تصميمات حديثة ومواقع متميزة في مكة المكرمة. تتميز الشقق بمساحات متعددة تلبي مختلف الاحتياجات، مع مراعاة التفاصيل الدقيقة لتحقيق الراحة والجمال.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Bedrooms Feature */}
+            <div className="text-center p-6 rounded-lg">
+              <div className="flex justify-center mb-4">
+                <Building2 className="w-12 h-12 text-gold" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">غرف نوم متنوعة</h3>
+              <p className="text-gray-600">شقق بغرف متعددة تناسب الجميع</p>
+            </div>
+
+            {/* Price Feature */}
+            <div className="text-center p-6 rounded-lg">
+              <div className="flex justify-center mb-4">
+                <Tag className="w-12 h-12 text-gold" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">الأسعار تبدأ من 1.2 مليون ريال</h3>
+              <p className="text-gray-600">خطط مرنة تناسب ميزانيتك</p>
+            </div>
+
+            {/* Location Feature */}
+            <div className="text-center p-6 rounded-lg">
+              <div className="flex justify-center mb-4">
+                <MapPin className="w-12 h-12 text-gold" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">مواقع مميزة في مكة المكرمة</h3>
+              <p className="text-gray-600">سهولة الوصول إلى جميع الخدمات</p>
+            </div>
           </div>
         </div>
       </section>
