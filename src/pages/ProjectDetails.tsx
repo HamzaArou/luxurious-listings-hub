@@ -9,10 +9,9 @@ import ContactUs from "@/components/ContactUs";
 import { useState, useEffect } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import NotFound from "@/components/NotFound";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import NotFound from "@/components/NotFound";
 
 function ProjectDetailsSkeleton() {
   return (
@@ -80,7 +79,6 @@ export default function ProjectDetails() {
         <div className="mt-[120px]">
           <ProjectDetailsSkeleton />
         </div>
-        <Footer />
       </div>
     );
   }
@@ -144,7 +142,6 @@ export default function ProjectDetails() {
 
         <ContactUs projectId={id} projectName={project.name} />
       </div>
-      <Footer />
 
       <Dialog open={dialogOpen} onOpenChange={handleCloseDialog}>
         <DialogContent className="max-w-4xl w-full p-0 overflow-hidden bg-black/90">
