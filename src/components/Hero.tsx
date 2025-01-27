@@ -34,10 +34,13 @@ const Hero = () => {
                 srcSet="/lovable-uploads/e3cb0736-5822-44bc-b9d5-f81c5ef23bc0.png"
               />
               <img
-                className="object-cover w-full h-full"
+                className="object-cover w-[110%] md:w-full h-full"
                 src="/lovable-uploads/e3cb0736-5822-44bc-b9d5-f81c5ef23bc0.png"
                 alt="مجموعة الفيصل العقارية - مشاريع سكنية فاخرة"
                 loading="eager"
+                style={{
+                  marginLeft: '-5%'
+                }}
               />
             </picture>
           </div>
@@ -102,10 +105,13 @@ const Hero = () => {
                 srcSet="/lovable-uploads/7874e017-33d2-4303-90ae-cabbd7c02580.png"
               />
               <img
-                className="object-cover w-full h-full"
+                className="object-cover w-[110%] md:w-full h-full"
                 src="/lovable-uploads/7874e017-33d2-4303-90ae-cabbd7c02580.png"
                 alt="مجموعة الفيصل العقارية - حلول تمويلية"
                 loading="eager"
+                style={{
+                  marginLeft: '-5%'
+                }}
               />
             </picture>
           </div>
