@@ -59,6 +59,12 @@
            border-2 border-transparent hover:border-deepBlue;
   }
 
+  .btn-white {
+    @apply px-8 py-4 bg-white text-black font-bold rounded-lg 
+           transition-all duration-300 hover:bg-black hover:text-white
+           text-lg inline-flex items-center gap-3;
+  }
+
   /* Icon Styles */
   .icon-wrapper {
     @apply w-12 h-12 flex items-center justify-center rounded-lg 
@@ -114,6 +120,15 @@
   /* Grid Layouts */
   .symmetric-grid {
     @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6;
+  }
+
+  /* Slide Show Styles */
+  .slide-show {
+    @apply relative w-full h-screen overflow-hidden;
+  }
+
+  .slide-show__title {
+    @apply text-center mb-8;
   }
 
   /* Hide scrollbar for the partners carousel */
