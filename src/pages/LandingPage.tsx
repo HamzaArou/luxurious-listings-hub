@@ -12,7 +12,7 @@ const LandingPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white pb-16">
       {/* Hero Section */}
       <section className="relative h-screen">
         <div className="absolute inset-0">
@@ -47,8 +47,8 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Add FloatingContact component */}
-      <FloatingContact />
+      {/* Add FloatingContact component with the register dialog handler */}
+      <FloatingContact onRegisterClick={() => setShowRegisterDialog(true)} />
 
       {/* Register Interest Dialog */}
       <RegisterInterestDialog 

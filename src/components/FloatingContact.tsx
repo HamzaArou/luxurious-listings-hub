@@ -1,13 +1,11 @@
-import { Phone } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { Phone, MessageSquare, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const FloatingContact = () => {
+interface FloatingContactProps {
+  onRegisterClick: () => void;
+}
+
+const FloatingContact = ({ onRegisterClick }: FloatingContactProps) => {
   const phoneNumber = "+966505148231";
   const whatsappNumber = "966505148231"; // Removed the + for WhatsApp API format
 
@@ -20,34 +18,37 @@ const FloatingContact = () => {
   };
 
   return (
-    <div className="fixed bottom-8 left-8 z-50">
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            size="icon"
-            className="h-14 w-14 rounded-full bg-gold hover:bg-gold/90 shadow-gold"
+    <div className="fixed bottom-0 left-0 right-0 z-50 bg-white shadow-lg border-t border-gray-200">
+      <div className="container mx-auto px-4">
+        <div className="flex justify-between items-center py-3">
+          {/* Enquiry Button */}
+          <button
+            onClick={onRegisterClick}
+            className="flex flex-col items-center gap-1 text-gold hover:text-gold/90 transition-colors"
           >
-            <Phone className="h-6 w-6 text-white" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="start" className="w-[200px]">
-          <DropdownMenuItem onClick={handleCall} className="gap-2 cursor-pointer">
-            <Phone className="h-5 w-5" />
-            <span>اتصل بنا</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem
+            <FileText className="h-6 w-6" />
+            <span className="text-xs font-medium">سجل اهتمامك</span>
+          </button>
+
+          {/* Call Button */}
+          <button
+            onClick={handleCall}
+            className="flex flex-col items-center gap-1 text-gold hover:text-gold/90 transition-colors"
+          >
+            <Phone className="h-6 w-6" />
+            <span className="text-xs font-medium">اتصل بنا</span>
+          </button>
+
+          {/* WhatsApp Button */}
+          <button
             onClick={handleWhatsApp}
-            className="gap-2 cursor-pointer"
+            className="flex flex-col items-center gap-1 text-gold hover:text-gold/90 transition-colors"
           >
-            <img 
-              src="/lovable-uploads/5a30ecf6-b0b1-41ce-908d-7d07e173fe6e.png" 
-              alt="WhatsApp"
-              className="h-5 w-5"
-            />
-            <span>واتساب</span>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+            <MessageSquare className="h-6 w-6" />
+            <span className="text-xs font-medium">واتساب</span>
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
