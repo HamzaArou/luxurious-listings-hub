@@ -26,12 +26,20 @@ const LandingPage = () => {
           <p className="text-lg md:text-xl mb-8 max-w-2xl">
             في قلب مكة المكرمة، نقدم لك تجربة سكنية استثنائية تجمع بين الفخامة والراحة
           </p>
-          <Link
-            to="/projects"
-            className="bg-gold hover:bg-gold/90 text-white px-8 py-4 rounded-lg text-lg font-bold transition-all duration-300"
-          >
-            اكتشف مشاريعنا
-          </Link>
+          <div className="flex gap-4">
+            <Link
+              to="/"
+              className="bg-gold hover:bg-gold/90 text-white px-8 py-4 rounded-lg text-lg font-bold transition-all duration-300"
+            >
+              اكتشف مشاريعنا
+            </Link>
+            <Link
+              to="/projects"
+              className="bg-gold hover:bg-gold/90 text-white px-8 py-4 rounded-lg text-lg font-bold transition-all duration-300"
+            >
+              سجل اهتمامك
+            </Link>
+          </div>
         </div>
       </section>
 
