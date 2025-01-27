@@ -13,7 +13,7 @@ const LandingPage = () => {
       <section className="relative h-screen">
         <div className="absolute inset-0">
           <img
-            src="/lovable-uploads/d70dfc78-1068-42cf-a2af-25a0583bf5ef.png"
+            src="/lovable-uploads/61862f08-8050-4654-8e11-e0d6e18625c6.png"
             alt="مجموعة الفيصل العقارية"
             className="w-full h-full object-cover"
           />
