@@ -24,6 +24,15 @@ const RegisterInterestDialog = ({ open, onOpenChange }: RegisterInterestDialogPr
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    if (!formData.name) {
+      toast({
+        title: "خطأ",
+        description: "يرجى إدخال الاسم الكامل",
+        variant: "destructive",
+      });
+      return;
+    }
+
     if (!formData.phone) {
       toast({
         title: "خطأ",
