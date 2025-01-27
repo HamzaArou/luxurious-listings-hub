@@ -124,7 +124,8 @@
 
   /* Slide Show Styles */
   .slide-show {
-    @apply relative w-full h-screen overflow-hidden;
+    @apply relative w-full overflow-hidden;
+    height: calc(100vh - 0px) !important;
   }
 
   .slide-show__title {

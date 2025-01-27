@@ -11,8 +11,8 @@ const Hero = () => {
       aria-roledescription="carousel"
     >
       <ul
-        className="uk-slideshow-items min-h-screen"
-        uk-height-viewport="offset-top: true; offset-bottom: true"
+        className="uk-slideshow-items"
+        uk-height-viewport="offset-top: true; offset-bottom: 0"
         aria-live="off"
         role="presentation"
       >
