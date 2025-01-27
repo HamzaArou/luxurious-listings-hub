@@ -58,10 +58,10 @@ const RegisterInterestDialog = ({ open, onOpenChange }: RegisterInterestDialogPr
             to_email: 'pr@wtd.com.sa',
             from_name: formData.name,
             phone_number: formData.phone,
-            email: formData.email,
-            preferred_contact: formData.preferredContact,
-            accept_news: formData.acceptNews ? "نعم" : "لا",
-            message: "تسجيل اهتمام جديد",
+            message: `تسجيل اهتمام جديد
+البريد الإلكتروني: ${formData.email}
+طريقة التواصل المفضلة: ${formData.preferredContact === 'phone' ? 'الهاتف' : 'البريد الإلكتروني'}
+يرغب في تلقي الأخبار والعروض: ${formData.acceptNews ? 'نعم' : 'لا'}`,
           },
         }),
       });
