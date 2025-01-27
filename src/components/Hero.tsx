@@ -96,11 +96,10 @@ const Hero = () => {
       </ul>
 
       <a
-        className="uk-position-center-left uk-position-small uk-hidden-hover uk-icon uk-slidenav-next uk-slidenav"
-        href=""
-        uk-slidenav-next=""
+        className="uk-position-center-left uk-position-small uk-hidden-hover"
+        href="#"
+        uk-slidenav-previous=""
         uk-slideshow-item="previous"
-        role="button"
         aria-label="Previous slide"
       >
         <svg width="14" height="24" viewBox="0 0 14 24">
@@ -113,11 +112,10 @@ const Hero = () => {
         </svg>
       </a>
       <a
-        className="uk-position-center-right uk-position-small uk-hidden-hover uk-icon uk-slidenav-previous uk-slidenav"
-        href=""
-        uk-slidenav-previous=""
+        className="uk-position-center-right uk-position-small uk-hidden-hover"
+        href="#"
+        uk-slidenav-next=""
         uk-slideshow-item="next"
-        role="button"
         aria-label="Next slide"
       >
         <svg width="14" height="24" viewBox="0 0 14 24">
