@@ -86,7 +86,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="text-xl font-bold mb-4">روابط سريعة</h3>
+            <h3 className="text-xl font-bold mb-4 text-white">روابط سريعة</h3>
             <ul className="space-y-2">
               <li>
                 <button
@@ -163,7 +163,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="text-xl font-bold mb-4">تواصل معنا</h3>
+            <h3 className="text-xl font-bold mb-4 text-white">تواصل معنا</h3>
             <div className="flex gap-4 justify-center md:justify-start">
               <a
                 href="https://www.snapchat.com/add/alfaisal_group"
@@ -215,7 +215,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="text-xl font-bold mb-4">موقعنا</h3>
+            <h3 className="text-xl font-bold mb-4 text-white">موقعنا</h3>
             <a 
               href={mapUrl}
               target="_blank"
