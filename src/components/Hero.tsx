@@ -49,14 +49,13 @@ const Hero = () => {
               </h3>
               <a 
                 href="#projects" 
-                className="inline-flex items-center gap-3 px-8 py-4 text-lg font-bold text-gold hover:text-white bg-white hover:bg-gold transition-all duration-300 rounded-lg"
+                className="group inline-flex items-center gap-4 px-8 py-4 text-lg font-bold text-gold hover:text-white bg-transparent hover:bg-gold transition-all duration-300 rounded-lg"
                 onClick={(e) => {
                   e.preventDefault();
                   document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
                 }}
                 aria-label="عرض العقارات المتوفرة"
               >
-                <span>عرض العقارات</span>
                 <svg 
                   width="24" 
                   height="24" 
@@ -71,6 +70,7 @@ const Hero = () => {
                   <path d="M5 12h14"/>
                   <path d="m12 5 7 7-7 7"/>
                 </svg>
+                <span>عرض العقارات</span>
               </a>
             </div>
           </div>
@@ -108,10 +108,9 @@ const Hero = () => {
               </h3>
               <a 
                 href="/etmam" 
-                className="inline-flex items-center gap-3 px-8 py-4 text-lg font-bold text-gold hover:text-white bg-white hover:bg-gold transition-all duration-300 rounded-lg"
+                className="group inline-flex items-center gap-4 px-8 py-4 text-lg font-bold text-gold hover:text-white bg-transparent hover:bg-gold transition-all duration-300 rounded-lg"
                 aria-label="عرض التفاصيل"
               >
-                <span>عرض التفاصيل</span>
                 <svg 
                   width="24" 
                   height="24" 
@@ -126,6 +125,7 @@ const Hero = () => {
                   <path d="M5 12h14"/>
                   <path d="m12 5 7 7-7 7"/>
                 </svg>
+                <span>عرض التفاصيل</span>
               </a>
             </div>
           </div>
