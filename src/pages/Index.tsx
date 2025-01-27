@@ -13,9 +13,9 @@ export default function Index() {
     <main className="flex min-h-screen flex-col">
       <Hero />
       <NewsCarousel />
+      <FeaturedProjects />
       <Services />
       <Stats />
-      <FeaturedProjects />
       <Partners />
       <AboutUs />
       <ContactUs />
