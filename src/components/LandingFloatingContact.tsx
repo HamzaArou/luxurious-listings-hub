@@ -113,7 +113,11 @@ const LandingFloatingContact = ({ onRegisterClick }: LandingFloatingContactProps
               onClick={handleWhatsApp}
               className="flex flex-col items-center gap-1 text-gold hover:text-gold/90 transition-colors"
             >
-              <MessageSquare className="h-6 w-6" />
+              <img 
+                src="/lovable-uploads/6a730dd7-0c36-4710-8884-63a984210887.png"
+                alt="WhatsApp"
+                className="h-6 w-6"
+              />
               <span className="text-xs font-medium">واتساب</span>
             </button>
           </div>
