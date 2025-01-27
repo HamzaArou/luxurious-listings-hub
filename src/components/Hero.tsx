@@ -117,24 +117,33 @@ const Hero = () => {
               </h3>
               <a 
                 href="/etmam" 
-                className="group inline-flex items-center gap-4 px-8 py-4 text-lg font-bold text-gold hover:text-white bg-transparent hover:bg-gold transition-all duration-300 rounded-lg"
+                className="group relative inline-flex items-center gap-4 px-8 py-4 text-lg font-bold text-gold overflow-hidden rounded-lg"
                 aria-label="عرض التفاصيل"
+                style={{
+                  background: 'rgba(96, 96, 96, 0.5)'
+                }}
               >
-                <svg 
-                  width="24" 
-                  height="24" 
-                  viewBox="0 0 24 24" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  strokeWidth="2" 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round"
-                  className="transform rotate-180"
-                >
-                  <path d="M5 12h14"/>
-                  <path d="m12 5 7 7-7 7"/>
-                </svg>
-                <span>عرض التفاصيل</span>
+                <span className="relative z-10 flex items-center gap-4">
+                  <svg 
+                    width="24" 
+                    height="24" 
+                    viewBox="0 0 24 24" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    strokeWidth="2" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round"
+                    className="transform rotate-180"
+                  >
+                    <path d="M5 12h14"/>
+                    <path d="m12 5 7 7-7 7"/>
+                  </svg>
+                  <span>عرض التفاصيل</span>
+                </span>
+                <span 
+                  className="absolute left-0 top-0 h-full w-0 bg-gold transition-all duration-300 group-hover:w-full"
+                  aria-hidden="true"
+                ></span>
               </a>
             </div>
           </div>
