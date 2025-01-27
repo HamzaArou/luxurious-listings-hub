@@ -1,32 +1,52 @@
-import { useFormContext } from "react-hook-form";
-import { ProjectFormValues } from "@/types/project";
-import { Button } from "@/components/ui/button";
+import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { UseFormReturn } from "react-hook-form";
+import { ProjectFormValues } from "@/types/project";
 
-const ProjectPlans = ({ onFileChange }: { onFileChange: (files: FileList) => void }) => {
-  const { register } = useFormContext<ProjectFormValues>();
+interface ProjectPlansProps {
+  form: UseFormReturn<ProjectFormValues>;
+  isLoading: boolean;
+  onPlansChange: (files: FileList | null) => void;
+  initialPlans?: string[];
+}
 
+export default function ProjectPlans({ form, isLoading, onPlansChange, initialPlans }: ProjectPlansProps) {
   return (
     <div className="space-y-4">
-      <div>
-        <label htmlFor="plans" className="block text-sm font-medium text-gray-700">
-          مخططات المشروع
-        </label>
-        <Input
-          id="plans"
-          type="file"
-          accept=".pdf"
-          multiple
-          onChange={(e) => {
-            if (e.target.files) {
-              onFileChange(e.target.files);
-            }
-          }}
-          className="mt-1"
-        />
-      </div>
+      <FormField
+        control={form.control}
+        name="project_plans"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>مخططات المشروع</FormLabel>
+            <div className="space-y-4">
+              {initialPlans?.map((plan, index) => (
+                <div key={index} className="flex items-center gap-2">
+                  <a
+                    href={plan}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:underline"
+                  >
+                    المخطط {index + 1}
+                  </a>
+                </div>
+              ))}
+              <FormControl>
+                <Input
+                  type="file"
+                  accept=".pdf,image/*"
+                  multiple
+                  onChange={(e) => onPlansChange(e.target.files)}
+                  disabled={isLoading}
+                  className="cursor-pointer"
+                />
+              </FormControl>
+            </div>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
     </div>
   );
-};
-
-export default ProjectPlans;
+}
