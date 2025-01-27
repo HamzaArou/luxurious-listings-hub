@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import FloatingContact from "@/components/FloatingContact";
 
 const LandingPage = () => {
   useEffect(() => {
@@ -158,6 +159,9 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Add FloatingContact component */}
+      <FloatingContact />
     </div>
   );
 };
