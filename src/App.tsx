@@ -7,29 +7,21 @@ import ProjectForm from "@/pages/ProjectForm";
 import NotFound from "@/components/NotFound";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import LandingPage from "@/pages/LandingPage";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 
 function App() {
   return (
     <Router>
-      <div className="flex flex-col min-h-screen">
-        <Header />
-        <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/landing" element={<LandingPage />} />
-            <Route path="/project/:id" element={<ProjectDetails />} />
-            <Route path="/admin" element={<AdminLogin />} />
-            <Route path="/admin/dashboard" element={<AdminDashboard />} />
-            <Route path="/admin/project/new" element={<ProjectForm />} />
-            <Route path="/admin/project/:id" element={<ProjectForm />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/landing" element={<LandingPage />} />
+        <Route path="/project/:id" element={<ProjectDetails />} />
+        <Route path="/admin" element={<AdminLogin />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/project/new" element={<ProjectForm />} />
+        <Route path="/admin/project/:id" element={<ProjectForm />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </Router>
   );
 }
