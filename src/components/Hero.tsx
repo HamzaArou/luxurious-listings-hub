@@ -26,18 +26,18 @@ const Hero = () => {
             <picture>
               <source
                 media="(min-width: 799px)"
-                srcSet="/lovable-uploads/64c77c40-1e36-4888-9b2a-45b0bb0eb897.png"
+                srcSet="/lovable-uploads/c87b89a6-0c42-40a2-947d-51e3a2553341.png"
               />
               <source
                 media="(max-width: 799px)"
                 width="1200"
                 height="1500"
-                srcSet="/lovable-uploads/64c77c40-1e36-4888-9b2a-45b0bb0eb897.png"
+                srcSet="/lovable-uploads/c87b89a6-0c42-40a2-947d-51e3a2553341.png"
               />
               <img
                 width="100%"
                 height="100%"
-                src="/lovable-uploads/64c77c40-1e36-4888-9b2a-45b0bb0eb897.png"
+                src="/lovable-uploads/c87b89a6-0c42-40a2-947d-51e3a2553341.png"
                 alt="مجموعة الفيصل العقارية - مشاريع سكنية فاخرة"
               />
             </picture>
