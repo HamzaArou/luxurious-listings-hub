@@ -63,7 +63,7 @@ const LandingPage = () => {
               <div className="flex justify-center mb-4">
                 <Building2 className="w-12 h-12 text-gold" />
               </div>
-              <h3 className="text-xl font-bold mb-2">غرف نوم متنوعة</h3>
+              <h3 className="text-xl font-bold mb-2">غرف متنوعة</h3>
               <p className="text-gray-600">شقق بغرف متعددة تناسب الجميع</p>
             </div>
 
@@ -72,7 +72,7 @@ const LandingPage = () => {
               <div className="flex justify-center mb-4">
                 <Tag className="w-12 h-12 text-gold" />
               </div>
-              <h3 className="text-xl font-bold mb-2">الأسعار تبدأ من 750,000 ريال</h3>
+              <h3 className="text-xl font-bold mb-2">الأسعار تبدأ من 400,000 ريال</h3>
               <p className="text-gray-600">خطط مرنة تناسب ميزانيتك</p>
             </div>
 
