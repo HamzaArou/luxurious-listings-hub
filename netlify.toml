@@ -24,14 +24,13 @@
   status = 301
   force = true
 
-# Handle /landing path properly
+# Handle landing page routes
 [[redirects]]
   from = "/landing"
   to = "/landing/"
   status = 301
   force = true
 
-# Handle /landing/ path
 [[redirects]]
   from = "/landing/*"
   to = "/index.html"
