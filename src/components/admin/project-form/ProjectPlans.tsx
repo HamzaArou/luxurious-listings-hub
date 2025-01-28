@@ -15,7 +15,7 @@ export default function ProjectPlans({ form, isLoading, onPlansChange, initialPl
     <div className="space-y-4">
       <FormField
         control={form.control}
-        name="project_plans"
+        name="plans"
         render={({ field }) => (
           <FormItem>
             <FormLabel>مخططات المشروع</FormLabel>
@@ -37,7 +37,10 @@ export default function ProjectPlans({ form, isLoading, onPlansChange, initialPl
                   type="file"
                   accept=".pdf,image/*"
                   multiple
-                  onChange={(e) => onPlansChange(e.target.files)}
+                  onChange={(e) => {
+                    onPlansChange(e.target.files);
+                    field.onChange(e.target.files ? Array.from(e.target.files) : []);
+                  }}
                   disabled={isLoading}
                   className="cursor-pointer"
                 />

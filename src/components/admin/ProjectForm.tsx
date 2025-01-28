@@ -44,7 +44,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
   });
 
   const { validateTab } = useFormValidation(form, thumbnail, initialData, galleryImages, plans);
-  const { submitForm } = useFormSubmission(form, thumbnail, galleryImages, initialData, navigate, setIsLoading, plans);
+  const { submitForm } = useFormSubmission(form, thumbnail, galleryImages, plans, initialData, navigate, setIsLoading);
 
   const currentTabIndex = TABS.indexOf(currentTab);
   const isLastTab = currentTabIndex === TABS.length - 1;

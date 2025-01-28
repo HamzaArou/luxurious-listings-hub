@@ -52,96 +52,104 @@ const ProjectsMap = () => {
   useEffect(() => {
     if (!mapContainer.current || mapInstance.current) return;
 
-    // Create custom icon for markers with updated pin design
-    const customIcon = L.icon({
-      iconUrl: 'data:image/svg+xml;base64,' + btoa(`
-        <svg width="40" height="50" viewBox="0 0 40 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M20 0C8.954 0 0 8.954 0 20c0 15 20 30 20 30s20-15 20-30c0-11.046-8.954-20-20-20z" fill="#000000"/>
-          <path d="M20 4C10.059 4 2 12.059 2 22c0 13 18 26 18 26s18-13 18-26c0-9.941-8.059-18-18-18z" fill="#606060"/>
-          <!-- White background circle for logo -->
-          <circle cx="20" cy="20" r="12" fill="white"/>
-          <!-- The logo image with proper sizing and positioning -->
-          <image 
-            href="/lovable-uploads/f4db9871-8689-4fc8-be39-f46dfdcd8609.png" 
-            x="8" 
-            y="8" 
-            width="24" 
-            height="24" 
-            preserveAspectRatio="xMidYMid meet"
-          />
-        </svg>
-      `),
-      iconSize: [40, 50],
-      iconAnchor: [20, 50],
-      popupAnchor: [0, -45],
-    });
+    const initializeMap = () => {
+      // Create custom icon for markers with updated pin design
+      const customIcon = L.icon({
+        iconUrl: 'data:image/svg+xml;base64,' + btoa(`
+          <svg width="40" height="50" viewBox="0 0 40 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 0C8.954 0 0 8.954 0 20c0 15 20 30 20 30s20-15 20-30c0-11.046-8.954-20-20-20z" fill="#000000"/>
+            <path d="M20 4C10.059 4 2 12.059 2 22c0 13 18 26 18 26s18-13 18-26c0-9.941-8.059-18-18-18z" fill="#606060"/>
+            <circle cx="20" cy="20" r="12" fill="white"/>
+            <image 
+              href="/lovable-uploads/f4db9871-8689-4fc8-be39-f46dfdcd8609.png" 
+              x="8" 
+              y="8" 
+              width="24" 
+              height="24" 
+              preserveAspectRatio="xMidYMid meet"
+            />
+          </svg>
+        `),
+        iconSize: [40, 50],
+        iconAnchor: [20, 50],
+        popupAnchor: [0, -45],
+      });
 
-    const map = L.map(mapContainer.current, {
-      center: [21.4225, 39.8256], // Makkah coordinates
-      zoom: 11,
-      zoomControl: true,
-      minZoom: 10,
-      maxZoom: 18,
-    });
+      try {
+        const map = L.map(mapContainer.current, {
+          center: [21.4225, 39.8256], // Makkah coordinates
+          zoom: 11,
+          zoomControl: true,
+          minZoom: 10,
+          maxZoom: 18,
+        });
 
-    // Use MapTiler's Arabic-optimized style with more POIs and labels
-    L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=0xThwp5hzLtXF2Nvi1LZ&language=ar', {
-      attribution: '\u003ca href="https://www.maptiler.com/copyright/" target="_blank"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href="https://www.openstreetmap.org/copyright" target="_blank"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e',
-      maxZoom: 18,
-      tileSize: 512,
-      zoomOffset: -1,
-    }).addTo(map);
+        mapInstance.current = map;
 
-    // Clear existing markers
-    markersRef.current.forEach(marker => marker.remove());
-    markersRef.current = [];
+        L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=0xThwp5hzLtXF2Nvi1LZ&language=ar', {
+          attribution: '\u003ca href="https://www.maptiler.com/copyright/" target="_blank"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href="https://www.openstreetmap.org/copyright" target="_blank"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e',
+          maxZoom: 18,
+          tileSize: 512,
+          zoomOffset: -1,
+        }).addTo(map);
 
-    // Add markers for database projects
-    projects.forEach(project => {
-      if (project.lat && project.lng) {
-        addMarker(map, project, customIcon);
+        // Clear existing markers
+        markersRef.current.forEach(marker => marker.remove());
+        markersRef.current = [];
+
+        // Add markers for database projects
+        projects.forEach(project => {
+          if (project.lat && project.lng) {
+            addMarker(map, project, customIcon);
+          }
+        });
+
+        // Add markers for fixed locations
+        FIXED_LOCATIONS.forEach(location => {
+          addMarker(map, location, customIcon);
+        });
+
+        // Create bounds from all valid coordinates
+        const validCoordinates = [...projects, ...FIXED_LOCATIONS]
+          .filter(loc => loc.lat && loc.lng)
+          .map(loc => [loc.lat!, loc.lng!]);
+
+        if (validCoordinates.length > 0) {
+          const bounds = L.latLngBounds(validCoordinates as [number, number][]);
+          map.fitBounds(bounds, { padding: [50, 50] });
+        }
+
+        // Add custom CSS
+        const style = document.createElement('style');
+        style.textContent = `
+          .leaflet-tile-container img {
+            font-size: 16px !important;
+          }
+          .leaflet-popup-content {
+            font-size: 18px !important;
+          }
+          .leaflet-container {
+            font: 16px/1.5 "IBM Plex Sans Arabic", sans-serif !important;
+          }
+          .leaflet-marker-icon {
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+          }
+        `;
+        document.head.appendChild(style);
+      } catch (error) {
+        console.error('Error initializing map:', error);
       }
-    });
+    };
 
-    // Add markers for fixed locations
-    FIXED_LOCATIONS.forEach(location => {
-      addMarker(map, location, customIcon);
-    });
-
-    // Create bounds from all valid coordinates
-    const validCoordinates = [...projects, ...FIXED_LOCATIONS]
-      .filter(loc => loc.lat && loc.lng)
-      .map(loc => [loc.lat!, loc.lng!]);
-
-    if (validCoordinates.length > 0) {
-      const bounds = L.latLngBounds(validCoordinates as [number, number][]);
-      map.fitBounds(bounds, { padding: [50, 50] });
-    }
-
-    // Add custom CSS to increase Arabic text size and visibility
-    const style = document.createElement('style');
-    style.textContent = `
-      .leaflet-tile-container img {
-        font-size: 16px !important;
-      }
-      .leaflet-popup-content {
-        font-size: 18px !important;
-      }
-      .leaflet-container {
-        font: 16px/1.5 "IBM Plex Sans Arabic", sans-serif !important;
-      }
-      .leaflet-marker-icon {
-        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
-      }
-    `;
-    document.head.appendChild(style);
-
-    mapInstance.current = map;
+    // Initialize map with a small delay to ensure container is ready
+    setTimeout(initializeMap, 100);
 
     return () => {
-      map.remove();
-      mapInstance.current = null;
-      markersRef.current = [];
+      if (mapInstance.current) {
+        mapInstance.current.remove();
+        mapInstance.current = null;
+        markersRef.current = [];
+      }
     };
   }, [projects]);
 
