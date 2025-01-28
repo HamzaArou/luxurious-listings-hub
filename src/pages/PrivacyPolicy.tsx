@@ -1,4 +1,3 @@
-import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { useEffect } from "react";
 
@@ -92,7 +91,6 @@ const PrivacyPolicy = () => {
           </p>
         </div>
       </main>
-      <Footer />
     </div>
   );
 };
