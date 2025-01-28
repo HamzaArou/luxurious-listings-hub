@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Index from "@/pages/Index";
 import ProjectDetails from "@/pages/ProjectDetails";
 import AdminLogin from "@/pages/AdminLogin";
@@ -14,8 +14,11 @@ function App() {
   return (
     <Router>
       <Routes>
+        {/* Landing page routes with explicit handling */}
+        <Route path="/landing" element={<Navigate to="/landing/" replace />} />
         <Route path="/landing/*" element={<LandingPage />} />
-        <Route path="/landing" element={<LandingPage />} />
+        
+        {/* Main app routes */}
         <Route
           path="/*"
           element={
