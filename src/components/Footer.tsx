@@ -25,10 +25,10 @@ const Footer = () => {
   };
 
   const scrollToSection = async (sectionId: string) => {
-    const isPrivacyPolicy = location.pathname === '/privacy-policy';
-    
-    if (isPrivacyPolicy) {
+    // First navigate to home if not already there
+    if (location.pathname !== '/') {
       await navigate('/');
+      // Wait for navigation to complete
       setTimeout(() => {
         const section = document.getElementById(sectionId);
         if (section) {
@@ -41,6 +41,7 @@ const Footer = () => {
         }
       }, 100);
     } else {
+      // If already on home page, just scroll
       const section = document.getElementById(sectionId);
       if (section) {
         const headerHeight = document.querySelector('header')?.getBoundingClientRect().height || 0;
@@ -232,6 +233,7 @@ const Footer = () => {
               القاضي, Batha Quraish, Makkah 24231, Saudi Arabia
             </p>
           </div>
+
         </div>
 
         <div className="mt-12 pt-8 border-t border-white/10 text-center">
