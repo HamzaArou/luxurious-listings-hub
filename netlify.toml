@@ -23,12 +23,14 @@
   status = 301
   force = true
 
+# Handle /landing path properly
 [[redirects]]
   from = "/landing"
   to = "/landing/"
-  status = 301
+  status = 200
   force = true
 
+# SPA fallback
 [[redirects]]
   from = "/*"
   to = "/index.html"
@@ -43,3 +45,5 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Content-Security-Policy = "upgrade-insecure-requests"
     Link = "</lovable-uploads/452d0f08-89bf-4863-9d95-46a23971500f.png>; rel=preload; as=image"
+    Access-Control-Allow-Origin = "*"
+    Cache-Control = "public, max-age=0, must-revalidate"

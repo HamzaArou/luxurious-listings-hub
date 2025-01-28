@@ -14,10 +14,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route
-          path="/landing"
-          element={<LandingPage />}
-        />
+        <Route path="/landing/*" element={<LandingPage />} />
+        <Route path="/landing" element={<LandingPage />} />
         <Route
           path="/*"
           element={
