@@ -18,27 +18,25 @@ function App() {
         <Route path="/landing" element={<LandingPage />} />
         <Route path="/landing/*" element={<LandingPage />} />
         
-        {/* Main app routes with consistent header and footer */}
+        {/* Main app routes */}
         <Route
-          element={
-            <div className="flex min-h-screen flex-col">
-              <Header />
-              <div className="flex-grow">
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/project/:id" element={<ProjectDetails />} />
-                  <Route path="/admin" element={<AdminLogin />} />
-                  <Route path="/admin/dashboard" element={<AdminDashboard />} />
-                  <Route path="/admin/project/new" element={<ProjectForm />} />
-                  <Route path="/admin/project/:id" element={<ProjectForm />} />
-                  <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </div>
-              <Footer />
-            </div>
-          }
           path="/*"
+          element={
+            <>
+              <Header />
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/project/:id" element={<ProjectDetails />} />
+                <Route path="/admin" element={<AdminLogin />} />
+                <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                <Route path="/admin/project/new" element={<ProjectForm />} />
+                <Route path="/admin/project/:id" element={<ProjectForm />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+              <Footer />
+            </>
+          }
         />
       </Routes>
     </Router>
