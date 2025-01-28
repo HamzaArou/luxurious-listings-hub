@@ -81,7 +81,7 @@ const Footer = () => {
               className="w-[160px] h-[180px] object-contain mb-4 mx-auto md:mx-0"
             />
             <p className="text-white/80">
-              نرتقي بتجربة التملك العقاري
+            نصنع فرقًا في تجربة التملك العقاري
             </p>
           </div>
 
