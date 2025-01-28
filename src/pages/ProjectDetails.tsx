@@ -73,14 +73,7 @@ export default function ProjectDetails() {
   };
 
   if (isLoading) {
-    return (
-      <div>
-        <Header />
-        <div className="mt-[120px]">
-          <ProjectDetailsSkeleton />
-        </div>
-      </div>
-    );
+    return <ProjectDetailsSkeleton />;
   }
 
   if (error || !project) {
@@ -93,7 +86,6 @@ export default function ProjectDetails() {
 
   return (
     <div className="min-h-screen">
-      <Header />
       <div className="container mx-auto px-4 py-8 mt-[120px]">
         <div className="mb-12 text-center">
           <p className="text-gold text-xl mb-2">مشروع</p>

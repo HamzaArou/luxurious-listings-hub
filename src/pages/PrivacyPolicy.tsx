@@ -1,5 +1,3 @@
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 import { useEffect } from "react";
 
 const PrivacyPolicy = () => {
@@ -8,12 +6,10 @@ const PrivacyPolicy = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white">
-      <Header />
-      <main className="container mx-auto px-4 py-12 max-w-[960px] mt-[120px]">
-        <h1 className="text-3xl font-bold text-deepBlue mb-8">سياسة الخصوصية لمجموعة الفيصل للتطوير العقاري</h1>
-        
-        <div className="prose prose-lg max-w-none text-right space-y-6">
+    <main className="container mx-auto px-4 py-12 max-w-[960px] mt-[120px]">
+      <h1 className="text-3xl font-bold text-deepBlue mb-8">سياسة الخصوصية لمجموعة الفيصل للتطوير العقاري</h1>
+      
+      <div className="prose prose-lg max-w-none text-right space-y-6">
           <p className="text-gray-600 leading-relaxed">
             في مجموعة الفيصل للتطوير العقاري، نحترم خصوصيتك ونتعامل مع بياناتك الشخصية بمنتهى السرية والحرص. تهدف سياسة الخصوصية هذه إلى توضيح كيفية جمع واستخدام وحماية معلوماتك الشخصية عند زيارتك لموقعنا الإلكتروني www.alfaisalgroup.com.sa أو عند تفاعلك معنا عبر أي من قنواتنا.
           </p>
@@ -91,9 +87,8 @@ const PrivacyPolicy = () => {
             تؤكد مجموعة الفيصل للتطوير العقاري التزامها الكامل بحماية خصوصيتك وضمان التعامل مع بياناتك الشخصية بشفافية وأمان.
           </p>
         </div>
-      </main>
-      <Footer />
-    </div>
+      </div>
+    </main>
   );
 };
 
