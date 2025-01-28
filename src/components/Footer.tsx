@@ -78,10 +78,10 @@ const Footer = () => {
             <img
               src="/lovable-uploads/3f96563e-0fb6-4f64-b584-79204ea99e21.png"
               alt="مجموعة الفيصل العقارية"
-              className="w-[160px] h-[180px] object-contain mb-4 mx-auto md:mx-0"
+              className="w-[160px] h-[180px] object-contain mb-4 mx-auto md:mr-[25px]"
             />
             <p className="text-white/80">
-            نصنع فرقًا في تجربة التملك العقاري
+              نصنع فرقًا في تجربة التملك العقاري
             </p>
           </div>
 
