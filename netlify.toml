@@ -24,12 +24,11 @@
   status = 301
   force = true
 
-# Handle landing page routes
+# Landing page handling - IMPORTANT: Order matters!
 [[redirects]]
   from = "/landing"
-  to = "/landing/"
-  status = 301
-  force = true
+  to = "/index.html"
+  status = 200
 
 [[redirects]]
   from = "/landing/*"

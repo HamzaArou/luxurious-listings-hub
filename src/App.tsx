@@ -14,8 +14,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Landing page routes with explicit handling */}
-        <Route path="/landing" element={<Navigate to="/landing/" replace />} />
+        {/* Landing page routes */}
+        <Route path="/landing" element={<LandingPage />} />
         <Route path="/landing/*" element={<LandingPage />} />
         
         {/* Main app routes */}
