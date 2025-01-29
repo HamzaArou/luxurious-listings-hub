@@ -101,15 +101,15 @@ const Hero = () => {
             <picture>
               <source
                 media="(min-width: 799px)"
-                srcSet="/lovable-uploads/7874e017-33d2-4303-90ae-cabbd7c02580.png"
+                srcSet="/lovable-uploads/5346ae4a-c5ac-465d-b310-7f446b8c8d73.png"
               />
               <source
                 media="(max-width: 799px)"
-                srcSet="/lovable-uploads/7874e017-33d2-4303-90ae-cabbd7c02580.png"
+                srcSet="/lovable-uploads/5346ae4a-c5ac-465d-b310-7f446b8c8d73.png"
               />
               <img
                 className="object-cover w-[110%] md:w-full h-full"
-                src="/lovable-uploads/7874e017-33d2-4303-90ae-cabbd7c02580.png"
+                src="/lovable-uploads/5346ae4a-c5ac-465d-b310-7f446b8c8d73.png"
                 alt="مجموعة الفيصل العقارية - حلول تمويلية"
                 loading="eager"
                 style={{
