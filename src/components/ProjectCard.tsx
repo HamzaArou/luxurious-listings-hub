@@ -99,17 +99,25 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
 
           {/* Price Section */}
           <div className="mt-auto text-center">
-            <p className="text-sm font-medium text-gray-600 mb-2">السعر</p>
+            {(project.price || project.price_single_street || project.price_roof) && (
+              <p className="text-sm font-medium text-gray-600 mb-2">السعر</p>
+            )}
             <div className="space-y-1 text-right">
-              <p className="text-base font-bold text-gold">
-                على واجهة: {formatPrice(750000)}
-              </p>
-              <p className="text-base font-bold text-gold">
-                على واجهتين: {formatPrice(800000)}
-              </p>
-              <p className="text-base font-bold text-gold">
-                روف: {formatPrice(1400000)}
-              </p>
+              {project.price && (
+                <p className="text-base font-bold text-gold">
+                  على واجهة: {formatPrice(project.price)}
+                </p>
+              )}
+              {project.price_single_street && (
+                <p className="text-base font-bold text-gold">
+                  على واجهتين: {formatPrice(project.price_single_street)}
+                </p>
+              )}
+              {project.price_roof && (
+                <p className="text-base font-bold text-gold">
+                  روف: {formatPrice(project.price_roof)}
+                </p>
+              )}
             </div>
           </div>
         </div>
