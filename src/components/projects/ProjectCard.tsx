@@ -58,12 +58,11 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
       <Card className="overflow-hidden bg-white rounded-[20px] shadow-lg hover:shadow-xl transition-all duration-300 transform group-hover:scale-[1.02] h-full flex flex-col">
         <div className="relative h-[320px] bg-gray-100">
           <img
-            src="https://tdybblvmlsvxgkkwapei.supabase.co/storage/v1/object/public/project-images/project_f47ac10b-58cc-4372-a567-0e02b2c3d479/project1.png"
+            src={project.thumbnail_url}
             alt={project.name}
             className="w-full h-full object-cover"
             loading="lazy"
             decoding="async"
-            fetchPriority="high"
             onError={(e) => {
               console.error('Image failed to load:', project.thumbnail_url);
               e.currentTarget.src = '/placeholder.svg';
@@ -98,17 +97,25 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
           </div>
 
           <div className="mt-auto">
-            <p className="text-sm font-medium text-gray-600 mb-2 text-center">السعر</p>
+            {(project.price || project.price_single_street || project.price_roof) && (
+              <p className="text-sm font-medium text-gray-600 mb-2 text-center">السعر</p>
+            )}
             <div className="space-y-1 text-right">
-              <p className="text-base font-bold text-gold">
-                على واجهة: {formatPrice(750000)}
-              </p>
-              <p className="text-base font-bold text-gold">
-                على واجهتين: {formatPrice(800000)}
-              </p>
-              <p className="text-base font-bold text-gold">
-                روف: {formatPrice(1400000)}
-              </p>
+              {project.price && (
+                <p className="text-base font-bold text-gold">
+                  على واجهة: {formatPrice(project.price)}
+                </p>
+              )}
+              {project.price_single_street && (
+                <p className="text-base font-bold text-gold">
+                  على واجهتين: {formatPrice(project.price_single_street)}
+                </p>
+              )}
+              {project.price_roof && (
+                <p className="text-base font-bold text-gold">
+                  روف: {formatPrice(project.price_roof)}
+                </p>
+              )}
             </div>
           </div>
         </div>

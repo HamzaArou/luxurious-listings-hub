@@ -64,7 +64,6 @@ const ProjectCard = memo(({ project }: ProjectCardProps) => {
             className="w-full h-full object-contain"
             loading="lazy"
             decoding="async"
-            fetchPriority="high"
           />
           <Badge 
             className={`absolute top-4 left-4 px-4 py-1 rounded-full text-sm font-medium ${getStatusColor(project.status)}`}
