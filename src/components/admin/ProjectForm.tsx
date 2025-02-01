@@ -1,175 +1,190 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { ProjectFormValues } from "@/types/project";
-import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+import { Form } from "@/components/ui/form";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
+import ProjectImageUpload from "./ProjectImageUpload";
+import { ProjectFormProps, projectFormSchema, ProjectFormValues } from "@/types/project";
 import ProjectBasicInfo from "./project-form/ProjectBasicInfo";
-import ProjectGallery from "./project-form/ProjectGallery";
 import ProjectLocation from "./project-form/ProjectLocation";
 import Project360Views from "./project-form/Project360Views";
 import ProjectUnits from "./project-form/ProjectUnits";
+import ProjectGallery from "./project-form/ProjectGallery";
 import ProjectPlans from "./project-form/ProjectPlans";
-import FormTabs from "./project-form/FormTabs";
 import FormNavigation from "./project-form/FormNavigation";
+import FormTabs, { TABS, TabType } from "./project-form/FormTabs";
 import { useFormValidation } from "./project-form/FormValidation";
-import { handleFormSubmission } from "./project-form/FormSubmission";
-import { handleFileUpload } from "./project-form/FileUploadHandler";
+import { useFormSubmission } from "./project-form/FormSubmission";
 
-export default function ProjectForm() {
+export default function ProjectForm({ initialData }: ProjectFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [currentTab, setCurrentTab] = useState<TabType>("basic");
   const [thumbnail, setThumbnail] = useState<File | null>(null);
   const [galleryImages, setGalleryImages] = useState<FileList | null>(null);
   const [plans, setPlans] = useState<FileList | null>(null);
-  const [views360, setViews360] = useState<any[]>([]);
-  const [initialData, setInitialData] = useState<any>(null);
-  
-  const { id } = useParams();
   const navigate = useNavigate();
-  const { toast } = useToast();
-  
+
   const form = useForm<ProjectFormValues>({
-    defaultValues: {
+    resolver: zodResolver(projectFormSchema),
+    defaultValues: initialData || {
       name: "",
       location: "",
-      floors: 0,
+      address: "",
+      floors: 1,
+      units: 1,
       status: "قريباً",
-      gallery_type: "coming_soon",
+      thumbnail_url: "",
       project_units: [],
+      gallery_type: "coming_soon",
+      views360: [],
+      plans: [],
     },
+    mode: "onChange",
   });
 
   const { validateTab } = useFormValidation(
-    form,
-    thumbnail,
-    initialData,
-    galleryImages,
-    views360
+    form, 
+    thumbnail, 
+    initialData, 
+    galleryImages ? Array.from(galleryImages) : [], 
+    plans ? Array.from(plans) : []
+  );
+  
+  const { submitForm } = useFormSubmission(
+    form, 
+    thumbnail, 
+    galleryImages ? Array.from(galleryImages) : [], 
+    plans ? Array.from(plans) : [], 
+    initialData, 
+    navigate, 
+    setIsLoading
   );
 
-  const fetchProjectData = async () => {
-    if (id) {
-      const { data, error } = await supabase
-        .from('projects')
-        .select('*')
-        .eq('id', id)
-        .single();
+  const currentTabIndex = TABS.indexOf(currentTab);
+  const isLastTab = currentTabIndex === TABS.length - 1;
+  const isFirstTab = currentTabIndex === 0;
 
-      if (error) {
-        console.error("Error fetching project data:", error);
-        toast({
-          title: "خطأ",
-          description: "حدث خطأ أثناء تحميل بيانات المشروع.",
-          variant: "destructive",
-        });
-        return;
+  const handleNext = async () => {
+    const isValid = await validateTab(currentTab);
+    if (isValid) {
+      const nextIndex = currentTabIndex + 1;
+      if (nextIndex < TABS.length) {
+        setCurrentTab(TABS[nextIndex]);
       }
-
-      setInitialData(data);
-      form.reset(data);
     }
   };
 
-  useEffect(() => {
-    fetchProjectData();
-  }, [id]);
-
-  const handleGalleryImagesChange = (files: FileList | null) => {
-    if (files) {
-      setGalleryImages(files);
+  const handlePrevious = () => {
+    const prevIndex = currentTabIndex - 1;
+    if (prevIndex >= 0) {
+      setCurrentTab(TABS[prevIndex]);
     }
   };
 
-  const handlePlansChange = (files: FileList | null) => {
-    if (files) {
-      setPlans(files);
+  const onSubmit = async (data: ProjectFormValues) => {
+    console.log("Starting form submission with data:", data);
+    const isValid = await validateTab(currentTab);
+    if (!isValid) {
+      console.log("Form validation failed");
+      return;
     }
-  };
-
-  const onSubmit = async (values: ProjectFormValues) => {
-    setIsLoading(true);
+    
     try {
-      await handleFormSubmission({
-        values,
-        thumbnail,
-        galleryImages,
-        plans,
-        views360,
-        id,
-        initialData,
-        navigate,
-        toast,
-      });
+      setIsLoading(true);
+      await submitForm(data);
     } catch (error) {
-      console.error("Error submitting form:", error);
-      toast({
-        title: "خطأ",
-        description: "حدث خطأ أثناء حفظ المشروع. يرجى المحاولة مرة أخرى.",
-        variant: "destructive",
-      });
+      console.error("Form submission error:", error);
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 pb-10">
-      <FormTabs currentTab={currentTab} setCurrentTab={setCurrentTab} />
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <Tabs value={currentTab} onValueChange={(value) => setCurrentTab(value as TabType)} className="w-full">
+          <FormTabs currentTab={currentTab} />
 
-      <div className="space-y-8 px-4">
-        {currentTab === "basic" && (
-          <ProjectBasicInfo
-            form={form}
-            isLoading={isLoading}
-            onThumbnailChange={setThumbnail}
-            initialThumbnail={initialData?.thumbnail_url}
-          />
-        )}
+          <TabsContent value="basic" className="space-y-4">
+            <ProjectBasicInfo form={form} isLoading={isLoading} />
+            <ProjectImageUpload
+              initialThumbnailUrl={initialData?.thumbnail_url}
+              isLoading={isLoading}
+              onFileChange={setThumbnail}
+              error={!thumbnail && !initialData?.thumbnail_url}
+            />
+          </TabsContent>
 
-        {currentTab === "gallery" && (
-          <ProjectGallery
-            form={form}
-            isLoading={isLoading}
-            onGalleryImagesChange={handleGalleryImagesChange}
-            initialImages={initialData?.gallery_images}
-          />
-        )}
+          <TabsContent value="gallery">
+            <ProjectGallery
+              form={form}
+              isLoading={isLoading}
+              onGalleryImagesChange={setGalleryImages}
+              initialImages={initialData?.gallery_images}
+            />
+          </TabsContent>
 
-        {currentTab === "plans" && (
-          <ProjectPlans
-            form={form}
-            isLoading={isLoading}
-            onPlansChange={handlePlansChange}
-            initialPlans={initialData?.plans}
-          />
-        )}
+          <TabsContent value="location">
+            <ProjectLocation form={form} isLoading={isLoading} />
+          </TabsContent>
 
-        {currentTab === "location" && (
-          <ProjectLocation form={form} isLoading={isLoading} />
-        )}
+          <TabsContent value="360views">
+            <Project360Views form={form} isLoading={isLoading} />
+          </TabsContent>
 
-        {currentTab === "360views" && (
-          <Project360Views
-            form={form}
-            isLoading={isLoading}
-            views360={views360}
-            setViews360={setViews360}
-            initialViews={initialData?.views360}
-          />
-        )}
+          <TabsContent value="units">
+            <ProjectUnits
+              form={form}
+              isLoading={isLoading}
+              onAddUnit={() => {
+                const currentUnits = form.getValues("project_units") || [];
+                form.setValue("project_units", [
+                  ...currentUnits,
+                  {
+                    id: crypto.randomUUID(),
+                    unit_number: currentUnits.length + 1,
+                    name: `Unit ${currentUnits.length + 1}`,
+                    status: "للبيع",
+                    unit_type: "",
+                    area: 0,
+                    floor_number: 1,
+                    side: "شمال",
+                    rooms: 1,
+                    bathrooms: 1,
+                  },
+                ]);
+              }}
+              onRemoveUnit={(index: number) => {
+                const currentUnits = form.getValues("project_units") || [];
+                form.setValue(
+                  "project_units",
+                  currentUnits.filter((_, i) => i !== index)
+                );
+              }}
+            />
+          </TabsContent>
 
-        {currentTab === "units" && (
-          <ProjectUnits form={form} isLoading={isLoading} />
-        )}
-      </div>
+          <TabsContent value="plans">
+            <ProjectPlans
+              form={form}
+              isLoading={isLoading}
+              onPlansChange={setPlans}
+              initialPlans={initialData?.plans}
+            />
+          </TabsContent>
+        </Tabs>
 
-      <FormNavigation
-        currentTab={currentTab}
-        setCurrentTab={setCurrentTab}
-        isLoading={isLoading}
-        validateTab={validateTab}
-      />
-    </form>
+        <FormNavigation
+          isLoading={isLoading}
+          isLastTab={isLastTab}
+          isFirstTab={isFirstTab}
+          onPrevious={handlePrevious}
+          onNext={handleNext}
+          onCancel={() => navigate("/admin")}
+          isEditing={!!initialData?.id}
+        />
+      </form>
+    </Form>
   );
 }
