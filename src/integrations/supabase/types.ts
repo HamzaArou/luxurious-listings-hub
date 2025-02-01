@@ -148,44 +148,6 @@ export type Database = {
           },
         ]
       }
-      project_details: {
-        Row: {
-          created_at: string
-          description: string | null
-          features: string[] | null
-          id: string
-          project_id: string | null
-          specifications: string[] | null
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          description?: string | null
-          features?: string[] | null
-          id?: string
-          project_id?: string | null
-          specifications?: string[] | null
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          description?: string | null
-          features?: string[] | null
-          id?: string
-          project_id?: string | null
-          specifications?: string[] | null
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "project_details_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "projects"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       project_images: {
         Row: {
           content_type: string
