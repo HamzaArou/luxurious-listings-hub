@@ -43,8 +43,23 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
     mode: "onChange",
   });
 
-  const { validateTab } = useFormValidation(form, thumbnail, initialData, galleryImages, plans);
-  const { submitForm } = useFormSubmission(form, thumbnail, galleryImages, plans, initialData, navigate, setIsLoading);
+  const { validateTab } = useFormValidation(
+    form, 
+    thumbnail, 
+    initialData, 
+    galleryImages ? Array.from(galleryImages) : [], 
+    plans ? Array.from(plans) : []
+  );
+  
+  const { submitForm } = useFormSubmission(
+    form, 
+    thumbnail, 
+    galleryImages ? Array.from(galleryImages) : [], 
+    plans ? Array.from(plans) : [], 
+    initialData, 
+    navigate, 
+    setIsLoading
+  );
 
   const currentTabIndex = TABS.indexOf(currentTab);
   const isLastTab = currentTabIndex === TABS.length - 1;
