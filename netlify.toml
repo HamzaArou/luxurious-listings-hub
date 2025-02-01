@@ -35,6 +35,13 @@
   to = "/index.html"
   status = 200
 
+# Project details pages
+[[redirects]]
+  from = "/project/*"
+  to = "/index.html"
+  status = 200
+  force = true
+
 # SPA fallback
 [[redirects]]
   from = "/*"
