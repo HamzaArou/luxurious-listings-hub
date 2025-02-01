@@ -5,26 +5,43 @@ import ProjectCard from "./projects/ProjectCard";
 import MortgageCalculator from "./MortgageCalculator";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "./ui/use-toast";
 
 const FeaturedProjects = () => {
   const [displayCount, setDisplayCount] = useState(6);
   const [selectedNeighborhood, setSelectedNeighborhood] = useState("all");
   const [selectedStatus, setSelectedStatus] = useState("all");
+  const { toast } = useToast();
 
   const { data: projects = [], isLoading } = useQuery({
     queryKey: ['projects'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('projects')
-        .select(`
-          *,
-          project_units(count),
-          project_details(*)
-        `);
+      try {
+        const { data, error } = await supabase
+          .from('projects')
+          .select(`
+            *,
+            project_units(count),
+            project_details(*)
+          `);
 
-      if (error) throw error;
-      return data || [];
+        if (error) throw error;
+        return data || [];
+      } catch (error) {
+        console.error('Error fetching projects:', error);
+        toast({
+          title: "خطأ في تحميل المشاريع",
+          description: "حدث خطأ أثناء تحميل المشاريع. يرجى المحاولة مرة أخرى.",
+          variant: "destructive",
+        });
+        return [];
+      }
     },
+    staleTime: 1000 * 60 * 5, // Consider data fresh for 5 minutes
+    gcTime: 1000 * 60 * 30, // Keep unused data in cache for 30 minutes
+    refetchOnMount: true, // Refetch when component mounts
+    refetchOnWindowFocus: false, // Don't refetch on window focus
+    retry: 2, // Retry failed requests twice
   });
 
   const filteredProjects = useMemo(() => {
@@ -55,7 +72,11 @@ const FeaturedProjects = () => {
   }, []);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="min-h-[400px] flex items-center justify-center">
+        <div className="text-xl text-gray-600">جاري تحميل المشاريع...</div>
+      </div>
+    );
   }
 
   return (
