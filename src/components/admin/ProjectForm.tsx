@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,8 +22,8 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [currentTab, setCurrentTab] = useState<TabType>("basic");
   const [thumbnail, setThumbnail] = useState<File | null>(null);
-  const [galleryImages, setGalleryImages] = useState<FileList | null>(null);
-  const [plans, setPlans] = useState<FileList | null>(null);
+  const [galleryImages, setGalleryImages] = useState<File[]>([]);
+  const [plans, setPlans] = useState<File[]>([]);
   const navigate = useNavigate();
 
   const form = useForm<ProjectFormValues>({
@@ -47,15 +48,15 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
     form, 
     thumbnail, 
     initialData, 
-    galleryImages ? Array.from(galleryImages) : [], 
-    plans ? Array.from(plans) : []
+    galleryImages, 
+    plans
   );
   
   const { submitForm } = useFormSubmission(
     form, 
     thumbnail, 
-    galleryImages ? Array.from(galleryImages) : [], 
-    plans ? Array.from(plans) : [], 
+    galleryImages, 
+    plans, 
     initialData, 
     navigate, 
     setIsLoading
@@ -120,7 +121,11 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
             <ProjectGallery
               form={form}
               isLoading={isLoading}
-              onGalleryImagesChange={setGalleryImages}
+              onGalleryImagesChange={(files: FileList | null) => {
+                if (files) {
+                  setGalleryImages(Array.from(files));
+                }
+              }}
               initialImages={initialData?.gallery_images}
             />
           </TabsContent>
@@ -169,7 +174,11 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
             <ProjectPlans
               form={form}
               isLoading={isLoading}
-              onPlansChange={setPlans}
+              onPlansChange={(files: FileList | null) => {
+                if (files) {
+                  setPlans(Array.from(files));
+                }
+              }}
               initialPlans={initialData?.plans}
             />
           </TabsContent>
