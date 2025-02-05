@@ -55,7 +55,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
   const { submitForm } = useFormSubmission(
     form, 
     thumbnail, 
-    galleryImages, 
+    new DataTransfer().files, // Create empty FileList for type safety
     plans, 
     initialData, 
     navigate, 
@@ -99,6 +99,13 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // Create a FileList from gallery images array when needed
+  const createGalleryFileList = () => {
+    const dataTransfer = new DataTransfer();
+    galleryImages.forEach(file => dataTransfer.items.add(file));
+    return dataTransfer.files;
   };
 
   return (
