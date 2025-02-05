@@ -1,3 +1,4 @@
+
 [build]
   command = "npm run build"
   publish = "dist"
@@ -5,26 +6,21 @@
 [build.environment]
   NODE_VERSION = "20"
 
-# Force HTTPS
+# Force HTTPS for all domains
 [[redirects]]
-  from = "http://alfaisalgroup.com.sa/*"
-  to = "https://alfaisalgroup.com.sa/:splat"
+  from = "http://:splat"
+  to = "https://:splat"
   status = 301
   force = true
 
-[[redirects]]
-  from = "http://www.alfaisalgroup.com.sa/*"
-  to = "https://alfaisalgroup.com.sa/:splat"
-  status = 301
-  force = true
-
+# Primary domain redirects
 [[redirects]]
   from = "https://www.alfaisalgroup.com.sa/*"
   to = "https://alfaisalgroup.com.sa/:splat"
   status = 301
   force = true
 
-# Landing page handling - IMPORTANT: Order matters!
+# Landing page handling
 [[redirects]]
   from = "/landing"
   to = "/index.html"
@@ -56,6 +52,5 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Content-Security-Policy = "upgrade-insecure-requests"
-    Link = "</lovable-uploads/452d0f08-89bf-4863-9d95-46a23971500f.png>; rel=preload; as=image"
     Access-Control-Allow-Origin = "*"
     Cache-Control = "public, max-age=0, must-revalidate"
