@@ -1,4 +1,3 @@
-
 [build]
   command = "npm run build"
   publish = "dist"
@@ -25,7 +24,7 @@
   status = 301
   force = true
 
-# Landing page handling
+# Landing page handling - IMPORTANT: Order matters!
 [[redirects]]
   from = "/landing"
   to = "/index.html"
@@ -52,33 +51,11 @@
 [[headers]]
   for = "/*"
   [headers.values]
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
-    Content-Security-Policy = "upgrade-insecure-requests; default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https:;"
-    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
-    Cache-Control = '''
-    public,
-    max-age=31536000,
-    immutable'''
-
-[[headers]]
-  for = "/*.js"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/*.css"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/*.woff2"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/lovable-uploads/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Security-Policy = "upgrade-insecure-requests"
+    Link = "</lovable-uploads/452d0f08-89bf-4863-9d95-46a23971500f.png>; rel=preload; as=image"
+    Access-Control-Allow-Origin = "*"
+    Cache-Control = "public, max-age=0, must-revalidate"

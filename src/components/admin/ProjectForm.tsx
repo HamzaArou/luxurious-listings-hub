@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -48,15 +47,15 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
     form, 
     thumbnail, 
     initialData, 
-    galleryImages,
-    plans
+    galleryImages ? Array.from(galleryImages) : [], 
+    plans ? Array.from(plans) : []
   );
   
   const { submitForm } = useFormSubmission(
     form, 
     thumbnail, 
-    galleryImages,
-    plans,
+    galleryImages ? Array.from(galleryImages) : [], 
+    plans ? Array.from(plans) : [], 
     initialData, 
     navigate, 
     setIsLoading
