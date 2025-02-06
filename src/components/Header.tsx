@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Menu, X, Phone } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -83,11 +84,11 @@ const Header = () => {
 
   const navLinks = [
     { href: "hero", text: "الرئيسية" },
-    { href: "news", text: "آخر الأخبار" },
-    { href: "projects", text: "مشاريعنا" },
-    { href: "stats", text: "إنجازاتنا" },
-    { href: "services", text: "خدماتنا" },
-    { href: "about", text: "عن الشركة" },
+    { href: "news-section", text: "آخر الأخبار" },
+    { href: "featured-projects", text: "مشاريعنا" },
+    { href: "services-section", text: "خدماتنا" },
+    { href: "stats-section", text: "إنجازاتنا" },
+    { href: "about-section", text: "عن الشركة" },
   ];
 
   const isProjectPage = location.pathname.includes('/project/');

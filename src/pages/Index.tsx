@@ -1,3 +1,4 @@
+
 import Hero from "@/components/Hero";
 import AboutUs from "@/components/AboutUs";
 import Services from "@/components/Services";
@@ -11,13 +12,25 @@ import NewsCarousel from "@/components/NewsCarousel";
 export default function Index() {
   return (
     <main className="flex min-h-screen flex-col">
-      <Hero />
-      <NewsCarousel />
-      <FeaturedProjects />
-      <Services />
-      <Stats />
+      <section id="hero">
+        <Hero />
+      </section>
+      <section id="news-section">
+        <NewsCarousel />
+      </section>
+      <section id="featured-projects">
+        <FeaturedProjects />
+      </section>
+      <section id="services-section">
+        <Services />
+      </section>
+      <section id="stats-section">
+        <Stats />
+      </section>
       <Partners />
-      <AboutUs />
+      <section id="about-section">
+        <AboutUs />
+      </section>
       <ContactUs />
       <FloatingContact />
     </main>

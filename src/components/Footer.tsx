@@ -25,10 +25,8 @@ const Footer = () => {
   };
 
   const scrollToSection = async (sectionId: string) => {
-    // First navigate to home if not already there
     if (location.pathname !== '/') {
       await navigate('/');
-      // Wait for navigation to complete
       setTimeout(() => {
         const section = document.getElementById(sectionId);
         if (section) {
@@ -41,7 +39,6 @@ const Footer = () => {
         }
       }, 100);
     } else {
-      // If already on home page, just scroll
       const section = document.getElementById(sectionId);
       if (section) {
         const headerHeight = document.querySelector('header')?.getBoundingClientRect().height || 0;
@@ -99,7 +96,15 @@ const Footer = () => {
               </li>
               <li>
                 <button
-                  onClick={() => scrollToSection('projects')}
+                  onClick={() => scrollToSection('news-section')}
+                  className="hover:text-gold transition-colors"
+                >
+                  آخر الأخبار
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => scrollToSection('featured-projects')}
                   className="hover:text-gold transition-colors"
                 >
                   مشاريعنا
@@ -107,7 +112,7 @@ const Footer = () => {
               </li>
               <li>
                 <button
-                  onClick={() => scrollToSection('services')}
+                  onClick={() => scrollToSection('services-section')}
                   className="hover:text-gold transition-colors"
                 >
                   خدماتنا
@@ -115,15 +120,15 @@ const Footer = () => {
               </li>
               <li>
                 <button
-                  onClick={() => scrollToSection('stats')}
+                  onClick={() => scrollToSection('stats-section')}
                   className="hover:text-gold transition-colors"
                 >
-                  مميزاتنا
+                  إنجازاتنا
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => scrollToSection('about')}
+                  onClick={() => scrollToSection('about-section')}
                   className="hover:text-gold transition-colors"
                 >
                   عن الشركة
