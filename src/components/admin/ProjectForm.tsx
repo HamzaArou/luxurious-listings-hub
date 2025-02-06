@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -44,19 +43,26 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
     mode: "onChange",
   });
 
+  // Create a FileList from File array
+  const createFileList = (files: File[]): FileList => {
+    const dataTransfer = new DataTransfer();
+    files.forEach(file => dataTransfer.items.add(file));
+    return dataTransfer.files;
+  };
+
   const { validateTab } = useFormValidation(
     form, 
     thumbnail, 
     initialData, 
-    galleryImages, 
-    plans
+    createFileList(galleryImages), 
+    createFileList(plans)
   );
   
   const { submitForm } = useFormSubmission(
     form, 
     thumbnail, 
-    new DataTransfer().files, // Create empty FileList for type safety
-    plans, 
+    createFileList(galleryImages), 
+    createFileList(plans), 
     initialData, 
     navigate, 
     setIsLoading
