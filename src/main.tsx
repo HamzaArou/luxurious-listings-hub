@@ -19,8 +19,14 @@ const queryClient = new QueryClient({
 
 // Create a function to load fonts
 const loadFonts = async () => {
-  await document.fonts.ready;
-  createRoot(document.getElementById("root")!).render(
+  if (document.fonts && document.fonts.ready) {
+    await document.fonts.ready;
+  }
+  
+  const root = document.getElementById("root");
+  if (!root) throw new Error("Root element not found");
+  
+  createRoot(root).render(
     <QueryClientProvider client={queryClient}>
       <App />
     </QueryClientProvider>
@@ -28,4 +34,4 @@ const loadFonts = async () => {
 };
 
 // Load fonts before rendering
-loadFonts();
+loadFonts().catch(console.error);
