@@ -21,11 +21,16 @@ export default defineConfig(({ mode }) => ({
     target: 'es2015',
     minify: 'terser',
     cssMinify: true,
+    reportCompressedSize: false, // Disable size reporting for faster builds
+    chunkSizeWarningLimit: 1000,
+    sourcemap: false,
     rollupOptions: {
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom', 'react-router-dom'],
           ui: ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu'],
+          form: ['react-hook-form', '@hookform/resolvers/zod'],
+          utils: ['date-fns', 'lucide-react'],
         },
       },
     },
@@ -34,6 +39,7 @@ export default defineConfig(({ mode }) => ({
         drop_console: true,
         drop_debugger: true,
         pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.warn'],
+        passes: 2,
       },
       mangle: {
         safari10: true,
@@ -42,9 +48,6 @@ export default defineConfig(({ mode }) => ({
         comments: false,
       },
     },
-    reportCompressedSize: true,
-    chunkSizeWarningLimit: 1000,
-    sourcemap: false
   },
   optimizeDeps: {
     include: ['react', 'react-dom', 'react-router-dom'],
