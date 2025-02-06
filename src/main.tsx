@@ -3,27 +3,32 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import App from "./App.tsx";
 import "./index.css";
 
-// Import fonts asynchronously
-const loadFonts = async () => {
-  await Promise.all([
-    import("@fontsource/ibm-plex-sans-arabic/400.css"),
-    import("@fontsource/ibm-plex-sans-arabic/500.css"),
-    import("@fontsource/ibm-plex-sans-arabic/700.css")
-  ]);
-};
-
+// Create QueryClient with optimized settings
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 5, // 5 minutes
-      gcTime: 1000 * 60 * 30, // 30 minutes
+      staleTime: 1000 * 60 * 5,
+      gcTime: 1000 * 60 * 30,
       retry: 1,
       refetchOnWindowFocus: false,
+      networkMode: 'offlineFirst',
     },
   },
 });
 
-// Create a function to initialize the app
+// Dynamically import fonts
+const loadFonts = async () => {
+  const fontPromises = [
+    import("@fontsource/ibm-plex-sans-arabic/400.css"),
+    import("@fontsource/ibm-plex-sans-arabic/500.css"),
+    import("@fontsource/ibm-plex-sans-arabic/700.css")
+  ];
+  
+  // Load fonts in parallel
+  await Promise.all(fontPromises);
+};
+
+// Initialize app with optimized loading
 const initializeApp = async () => {
   // Load fonts first
   await loadFonts();

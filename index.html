@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/webp" href="/lovable-uploads/45e395ea-d27b-4e6b-95fc-41d0649aec38.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
     <meta name="description" content="مجموعة الفيصل العقارية - مشاريع سكنية فاخرة في مكة المكرمة. نقدم أفضل الحلول السكنية بمواصفات عالية وخدمات متميزة" />
     <meta name="author" content="مجموعة الفيصل العقارية" />
     <meta name="keywords" content="عقارات مكة, شقق للبيع في مكة, مجموعة الفيصل, استثمار عقاري, مشاريع سكنية, شقق فاخرة في مكة, تطوير عقاري مكة" />
@@ -38,14 +38,11 @@
     
     <!-- UIkit CSS with defer loading -->
     <link 
-      rel="preload" 
+      rel="stylesheet" 
       href="https://cdn.jsdelivr.net/npm/uikit@3.17.11/dist/css/uikit.min.css" 
-      as="style"
-      onload="this.onload=null;this.rel='stylesheet'"
+      media="print"
+      onload="this.media='all'"
     />
-    <noscript>
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.17.11/dist/css/uikit.min.css" />
-    </noscript>
     
     <!-- Open Graph tags -->
     <meta property="og:title" content="مجموعة الفيصل العقارية - مشاريع سكنية فاخرة في مكة المكرمة" />
@@ -64,6 +61,9 @@
     <!-- Theme color -->
     <meta name="theme-color" content="#234F27" />
     
+    <!-- Cache control -->
+    <meta http-equiv="Cache-Control" content="max-age=31536000" />
+    
     <!-- Structured Data -->
     <script type="application/ld+json">
       {
@@ -81,12 +81,7 @@
         "url": "https://alfaisalgroup.com.sa",
         "telephone": "+966505148231",
         "priceRange": "$$$$",
-        "areaServed": "مكة المكرمة",
-        "hasMap": "https://www.google.com/maps?q=مجموعة+الفيصل+العقارية",
-        "sameAs": [
-          "https://twitter.com/alfaisalgroup",
-          "https://www.instagram.com/alfaisalgroup"
-        ]
+        "areaServed": "مكة المكرمة"
       }
     </script>
   </head>
