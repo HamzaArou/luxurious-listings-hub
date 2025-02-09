@@ -1,3 +1,4 @@
+
 import { useParams } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
 import ProjectGallery from "@/components/projects/ProjectGallery";
@@ -88,7 +89,9 @@ export default function ProjectDetails() {
     return <NotFound />;
   }
 
-  const thumbnailUrl = "https://tdybblvmlsvxgkkwapei.supabase.co/storage/v1/object/public/project-images/project_f47ac10b-58cc-4372-a567-0e02b2c3d479/project1.png";
+  const thumbnailUrl = project.thumbnail_url.startsWith('http') 
+    ? project.thumbnail_url 
+    : `https://tdybblvmlsvxgkkwapei.supabase.co/storage/v1/object/public/project-images/${project.thumbnail_url}`;
   const galleryImages = (project.project_images || []);
 
   return (
